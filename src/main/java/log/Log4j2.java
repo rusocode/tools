@@ -9,6 +9,8 @@ public class Log4j2 {
 
 	public static void main(String[] args) {
 
+		System.out.println("asd");
+
 		log.debug("Hello from Log4j 2");
 
 		/* Antes necesitabamos verificar el nivel de registro para aumentar el rendimiento:
