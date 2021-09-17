@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 
-<Configuration status="WARN">
+<!-- Configura el log utilizando el nivel de eventos internos en "warn" para registrar los mensajes en 
+	la consola. -->
+<Configuration status="warn">
 
 	<Appenders>
 
@@ -13,11 +15,12 @@
 
 	<Loggers>
 
-		<Logger name="log" level="debug" additivity="false"> <!-- En la clave name va el nombre del paquete que ejecuta el logger -->
+		<Logger name="log" level="debug" additivity="false"> <!-- El atributo name contiene el nombre del paquete que ejecuta el logger. -->
 			<AppenderRef ref="Console" />
 		</Logger>
 
-		<!-- Agrega un nuevo logger si se ejecuta desde otro paquete -->
+		<!-- Agrega un nuevo logger para ejecutar los mensajes desde otro paquete y establece la aditividad 
+			en falso para que el root (padre del appender de la consola) no repita los mensajes. -->
 		<Logger name="_LABORATORIO" level="debug" additivity="false">
 			<AppenderRef ref="Console" />
 		</Logger>
