@@ -1,6 +1,9 @@
 package log;
 
 import org.apache.logging.log4j.Logger;
+
+import _LABORATORIO.Prueba;
+
 import org.apache.logging.log4j.LogManager;
 
 public class Log4j2 {
@@ -9,15 +12,15 @@ public class Log4j2 {
 
 	public static void main(String[] args) {
 
-		System.out.println("asd");
-
-		log.debug("Hello from Log4j 2");
+		log.debug("Testing Log4j 2");
 
 		/* Antes necesitabamos verificar el nivel de registro para aumentar el rendimiento:
 		 * if (log.isDebugEnabled()) log.debug("{}", getNumber());
 		 * 
 		 * Ahora con Java 8, podemos hacer esto y no es necesario verificar el nivel de registro. */
 		log.debug("{}", () -> getNumber());
+		
+		new Prueba();
 
 	}
 
