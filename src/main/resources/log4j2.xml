@@ -1,36 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE xml>
 
-<!-- Configura el log utilizando el nivel de eventos internos en "warn" para registrar los mensajes en 
-	la consola. -->
-<Configuration status="warn">
+<!-- Configura el logger utilizando el nivel de eventos internos en "warn" para registrar los mensajes 
+	en consola. -->
+<Configuration status="warn" strict="true">
+
+	<Properties>
+		<Property name="filename">target/logs/test.log</Property>
+	</Properties>
 
 	<Appenders>
-
-		<Console name="Console" target="SYSTEM_OUT">
-			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		<!-- Salida en consola -->
+		<Console name="Console" target="SYSTEM_OUT"> <!-- STDOUT se suele utilizar como nombre -->
+			<PatternLayout pattern="%d [%p] %c{10}.%t: %m%n" />
 		</Console>
-
+		<!-- Salida en archivo -->
+		<Appender type="File" name="File" fileName="${filename}">
+			<Layout type="PatternLayout">
+				<Pattern>%d [%p] %c{10}.%t: %m%n</Pattern>
+			</Layout>
+		</Appender>
 	</Appenders>
 
+	<!-- Configura los loggers para cada appender -->
 	<Loggers>
-
-		<Logger name="log" level="debug" additivity="false"> <!-- El atributo name contiene el nombre del paquete que ejecuta el logger. -->
-			<AppenderRef ref="Console" />
-		</Logger>
-
-		<!-- Agrega un nuevo logger para ejecutar los mensajes desde otro paquete y establece la aditividad 
+		<!-- Indica el nombre del paquete que ejecuta el logger en el atributo name y establece la aditividad 
 			en falso para que el root (padre del appender de la consola) no repita los mensajes. -->
-		<Logger name="_LABORATORIO" level="debug" additivity="false">
+		<Logger name="log" level="debug" additivity="false">
 			<AppenderRef ref="Console" />
 		</Logger>
-
-		<Root level="error"> <!-- Nivel de raiz -->
+		<Logger name="log" level="debug">
+			<AppenderRef ref="File" />
+		</Logger>
+		<!-- Nivel raiz -->
+		<Root level="error">
 			<AppenderRef ref="Console" />
 		</Root>
-
 	</Loggers>
 
 </Configuration>
-
-<!-- https://logging.apache.org/log4j/2.x/manual/configuration.html -->
