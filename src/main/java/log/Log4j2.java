@@ -2,6 +2,8 @@ package log;
 
 import org.apache.logging.log4j.Logger;
 
+import java.util.Iterator;
+
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -32,14 +34,17 @@ public class Log4j2 {
 
 	public static void main(String[] args) {
 
-		log.debug("Testing Log4j 2");
+		for (int i = 0; i < 150; i++)
+			log.debug("Testing");
+
+		log.warn("warn!");
 
 		/* Antes necesitabamos verificar el nivel de registro para aumentar el rendimiento:
 		 * if (log.isDebugEnabled()) log.debug("{}", getNumber());
 		 * 
 		 * Ahora con Java 8 puede lograr el mismo efecto con una expresion lambda. Ya no es necesario verificar explicitamente
 		 * el nivel de registro: */
-		log.debug("{}", () -> getNumber());
+		// log.debug("{}", () -> getNumber());
 
 	}
 

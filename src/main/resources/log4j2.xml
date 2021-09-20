@@ -5,7 +5,7 @@
 <Configuration status="warn" strict="true">
 
 	<Properties>
-		<Property name="filename">target/logs/test.log</Property>
+		<Property name="LOG_DIR">target/logs</Property>
 	</Properties>
 
 	<Appenders>
@@ -14,11 +14,29 @@
 			<PatternLayout pattern="%d [%p] %c{10}.%t: %m%n" />
 		</Console>
 		<!-- Salida en archivo -->
-		<Appender type="File" name="File" fileName="${filename}">
+		<Appender type="File" name="File" fileName="${LOG_DIR}/test.log">
+			<!-- Patron de conversion -->
 			<Layout type="PatternLayout">
-				<Pattern>%d [%p] %c{10}.%t: %m%n</Pattern>
+				<!-- En el especificador de conversion "%-5p", -5 es el modificador de formato y p es el caracter 
+					de conversion. -->
+				<Pattern>%d %-5p %c{10}.%t: %m%n</Pattern>
 			</Layout>
 		</Appender>
+
+		<!-- "${LOG_DIR}/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz" Por que tiene dos $$? -->
+		<RollingFile name="RollingFile" fileName="${LOG_DIR}/app.log"
+			filePattern="${LOG_DIR}/app.%d{dd-MMM}.log.gz">
+			<PatternLayout>
+				<Pattern>%d %-5p %c{10}.%t: %m%n</Pattern>
+			</PatternLayout>
+			<!-- Politicas de renovacion -->
+			<Policies>
+				<!-- Solo tiene que ir una politica -->
+				<!-- <TimeBasedTriggeringPolicy /> -->
+				<SizeBasedTriggeringPolicy size="10 KB" />
+			</Policies>
+		</RollingFile>
+
 	</Appenders>
 
 	<!-- Configura los loggers para cada appender -->
@@ -29,7 +47,7 @@
 			<AppenderRef ref="Console" />
 		</Logger>
 		<Logger name="log" level="debug">
-			<AppenderRef ref="File" />
+			<AppenderRef ref="RollingFile" />
 		</Logger>
 		<!-- Nivel raiz -->
 		<Root level="error">
