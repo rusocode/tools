@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
 
 <!-- Configura el logger utilizando el nivel de eventos internos en "warn" para registrar los mensajes 
 	en consola. -->
@@ -9,24 +10,19 @@
 	</Properties>
 
 	<Appenders>
+
 		<!-- Salida en consola -->
-		<Console name="Console" target="SYSTEM_OUT"> <!-- STDOUT se suele utilizar como nombre -->
+		<Console name="Console" target="SYSTEM_OUT">
 			<PatternLayout pattern="%d [%p] %c{10}.%t: %m%n" />
 		</Console>
-		<!-- Salida en archivo -->
-		<Appender type="File" name="File" fileName="${LOG_DIR}/test.log">
+
+		<!-- Salida en archivo con transferencia -->
+		<RollingFile name="RollingFile" fileName="${LOG_DIR}/server.log"
+			filePattern="${LOG_DIR}/%d{yyyy-MM-dd}-server-%i.log.gz">
 			<!-- Patron de conversion -->
-			<Layout type="PatternLayout">
+			<PatternLayout>
 				<!-- En el especificador de conversion "%-5p", -5 es el modificador de formato y p es el caracter 
 					de conversion. -->
-				<Pattern>%d %-5p %c{10}.%t: %m%n</Pattern>
-			</Layout>
-		</Appender>
-
-		<!-- "${LOG_DIR}/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz" Por que tiene dos $$? -->
-		<RollingFile name="RollingFile" fileName="${LOG_DIR}/app.log"
-			filePattern="${LOG_DIR}/app.%d{dd-MMM}.log.gz">
-			<PatternLayout>
 				<Pattern>%d %-5p %c{10}.%t: %m%n</Pattern>
 			</PatternLayout>
 			<!-- Politicas de renovacion -->
@@ -50,7 +46,7 @@
 			<AppenderRef ref="RollingFile" />
 		</Logger>
 		<!-- Nivel raiz -->
-		<Root level="error">
+		<Root level="all">
 			<AppenderRef ref="Console" />
 		</Root>
 	</Loggers>
