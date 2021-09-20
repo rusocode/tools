@@ -4,6 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
+/**
+ * IMPORTANTE: esta clase es obsoleta en comparacion con la API Log4j.
+ * 
+ * @author Ru$o
+ * 
+ */
+
 // Imprime un breve resumen del registro en un formato legible por humanos. El resumen suele ser de 1 o 2 lineas. 
 public class SimpleFormatter extends Formatter {
 

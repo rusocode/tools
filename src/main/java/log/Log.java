@@ -5,6 +5,13 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * IMPORTANTE: esta clase es obsoleta en comparacion con la API Log4j.
+ * 
+ * @author Ru$o
+ * 
+ */
+
 public class Log {
 
 	/* Crea el registrador con el nombre especificado (debe ser un nombre separado por puntos y normalmente debe basarse en
@@ -37,15 +44,15 @@ public class Log {
 		 * controlador. */
 
 		/* FileHandler puede escribir en un archivo especifico o puede escribir en un conjunto rotativo de archivos. Para un
-		 * conjunto rotatorio de archivos, a medida que cada archivo alcanza un limite de tamaño determinado, se cierra, se gira
+		 * conjunto rotatorio de archivos, a medida que cada archivo alcanza un limite de tamaï¿½o determinado, se cierra, se gira
 		 * y se abre un nuevo archivo. Los archivos sucesivamente mas antiguos se nombran agregando "0", "1", "2", etc. en el
 		 * nombre del archivo base. De forma predeterminada, el almacenamiento en buffer esta habilitado en las bibliotecas de
 		 * E/S, pero cada registro de registro se elimina cuando se completa.
 		 * 
-		 * ¿Puede crear directorios la clase FileHandler?
+		 * ï¿½Puede crear directorios la clase FileHandler?
 		 * https://stackoverflow.com/questions/22732247/how-to-create-directories-for-logger-files-through-filehandler
 		 * 
-		 * ¿Esta roto java.util.logging.FileHandler en Java 8?
+		 * ï¿½Esta roto java.util.logging.FileHandler en Java 8?
 		 * https://stackoverflow.com/questions/24321098/is-java-util-logging-filehandler-in-java-8-broken/24327826 */
 
 		try {

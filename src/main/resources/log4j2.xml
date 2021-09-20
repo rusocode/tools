@@ -13,10 +13,10 @@
 
 		<!-- Salida en consola -->
 		<Console name="Console" target="SYSTEM_OUT">
-			<PatternLayout pattern="%d [%p] %c{10}.%t: %m%n" />
+			<PatternLayout pattern="%d %-5p %c{10}.%t: %m%n" />
 		</Console>
 
-		<!-- Salida en archivo con transferencia -->
+		<!-- Salida en archivo con renovacion -->
 		<RollingFile name="RollingFile" fileName="${LOG_DIR}/server.log"
 			filePattern="${LOG_DIR}/%d{yyyy-MM-dd}-server-%i.log.gz">
 			<!-- Patron de conversion -->
