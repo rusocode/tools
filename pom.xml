@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- Definicion del artefacto -->
-	<groupId>com.silentsoft</groupId>
+	<groupId>com.rubit</groupId>
 	<artifactId>utilidades</artifactId>
 	<version>1.0</version>
 

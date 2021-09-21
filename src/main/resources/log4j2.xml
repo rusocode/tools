@@ -18,12 +18,12 @@
 
 		<!-- Salida en archivo con renovacion -->
 		<RollingFile name="RollingFile" fileName="${LOG_DIR}/server.log"
-			filePattern="${LOG_DIR}/%d{yyyy-MM-dd}-server-%i.log.gz">
+			filePattern="${LOG_DIR}/%d-%i.log.gz">
 			<!-- Patron de conversion -->
 			<PatternLayout>
 				<!-- En el especificador de conversion "%-5p", -5 es el modificador de formato y p es el caracter 
 					de conversion. -->
-				<Pattern>%d %-5p %c{10}.%t: %m%n</Pattern>
+				<Pattern>[%d{HH:mm:ss}] [%p/%c{10}.%t]: %m%n</Pattern>
 			</PatternLayout>
 			<!-- Politicas de renovacion -->
 			<Policies>
