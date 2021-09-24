@@ -14,7 +14,7 @@ import javax.swing.UIManager;
 import net.miginfocom.swing.MigLayout;
 
 /**
- * Un canal seleccionable para escuchar conexiones.
+ * Un canal seleccionable para escuchar conexiones CON bloqueo.
  * 
  * ¿Por que usar nio para hacer una aplicacion de chat... cuando simplemente podemos hacerlo usando la programacion de
  * socket facilmente?
@@ -34,7 +34,7 @@ import net.miginfocom.swing.MigLayout;
  * 
  * Fuente: https://gist.github.com/Botffy/3860641
  * 
- * @author Juan Debenedetti aka Ru$o
+ * @author Ru$o
  * 
  */
 
@@ -74,21 +74,19 @@ public class ServerSocketChannel_ extends JFrame implements Runnable {
 
 		try {
 
-			// Abre un canal para el socket de servidor
-			ServerSocketChannel serverChannel = ServerSocketChannel.open();
+			// Abre el canal para el servidor
+			ServerSocketChannel server = ServerSocketChannel.open();
 
-			// Recupera un socket de servidor asociado con este canal
-			ServerSocket server = serverChannel.socket();
-
-			/* Vincula el socket del canal a una direccion local y configura el socket para escuchar conexiones.
+			/* Recupera un socket de servidor asociado con este canal y lo vincula a una direccion local y configura el socket para
+			 * escuchar conexiones.
 			 * Ahora el servidor puede recibir solicitudes de conexion que estaran en cola hasta que se acepten. */
-			server.bind(new InetSocketAddress(7666));
+			server.socket().bind(new InetSocketAddress(7666));
 
 			while (true) {
 
 				console.append("Esperando una conexion...\n");
 
-				SocketChannel socketChannel = serverChannel.accept();
+				SocketChannel socketChannel = server.accept();
 
 				console.append("Se acepto la conexion!\n");
 

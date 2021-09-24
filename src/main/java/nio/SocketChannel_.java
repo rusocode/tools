@@ -8,7 +8,7 @@ import java.nio.channels.SocketChannel;
 /**
  * Un canal seleccionable para crear conexiones.
  * 
- * @author Juan Debenedetti aka Ru$o
+ * @author Ru$o
  * 
  */
 
@@ -16,12 +16,12 @@ public class SocketChannel_ {
 
 	public static void main(String[] args) throws IOException {
 
-		// Abre un canal para el socket de cliente
+		// Abre el canal para el cliente
 		SocketChannel socketChannel = SocketChannel.open();
 
 		/* Configura el SocketChannel en modo sin bloqueo para llamar a los metodos connect(), read() y write() de forma
 		 * asincronica. */
-		// channel.configureBlocking(false);
+		// socketChannel.configureBlocking(false);
 
 		// Conecta el socket del canal
 		socketChannel.connect(new InetSocketAddress("localhost", 7666));
