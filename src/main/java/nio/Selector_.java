@@ -80,41 +80,54 @@ public class Selector_ implements Runnable {
 			// Registra el selector para aceptar conexiones
 			SelectionKey key = server.register(selector, SelectionKey.OP_ACCEPT);
 
-			// Itera las claves registradas en el selector
 			while (true) {
-
-				// Obtiene la cantidad de canales que estan listos
-				int readyChannels = selector.selectNow();
-
-				if (readyChannels == 0) continue;
-
-				/* Una vez que haya llamado a uno de los metodos select() y su valor de retorno haya indicado que uno o mas canales
-				 * estan listos, puede acceder a los canales usando el metodo selectedKeys(). */
-
-				// Devuelve el selected-key set del selector y se lo asigna al conjunto selectedKeys del tipo SelectionKey
-				Set<SelectionKey> selectedKeys = selector.selectedKeys();
-
-				// Devuelve un iterador sobre los elementos del conjunto SelectionKey
-				Iterator<SelectionKey> keyIterator = selectedKeys.iterator();
-
-				// Mientras haya elementos
-				while (keyIterator.hasNext()) {
-
-					// Devuelve el key del iterador
-					key = keyIterator.next();
-
-					if (key.isAcceptable()) System.out.println("Una conexion fue aceptada por ServerSocketChannel");
-					else if (key.isConnectable()) System.out.println("Se establecio una conexion con un servidor remoto");
-					else if (key.isReadable()) System.out.println("Un canal esta listo para leer");
-					else if (key.isWritable()) System.out.println("Un canal esta listo para escribir");
-
-					/* El Selector no elimina las instancias de SelectionKey del propio conjunto de keys seleccionadas. Tienes que hacer
-					 * esto cuando hayas terminado de procesar el canal. La proxima vez que el canal este "listo", el selector lo agregara
-					 * nuevamente al conjunto de claves seleccionadas. */
-					keyIterator.remove();
+				// Bloqueo de llamadas, pero solo una para todo
+				selector.select();
+				for (SelectionKey k : selector.selectedKeys()) {
+					if (k.isValid()) {
+						if (key.isAcceptable()) System.out.println("Una conexion fue aceptada por ServerSocketChannel");
+						else if (key.isConnectable()) System.out.println("Se establecio una conexion con un servidor remoto");
+						else if (key.isReadable()) System.out.println("Un canal esta listo para leer");
+						else if (key.isWritable()) System.out.println("Un canal esta listo para escribir");
+					}
 				}
-
 			}
+
+//			// Itera las claves registradas en el selector
+//			while (true) {
+//
+//				// Obtiene la cantidad de canales que estan listos
+//				int readyChannels = selector.selectNow();
+//
+//				if (readyChannels == 0) continue;
+//
+//				/* Una vez que haya llamado a uno de los metodos select() y su valor de retorno haya indicado que uno o mas canales
+//				 * estan listos, puede acceder a los canales usando el metodo selectedKeys(). */
+//
+//				// Devuelve el selected-key set del selector y se lo asigna al conjunto selectedKeys del tipo SelectionKey
+//				Set<SelectionKey> selectedKeys = selector.selectedKeys();
+//
+//				// Devuelve un iterador sobre los elementos del conjunto SelectionKey
+//				Iterator<SelectionKey> keyIterator = selectedKeys.iterator();
+//
+//				// Mientras haya elementos
+//				while (keyIterator.hasNext()) {
+//
+//					// Devuelve el key del iterador
+//					key = keyIterator.next();
+//
+//					if (key.isAcceptable()) System.out.println("Una conexion fue aceptada por ServerSocketChannel");
+//					else if (key.isConnectable()) System.out.println("Se establecio una conexion con un servidor remoto");
+//					else if (key.isReadable()) System.out.println("Un canal esta listo para leer");
+//					else if (key.isWritable()) System.out.println("Un canal esta listo para escribir");
+//
+//					/* El Selector no elimina las instancias de SelectionKey del propio conjunto de keys seleccionadas. Tienes que hacer
+//					 * esto cuando hayas terminado de procesar el canal. La proxima vez que el canal este "listo", el selector lo agregara
+//					 * nuevamente al conjunto de claves seleccionadas. */
+//					keyIterator.remove();
+//				}
+//
+//			}
 
 		} catch (IOException e) {
 			System.err.println("Error de I/O\n" + e.toString());
