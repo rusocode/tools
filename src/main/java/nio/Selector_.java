@@ -64,7 +64,7 @@ public class Selector_ implements Runnable {
 	public void run() {
 
 		Selector selector = null;
-		
+
 		try {
 
 			// Abre el selector
@@ -72,10 +72,10 @@ public class Selector_ implements Runnable {
 
 			ServerSocketChannel server = ServerSocketChannel.open();
 
-			server.socket().bind(new InetSocketAddress(7666));
-
 			// Configura el canal en modo sin bloqueo
 			server.configureBlocking(false);
+
+			server.socket().bind(new InetSocketAddress(7666));
 
 			// Registra el selector para aceptar conexiones
 			SelectionKey key = server.register(selector, SelectionKey.OP_ACCEPT);
@@ -129,9 +129,7 @@ public class Selector_ implements Runnable {
 	}
 
 	public static void main(String[] args) throws IOException {
-
 		new Selector_();
-
 	}
 
 }
