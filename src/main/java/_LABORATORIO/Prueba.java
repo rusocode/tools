@@ -1,14 +1,16 @@
 package _LABORATORIO;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class Prueba {
 
-	private static final Logger log = LogManager.getLogger();
+	public static void main(String[] args) throws InterruptedException {
 
-	public Prueba() {
-		log.info("Estoy en la clase Prueba");
+		long inicio = System.nanoTime();
+
+		Thread.sleep(500);
+
+		long fin = System.nanoTime();
+
+		System.out.println((fin - inicio) / 1e6 + " ms");
+
 	}
-
 }

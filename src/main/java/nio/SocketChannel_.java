@@ -8,7 +8,7 @@ import java.nio.channels.SocketChannel;
 /**
  * Un canal seleccionable para crear conexiones.
  * 
- * @author Juan Debenedetti aka Ru$o
+ * @author Ru$o
  * 
  */
 
@@ -16,17 +16,17 @@ public class SocketChannel_ {
 
 	public static void main(String[] args) throws IOException {
 
-		// Abre un canal para el socket de cliente
-		SocketChannel clientChannel = SocketChannel.open();
+		// Abre el canal para el cliente
+		SocketChannel socketChannel = SocketChannel.open();
 
 		/* Configura el SocketChannel en modo sin bloqueo para llamar a los metodos connect(), read() y write() de forma
 		 * asincronica. */
-		// channel.configureBlocking(false);
+		// socketChannel.configureBlocking(false);
 
 		// Conecta el socket del canal
-		clientChannel.connect(new InetSocketAddress("localhost", 7666));
+		socketChannel.connect(new InetSocketAddress("localhost", 7666));
 
-		if (clientChannel.isConnected()) System.out.println("Conectado!");
+		if (socketChannel.isConnected()) System.out.println("Conectado!");
 		else System.out.println("El cliente no se pudo conectar!");
 
 		String texto = "Rulo quemado";
@@ -45,9 +45,9 @@ public class SocketChannel_ {
 		buf.flip(); // limit = position, position = 0;
 
 		while (buf.hasRemaining())
-			clientChannel.write(buf);
+			socketChannel.write(buf);
 
-		clientChannel.close();
+		socketChannel.close();
 
 	}
 
