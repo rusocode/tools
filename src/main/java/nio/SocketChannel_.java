@@ -17,16 +17,16 @@ public class SocketChannel_ {
 	public static void main(String[] args) throws IOException {
 
 		// Abre un canal para el socket de cliente
-		SocketChannel socketChannel = SocketChannel.open();
+		SocketChannel clientChannel = SocketChannel.open();
 
 		/* Configura el SocketChannel en modo sin bloqueo para llamar a los metodos connect(), read() y write() de forma
 		 * asincronica. */
 		// channel.configureBlocking(false);
 
 		// Conecta el socket del canal
-		socketChannel.connect(new InetSocketAddress("localhost", 7666));
+		clientChannel.connect(new InetSocketAddress("localhost", 7666));
 
-		if (socketChannel.isConnected()) System.out.println("Conectado!");
+		if (clientChannel.isConnected()) System.out.println("Conectado!");
 		else System.out.println("El cliente no se pudo conectar!");
 
 		String texto = "Rulo quemado";
@@ -45,9 +45,9 @@ public class SocketChannel_ {
 		buf.flip(); // limit = position, position = 0;
 
 		while (buf.hasRemaining())
-			socketChannel.write(buf);
+			clientChannel.write(buf);
 
-		socketChannel.close();
+		clientChannel.close();
 
 	}
 
