@@ -24,7 +24,7 @@ import static sockets.Constants.*;
  * Porque el paquete IO crea una nueva conexion cada vez que se conecta. En cambio para manejar la misma conexion se usa
  * el paquete NIO.
  * 
- * @author Juan Debenedetti aka Ru$o
+ * @author Ru$o
  * 
  */
 

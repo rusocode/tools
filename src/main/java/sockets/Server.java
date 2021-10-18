@@ -18,7 +18,7 @@ import static sockets.Constants.*;
  * 
  * TODO Cambiar el mensaje de envio hacia una ip a un mensaje de envio hacia un nick.
  * 
- * @author Juan Debenedetti aka Ru$o
+ * @author Ru$o
  * 
  */
 

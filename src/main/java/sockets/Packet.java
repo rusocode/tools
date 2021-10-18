@@ -6,7 +6,7 @@ import java.util.*;
 /**
  * Serializa el paquete para poder enviarlo a travez de la red como una secuencia de bytes.
  * 
- * @author Juan Debenedetti aka Ru$o
+ * @author Ru$o
  * 
  */
 
