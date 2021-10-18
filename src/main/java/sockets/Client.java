@@ -19,8 +19,10 @@ import static sockets.Constants.*;
  * En caso de que el servidor este en una maquina diferente a la del cliente pero en la misma red (lan), habria que
  * utilizar la ip remota.
  * 
- * FIXME Por que no me puedo manejar con la misma conexion? Antes de mandar un mensaje tengo que crear un nuevo
+ * FIXME ¿Por que no me puedo manejar con la misma conexion? Antes de mandar un mensaje tengo que crear un nuevo
  * Socket... osea no entiendo la logica, si con esa sola conexion ya tendria que comunicarme.
+ * Porque el paquete IO crea una nueva conexion cada vez que se conecta. En cambio para manejar la misma conexion se usa
+ * el paquete NIO.
  * 
  * @author Juan Debenedetti aka Ru$o
  * 
