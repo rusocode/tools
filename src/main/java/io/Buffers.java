@@ -7,7 +7,7 @@ import static util.Constants.*;
 /**
  * El concepto de buffer queda muy bien explicado en el siguiente parrafo extraido del libro Head First Java:
  * "Si no hubiera buffers, seria como comprar sin un carrito: deberia llevar los productos uno a uno hasta la caja. Los
- * buffers te dan un lugar en el que dejar temporalmente las cosas hasta que esta lleno. Por ello has de hacer menos
+ * buffers te dan un lugar en el que dejar temporalmente las cosas hasta que este lleno. Por ello has de hacer menos
  * viajes cuando usas el carrito."
  * Cualquier operacion que implique acceder al disco es muy costosa, por lo que es interesante intentar reducir al
  * maximo las operaciones de lectura/escritura que realizamos sobre los ficheros, haciendo que cada operacion lea o
