@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * se deben sincronizar las cuentas para que ese total se mantega fijo y no se pierda dinero en
  * las transferencias.
  * 
- * Explicacio de la programacion concurrente:
+ * Explicacion de la programacion concurrente:
  * https://www.youtube.com/watch?v=SajW49zuzXg&list=PLU8oAlHdN5BktAXdEVCLUYzvDyqRQJ2lk&index=175
  * En conclusion, si se da el caso de que varios hilos accedan a la misma cuenta para hacer una transferencia, entonces
  * se volatizaria (perder) una parte del dinero. Esto es lo que sucede si los hilos no se sincronizan.
