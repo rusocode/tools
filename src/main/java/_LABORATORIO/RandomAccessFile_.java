@@ -11,17 +11,30 @@ import static util.Constants.*;
  * el cursor hacemos las operaciones de lectura y escritura. Si se llega al final del archivo antes de que se haya leido
  * el numero deseado de bytes, se lanza EOFException.
  * 
- * La clase Java RandomAccessFile en la API de IO de Java le permite moverse, navegar por un archivo y leerlo o escribir
- * en el como desee. Tambien puede reemplazar partes existentes de un archivo. Esto no es posible con FileInputStream o
+ * La clase RandomAccessFile del paquete IO le permite moverse, navegar por un archivo y leerlo o escribir en el como
+ * desee. Tambien puede reemplazar partes existentes de un archivo. Esto no es posible con FileInputStream o
  * FileOutputStream.
  * 
  * La ventaja de RandomAccessFile es que puede hacer entradas y salidas de bytes en la misma clase, en cambio, un flujo
  * estandar como FileOuputStream no puede leer datos del archivo, para eso se crearia una instancia de la clase
  * FileInputStream. Es decir que nos estariamos ahorrando crear dos clases.
  * 
+ * ¿Cual es la diferencia con respecto a las clases InputStream/OutputStream?
+ * RandomAccessFile trata el archivo como una matriz de bytes donde tiene el puntero interno. El hecho de que lo trate
+ * como una gran variedad de bytes es lo único de esta clase. FileInputStream, sin embargo, solo lee el flujo y devuelve
+ * los datos. Es más adecuado para leer datos sin procesar como imágenes, etc. No trata el archivo como una matriz
+ * grande, solo mantiene pestañas de en qué parte del archivo se ha leído hasta ahora. Con FileInputStream, en realidad
+ * tendría que leer los datos y colocarlos en una matriz para obtener el mismo estilo de acceso que RandomAccessFile.
+ * 
+ * En cuanto al rendimiento, no estoy muy seguro de si hay mucha diferencia, pero tendría que asumir que FileInputStream
+ * sería más rápido, ya que no tiene que preocuparse por la estructura de una matriz y solo devuelve los datos sin
+ * procesar que lee. Menos estructura tiende a ser más rápida cuando se trata de cosas como esta. Probablemente por qué
+ * se recomienda para datos de imágenes.
+ * 
  * Fuentes:
  * youtube.com/watch?v=gcPau_67V8s
  * http://tutorials.jenkov.com/java-io/randomaccessfile.html
+ * https://www.dreamincode.net/forums/topic/149024-fileinputstream-vs-randomaccessfile-for-reading-files/
  * 
  * @author Juan Debenedetti aka Ru$o
  * 

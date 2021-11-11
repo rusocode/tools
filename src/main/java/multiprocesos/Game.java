@@ -261,7 +261,7 @@ class Lamina extends JPanel {
 
 	private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
 
-	// Agrega una rectangulo al ArrayList
+	// Agrega el rectangulo al ArrayList
 	public void add(Rectangle rectangle) {
 		rectangles.add(rectangle);
 	}
