@@ -2,15 +2,8 @@ package _LABORATORIO;
 
 public class Prueba {
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) {
 
-		long inicio = System.nanoTime();
-
-		Thread.sleep(500);
-
-		long fin = System.nanoTime();
-
-		System.out.println((fin - inicio) / 1e6 + " ms");
-
+		System.out.println(System.getProperty("user.dir"));
 	}
 }
