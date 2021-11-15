@@ -9,18 +9,14 @@ import java.nio.channels.FileChannel;
 import static util.Constants.*;
 
 /**
- * Crea una conexion con un archivo usando un canal y a travez de ese canal se llena un buffer con los bytes del
- * archivo, pudiendo asi leer o escribir en el mismo de una manera mas eficiente.
+ * Crea una conexion con un archivo usando un canal y a travez de ese canal se llena un buffer (directo o no-directo)
+ * con los bytes del archivo, pudiendo asi leer o escribir en el mismo de una manera mas eficiente.
  * 
- * Una cosa interesante de los canales, es que no tienen la opcion de hacer I/O nativas al archivo. Esto obliga a
- * implementar un buffer haciendo el proceso mas eficiente, ademas de ser seguros para el acceso multiproceso.
- * 
- * Un Buffer en NIO es un contenedor para una cantidad fija de datos de un tipo primitivo especifico usado por canales.
- * ° Contenido, datos.
- * ° Capacidad, tamaño del buffer; Se establece cuando se crea el buffer y no puede ser cambiado.
- * ° Limite, el indice del primer elemento que no debe leerse ni escribirse; limite < capacidad.
- * ° Posicion, el indice del siguiente elemento a leer o escribir.
- * ° Marca, el indice al que se restablecera la posicion cuando se invoque el metodo reset().
+ * Un canal de archivos se crea invocando el método open() definidos por esta clase. También se puede obtener
+ * un canal de archivo de un objeto FileInputStream, FileOutputStream o RandomAccessFile existente invocando el método
+ * getChannel de ese objeto, que devuelve un canal de archivo que está conectado al mismo archivo subyacente. Cuando el
+ * canal de archivo se obtiene de una secuencia existente o un archivo de acceso aleatorio, el estado del canal de
+ * archivo está íntimamente conectado al del objeto cuyo método getChannel devolvió el canal.
  * 
  * Los canales representan conexiones a varias fuentes de I/O, como pipes, sockets, files, datagrams.
  * ° Operan con buffers y fuentes de I/O: mueve bloques de datos (lectura/escritura) dentro/fuera de buffers desde/hacia
@@ -28,14 +24,21 @@ import static util.Constants.*;
  * ° Pueden ser de bloqueo/no-bloqueo, habilitan operaciones de I/O sin bloqueo.
  * 
  * -Buffer
- * Un búfer recién creado siempre tiene una posición de cero y una marca que no está definida. El límite inicial puede
- * ser cero o puede ser algún otro valor que dependa del tipo de búfer y de la forma en que se construye. Cada elemento
- * de un búfer recién asignado se inicializa a cero.
+ * Un Buffer en NIO es un contenedor para una cantidad fija de datos de un tipo primitivo especifico usado por canales.
+ * ° Contenido, datos.
+ * ° Capacidad, tamaño del buffer; Se establece cuando se crea el buffer y no puede ser cambiado.
+ * ° Limite, el indice del primer elemento que no debe leerse ni escribirse; limite < capacidad.
+ * ° Posicion, el indice del siguiente elemento a leer o escribir.
+ * ° Marca, el indice al que se restablecera la posicion cuando se invoque el metodo reset().
+ * 
+ * Un búffer recién creado siempre tiene una posición de cero y una marca que no está definida. El límite inicial puede
+ * ser cero o puede ser algún otro valor que dependa del tipo de búffer y de la forma en que se construye. Cada elemento
+ * de un búffer recién asignado se inicializa a cero.
  * 
  * El siguiente invariante es válido para los valores de marca, posición, límite y capacidad:
  * 0 <= marca <= posición <= límite <= capacidad
  * 
- * @author Juan Debenedetti aka Ru$o
+ * @author Ru$o
  * 
  */
 
@@ -48,9 +51,16 @@ public class FileChannel_ {
 
 		try {
 
-			// Crea un nexo con el archivo usando un canal para realizar operacion de I/O (rw)
-			raf = new RandomAccessFile(TEXT, "rw");
-			channel = raf.getChannel();
+			/* Crea un nexo con el archivo usando un canal para realizar operacion de I/O (rw).
+			 * 
+			 * En varios puntos, esta clase especifica que se requiere una instancia que esté "abierta para lectura",
+			 * "abierta para escritura" o "abierta para lectura y escritura". Un canal obtenido a través del método getChannel de
+			 * una instancia de FileInputStream estará abierto para lectura. Un canal obtenido a través del método getChannel de una
+			 * instancia de FileOutputStream estará abierto para escritura. Finalmente, un canal obtenido a través del método
+			 * getChannel de una instancia de RandomAccessFile estará abierto para lectura si la instancia fue creada con el modo
+			 * "r" y estará abierto para lectura y escritura si la instancia fue creada con el modo "rw". */
+			raf = new RandomAccessFile(TEXT, "rw"); // Uso un archivo de texto de 10 bytes como ejemplo
+			channel = raf.getChannel(); // o usando el metodo open() de esta clase
 
 			// Crea un buffer con una capacidad de 7 bytes para leer un archivo de 10 bytes
 			ByteBuffer buf = ByteBuffer.allocate(7);
