@@ -1,4 +1,4 @@
-package clases;
+package _LABORATORIO;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;

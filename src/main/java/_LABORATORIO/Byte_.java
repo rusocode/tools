@@ -5,7 +5,6 @@ package _LABORATORIO;
  * En java, ¿es mas eficiente usar byte o short en lugar de int y float en lugar de double?
  * https://stackoverflow.com/questions/14531235/in-java-is-it-more-efficient-to-use-byte-or-short-instead-of-int-and-float-inst
  * 
- * 
  * ¿Por que la API de Java usa int en lugar de short o byte? *ALTA EXPLICACION!!
  * https://stackoverflow.com/questions/27122610/why-does-the-java-api-use-int-instead-of-short-or-byte
  * 
@@ -45,7 +44,7 @@ package _LABORATORIO;
  * 
  */
 
-public class byte_ {
+public class Byte_ {
 
 	// ¿Por que no se pueden almacenar numeros mayores a 127?
 	// https://stackoverflow.com/questions/3621067/why-is-the-range-of-bytes-128-to-127-in-java#:~:text=8%20Answers&text=The%20answer%20is%20two's%20complement,a%207-bit%20unsigned%20integer.

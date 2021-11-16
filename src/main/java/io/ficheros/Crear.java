@@ -1,4 +1,4 @@
-package ficheros;
+package io.ficheros;
 
 import java.io.BufferedWriter;
 import java.io.File;

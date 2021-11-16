@@ -1,4 +1,4 @@
-package _LABORATORIO;
+package io;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -9,7 +9,7 @@ import java.nio.file.Paths;
  * https://stackoverflow.com/questions/25546869/how-i-can-write-a-file-using-relative-path-in-java
  */
 
-public class _Path {
+public class Path_ {
 
 	private static final String TEXT_FILE_PATH = "texts" + File.separator;
 	private static final String TEXT_FILE_NAME = "Texto.txt";
