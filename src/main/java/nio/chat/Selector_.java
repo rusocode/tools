@@ -1,4 +1,4 @@
-package nio;
+package nio.chat;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * Un canal seleccionable para escuchar conexiones SIN bloqueo.
+ * Canal seleccionable para escuchar conexiones SIN bloqueo.
  * 
  * El Selector es un objeto utilizado para seleccionar un canal listo para comunicarse (para realizar una operacion).
  * Es decir que se consulta al Selector si hay algun canal que este listo para operar sin bloqueo.

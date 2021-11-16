@@ -1,4 +1,4 @@
-package sockets;
+package io.chat;
 
 import java.net.*;
 import java.util.Map;
@@ -9,7 +9,7 @@ import javax.swing.*;
 
 import net.miginfocom.swing.MigLayout;
 
-import static sockets.Constants.*;
+import static util.Constants.*;
 
 /**
  * Clase encargada de conectarse con un servidor usando el protocolo TCP.

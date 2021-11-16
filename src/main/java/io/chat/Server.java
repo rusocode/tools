@@ -1,4 +1,4 @@
-package sockets;
+package io.chat;
 
 import java.io.*;
 import java.net.*;
@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 
 import net.miginfocom.swing.MigLayout;
 
-import static sockets.Constants.*;
+import static util.Constants.*;
 
 /**
  * Clase encargada de gestionar las conexiones que entran y salen.

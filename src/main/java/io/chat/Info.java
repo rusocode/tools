@@ -1,4 +1,4 @@
-package sockets;
+package io.chat;
 
 import javax.swing.JOptionPane;
 

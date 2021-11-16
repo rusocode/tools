@@ -1,4 +1,4 @@
-package nio;
+package nio.chat;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -14,10 +14,10 @@ import javax.swing.UIManager;
 import net.miginfocom.swing.MigLayout;
 
 /**
- * Un canal seleccionable para escuchar conexiones CON bloqueo.
+ * Canal seleccionable para escuchar conexiones CON bloqueo. Se puede configurar sin bloqueo con el metodo
+ * server.configureBlocking(false);.
  * 
- * ¿Por que usar nio para hacer una aplicacion de chat... cuando simplemente podemos hacerlo usando la programacion de
- * socket facilmente?
+ * ¿Por que usar NIO para hacer una conexion de sockets cuando tambien se puede usar el flujo I/O clasico?
  * 
  * Porque debido a que nio es sin bloqueo, no requiere subprocesos adicionales. Un chat basado en sockets requeriria
  * tantos subprocesos como usuarios, lo que agregaria una sobrecarga significativa, mientras que un chat nio siempre
@@ -38,14 +38,14 @@ import net.miginfocom.swing.MigLayout;
  * 
  */
 
-public class ServerSocketChannel_ extends JFrame implements Runnable {
+public class Server extends JFrame implements Runnable {
 
 	private static final long serialVersionUID = 1L;
 
 	private JPanel panel;
 	private JTextArea console;
 
-	public ServerSocketChannel_() {
+	public Server() {
 		super("Servidor");
 		setResizable(false);
 		setSize(399, 430);
@@ -117,7 +117,7 @@ public class ServerSocketChannel_ extends JFrame implements Runnable {
 			e.printStackTrace();
 		}
 
-		new ServerSocketChannel_().setVisible(true);
+		new Server().setVisible(true);
 	}
 
 }
