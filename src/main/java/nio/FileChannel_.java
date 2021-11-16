@@ -38,6 +38,8 @@ import static util.Constants.*;
  * El siguiente invariante es válido para los valores de marca, posición, límite y capacidad:
  * 0 <= marca <= posición <= límite <= capacidad
  * 
+ * Ejemplos de ByteBuffer: https://www.geeksforgeeks.org/bytebuffer-flip-methods-in-java-with-examples/
+ * 
  * @author Ru$o
  * 
  */
