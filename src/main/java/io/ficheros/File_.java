@@ -16,7 +16,7 @@ import java.io.File;
  * 
  */
 
-public class Rutas {
+public class File_ {
 
 	/* Como java es un lenguaje de programacion multiplataforma, nos brinda la posibilidad de implementar el caracter
 	 * separador de carpetas para un SO en especifico. */

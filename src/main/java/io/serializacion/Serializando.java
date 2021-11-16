@@ -1,18 +1,15 @@
 package io.serializacion;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class Serializando {
 
-	/*
-	 * La serializacion consiste en convertir un objeto en bytes con el objetivo de distribuirlo a travez de la red a
-	 * ordenadores remotos y que en ese ordenador el objeto serializado sea restablecido al estado en el que se serializo.
-	 */
+	/* La serializacion consiste en convertir un objeto en bytes con el objetivo de distribuirlo a travez de la red a
+	 * ordenadores remotos y que en ese ordenador el objeto serializado sea restablecido al estado en el que se
+	 * serializo. */
 
 	public static void main(String[] args) {
 
@@ -68,11 +65,9 @@ class Empleado implements Serializable {
 
 	// Serial generado automaticamente en donde sera diferente cada vez que se modifique el programa: 6718602386940085512L
 
-	/*
-	 * Con la huella se puede leer el objeto serializado a pesar de que se haya modificado el programa, por que la huella es
+	/* Con la huella se puede leer el objeto serializado a pesar de que se haya modificado el programa, por que la huella es
 	 * tomada del serialVersionUID y ese serial no se cambio, es decir que se hicieron cambios en el programa pero no en la
-	 * huella, por lo tanto el programa va a correr sin ningun problema aunque se hayan echo cambios en el.
-	 */
+	 * huella, por lo tanto el programa va a correr sin ningun problema aunque se hayan echo cambios en el. */
 
 	private static final long serialVersionUID = 1L; // Huella de 20 bytes
 
