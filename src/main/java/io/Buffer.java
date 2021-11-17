@@ -5,16 +5,14 @@ import java.io.*;
 import static util.Constants.*;
 
 /**
- * El concepto de buffer queda muy bien explicado en el siguiente parrafo extraido del libro Head First Java:
+ * El concepto de buffer queda muy bien explicado en el siguiente parrafo extraido del libro <Head First Java>:
  * "Si no hubiera buffers, seria como comprar sin un carrito: deberia llevar los productos uno a uno hasta la caja. Los
  * buffers te dan un lugar en el que dejar temporalmente las cosas hasta que este lleno. Por ello has de hacer menos
  * viajes cuando usas el carrito."
  * Cualquier operacion que implique acceder al disco es muy costosa, por lo que es interesante intentar reducir al
- * maximo las operaciones de lectura/escritura que realizamos sobre los ficheros, haciendo que cada operacion lea o
- * escriba muchos caracteres. Es importante aclarar que el buffer toma un parte de la memoria RAM para acceder
- * mucho mas rapido.
- * Ademas, eso tambien permite operaciones de mas alto nivel, como la de leer una linea completa y devolverla en forma
- * de cadena.
+ * maximo las operaciones de lectura/escritura que realizamos sobre los archivos, haciendo que cada operacion lea o
+ * escriba muchos datos a la vez.
+ * Es importante aclarar que el buffer toma un parte de la memoria RAM para acceder mucho mas rapido a los datos.
  * 
  * FileOuputStream, FileInputStream, FileWriter y FileReader se utilizan para escribir o leer datos en memoria.
  * BufferedOutputStream, BufferedInputStream, BufferedWriter y BufferedReader, añaden un buffer intermedio encargado

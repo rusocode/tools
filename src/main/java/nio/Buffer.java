@@ -4,14 +4,15 @@ import java.nio.ByteBuffer;
 
 /**
  * Un buffer en NIO es un contenedor para una cantidad fija de datos de un tipo primitivo especifico usado por canales.
- * Para este caso se utiliza la clase ByteBuffer como ejemplo.
+ * Aparte de su contenido, las propiedades esenciales de un búffer son su capacidad, límite y posición:
+ * ° La capacidad de un búffer es el número de elementos que contiene. La capacidad de un búfer nunca es negativa y
+ * nunca cambia.
+ * ° El límite de un búffer es el índice del primer elemento que no debe leerse ni escribirse. El límite de un búffer
+ * nunca es negativo y nunca es mayor que su capacidad.
+ * ° La posición de un búffer es el índice del siguiente elemento a leer o escribir. La posición de un búffer nunca es
+ * negativa y nunca supera su límite.
  * 
- * El buffer contiene:
- * ° Contenido, datos.
- * ° Capacidad, tamaño del buffer; Se establece cuando se crea el buffer y no puede ser cambiado.
- * ° Limite, el indice del primer elemento que no debe leerse ni escribirse; limite < capacidad.
- * ° Posicion, el indice del siguiente elemento a leer o escribir.
- * ° Marca, el indice al que se restablecera la posicion cuando se invoque el metodo reset().
+ * Hay una subclase de esta clase para cada tipo primitivo no booleano.
  * 
  * Un búffer recién creado siempre tiene una posición de cero y una marca que no está definida. El límite inicial puede
  * ser cero o puede ser algún otro valor que dependa del tipo de búffer y de la forma en que se construye. Cada elemento
@@ -19,6 +20,8 @@ import java.nio.ByteBuffer;
  * 
  * El siguiente invariante es válido para los valores de marca, posición, límite y capacidad:
  * 0 <= marca <= posición <= límite <= capacidad
+ * 
+ * Para este caso se utiliza la clase ByteBuffer como ejemplo.
  * 
  * Recursos
  * file:///C:/Users/juand/Documents/Eclipse%20-%20Proyectos/utilidades/src/main/resources/tips/NIO%20byte%20buffer.PNG
