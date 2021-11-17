@@ -28,7 +28,7 @@ import java.nio.ByteBuffer;
  * 
  */
 
-public class ByteBuffer_ {
+public class Buffer {
 
 	public static void main(String[] args) {
 

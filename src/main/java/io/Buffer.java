@@ -45,11 +45,11 @@ import static util.Constants.*;
  * 
  */
 
-public class Buffers {
+public class Buffer {
 
 	private File file;
 
-	public Buffers(File file) {
+	public Buffer(File file) {
 		this.file = file;
 	}
 
@@ -186,10 +186,10 @@ public class Buffers {
 
 	public static void main(String[] args) {
 
-		Buffers texture = new Buffers(new File(BOLA_AMARILLA2));
+		Buffer texture = new Buffer(new File(BOLA_AMARILLA2));
 		texture.readTexture();
 
-		Buffers text = new Buffers(new File(TEXT_GRANDE));
+		Buffer text = new Buffer(new File(TEXT_GRANDE));
 		// text.readText();
 	}
 
