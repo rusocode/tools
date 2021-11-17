@@ -23,23 +23,6 @@ import static util.Constants.*;
  * fuentes de I/O.
  * ° Pueden ser de bloqueo/no-bloqueo, habilitan operaciones de I/O sin bloqueo.
  * 
- * -Buffer
- * Un Buffer en NIO es un contenedor para una cantidad fija de datos de un tipo primitivo especifico usado por canales.
- * ° Contenido, datos.
- * ° Capacidad, tamaño del buffer; Se establece cuando se crea el buffer y no puede ser cambiado.
- * ° Limite, el indice del primer elemento que no debe leerse ni escribirse; limite < capacidad.
- * ° Posicion, el indice del siguiente elemento a leer o escribir.
- * ° Marca, el indice al que se restablecera la posicion cuando se invoque el metodo reset().
- * 
- * Un búffer recién creado siempre tiene una posición de cero y una marca que no está definida. El límite inicial puede
- * ser cero o puede ser algún otro valor que dependa del tipo de búffer y de la forma en que se construye. Cada elemento
- * de un búffer recién asignado se inicializa a cero.
- * 
- * El siguiente invariante es válido para los valores de marca, posición, límite y capacidad:
- * 0 <= marca <= posición <= límite <= capacidad
- * 
- * Ejemplos de ByteBuffer: https://www.geeksforgeeks.org/bytebuffer-flip-methods-in-java-with-examples/
- * 
  * @author Ru$o
  * 
  */
