@@ -3,7 +3,10 @@ package nio;
 import java.nio.ByteBuffer;
 
 /**
- * Un Buffer en NIO es un contenedor para una cantidad fija de datos de un tipo primitivo especifico usado por canales.
+ * Un buffer en NIO es un contenedor para una cantidad fija de datos de un tipo primitivo especifico usado por canales.
+ * Para este caso se utiliza la clase ByteBuffer como ejemplo.
+ * 
+ * El buffer contiene:
  * ° Contenido, datos.
  * ° Capacidad, tamaño del buffer; Se establece cuando se crea el buffer y no puede ser cambiado.
  * ° Limite, el indice del primer elemento que no debe leerse ni escribirse; limite < capacidad.
@@ -17,9 +20,9 @@ import java.nio.ByteBuffer;
  * El siguiente invariante es válido para los valores de marca, posición, límite y capacidad:
  * 0 <= marca <= posición <= límite <= capacidad
  * 
- * Para este ejemplo se utiliza un ByteBuffer.
- * 
- * Ejemplos de ByteBuffer: https://www.geeksforgeeks.org/bytebuffer-flip-methods-in-java-with-examples/
+ * Recursos
+ * file:///C:/Users/juand/Documents/Eclipse%20-%20Proyectos/utilidades/src/main/resources/tips/NIO%20byte%20buffer.PNG
+ * https://www.geeksforgeeks.org/bytebuffer-flip-methods-in-java-with-examples/
  * 
  * @author Ru$o
  * 
@@ -36,7 +39,7 @@ public class ByteBuffer_ {
 		ByteBuffer buf = ByteBuffer.allocate(arr.length);
 
 		/* Coloca los bytes en el buffer. Ahora el buffer va a estar respaldado por el array de bytes.
-		 * En caso de que se supere la capacidad del buffer, lanzaria un BufferOverflowException. */
+		 * En caso de que se supere la capacidad del buffer, lanza un BufferOverflowException. */
 		buf.put(arr);
 
 		/* Cambia el buffer a modo lectura ya que la posicion quedo en el ultimo byte del buffer al agregar los bytes.
