@@ -23,7 +23,7 @@ public class SocketChannel_ {
 		 * asincronica. */
 		// socketChannel.configureBlocking(false);
 
-		// Conecta el socket del canal
+		// Conecta el socket al servidor
 		socketChannel.connect(new InetSocketAddress("localhost", 7666));
 
 		if (socketChannel.isConnected()) System.out.println("Conectado!");
@@ -31,6 +31,7 @@ public class SocketChannel_ {
 
 		String texto = "Rulo quemado";
 
+		// Crea un buffer de 13 bytes
 		ByteBuffer buf = ByteBuffer.allocate(13);
 
 		// Limpia el buffer para poder escribir en el
