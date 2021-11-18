@@ -38,17 +38,19 @@ import static util.Constants.*;
  * obtener gran parte de la aceleracion que proviene de leer un array de bytes en lugar de un byte a la vez.
  * 
  * Recursos
- * https://www.youtube.com/watch?v=baHz_RmMt5I
+ * Java IO - Buffered Streams: https://www.youtube.com/watch?v=baHz_RmMt5I
+ * The Hard Drive Buffer: https://www.youtube.com/watch?v=lE7HXIJOpDU
+ * Buffer Cache: https://www.youtube.com/watch?v=x2vegjeJICk
  * 
  * @author Juan Debenedetti aka Ru$o
  * 
  */
 
-public class Buffer {
+public class Buffer_ {
 
 	private File file;
 
-	public Buffer(File file) {
+	public Buffer_(File file) {
 		this.file = file;
 	}
 
@@ -185,10 +187,10 @@ public class Buffer {
 
 	public static void main(String[] args) {
 
-		Buffer texture = new Buffer(new File(BOLA_AMARILLA2));
+		Buffer_ texture = new Buffer_(new File(BOLA_AMARILLA2));
 		texture.readTexture();
 
-		Buffer text = new Buffer(new File(TEXT_GRANDE));
+		Buffer_ text = new Buffer_(new File(TEXT_GRANDE));
 		// text.readText();
 	}
 

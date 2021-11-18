@@ -9,6 +9,15 @@ import java.nio.channels.FileChannel;
 import static util.Constants.*;
 
 /**
+ * 
+ * Un nexo para operaciones de I/O.
+ * 
+ * Un canal representa una conexión abierta a una entidad, como un dispositivo de hardware, un archivo, un conector de
+ * red o un componente de programa que es capaz de realizar una o más operaciones de I/O distintas, por ejemplo, leer
+ * o escribir.
+ * 
+ * En general, los canales están destinados a ser seguros para el acceso multiproceso.
+ * 
  * Crea una conexion con un archivo usando un canal y a travez de ese canal se llena un buffer (directo o no-directo)
  * con los bytes del archivo, pudiendo asi leer o escribir en el mismo de una manera mas eficiente.
  * 
@@ -53,10 +62,10 @@ public class FileChannel_ {
 			/* Lee la secuencia de bytes del buffer desde el canal y guarda la posicion actual de este.
 			 * Internamente se llena el buffer con los bytes del archivo y despues es leido desde el canal.
 			 * La posicion queda establecida en el ultimo byte leido del buffer. */
-			int position = channel.read(buf);
+			// int position = channel.read(buf);
 
 			// Mientras la posicion del buffer no llegue al final del archivo
-			while (position != -1) {
+			while (channel.read(buf) > 0) { // position != -1
 
 				/* En la primera vuelta del bucle, la posicion del buffer quedo en la 7 porque el canal leyo hasta el ultimo byte del
 				 * buffer ya que este ocupa 7 bytes y el archivo 10. Entonces para poder leer cada byte del buffer hay que voltearlo
@@ -76,7 +85,7 @@ public class FileChannel_ {
 				/* Los bytes se leen comenzando en la posición actual del archivo de este canal y luego la posición del archivo se
 				 * actualiza con el número de bytes realmente leídos. */
 				// Rellena el buffer con los bytes sobrantes del archivo, en este caso sobraron 3 bytes
-				position = channel.read(buf);
+				// position = channel.read(buf);
 
 			}
 

@@ -3,6 +3,8 @@ package nio;
 import java.nio.ByteBuffer;
 
 /**
+ * IMPORTANTE: ver la clase Buffer del paquete io para entender mejor el funcionamiento de los buffers.
+ * 
  * Un buffer en NIO es un contenedor para una cantidad fija de datos de un tipo primitivo especifico usado por canales.
  * Aparte de su contenido, las propiedades esenciales de un búffer son su capacidad, límite y posición:
  * ° La capacidad de un búffer es el número de elementos que contiene. La capacidad de un búfer nunca es negativa y
@@ -27,15 +29,14 @@ import java.nio.ByteBuffer;
  * Para este caso se utiliza la clase ByteBuffer como ejemplo.
  * 
  * Recursos
- * https://docs.oracle.com/javase/8/docs/api/
- * https://github.com/rusocode/utilidades/blob/master/src/main/resources/tips/NIO%20byte%20buffer.PNG
- * https://www.geeksforgeeks.org/bytebuffer-flip-methods-in-java-with-examples/
+ * API JavaSE 8: https://docs.oracle.com/javase/8/docs/api/
+ * Grafico: https://github.com/rusocode/utilidades/blob/master/src/main/resources/tips/NIO%20byte%20buffer.PNG
  * 
  * @author Ru$o
  * 
  */
 
-public class Buffer {
+public class Buffer_ {
 
 	public static void main(String[] args) {
 

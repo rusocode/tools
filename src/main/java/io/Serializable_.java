@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
-public class Serialization {
+public class Serializable_ {
 
 	/* La serializacion consiste en convertir un objeto en bytes con el objetivo de distribuirlo a travez de la red a
 	 * ordenadores remotos y que en ese ordenador el objeto serializado sea restablecido al estado en el que se
