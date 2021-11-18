@@ -21,10 +21,14 @@ import java.nio.ByteBuffer;
  * El siguiente invariante es válido para los valores de marca, posición, límite y capacidad:
  * 0 <= marca <= posición <= límite <= capacidad
  * 
+ * Los búfferes de bytes se pueden crear con el metodo allocate(), que asigna espacio para el contenido del búffer, o
+ * encapsulando una matriz de bytes existente en un búffer.
+ * 
  * Para este caso se utiliza la clase ByteBuffer como ejemplo.
  * 
  * Recursos
- * file:///C:/Users/juand/Documents/Eclipse%20-%20Proyectos/utilidades/src/main/resources/tips/NIO%20byte%20buffer.PNG
+ * https://docs.oracle.com/javase/8/docs/api/
+ * https://github.com/rusocode/utilidades/blob/master/src/main/resources/tips/NIO%20byte%20buffer.PNG
  * https://www.geeksforgeeks.org/bytebuffer-flip-methods-in-java-with-examples/
  * 
  * @author Ru$o
@@ -35,11 +39,13 @@ public class Buffer {
 
 	public static void main(String[] args) {
 
+		// long startTime = System.nanoTime();
+
 		// Crea un array de bytes con 5 elementos
 		byte[] arr = { 1, 5, 8, 50, 55 };
 
 		// Crea un buffer de bytes con la capacidad de 5 bytes (lo que ocupa el array creado)
-		ByteBuffer buf = ByteBuffer.allocate(arr.length);
+		ByteBuffer buf = ByteBuffer.allocate(arr.length); // Buffer non-direct (buffer no directo)
 
 		/* Coloca los bytes en el buffer. Ahora el buffer va a estar respaldado por el array de bytes.
 		 * En caso de que se supere la capacidad del buffer, lanza un BufferOverflowException. */
@@ -53,6 +59,9 @@ public class Buffer {
 		while (buf.hasRemaining())
 			// Muestra el byte de la posicion y la incrementa, esto es lo que se conoce como get relativo
 			System.out.print(buf.get() + " ");
+
+		// long endTime = System.nanoTime();
+		// System.out.println("\nDuracion: " + (endTime - startTime) / 1e6 + " ms");
 
 	}
 }

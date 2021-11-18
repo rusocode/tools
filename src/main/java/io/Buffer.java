@@ -23,7 +23,7 @@ import static util.Constants.*;
  * lecturas nos dara lo que tiene almacenado, hasta que necesite leer otra vez.
  *
  * Esta forma de trabajar hace que el acceso al disco sea mas eficiente y el programa corra mas rapido. La diferencia se
- * notara mas cuanto mayor sea el fichero que queramos leer o escribir.
+ * notara mas cuanto mayor sea el archivo a leer o escribir.
  * La clave en las clases que comienzan con Buffered es que usan un buffer. Digamos que es una memoria interna que
  * normalmente hace que esas clases sean mas eficientes, es decir, es esperable que un BufferedInputStream sea mas
  * rapido que el flujo ordinario. El flujo normal tiene que estar llamando y accediendo a la memoria por cada byte
@@ -37,6 +37,7 @@ import static util.Constants.*;
  * de bytes del FileInputStream subyacente. Luego puede leer los bytes uno por uno desde BufferedInputStream y aun asi
  * obtener gran parte de la aceleracion que proviene de leer un array de bytes en lugar de un byte a la vez.
  * 
+ * Recursos
  * https://www.youtube.com/watch?v=baHz_RmMt5I
  * 
  * @author Juan Debenedetti aka Ru$o
