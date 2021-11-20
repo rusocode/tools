@@ -31,12 +31,12 @@ import static util.Constants.*;
  * procesar que lee. Menos estructura tiende a ser más rápida cuando se trata de cosas como esta. Probablemente por qué
  * se recomienda para datos de imágenes.
  * 
- * Fuentes:
+ * Recursos
  * youtube.com/watch?v=gcPau_67V8s
  * http://tutorials.jenkov.com/java-io/randomaccessfile.html
  * https://www.dreamincode.net/forums/topic/149024-fileinputstream-vs-randomaccessfile-for-reading-files/
  * 
- * @author Juan Debenedetti aka Ru$o
+ * @author Ru$o
  * 
  */
 
@@ -53,14 +53,14 @@ public class RandomAccessFile_ {
 
 		/* Crea un obj de RandomAccessFile para poder leer y escribir (r = read, w = write) desde un try-catch-resources sin la
 		 * necesidad de cerrar el flujo del archivo. */
-		try (RandomAccessFile raf = new RandomAccessFile(TEXT, "rw")) {
+		try (RandomAccessFile raf = new RandomAccessFile(RAF, "rw")) {
 
 			// Escribe los 4 registros en el archivo
 			for (Producto producto : productos) {
 
 				raf.writeInt(producto.getId());
 
-				/* No usamos writeUTF ya que puede generar problemas de bytes y no son precisos, encambio el metodo writeChars() escribe
+				/* No usa writeUTF ya que puede generar problemas de bytes y no son precisos, encambio el metodo writeChars() escribe
 				 * caracter x caracter (2 bytes).
 				 * Crea un StringBuffer para que la cadena sea mutable y no se creen nuevos objetos cuando se modifique. */
 				StringBuffer sb = new StringBuffer(producto.getNombre());
@@ -72,18 +72,17 @@ public class RandomAccessFile_ {
 				raf.writeBoolean(producto.isVendido());
 
 				/* Al igual que con el metodo read(), el metodo write() avanza el puntero del archivo despues de ser llamado. De esa
-				 * manera, no tiene que mover constantemente el puntero del archivo para escribir datos en una nueva ubicacion en el
-				 * archivo. */
+				 * manera, no tiene que mover constantemente el puntero del archivo para escribir datos en una nueva ubicacion. */
 
 			}
 
-			System.out.println("Despues de escribir los 4 registros el archivo ocupa = " + raf.length() + " Kbs");
+			System.out.println("Despues de escribir los 4 registros, el archivo ocupa " + raf.length() + " Kbs");
 
 			/* Hasta ahora se escribieron 4 registros de 35 bytes cada uno, ya que el int para el id ocupa 4 bytes, cada caracter de
 			 * la cadena ocupa 2 bytes por lo tanto son 2x10 = 20 bytes, el char para el tipo 2 bytes, el double 8 bytes y el
 			 * boolean 1 byte. Esto suma un total de 35 bytes para cada registro escrito desde el objeto RandomAccessFile. */
 
-			/* Establece el desplazamiento del file pointer, medido desde el principio de este archivo (0), en el que se produce
+			/* Establece el desplazamiento del file pointer medido desde el principio de este archivo (0), en el que se produce
 			 * la siguiente lectura o escritura. El desplazamiento puede establecerse mas alla del final del archivo. Establecer el
 			 * desplazamiento mas alla del final del archivo no cambia la longitud del archivo. La longitud del archivo cambiara
 			 * solo si se escribe despues de que el desplazamiento se haya establecido mas alla del final del archivo.
@@ -104,7 +103,7 @@ public class RandomAccessFile_ {
 			System.out.println(raf.readDouble());
 			System.out.println(raf.readBoolean());
 
-			/* Si nos fijamos en la carpeta dat de assets, podemos ver que el archivo raf.dat ocupa 140 bytes que son los 4
+			/* Si nos fijamos en la carpeta dat de resources, podemos ver que el archivo raf.dat ocupa 140 bytes que son los 4
 			 * registros x los 35 bytes de los datos. */
 
 		} catch (FileNotFoundException e) {

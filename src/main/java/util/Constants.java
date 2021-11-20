@@ -15,14 +15,20 @@ public final class Constants {
 
 	public static final String DIR_PROJECT = System.getProperty("user.dir");
 	public static final String DIR_RESOURCES = "src" + s + "main" + s + "resources";
+	public static final String DIR_DAT = "dat";
 	public static final String DIR_TEXT = "texts";
 	public static final String DIR_TEXTURES = "textures";
 
 	// Nombres de archivos
+	public static final String RAF = getDatDir() + "raf.dat";
 	public static final String TEXT = getTextDir() + "text.txt";
 	public static final String TEXT_GRANDE = getTextDir() + "Conceptos generales de protocolos.txt";
 	public static final String BOLA = getTextureDir() + "bola.png";
 	public static final String BOLA_AMARILLA2 = getTextureDir() + "bola_amarilla2.png";
+
+	public static String getDatDir() {
+		return DIR_PROJECT + s + DIR_RESOURCES + s + DIR_DAT + s;
+	}
 
 	public static String getTextDir() {
 		return DIR_PROJECT + s + DIR_RESOURCES + s + DIR_TEXT + s;
