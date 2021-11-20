@@ -20,8 +20,8 @@ import static util.Constants.*;
  * 
  * En general, los canales están destinados a ser seguros para el acceso multiproceso.
  * 
- * Para este caso se crea una conexion con un archivo usando un canal y a travez de ese canal se llena un buffer
- * (non-direct) con los bytes del archivo, pudiendo asi leer o escribir en el mismo de una manera mas eficiente.
+ * Para este caso se crea una conexion con un archivo usando un canal y a travez de ese canal se llena un buffer (direct
+ * o non-direct) con los bytes del archivo, pudiendo asi leer o escribir en el mismo de una manera mas eficiente.
  * 
  * Un canal de archivos se crea invocando el método open() definido por esta clase. También se puede obtener un canal de
  * archivo de un objeto FileInputStream, FileOutputStream o RandomAccessFile existente invocando el método getChannel de
@@ -48,7 +48,7 @@ public class Channel_ {
 			 * instancia de FileOutputStream estará abierto para escritura. Finalmente, un canal obtenido a través del método
 			 * getChannel de una instancia de RandomAccessFile estará abierto para lectura si la instancia fue creada con el modo
 			 * "r" y estará abierto para lectura y escritura si la instancia fue creada con el modo "rw". */
-			file = new RandomAccessFile(TEXT, "rw"); // Uso un archivo de texto de 10 bytes como ejemplo
+			file = new RandomAccessFile(TEXT, "rw"); // Usa un archivo de texto de 10 bytes como ejemplo
 			channel = file.getChannel(); // o usando el metodo open() de esta clase
 
 			// Crea un buffer con una capacidad de 7 bytes para leer un archivo de 10 bytes
@@ -59,7 +59,8 @@ public class Channel_ {
 			 * del archivo, este (el canal) sigue llenado el buffer con los datos del archivo.
 			 * 
 			 * *Es importante aclarar que primero se llena (escriben) ese buffer con los datos del archivo y despues el canal los
-			 * lee, siendo esto, un proceso interno de java. */
+			 * lee, siendo esto, un proceso interno de java. El metodo read(buf) devuelve el numero de bytes leidos, posiblemente
+			 * cero o -1 si el canal ha alcanzado el final del flujo. */
 			while (channel.read(buf) > 0) { // o "!= -1"
 
 				/* En la primera vuelta del bucle, la posicion del buffer quedo en la 7 porque el canal leyo hasta el ultimo byte del
@@ -86,7 +87,7 @@ public class Channel_ {
 			e.printStackTrace();
 		} finally {
 			try {
-				// TODO ¿Cerrando el canal, tambien cierra el flujo del archivo?
+				// TODO ¿Cerrando el canal, tambien se cierra el flujo del archivo?
 				if (channel != null) channel.close();
 			} catch (IOException e) {
 				e.printStackTrace();
