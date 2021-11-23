@@ -5,6 +5,8 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
+import static util.Constants.*;
+
 /**
  * Un canal seleccionable para crear conexiones.
  * 
@@ -16,26 +18,29 @@ public class Client {
 
 	public static void main(String[] args) throws IOException {
 
-		// Abre el canal para el cliente
-		SocketChannel socketChannel = SocketChannel.open();
+		String host = "localhost";
+
+		// Abre un canal de socket y lo conecta a una direccion remota
+		SocketChannel channel = SocketChannel.open(new InetSocketAddress(host, SERVER_PORT));
+
+		// Conecta el socket del canal
+		// socketChannel.connect(new InetSocketAddress("localhost", 7666));
 
 		/* Configura el SocketChannel en modo sin bloqueo para llamar a los metodos connect(), read() y write() de forma
 		 * asincronica. */
 		// socketChannel.configureBlocking(false);
 
-		// Conecta el socket del canal
-		socketChannel.connect(new InetSocketAddress("localhost", 7666));
-
-		if (socketChannel.isConnected()) System.out.println("Conectado!");
+		if (channel.isConnected()) System.out.println("Conectado!");
 		else System.out.println("El cliente no se pudo conectar!");
 
-		String texto = "Rulo quemado";
+		String texto = "mensaje";
 
-		ByteBuffer buf = ByteBuffer.allocate(13);
+		ByteBuffer buf = ByteBuffer.allocate(8);
 
 		// Limpia el buffer para poder escribir en el
-		buf.clear(); // position = 0, limit = capacity;
-		// Agrega 12 bytes al buffer
+		// buf.clear(); // TODO Para que hace esto?
+
+		// Agrega 7 bytes al buffer
 		buf.put(texto.getBytes());
 
 		// Despues de agregar la cadena de bytes que representa el texto, quedaria disponible 1 byte en el buffer
@@ -44,10 +49,12 @@ public class Client {
 		// Da vuelta el buffer para que empiece a escribir desde la posicion 0 en el canal
 		buf.flip(); // limit = position, position = 0;
 
+		// Mientras haya bytes entre la posicion y el limite
 		while (buf.hasRemaining())
-			socketChannel.write(buf);
+			// Escribe el buffer en el canal del socket
+			channel.write(buf);
 
-		socketChannel.close();
+		channel.close();
 
 	}
 
