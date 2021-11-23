@@ -35,9 +35,12 @@ public class Client {
 
 		ByteBuffer buf = ByteBuffer.allocate(8);
 
-		buf.clear(); // TODO ?
-
 		buf.put("mensaje".getBytes());
+
+		// Limpia el buffer para poder escribir en el
+		// buf.clear(); // TODO Para que hace esto?
+
+		// Agrega 7 bytes al buffer
 
 		// Despues de agregar la cadena de bytes que representa el texto, quedaria disponible 1 byte en el buffer
 		System.out.println("Bytes disponibles = " + buf.remaining());
@@ -45,9 +48,9 @@ public class Client {
 		// Da vuelta el buffer para que empiece a escribir desde la posicion 0 en el canal
 		buf.flip(); // limit = position, position = 0;
 
-		// Mientras haya bytes en el buffer
+		// Mientras haya bytes entre la posicion y el limite
 		while (buf.hasRemaining())
-			// Escribe la secuencia de bytes en este canal desde el buffer dado
+			// Escribe el buffer en el canal del socket
 			channel.write(buf);
 
 		channel.close();
