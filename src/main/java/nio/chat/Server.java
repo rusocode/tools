@@ -13,9 +13,11 @@ import javax.swing.UIManager;
 
 import net.miginfocom.swing.MigLayout;
 
+import static util.Constants.*;
+
 /**
  * Canal seleccionable para escuchar conexiones CON bloqueo. Se puede configurar sin bloqueo con el metodo
- * server.configureBlocking(false);.
+ * server.configureBlocking(false); usando un selector.
  * 
  * ¿Por que usar NIO para hacer una conexion de sockets cuando tambien se puede usar el flujo I/O clasico?
  * 
@@ -85,7 +87,7 @@ public class Server extends JFrame implements Runnable {
 			/* Recupera un socket de servidor asociado con este canal y lo vincula a una direccion local para escuchar conexiones.
 			 * Ahora el servidor puede recibir solicitudes de conexion que estaran en cola hasta que se acepten. */
 			ServerSocket socket = server.socket();
-			socket.bind(new InetSocketAddress(7666));
+			socket.bind(new InetSocketAddress(SERVER_PORT));
 
 			while (true) {
 

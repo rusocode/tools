@@ -5,6 +5,8 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
+import static util.Constants.*;
+
 /**
  * Un canal seleccionable para crear conexiones.
  * 
@@ -16,27 +18,26 @@ public class Client {
 
 	public static void main(String[] args) throws IOException {
 
-		// Abre el canal para el cliente
-		SocketChannel socketChannel = SocketChannel.open();
+		String host = "localhost";
+
+		/* Abre un canal de socket y lo conecta a una direccion remota.
+		 * 
+		 * Pasandole un objeto InetSocketAddress se ahorra de conectar el socket usando el metodo connect()
+		 * channel.connect(new InetSocketAddress(host, CLIENT_PORT)); */
+		SocketChannel channel = SocketChannel.open(new InetSocketAddress(host, CLIENT_PORT)); // Uso el puerto del cliente o del servidor?
 
 		/* Configura el SocketChannel en modo sin bloqueo para llamar a los metodos connect(), read() y write() de forma
 		 * asincronica. */
 		// socketChannel.configureBlocking(false);
 
-		// Conecta el socket del canal
-		socketChannel.connect(new InetSocketAddress("localhost", 7666));
-
-		if (socketChannel.isConnected()) System.out.println("Conectado!");
+		if (channel.isConnected()) System.out.println("Conectado!");
 		else System.out.println("El cliente no se pudo conectar!");
 
-		String texto = "Rulo quemado";
+		ByteBuffer buf = ByteBuffer.allocate(8);
 
-		ByteBuffer buf = ByteBuffer.allocate(13);
+		buf.clear(); // TODO ?
 
-		// Limpia el buffer para poder escribir en el
-		buf.clear(); // position = 0, limit = capacity;
-		// Agrega 12 bytes al buffer
-		buf.put(texto.getBytes());
+		buf.put("mensaje".getBytes());
 
 		// Despues de agregar la cadena de bytes que representa el texto, quedaria disponible 1 byte en el buffer
 		System.out.println("Bytes disponibles = " + buf.remaining());
@@ -44,10 +45,12 @@ public class Client {
 		// Da vuelta el buffer para que empiece a escribir desde la posicion 0 en el canal
 		buf.flip(); // limit = position, position = 0;
 
+		// Mientras haya bytes en el buffer
 		while (buf.hasRemaining())
-			socketChannel.write(buf);
+			// Escribe la secuencia de bytes en este canal desde el buffer dado
+			channel.write(buf);
 
-		socketChannel.close();
+		channel.close();
 
 	}
 
