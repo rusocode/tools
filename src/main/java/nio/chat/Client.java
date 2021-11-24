@@ -23,8 +23,8 @@ public class Client {
 		/* Abre un canal de socket y lo conecta a una direccion remota.
 		 * 
 		 * Pasandole un objeto InetSocketAddress se ahorra de conectar el socket usando el metodo connect()
-		 * channel.connect(new InetSocketAddress(host, CLIENT_PORT)); */
-		SocketChannel channel = SocketChannel.open(new InetSocketAddress(host, CLIENT_PORT)); // Uso el puerto del cliente o del servidor?
+		 * channel.connect(new InetSocketAddress(host, SERVER_PORT)); */
+		SocketChannel channel = SocketChannel.open(new InetSocketAddress(host, SERVER_PORT));
 
 		/* Configura el SocketChannel en modo sin bloqueo para llamar a los metodos connect(), read() y write() de forma
 		 * asincronica. */
