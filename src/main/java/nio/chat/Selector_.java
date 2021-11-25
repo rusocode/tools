@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
@@ -81,6 +82,9 @@ public class Selector_ extends JFrame implements Runnable {
 	private JPanel panel;
 	private JTextArea console;
 
+	private Selector selector = null;
+	private ServerSocketChannel server = null;
+
 	public Selector_() {
 
 		super("Servidor");
@@ -109,9 +113,6 @@ public class Selector_ extends JFrame implements Runnable {
 	@Override
 	public void run() {
 
-		Selector selector = null;
-		ServerSocketChannel server = null;
-
 		try {
 
 			// Abre el selector
@@ -124,10 +125,8 @@ public class Selector_ extends JFrame implements Runnable {
 			server = ServerSocketChannel.open();
 			if (server.isOpen()) console.append("Se abrio el servidor\n");
 
-			/* Recupera un socket de servidor asociado con este canal y lo vincula a la diereccion comodin local con el puerto TCP
-			 * especificado. */
-			ServerSocket socket = server.socket();
-			socket.bind(new InetSocketAddress(SERVER_PORT));
+			// Vincula el servidor a la diereccion local y puerto TCP
+			server.bind(new InetSocketAddress(SERVER_PORT));
 
 			/* Configura el canal del servidor en modo sin bloqueo.
 			 * 
@@ -165,7 +164,7 @@ public class Selector_ extends JFrame implements Runnable {
 			 * escucha. Ahora cuando un cliente se conecte al servidor por medio del canal, va a mostrar un mensaje. */
 			while (true) {
 
-				console.append("Esperando una conexion en el puerto " + socket.getLocalPort() + "...\n");
+				console.append("Esperando una conexion en el puerto " + SERVER_PORT + "...\n");
 
 				/* Selecciona un conjunto de keys cuyos canales correspondientes estan listos para operaciones de I/O.
 				 * Este metodo realiza una operacion de seleccion de bloqueo (es decir que se bloquea). Solo regresa despues de que se
@@ -193,7 +192,7 @@ public class Selector_ extends JFrame implements Runnable {
 					 * key en cada vuelta del bucle.
 					 * 
 					 * ¿Pero es posible seguir aceptando conexiones despues de que se cancelo esa key? */
-					// key.cancel();
+					key.cancel();
 
 				}
 
@@ -237,6 +236,9 @@ public class Selector_ extends JFrame implements Runnable {
 
 		} catch (IOException e) {
 			System.err.println("Error de I/O\n" + e.toString());
+		} catch (IllegalArgumentException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error en el servidor", JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
 		} finally {
 			try {
 				server.close();
