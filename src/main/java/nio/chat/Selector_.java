@@ -140,7 +140,6 @@ public class Selector_ extends JFrame implements Runnable {
 			 * servidor con un selector que fue configurado con bloqueo, lanzara un IllegalBlockingModeException. */
 			server.configureBlocking(false);
 			if (!server.isBlocking()) console.append("Se configuro el servidor en modo sin bloqueo\n");
-			else console.append("El servidor esta en modo con bloqueo por defecto\n");
 
 			/* Registra el servidor con el selector para aceptar conexiones en donde se usa un objeto SelectionKey que representa el
 			 * registro del canal con el selector.
@@ -158,7 +157,7 @@ public class Selector_ extends JFrame implements Runnable {
 			 * 
 			 * Los canales seleccionables son seguros para su uso por varios subprocesos simultaneos. */
 			server.register(selector, SelectionKey.OP_ACCEPT);
-			if (server.isRegistered()) console.append("Se registro el canal del servidor con el selector especificado para aceptar conexiones!\n");
+			if (server.isRegistered()) console.append("Se registro el servidor con el selector especificado para aceptar conexiones!\n");
 
 			/* Despues de registrar el canal del servidor para que acepte conexiones por medio de un selector, va a ponerse a la
 			 * escucha. Ahora cuando un cliente se conecte al servidor por medio del canal, va a mostrar un mensaje. */
