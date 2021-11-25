@@ -6,6 +6,8 @@ import java.net.ServerSocket;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -83,7 +85,7 @@ public class Selector_ extends JFrame implements Runnable {
 
 		super("Servidor");
 		setResizable(false);
-		setSize(740, 430);
+		setSize(600, 430);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		initialize();
 
@@ -157,7 +159,7 @@ public class Selector_ extends JFrame implements Runnable {
 			 * 
 			 * Los canales seleccionables son seguros para su uso por varios subprocesos simultaneos. */
 			server.register(selector, SelectionKey.OP_ACCEPT);
-			if (server.isRegistered()) console.append("Se registro el servidor con el selector especificado para aceptar conexiones!\n");
+			if (server.isRegistered()) console.append("Se registro el servidor con el selector para aceptar conexiones!\n");
 
 			/* Despues de registrar el canal del servidor para que acepte conexiones por medio de un selector, va a ponerse a la
 			 * escucha. Ahora cuando un cliente se conecte al servidor por medio del canal, va a mostrar un mensaje. */
@@ -169,7 +171,7 @@ public class Selector_ extends JFrame implements Runnable {
 				 * Este metodo realiza una operacion de seleccion de bloqueo (es decir que se bloquea). Solo regresa despues de que se
 				 * selecciona al menos un canal, se invoca el metodo wakeup() de este selector o se interrumpe el hilo actual, lo que
 				 * ocurra primero. */
-				selector.select();
+				selector.select(); // Seria como un server.accept()?
 
 				// Itera las keys seleccionadas
 				for (SelectionKey key : selector.selectedKeys()) {
@@ -197,7 +199,7 @@ public class Selector_ extends JFrame implements Runnable {
 
 			}
 
-//			// Itera las claves registradas en el selector
+			// Itera las claves registradas en el selector
 //			while (true) {
 //
 //				// Obtiene la cantidad de canales que estan listos
