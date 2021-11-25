@@ -35,14 +35,10 @@ public class Client {
 
 		ByteBuffer buf = ByteBuffer.allocate(8);
 
+		// Agrega 7 bytes al buffer
 		buf.put("mensaje".getBytes());
 
-		// Limpia el buffer para poder escribir en el
-		// buf.clear(); // TODO Para que hace esto?
-
-		// Agrega 7 bytes al buffer
-
-		// Despues de agregar la cadena de bytes que representa el texto, quedaria disponible 1 byte en el buffer
+		// Despues de agregar la cadena de bytes que representa el texto, quedaria disponible 1 byte en buffer
 		System.out.println("Bytes disponibles = " + buf.remaining());
 
 		// Da vuelta el buffer para que empiece a escribir desde la posicion 0 en el canal

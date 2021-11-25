@@ -17,7 +17,7 @@ import static util.Constants.*;
 
 /**
  * Canal seleccionable para escuchar conexiones CON bloqueo. Se puede configurar sin bloqueo con el metodo
- * server.configureBlocking(false); usando un selector.
+ * server.configureBlocking(false);.
  * 
  * ¿Por que usar NIO para hacer una conexion de sockets cuando tambien se puede usar el flujo I/O clasico?
  * 
