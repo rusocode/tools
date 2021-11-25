@@ -16,11 +16,10 @@ import net.miginfocom.swing.MigLayout;
 import static util.Constants.*;
 
 /**
- * Canal seleccionable para escuchar conexiones CON bloqueo. Se puede configurar sin bloqueo con el metodo
- * server.configureBlocking(false);.
+ * Canal de servidor para escuchar conexiones CON bloqueo. Se puede configurar sin bloqueo con configureBlocking(false),
+ * haciendo posible su uso con un Selector.
  * 
  * ¿Por que usar NIO para hacer una conexion de sockets cuando tambien se puede usar el flujo I/O clasico?
- * 
  * Porque debido a que nio es sin bloqueo, no requiere subprocesos adicionales. Un chat basado en sockets requeriria
  * tantos subprocesos como usuarios, lo que agregaria una sobrecarga significativa, mientras que un chat nio siempre
  * necesitaria un solo subproceso, lo que lo haria mucho mas escalable, ya que la sobrecarga de subprocesos puede
@@ -76,7 +75,7 @@ public class Server extends JFrame implements Runnable {
 
 		try {
 
-			// Abre el canal para el servidor
+			// Abre el servidor
 			ServerSocketChannel server = ServerSocketChannel.open();
 
 			/* Usar el modo sin bloqueo sin un selector no tendria sentido. Para eso se creo la clase Selector, para gestionar las

@@ -2,19 +2,28 @@ package nio.chat;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
+
+import net.miginfocom.swing.MigLayout;
+
 import static util.Constants.*;
 
 /**
- * Canal seleccionable para escuchar conexiones SIN bloqueo.
+ * Un Selector es un *multiplexor de objetos SelectableChannel. En este caso se encarga de escuchar conexiones SIN
+ * bloqueo.
  * 
  * El Selector es un objeto utilizado para seleccionar un canal listo para comunicarse (para realizar una operacion).
- * Es decir que se consulta al Selector si hay algun canal que este listo para operar sin bloqueo.
- * Tiene la posibilidad de elegir un canal seleccionable que este listo para algunas operaciones de red, por ejemplo,
- * conectar, aceptar, leer y escribir.
+ * Es decir que se consulta al Selector si hay algun canal que este listo para operar sin bloqueo. Tiene la posibilidad
+ * de elegir un canal seleccionable que este listo para algunas operaciones de red, por ejemplo, conectar, aceptar, leer
+ * y escribir.
  * 
  * El canal debe estar en modo sin bloqueo para ser utilizado con un selector. Esto significa que no puede usar
  * FileChannel con un Selector ya que FileChannel no se puede cambiar al modo sin bloqueo. Sin embargo, los canales
@@ -32,13 +41,14 @@ import static util.Constants.*;
  * - ServerSocketChannel
  * - SocketChannel
  * 
- * Cada registro del canal esta representado por un SelectionKey.
- * Un selector funciona con un conjunto (set) de SelectionKey.
- * SelectionKey es un token que representa el registro de un canal con un selector.
- * El selector mantiene tres set de keys:
- * - "Key set" contiene las keys con los canales registrados;
- * - "Selected-key set" contiene las keys listas para al menos una de las operaciones;
+ * Cada registro del canal esta representado por un SelectionKey. Un selector funciona con un conjunto (set) de
+ * SelectionKey. SelectionKey es un token que representa el registro de un canal con un selector. El selector mantiene
+ * tres set de keys:
+ * - "Key set" contiene las keys con los canales registrados; se obtienen usando el metodo keys().
+ * - "Selected-key set" contiene las keys listas para al menos una de las operaciones; se obtienen usando el metodo
+ * selectedKeys().
  * - "Cancelled-key set" contiene las keys canceladas cuyos canales aun no se han cancelado.
+ * Los tres conjuntos están vacíos en un selector recién creado.
  * 
  * Cuando registras un canal con un selector, el metodo register() devuelve un objeto de tipo SelectionKey que
  * representa el registro de los canales con ese selector. Este objeto contiene algunas propiedades interesantes:
@@ -47,7 +57,13 @@ import static util.Constants.*;
  * El Channel
  * El Selector
  * Y un objeto adjunto (opcional)
+ * 
+ * _______________________________
  *
+ * *Los multiplexores son circuitos combinacionales con varias entradas y una unica salida de datos. Estan dotados de
+ * entradas de control capaces de seleccionar una, y solo una, de las entradas de datos para permitir su transmision
+ * desde la entrada seleccionada hacia dicha salida.
+ * 
  * Recursos y fuentes
  * http://tutorials.jenkov.com/java-nio/selectors.html
  * https://docs.oracle.com/javase/8/docs/api/java/nio/channels/SelectableChannel.html
@@ -56,10 +72,36 @@ import static util.Constants.*;
  * 
  */
 
-public class Selector_ implements Runnable {
+public class Selector_ extends JFrame implements Runnable {
+
+	private static final long serialVersionUID = 1L;
+
+	private JPanel panel;
+	private JTextArea console;
 
 	public Selector_() {
+
+		super("Servidor");
+		setResizable(false);
+		setSize(740, 430);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		initialize();
+
 		new Thread(this).start();
+	}
+
+	private void initialize() {
+
+		panel = new JPanel();
+		panel.setLayout(new MigLayout("fill", "", "[grow][]")); // columna/fila
+
+		console = new JTextArea();
+		console.setEditable(false);
+		panel.add(console, "grow, wrap");
+
+		add(panel);
+		setLocationRelativeTo(null);
+
 	}
 
 	@Override
@@ -72,17 +114,18 @@ public class Selector_ implements Runnable {
 
 			// Abre el selector
 			selector = Selector.open();
-			if (selector.isOpen()) System.out.println("Se abrio el canal");
+			if (selector.isOpen()) console.append("Se abrio el selector\n");
 
 			/* Abre el servidor. Ahora mismo el socket del servidor no esta vinculado; debe estar vinculado a una direccion
 			 * especifica a traves de uno de los metodos de vinculacion de su socket antes de que se puedan aceptar las
 			 * conexiones. */
 			server = ServerSocketChannel.open();
-			if (server.isOpen()) System.out.println("Se abrio el servidor");
+			if (server.isOpen()) console.append("Se abrio el servidor\n");
 
-			/* Recupera un socket de servidor asociado con este canal y lo vincula a la diereccion local con el puerto TCP
+			/* Recupera un socket de servidor asociado con este canal y lo vincula a la diereccion comodin local con el puerto TCP
 			 * especificado. */
-			server.socket().bind(new InetSocketAddress(SERVER_PORT));
+			ServerSocket socket = server.socket();
+			socket.bind(new InetSocketAddress(SERVER_PORT));
 
 			/* Configura el canal del servidor en modo sin bloqueo.
 			 * 
@@ -96,8 +139,8 @@ public class Selector_ implements Runnable {
 			 * selector, y no puede volver al modo de bloqueo hasta que se haya cancelado su registro. En caso de registrar el
 			 * servidor con un selector que fue configurado con bloqueo, lanzara un IllegalBlockingModeException. */
 			server.configureBlocking(false);
-			if (!server.isBlocking()) System.out.println("Se configuro el servidor en modo sin bloqueo");
-			else System.out.println("El servidor esta en modo con bloqueo por defecto");
+			if (!server.isBlocking()) console.append("Se configuro el servidor en modo sin bloqueo\n");
+			else console.append("El servidor esta en modo con bloqueo por defecto\n");
 
 			/* Registra el servidor con el selector para aceptar conexiones en donde se usa un objeto SelectionKey que representa el
 			 * registro del canal con el selector.
@@ -115,26 +158,42 @@ public class Selector_ implements Runnable {
 			 * 
 			 * Los canales seleccionables son seguros para su uso por varios subprocesos simultaneos. */
 			server.register(selector, SelectionKey.OP_ACCEPT);
-			if (server.isRegistered()) System.out.println("Se registro el canal del servidor con el selector especificado para aceptar conexiones!");
+			if (server.isRegistered()) console.append("Se registro el canal del servidor con el selector especificado para aceptar conexiones!\n");
 
 			/* Despues de registrar el canal del servidor para que acepte conexiones por medio de un selector, va a ponerse a la
 			 * escucha. Ahora cuando un cliente se conecte al servidor por medio del canal, va a mostrar un mensaje. */
 			while (true) {
 
-				// Bloqueo de llamadas, pero solo una para todo
+				console.append("Esperando una conexion en el puerto " + socket.getLocalPort() + "...\n");
+
+				/* Selecciona un conjunto de keys cuyos canales correspondientes estan listos para operaciones de I/O.
+				 * Este metodo realiza una operacion de seleccion de bloqueo (es decir que se bloquea). Solo regresa despues de que se
+				 * selecciona al menos un canal, se invoca el metodo wakeup() de este selector o se interrumpe el hilo actual, lo que
+				 * ocurra primero. */
 				selector.select();
 
-				// El metodo selectedKeys() del selector abierto, devuelve un conjunto de claves para determinar un evento
+				// Itera las keys seleccionadas
 				for (SelectionKey key : selector.selectedKeys()) {
 
+					/* Verifica si la key es valida. Una key es valida en el momento de la creacion y permanece asi hasta que se cancela,
+					 * se cierra su canal o se cierra su selector. */
 					if (key.isValid()) {
 
-						if (key.isAcceptable()) System.out.println("Una conexion fue aceptada por ServerSocketChannel");
-						if (key.isConnectable()) System.out.println("Se establecio una conexion con un servidor remoto");
-						if (key.isReadable()) System.out.println("Un canal esta listo para leer");
-						if (key.isWritable()) System.out.println("Un canal esta listo para escribir");
+						if (key.isAcceptable()) console.append("Se acepto una conexion!\n");
+						if (key.isConnectable()) console.append("Se establecio una conexion con un servidor remoto!\n");
+						if (key.isReadable()) console.append("Un canal esta listo para leer!\n");
+						if (key.isWritable()) console.append("Un canal esta listo para escribir!\n");
 
-					}
+					} else console.append("La key no es valida!\n");
+
+					/* Solicita que se cancele el registro del canal de esta key con su selector. Al regresar, la key no sera valida y
+					 * se habra agregado al conjunto de keys canceladas de su selector. La key se quitara de todos los conjuntos de
+					 * keys del selector durante la siguiente operacion de seleccion. Esto evita que se repita el mensaje que representa esa
+					 * key en cada vuelta del bucle.
+					 * 
+					 * ¿Pero es posible seguir aceptando conexiones despues de que se cancelo esa key? */
+					// key.cancel();
+
 				}
 
 			}
@@ -189,7 +248,14 @@ public class Selector_ implements Runnable {
 	}
 
 	public static void main(String[] args) throws IOException {
-		new Selector_();
+
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		new Selector_().setVisible(true);
 	}
 
 }

@@ -8,7 +8,7 @@ import java.nio.channels.SocketChannel;
 import static util.Constants.*;
 
 /**
- * Un canal seleccionable para crear conexiones.
+ * Canal de cliente para crear conexiones con el servidor.
  * 
  * @author Ru$o
  * 
@@ -16,7 +16,7 @@ import static util.Constants.*;
 
 public class Client {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 
 		String host = "localhost";
 
@@ -24,13 +24,13 @@ public class Client {
 		 * 
 		 * Pasandole un objeto InetSocketAddress se ahorra de conectar el socket usando el metodo connect()
 		 * channel.connect(new InetSocketAddress(host, SERVER_PORT)); */
-		SocketChannel channel = SocketChannel.open(new InetSocketAddress(host, SERVER_PORT));
+		SocketChannel client = SocketChannel.open(new InetSocketAddress(host, SERVER_PORT));
 
 		/* Configura el SocketChannel en modo sin bloqueo para llamar a los metodos connect(), read() y write() de forma
 		 * asincronica. */
 		// socketChannel.configureBlocking(false);
 
-		if (channel.isConnected()) System.out.println("Conectado!");
+		if (client.isConnected()) System.out.println("Conectado!");
 		else System.out.println("El cliente no se pudo conectar!");
 
 		ByteBuffer buf = ByteBuffer.allocate(8);
@@ -47,9 +47,9 @@ public class Client {
 		// Mientras haya bytes entre la posicion y el limite
 		while (buf.hasRemaining())
 			// Escribe el buffer en el canal del socket
-			channel.write(buf);
+			client.write(buf);
 
-		channel.close();
+		client.close();
 
 	}
 
