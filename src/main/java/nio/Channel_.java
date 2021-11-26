@@ -13,6 +13,10 @@ import static util.Constants.*;
  * hardware, un archivo, un conector de red o un componente de programa que es capaz de realizar una o más operaciones
  * de I/O distintas, por ejemplo, leer o escribir.
  * 
+ * Para el protocolo cliente/servidor, el canal se puede entender como una conexion punto a punto (P2P), en donde a
+ * travez de esos canales fluyen los paquetes que se leen o escriben dentro del buffer de la memoria RAM. Es importante
+ * aclarar que la transferencia de datos se pueden producir en modo de bloqueo o no bloqueo.
+ * 
  * Los canales representan conexiones a varias fuentes de I/O, como pipes, sockets, files, datagrams.
  * ° Operan con buffers y fuentes de I/O: mueve bloques de datos (lectura/escritura) dentro/fuera de buffers desde/hacia
  * fuentes de I/O.
@@ -52,13 +56,12 @@ public class Channel_ {
 			channel = file.getChannel(); // o usando el metodo open() de esta clase
 
 			// Crea un buffer con una capacidad de 7 bytes para leer un archivo de 10 bytes
-			ByteBuffer buf = ByteBuffer.allocate(7);
+			ByteBuffer buf = ByteBuffer.allocate(7); // Utilizado para almacenar porciones del archivo
 
-			/* El canal lee la secuencia de bytes del buffer y guarda la posicion actual de este. Despues de *escribir los bytes, la
-			 * posicion queda establecida en el ultimo byte leido del buffer y mientras la posicion del buffer no llegue al final
-			 * del archivo, este (el canal) sigue llenado el buffer con los datos del archivo.
+			/* Despues de llenar el buffer con los bytes del archivo, la posicion del buffer queda establecida en el ultimo byte y
+			 * mientras no se llegue al final del archivo, el canal sigue llenado el buffer con los datos del archivo.
 			 * 
-			 * *Es importante aclarar que primero se llena (escriben) ese buffer con los datos del archivo y despues el canal los
+			 * Es importante aclarar que primero se llena (escriben) ese buffer con los datos del archivo y despues el canal los
 			 * lee, siendo esto, un proceso interno de java. El metodo read(buf) devuelve el numero de bytes leidos, posiblemente
 			 * cero o -1 si el canal ha alcanzado el final del flujo. */
 			while (channel.read(buf) > 0) { // o "!= -1"

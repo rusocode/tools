@@ -9,10 +9,11 @@ import static util.Constants.*;
  * "Si no hubiera buffers, seria como comprar sin un carrito: deberia llevar los productos uno a uno hasta la caja. Los
  * buffers te dan un lugar en el que dejar temporalmente las cosas hasta que este lleno. Por ello has de hacer menos
  * viajes cuando usas el carrito."
+ * 
  * Cualquier operacion que implique acceder al disco es muy costosa, por lo que es interesante intentar reducir al
  * maximo las operaciones de lectura/escritura que realizamos sobre los archivos, haciendo que cada operacion lea o
- * escriba muchos datos a la vez.
- * Es importante aclarar que el buffer toma un parte de la memoria RAM para acceder mucho mas rapido a los datos.
+ * escriba muchos datos a la vez. Es importante aclarar que el buffer seria una porcion de codigo que toma una parte de
+ * la memoria RAM (volatil) para acceder mucho mas rapido a los datos.
  * 
  * FileOuputStream, FileInputStream, FileWriter y FileReader se utilizan para escribir o leer datos en memoria.
  * BufferedOutputStream, BufferedInputStream, BufferedWriter y BufferedReader, añaden un buffer intermedio encargado
@@ -23,14 +24,14 @@ import static util.Constants.*;
  * lecturas nos dara lo que tiene almacenado, hasta que necesite leer otra vez.
  *
  * Esta forma de trabajar hace que el acceso al disco sea mas eficiente y el programa corra mas rapido. La diferencia se
- * notara mas cuanto mayor sea el archivo a leer o escribir.
- * La clave en las clases que comienzan con Buffered es que usan un buffer. Digamos que es una memoria interna que
- * normalmente hace que esas clases sean mas eficientes, es decir, es esperable que un BufferedInputStream sea mas
- * rapido que el flujo ordinario. El flujo normal tiene que estar llamando y accediendo a la memoria por cada byte
- * que quiera devolver, resultando ineficiente y consumiendo muchos recursos, siempre y cuando no se haya agregado un
- * buffer casero. En cambio el buffer accede a la memoria una vez y recolecta un array de bytes. Cuando se llama al
- * metodo read() ya no tiene que acceder a la memoria, sino que devuelve la informacion del buffer interno. En algun
- * momento el buffer interno se agota, pero mientras esto ocurre se han ahorrado un monton de procesos.
+ * notara mas cuanto mayor sea el archivo a leer o escribir. La clave en las clases que comienzan con Buffered es que
+ * usan un buffer. Digamos que es una memoria interna que normalmente hace que esas clases sean mas eficientes, es
+ * decir, es esperable que un BufferedInputStream sea mas rapido que el flujo ordinario. El flujo normal tiene que estar
+ * llamando y accediendo a la memoria por cada byte que quiera devolver, resultando ineficiente y consumiendo muchos
+ * recursos, siempre y cuando no se haya agregado un buffer casero. En cambio el buffer accede a la memoria una vez y
+ * recolecta un array de bytes. Cuando se llama al metodo read() ya no tiene que acceder a la memoria, sino que devuelve
+ * la informacion del buffer interno. En algun momento el buffer interno se agota, pero mientras esto ocurre se han
+ * ahorrado un monton de procesos.
  * 
  * Puede agregar lectura y almacenamiento en buffers transparentes y automaticos de un array de bytes desde un
  * FileInputStream utilizando un BufferedInputStream. BufferedInputStream lee un fragmento de bytes en un array
@@ -42,7 +43,7 @@ import static util.Constants.*;
  * The Hard Drive Buffer: https://www.youtube.com/watch?v=lE7HXIJOpDU
  * Buffer Cache: https://www.youtube.com/watch?v=x2vegjeJICk
  * 
- * @author Juan Debenedetti aka Ru$o
+ * @author Ru$o
  * 
  */
 
