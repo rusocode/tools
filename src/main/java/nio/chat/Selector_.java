@@ -158,15 +158,20 @@ public class Selector_ extends JFrame implements Runnable {
 
 			/* Despues de registrar el canal del servidor para que acepte conexiones por medio de un selector, va a ponerse a la
 			 * escucha. Ahora cuando un cliente se conecte al servidor por medio del canal, va a mostrar un mensaje. */
-			while (true) {
+			while (true) { /* Solo hay un hilo que maneja el servidor. Seria una pesadilla intentar sincronizar el bloqueo entre diferentes
+							 * subprocesos. */
 
 				console.append("Esperando una conexion en el puerto " + SERVER_PORT + "...\n");
 
 				/* Selecciona un conjunto de keys cuyos canales correspondientes estan listos para operaciones de I/O.
 				 * Este metodo realiza una operacion de seleccion de bloqueo (es decir que se bloquea). Solo regresa despues de que se
 				 * selecciona al menos un canal, se invoca el metodo wakeup() de este selector o se interrumpe el hilo actual, lo que
-				 * ocurra primero. */
+				 * ocurra primero. Entonces esta linea se mantiene a la espera hata que regrese una de las operaciones que nos interesa
+				 * que pueda realizar sin bloquear. */
 				selector.select(); // Seria como un server.accept()?
+
+				/* Este metodo se utiliza para las selecciones sin bloqueo, y devuelve 0 si no hay canales listos. */
+				// selector.selectNow();
 
 				// Itera las keys seleccionadas
 				for (SelectionKey key : selector.selectedKeys()) {
@@ -222,9 +227,8 @@ public class Selector_ extends JFrame implements Runnable {
 //					else if (key.isReadable()) System.out.println("Un canal esta listo para leer");
 //					else if (key.isWritable()) System.out.println("Un canal esta listo para escribir");
 //
-//					/* El Selector no elimina las instancias de SelectionKey del propio conjunto de keys seleccionadas. Tienes que hacer
-//					 * esto cuando hayas terminado de procesar el canal. La proxima vez que el canal este "listo", el selector lo agregara
-//					 * nuevamente al conjunto de claves seleccionadas. */
+//					/* Elimina la key del conjunto; de lo contrario, permanecera ahi y se manejara nuevamente, pero una vez que 
+//					lo hayamos manejado, debe eliminarse y no debemos agregarlo nuevamente. */
 //					keyIterator.remove();
 //				}
 //

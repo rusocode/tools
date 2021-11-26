@@ -3,9 +3,11 @@ package nio;
 import java.nio.ByteBuffer;
 
 /**
- * IMPORTANTE: ver la clase Buffer del paquete io para entender mejor el funcionamiento de los buffers.
+ * IMPORTANTE: ver la clase Buffer explicada en el paquete io para entender mejor su funcionamiento.
  * 
- * Un buffer en NIO es un contenedor para una cantidad fija de datos de un tipo primitivo especifico usado por canales.
+ * Un buffer en NIO es un contenedor para una cantidad fija de datos de un tipo primitivo especifico que se puede
+ * escribir/leer en/desde un canal. A diferencia de la API IO que se maneja con bytes individuales, los buffers se
+ * manejan con porciones de bytes.
  * Aparte de su contenido, las propiedades esenciales de un búffer son su capacidad, límite y posición:
  * ° La capacidad de un búffer es el número de elementos que contiene. La capacidad de un búfer nunca es negativa y
  * nunca cambia.
@@ -25,6 +27,11 @@ import java.nio.ByteBuffer;
  * 
  * Los búfferes de bytes se pueden crear con el metodo allocate(), que asigna espacio para el contenido del búffer, o
  * encapsulando una matriz de bytes existente en un búffer.
+ * 
+ * Existen los buffer directos y no directos. Los directos actuan directamente sobre el sistema operativo y se suponen
+ * que son mas rapidos, y los no directos primero pasan por la memoria del JVM usando un buffer intermedio. ¿Entonces
+ * por que no usar los buffers directos si se supone que son mas rapidos? Esto se debe a que se necesita mas tiempo
+ * para crear un buffer directo.
  * 
  * Para este caso se utiliza la clase ByteBuffer como ejemplo.
  * 

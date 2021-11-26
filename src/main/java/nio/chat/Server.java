@@ -16,8 +16,10 @@ import net.miginfocom.swing.MigLayout;
 import static util.Constants.*;
 
 /**
- * Canal de servidor para escuchar conexiones CON bloqueo. Se puede configurar sin bloqueo con configureBlocking(false),
- * haciendo posible su uso con un Selector.
+ * Canal de servidor TCP para escuchar conexiones CON bloqueo. Se puede configurar sin bloqueo con
+ * configureBlocking(false), haciendo posible su uso con un Selector.
+ * 
+ * Para comunicaciones UDP se usa el canal de DatagramChannel.
  * 
  * ¿Por que usar NIO para hacer una conexion de sockets cuando tambien se puede usar el flujo I/O clasico?
  * Porque debido a que nio es sin bloqueo, no requiere subprocesos adicionales. Un chat basado en sockets requeriria

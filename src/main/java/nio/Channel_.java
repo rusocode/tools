@@ -9,9 +9,17 @@ import java.nio.channels.FileChannel;
 import static util.Constants.*;
 
 /**
+ * Antes de explicar lo que es un canal, es importante aclarar que NIO (introducido en el JDK 1.4) proporciona un nuevo
+ * modelo de I/O basado en canales, buffers y selectores, siendo una mejora del flujo estandar del paquete IO. Tambien
+ * habilita el no bloqueo de I/O y permite mejorar el rendimiento de las aplicaciones distribuidas (principalmente para
+ * el lado del servidor).
+ * 
+ * _________________________
+ * 
  * Un canal es un nexo para operaciones de I/O que representa una conexión abierta a una entidad, como un dispositivo de
  * hardware, un archivo, un conector de red o un componente de programa que es capaz de realizar una o más operaciones
- * de I/O distintas, por ejemplo, leer o escribir.
+ * de I/O distintas usando buffers para mover (leer/escribir) bloques de datos dentro/fuera del buffer desde/hacia las
+ * fuentes de I/O.
  * 
  * Para el protocolo cliente/servidor, el canal se puede entender como una conexion punto a punto (P2P), en donde a
  * travez de esos canales fluyen los paquetes que se leen o escriben dentro del buffer de la memoria RAM. Es importante
@@ -77,9 +85,9 @@ public class Channel_ {
 					 * posicion actual del buffer e la incrementa. */
 					System.out.println("posicion: " + buf.position() + " - limite: " + buf.limit() + " - caracter: " + (char) buf.get());
 
-				/* Una vez que se hayan leido todos los bytes del buffer, lo "limpia" para rellenarlo con los bytes sobrantes del
-				 * archivo (3) y asi poder leerlo de nuevo. En este caso cambia el buffer del modo lectura al modo escritura.
-				 * Estableciendo el limite en la capacidad, le estamos diciendo que el buffer ya esta lleno. */
+				/* Una vez que se hayan leido todos los bytes del buffer, lo "limpia" para rellenarlo (sobreescribir) con los bytes
+				 * sobrantes del archivo (3) y asi poder escribir de nuevo. En este caso cambia el buffer del modo lectura al modo
+				 * escritura. Estableciendo el limite en la capacidad, le estamos diciendo que el buffer ya esta lleno. */
 				buf.clear(); // position = 0, limit = capacity
 
 			}
