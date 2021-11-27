@@ -20,7 +20,7 @@ public class Client {
 
 		String host = "localhost";
 
-		/* Abre un canal de socket y lo conecta a una direccion remota.
+		/* Abre un canal de socket y lo conecta a una direccion remota, en este caso es la direccion local.
 		 * 
 		 * Pasandole un objeto InetSocketAddress se ahorra de conectar el socket usando el metodo connect()
 		 * channel.connect(new InetSocketAddress(host, SERVER_PORT)); */

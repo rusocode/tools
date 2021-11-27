@@ -5,6 +5,8 @@ import java.net.InetSocketAddress;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
+import java.util.Iterator;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -85,7 +87,7 @@ public class Selector_ extends JFrame implements Runnable {
 
 		super("Servidor");
 		setResizable(false);
-		setSize(600, 430);
+		setSize(550, 430);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		initialize();
 
@@ -140,15 +142,6 @@ public class Selector_ extends JFrame implements Runnable {
 
 			/* Registra el servidor con el selector para aceptar conexiones en donde se usa un objeto SelectionKey que representa el
 			 * registro del canal con el selector.
-			 *
-			 * No se puede cancelar el registro de un canal directamente; en cambio, la key que representa su registro debe
-			 * cancelarse. La cancelacion de una key solicita que el canal se cancele durante la siguiente operacion de seleccion
-			 * del selector. Una key puede cancelarse explicitamente invocando el metodo cancel(). Todas las keys de un canal se
-			 * cancelan implicitamente cuando el canal se cierra, ya sea invocando el metodo close() o interrumpiendo un hilo
-			 * bloqueado en una operacion de I/O en el canal.
-			 * 
-			 * Si el selector en si esta cerrado, el canal se cancelara y la key que representa su registro se invalidara sin mas
-			 * demora.
 			 * 
 			 * Un canal puede registrarse como maximo una vez con cualquier selector en particular.
 			 * 
@@ -158,81 +151,82 @@ public class Selector_ extends JFrame implements Runnable {
 
 			/* Despues de registrar el canal del servidor para que acepte conexiones por medio de un selector, va a ponerse a la
 			 * escucha. Ahora cuando un cliente se conecte al servidor por medio del canal, va a mostrar un mensaje. */
-			while (true) { /* Solo hay un hilo que maneja el servidor. Seria una pesadilla intentar sincronizar el bloqueo entre diferentes
-							 * subprocesos. */
-
-				console.append("Esperando una conexion en el puerto " + SERVER_PORT + "...\n");
-
-				/* Selecciona un conjunto de keys cuyos canales correspondientes estan listos para operaciones de I/O.
-				 * Este metodo realiza una operacion de seleccion de bloqueo (es decir que se bloquea). Solo regresa despues de que se
-				 * selecciona al menos un canal, se invoca el metodo wakeup() de este selector o se interrumpe el hilo actual, lo que
-				 * ocurra primero. Entonces esta linea se mantiene a la espera hata que regrese una de las operaciones que nos interesa
-				 * que pueda realizar sin bloquear. */
-				selector.select(); // Seria como un server.accept()?
-
-				/* Este metodo se utiliza para las selecciones sin bloqueo, y devuelve 0 si no hay canales listos. */
-				// selector.selectNow();
-
-				// Itera las keys seleccionadas
-				for (SelectionKey key : selector.selectedKeys()) {
-
-					/* Verifica si la key es valida. Una key es valida en el momento de la creacion y permanece asi hasta que se cancela,
-					 * se cierra su canal o se cierra su selector. */
-					if (key.isValid()) {
-
-						if (key.isAcceptable()) console.append("Se acepto una conexion!\n");
-						if (key.isConnectable()) console.append("Se establecio una conexion con un servidor remoto!\n");
-						if (key.isReadable()) console.append("Un canal esta listo para leer!\n");
-						if (key.isWritable()) console.append("Un canal esta listo para escribir!\n");
-
-					} else console.append("La key no es valida!\n");
-
-					/* Solicita que se cancele el registro del canal de esta key con su selector. Al regresar, la key no sera valida y
-					 * se habra agregado al conjunto de keys canceladas de su selector. La key se quitara de todos los conjuntos de
-					 * keys del selector durante la siguiente operacion de seleccion. Esto evita que se repita el mensaje que representa esa
-					 * key en cada vuelta del bucle.
-					 * 
-					 * ¿Pero es posible seguir aceptando conexiones despues de que se cancelo esa key? */
-					key.cancel();
-
-				}
-
-			}
-
-			// Itera las claves registradas en el selector
-//			while (true) {
+//			while (true) { /* Solo hay un hilo que maneja el servidor. Seria una pesadilla intentar sincronizar el bloqueo entre diferentes
+//							 * subprocesos. */
 //
-//				// Obtiene la cantidad de canales que estan listos
-//				int readyChannels = selector.selectNow();
+//				console.append("Esperando una conexion en el puerto " + SERVER_PORT + "...\n");
 //
-//				if (readyChannels == 0) continue;
+//				/* Selecciona un conjunto de keys cuyos canales correspondientes estan listos para operaciones de I/O.
+//				 * Este metodo realiza una operacion de seleccion de bloqueo (es decir que se bloquea). Solo regresa despues de que se
+//				 * selecciona al menos un canal, se invoca el metodo wakeup() de este selector o se interrumpe el hilo actual, lo que
+//				 * ocurra primero. Entonces esta linea se mantiene a la espera hata que regrese una de las operaciones que nos interesa
+//				 * que pueda realizar sin bloquear. */
+//				selector.select(); // Seria como un server.accept()?
 //
-//				/* Una vez que haya llamado a uno de los metodos select() y su valor de retorno haya indicado que uno o mas canales
-//				 * estan listos, puede acceder a los canales usando el metodo selectedKeys(). */
+//				/* Este metodo se utiliza para las selecciones sin bloqueo, y devuelve 0 si no hay canales listos. */
+//				// selector.selectNow();
 //
-//				// Devuelve el selected-key set del selector y se lo asigna al conjunto selectedKeys del tipo SelectionKey
-//				Set<SelectionKey> selectedKeys = selector.selectedKeys();
+//				// Itera las keys seleccionadas
+//				for (SelectionKey key : selector.selectedKeys()) {
 //
-//				// Devuelve un iterador sobre los elementos del conjunto SelectionKey
-//				Iterator<SelectionKey> keyIterator = selectedKeys.iterator();
+//					/* Verifica si la key es valida. Una key es valida en el momento de la creacion y permanece asi hasta que se cancela,
+//					 * se cierra su canal o se cierra su selector. */
+//					if (key.isValid()) {
 //
-//				// Mientras haya elementos
-//				while (keyIterator.hasNext()) {
+//						if (key.isAcceptable()) console.append("Se acepto una conexion!\n");
+//						if (key.isConnectable()) console.append("Se establecio una conexion con un servidor remoto!\n");
+//						if (key.isReadable()) console.append("Un canal esta listo para leer!\n");
+//						if (key.isWritable()) console.append("Un canal esta listo para escribir!\n");
 //
-//					// Devuelve el key del iterador
-//					key = keyIterator.next();
+//					} else console.append("La key no es valida!\n");
 //
-//					if (key.isAcceptable()) System.out.println("Una conexion fue aceptada por ServerSocketChannel");
-//					else if (key.isConnectable()) System.out.println("Se establecio una conexion con un servidor remoto");
-//					else if (key.isReadable()) System.out.println("Un canal esta listo para leer");
-//					else if (key.isWritable()) System.out.println("Un canal esta listo para escribir");
+//					/* Solicita que se cancele el registro del canal de esta key con su selector. Al regresar, la key no sera valida y
+//					 * se habra agregado al conjunto de keys canceladas de su selector. La key se quitara de todos los conjuntos de
+//					 * keys del selector durante la siguiente operacion de seleccion. Esto evita que se repita el mensaje que representa esa
+//					 * key en cada vuelta del bucle.
+//					 * 
+//					 * ¿Pero es posible seguir aceptando conexiones despues de que se cancelo esa key? */
+//					key.cancel();
 //
-//					/* Elimina la key del conjunto; de lo contrario, permanecera ahi y se manejara nuevamente, pero una vez que 
-//					lo hayamos manejado, debe eliminarse y no debemos agregarlo nuevamente. */
-//					keyIterator.remove();
 //				}
 //
 //			}
+
+			while (true) {
+
+				// TODO ¿Por que me sigue aceptando la misma conexion?
+
+				console.append("Esperando una conexion en el puerto " + SERVER_PORT + "...\n");
+
+				/* Una vez que haya llamado a uno de los metodos select() y su valor de retorno haya indicado que uno o mas canales
+				 * estan listos, puede acceder a los canales usando el metodo selectedKeys(). */
+				selector.select();
+
+				Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
+
+				while (keys.hasNext()) {
+
+					SelectionKey key = keys.next();
+
+					/* Elimina la key del conjunto; de lo contrario, permanecera ahi y se manejara nuevamente, pero una vez que
+					 * lo hayamos manejado, debe eliminarse y no debemos agregarlo nuevamente. */
+					keys.remove();
+
+					if (key.isAcceptable()) {
+						console.append("Se acepto una conexion!\n");
+					}
+
+					// key.cancel();
+
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+			}
 
 		} catch (IOException e) {
 			System.err.println("Error de I/O\n" + e.toString());
