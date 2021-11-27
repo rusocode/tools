@@ -150,57 +150,28 @@ public class Selector_ extends JFrame implements Runnable {
 			if (server.isRegistered()) console.append("Se registro el servidor con el selector para aceptar conexiones!\n");
 
 			/* Despues de registrar el canal del servidor para que acepte conexiones por medio de un selector, va a ponerse a la
-			 * escucha. Ahora cuando un cliente se conecte al servidor por medio del canal, va a mostrar un mensaje. */
-//			while (true) { /* Solo hay un hilo que maneja el servidor. Seria una pesadilla intentar sincronizar el bloqueo entre diferentes
-//							 * subprocesos. */
-//
-//				console.append("Esperando una conexion en el puerto " + SERVER_PORT + "...\n");
-//
-//				/* Selecciona un conjunto de keys cuyos canales correspondientes estan listos para operaciones de I/O.
-//				 * Este metodo realiza una operacion de seleccion de bloqueo (es decir que se bloquea). Solo regresa despues de que se
-//				 * selecciona al menos un canal, se invoca el metodo wakeup() de este selector o se interrumpe el hilo actual, lo que
-//				 * ocurra primero. Entonces esta linea se mantiene a la espera hata que regrese una de las operaciones que nos interesa
-//				 * que pueda realizar sin bloquear. */
-//				selector.select(); // Seria como un server.accept()?
-//
-//				/* Este metodo se utiliza para las selecciones sin bloqueo, y devuelve 0 si no hay canales listos. */
-//				// selector.selectNow();
-//
-//				// Itera las keys seleccionadas
-//				for (SelectionKey key : selector.selectedKeys()) {
-//
-//					/* Verifica si la key es valida. Una key es valida en el momento de la creacion y permanece asi hasta que se cancela,
-//					 * se cierra su canal o se cierra su selector. */
-//					if (key.isValid()) {
-//
-//						if (key.isAcceptable()) console.append("Se acepto una conexion!\n");
-//						if (key.isConnectable()) console.append("Se establecio una conexion con un servidor remoto!\n");
-//						if (key.isReadable()) console.append("Un canal esta listo para leer!\n");
-//						if (key.isWritable()) console.append("Un canal esta listo para escribir!\n");
-//
-//					} else console.append("La key no es valida!\n");
-//
-//					/* Solicita que se cancele el registro del canal de esta key con su selector. Al regresar, la key no sera valida y
-//					 * se habra agregado al conjunto de keys canceladas de su selector. La key se quitara de todos los conjuntos de
-//					 * keys del selector durante la siguiente operacion de seleccion. Esto evita que se repita el mensaje que representa esa
-//					 * key en cada vuelta del bucle.
-//					 * 
-//					 * ¿Pero es posible seguir aceptando conexiones despues de que se cancelo esa key? */
-//					key.cancel();
-//
-//				}
-//
-//			}
-
+			 * escucha. Ahora cuando un cliente se conecte al servidor por medio del canal, va a mostrar un mensaje.
+			 * 
+			 * Solo hay un hilo que maneja el servidor. Seria una pesadilla intentar sincronizar el bloqueo entre diferentes
+			 * subprocesos. */
 			while (true) {
 
 				// TODO ¿Por que me sigue aceptando la misma conexion?
 
 				console.append("Esperando una conexion en el puerto " + SERVER_PORT + "...\n");
 
-				/* Una vez que haya llamado a uno de los metodos select() y su valor de retorno haya indicado que uno o mas canales
+				/* Selecciona un conjunto de keys cuyos canales correspondientes estan listos para operaciones de I/O.
+				 * Este metodo realiza una operacion de seleccion de bloqueo (es decir que se bloquea). Solo regresa despues de que
+				 * se selecciona al menos un canal, se invoca el metodo wakeup() de este selector o se interrumpe el hilo actual, lo
+				 * que ocurra primero. Entonces esta linea se mantiene a la espera hata que regrese una de las operaciones que nos
+				 * interesa que pueda realizar sin bloquear.
+				 * 
+				 * Una vez que haya llamado a uno de los metodos select() y su valor de retorno haya indicado que uno o mas canales
 				 * estan listos, puede acceder a los canales usando el metodo selectedKeys(). */
-				selector.select();
+				selector.select(); // Seria como un server.accept()?
+
+				/* Este metodo se utiliza para las selecciones sin bloqueo, y devuelve 0 si no hay canales listos. */
+				// selector.selectNow();
 
 				Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
 
@@ -216,6 +187,12 @@ public class Selector_ extends JFrame implements Runnable {
 						console.append("Se acepto una conexion!\n");
 					}
 
+					/* Solicita que se cancele el registro del canal de esta key con su selector. Al regresar, la key no sera valida y
+					 * se habra agregado al conjunto de keys canceladas de su selector. La key se quitara de todos los conjuntos de
+					 * keys del selector durante la siguiente operacion de seleccion. Esto evita que se repita el mensaje que representa esa
+					 * key en cada vuelta del bucle.
+					 * 
+					 * ¿Pero es posible seguir aceptando conexiones despues de que se cancelo esa key? */
 					// key.cancel();
 
 					try {
