@@ -144,6 +144,7 @@ public class Selector_ extends JFrame implements Runnable {
 			server.register(selector, SelectionKey.OP_ACCEPT); // Para mas de un evento: | SelectionKey.OP_READ
 			if (server.isRegistered()) console.append("Se registro el servidor con el selector para aceptar conexiones!\n");
 
+			// Ciclo del servidor
 			/* Solo hay un hilo que maneja el servidor. Seria una pesadilla intentar sincronizar el bloqueo entre diferentes
 			 * subprocesos. */
 			while (true) {
