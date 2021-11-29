@@ -18,8 +18,7 @@ import net.miginfocom.swing.MigLayout;
 import static util.Constants.*;
 
 /**
- * Un Selector es un *multiplexor de objetos SelectableChannel. En este caso se encarga de escuchar conexiones SIN
- * bloqueo.
+ * El Selector es un *multiplexor de objetos SelectableChannel encargado de seleccionar canales sin bloqueo.
  * 
  * Un canal seleccionable puede estar en modo de bloqueo o en modo sin bloqueo. En el modo de bloqueo, cada operacion de
  * I/O invocada en el canal se bloqueara hasta que se complete. En el modo sin bloqueo, una operacion de I/O nunca se
@@ -45,13 +44,13 @@ import static util.Constants.*;
  * son seguros para su uso por varios subprocesos simultaneos.
  * 
  * El Selector incluye los siguientes canales seleccionables:
+ * -ServerSocketChannel
+ * -SocketChannel
  * -DatagramChannel
  * -Pipe.SinkChannel
  * -Pipe.SourceChannel
- * -ServerSocketChannel
- * -SocketChannel
- * No se puede usar FileChannel con un Selector ya que FileChannel no se puede cambiar al modo sin bloqueo. Sin embargo,
- * los canales de socket si.
+ * El canal de FileChannel no se puede usar con un Selector ya que el canal no se puede cambiar al modo sin bloqueo, sin
+ * embargo, los canales de socket si.
  * 
  * Cada registro del canal esta representado por un SelectionKey. Un selector funciona con un conjunto (set) de
  * SelectionKey. SelectionKey es un token que representa el registro de un canal con un selector. El selector mantiene
@@ -69,8 +68,7 @@ import static util.Constants.*;
  * -El Channel
  * -El Selector
  * -Y un objeto adjunto (opcional)
- * _______________________________
- *
+ * 
  * *Los multiplexores son circuitos combinacionales con varias entradas y una unica salida de datos. Estan dotados de
  * entradas de control capaces de seleccionar una, y solo una, de las entradas de datos para permitir su transmision
  * desde la entrada seleccionada hacia dicha salida.
@@ -149,7 +147,7 @@ public class Selector_ extends JFrame implements Runnable {
 			 * subprocesos. */
 			while (true) {
 
-				// FIXME ¿Por que me sigue aceptando la misma conexion?
+				// FIXME ¿Por que sigue aceptando la misma conexion?
 
 				console.append("Esperando una conexion en el puerto " + SERVER_PORT + "...\n");
 
