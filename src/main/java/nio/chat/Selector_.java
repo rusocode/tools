@@ -18,7 +18,15 @@ import net.miginfocom.swing.MigLayout;
 import static util.Constants.*;
 
 /**
- * El Selector es un *multiplexor de objetos SelectableChannel encargado de seleccionar canales sin bloqueo.
+ * El Selector es un *multiplexor de objetos SelectableChannel encargado de seleccionar canales sin bloqueo y determinar
+ * qué canales están listos para, por ejemplo, leer o escribir. De esta manera, un solo hilo puede administrar múltiples
+ * canales y, por lo tanto, múltiples conexiones de red.
+ * 
+ * ¿Por que utilizar un selector?
+ * La ventaja de usar un solo hilo para manejar múltiples canales es que necesita menos hilos para manejar los canales.
+ * En realidad, puede usar un solo hilo para manejar todos sus canales. Cambiar entre subprocesos es costoso para un
+ * sistema operativo, y cada subproceso también consume algunos recursos (memoria) en el sistema operativo. Por lo
+ * tanto, cuantos menos subprocesos uses, mejor.
  * 
  * Un canal seleccionable puede estar en modo de bloqueo o en modo sin bloqueo. En el modo de bloqueo, cada operacion de
  * I/O invocada en el canal se bloqueara hasta que se complete. En el modo sin bloqueo, una operacion de I/O nunca se
