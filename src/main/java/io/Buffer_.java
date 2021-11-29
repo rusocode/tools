@@ -22,6 +22,8 @@ import static util.Constants.*;
  * -Si vamos escribiendo, se guardaran los datos hasta que tenga basantes como para hacer la escritura eficiente.
  * -Si queremos leer, la clase leera muchos datos de golpe, aunque solo nos de los que hayamos pedido. En las siguientes
  * lecturas nos dara lo que tiene almacenado, hasta que necesite leer otra vez.
+ * En conclusion, los "Buffered" pueden manejar fragmentos de datos y los flujos normales leen/escriben bytes
+ * individuales.
  *
  * Esta forma de trabajar hace que el acceso al disco sea mas eficiente y el programa corra mas rapido. La diferencia se
  * notara mas cuanto mayor sea el archivo a leer o escribir. La clave en las clases que comienzan con Buffered es que
