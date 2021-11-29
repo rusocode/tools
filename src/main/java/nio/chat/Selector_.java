@@ -21,17 +21,15 @@ import static util.Constants.*;
  * Un Selector es un *multiplexor de objetos SelectableChannel. En este caso se encarga de escuchar conexiones SIN
  * bloqueo.
  * 
- * Un canal seleccionable esta en modo de bloqueo o en modo sin bloqueo. En el modo de bloqueo, cada operacion de I/O
- * invocada en el canal se bloqueara hasta que se complete. En el modo sin bloqueo, una operacion de I/O nunca se
+ * Un canal seleccionable puede estar en modo de bloqueo o en modo sin bloqueo. En el modo de bloqueo, cada operacion de
+ * I/O invocada en el canal se bloqueara hasta que se complete. En el modo sin bloqueo, una operacion de I/O nunca se
  * bloqueara y puede transferir menos bytes de los solicitados o posiblemente ningun byte. El modo de bloqueo de un
  * canal seleccionable puede determinarse invocando su metodo isBlocking().
  * 
  * Los canales seleccionables recien creados estan siempre en modo de bloqueo. El modo sin bloqueo es mas util junto con
  * la multiplexacion basada en selectores. Un canal debe colocarse en modo de no bloqueo antes de ser registrado con un
  * selector, y no puede volver al modo de bloqueo hasta que se haya cancelado su registro. En caso de registrar el
- * servidor con un selector que fue configurado con bloqueo, lanzara un IllegalBlockingModeException. Esto significa que
- * no puede usar FileChannel con un Selector ya que FileChannel no se puede cambiar al modo sin bloqueo. Sin embargo,
- * los canales de socket si.
+ * servidor con un selector que fue configurado con bloqueo, lanzara un IllegalBlockingModeException.
  * 
  * El Selector es un objeto utilizado para seleccionar un canal listo para comunicarse (para realizar una operacion).
  * Es decir que se consulta al Selector si hay algun canal que este listo para operar sin bloqueo. Tiene la posibilidad
@@ -52,6 +50,8 @@ import static util.Constants.*;
  * -Pipe.SourceChannel
  * -ServerSocketChannel
  * -SocketChannel
+ * No se puede usar FileChannel con un Selector ya que FileChannel no se puede cambiar al modo sin bloqueo. Sin embargo,
+ * los canales de socket si.
  * 
  * Cada registro del canal esta representado por un SelectionKey. Un selector funciona con un conjunto (set) de
  * SelectionKey. SelectionKey es un token que representa el registro de un canal con un selector. El selector mantiene
