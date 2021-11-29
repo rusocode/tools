@@ -133,7 +133,7 @@ public class Server extends JFrame implements Runnable {
 						// Agrega la coleccion al paquete
 						packet.setMap(map);
 
-						// Le avisa a los otros clientes de la nueva conexion
+						// Le avisa a todos los clientes de la nueva conexion (broadcast)
 						for (String ip : map.values()) {
 							socketOut = new Socket(ip, CLIENT_PORT);
 							streamOut = new ObjectOutputStream(socketOut.getOutputStream());
