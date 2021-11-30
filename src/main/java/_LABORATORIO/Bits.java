@@ -44,8 +44,14 @@ public class Bits {
 
 		// Operandos
 		int a = 132, b = 144;
-		int decimal = 33;
-		byte[] binary = { 0, 0, 0, 1, 0, 0, 1, 0 };
+		int decimal = 1;
+		byte[] binary = { 0, 0, 0, 1, 0, 0, 0, 0 };
+
+		// 0000_0000_0000_0000_0000_0000_0000_0001
+		// 0000_0000_0000_0000_0000_0000_0001_0000
+
+		// System.out.println(leftShift(decimal));
+		System.out.println(binaryToDecimal(binary));
 
 	}
 
@@ -108,10 +114,10 @@ public class Bits {
 		// 33_____ = 00000000000000000000000000100001
 		// 33 << 2 = 00000000000000000000000010000100 = 132
 		/* Cada "hueco" que queda a la derecha tras correr este numero se rellena con ceros. Los bits a la izquierda se pierden,
-		 * no es una operacion de rotacion. Si prestamos atencion, observaremos que esta operacion multiplico a decimal por 2
-		 * tantas veces como posiciones se ha desplazado. En este caso se multiplico por 4 ( 2 x 2 ). Hay que notar que el signo
-		 * del numero puede cambiar tras la operacion (por ejemplo 1 << 31 = -2147483648). */
-		return decimal << 2;
+		 * no es una operacion de rotacion. Si prestamos atencion, observaremos que esta operacion multiplico al numero decimal
+		 * por 2 tantas veces como posiciones se ha desplazado. En este caso se multiplico por 4 ( 2 x 2 ). Hay que notar que el
+		 * signo del numero puede cambiar tras la operacion (por ejemplo 1 << 31 = -2147483648). */
+		return decimal << 4;
 	}
 
 	/**

@@ -141,6 +141,8 @@ public class Selector_ extends JFrame implements Runnable {
 
 			// Vincula el servidor a la diereccion local y puerto TCP
 			server.bind(new InetSocketAddress(SERVER_PORT));
+			
+			System.out.println(server.validOps());
 
 			// Configura el canal del servidor en modo sin bloqueo
 			server.configureBlocking(false);
