@@ -5,6 +5,12 @@ package _LABORATORIO;
  * entiende de ceros y unos. Luego, mediante una serie de procesos, nosotros vemos a este codigo ya transformado en
  * numeros, caracteres, imagenes y sonidos. Pero en realidad en la trastienda todo sigue siendo binario.
  * 
+ * Una operación bit a bit opera sobre números binarios a nivel de sus bits individuales. Es una acción primitiva
+ * rápida, soportada directamente por los procesadores. En procesadores simples de bajo costo, las operaciones
+ * de bit a bit, junto con los de adición y sustracción, son típicamente sustancialmente más rápidas que la
+ * multiplicación y la división, mientras que en los modernos procesadores de alto rendimiento usualmente las
+ * operaciones se realizan a la misma velocidad.
+ * 
  * El metodo mas sencillo de representacion son los numeros naturales. Por ejemplo, si tengo el numero 85 en decimal,
  * solo tengo que llevarlo a binario y obtengo una serie de unos y ceros:
  * 1010101 = 85 en binario
@@ -44,14 +50,17 @@ public class Bits {
 
 		// Operandos
 		int a = 132, b = 144;
+
 		int decimal = 1;
+
+		// 1 << 4
+		// 0000_0000_0000_0000_0000_0000_0000_0001 = 1
+		// 0000_0000_0000_0000_0000_0000_0001_0000 = 16
+
 		byte[] binary = { 0, 0, 0, 1, 0, 0, 0, 0 };
 
-		// 0000_0000_0000_0000_0000_0000_0000_0001
-		// 0000_0000_0000_0000_0000_0000_0001_0000
-
-		// System.out.println(leftShift(decimal));
-		System.out.println(binaryToDecimal(binary));
+		System.out.println(leftShift(decimal));
+		// System.out.println(binaryToDecimal(binary));
 
 	}
 
@@ -117,7 +126,7 @@ public class Bits {
 		 * no es una operacion de rotacion. Si prestamos atencion, observaremos que esta operacion multiplico al numero decimal
 		 * por 2 tantas veces como posiciones se ha desplazado. En este caso se multiplico por 4 ( 2 x 2 ). Hay que notar que el
 		 * signo del numero puede cambiar tras la operacion (por ejemplo 1 << 31 = -2147483648). */
-		return decimal << 4;
+		return decimal << 2;
 	}
 
 	/**
