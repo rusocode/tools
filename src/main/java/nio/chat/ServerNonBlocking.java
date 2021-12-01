@@ -143,7 +143,7 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 			server.configureBlocking(false);
 			if (!server.isBlocking()) console.append("Se configuro el servidor en modo sin bloqueo\n");
 
-			// Registra el canal con el selector y le pasa el tipo de evento en el que va a estar "listo"
+			// Registra el canal en el selector y le pasa el tipo de evento en el que va a estar "listo"
 			server.register(selector, SelectionKey.OP_ACCEPT); // Para mas de un evento: | SelectionKey.OP_READ
 			if (server.isRegistered()) console.append("Se registro el servidor con el selector para aceptar conexiones!\n");
 
@@ -152,12 +152,12 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 			 * subprocesos. */
 			while (true) {
 
-				// FIXME ¿Por que sigue aceptando la misma conexion?
+				// FIXME ¿Por que sigue ejecutando el bucle?
 
-				console.append("Esperando una conexion en el puerto " + SERVER_PORT + "...\n");
+				console.append("Esperando la operacion de seleccion en el puerto " + SERVER_PORT + "...\n");
 
 				// Se bloquea hasta que al menos un canal este listo para los eventos para los que se registro
-				selector.select(); // Seria como un server.accept()?
+				selector.select();
 
 				Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
 
@@ -184,7 +184,7 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 
 						client.configureBlocking(false);
 
-						// Agregega la conexion al selector
+						// Agrega el canal del cliente al selector
 						client.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
 					}
 
