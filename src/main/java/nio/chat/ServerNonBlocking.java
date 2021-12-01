@@ -143,7 +143,7 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 			server.configureBlocking(false);
 			if (!server.isBlocking()) console.append("Se configuro el servidor en modo sin bloqueo\n");
 
-			// Registra el canal en el selector y le pasa el tipo de evento en el que va a estar "listo"
+			// Registra el canal del servidor con el selector usando la clave de seleccion OP_ACCEPT
 			server.register(selector, SelectionKey.OP_ACCEPT); // Para mas de un evento: | SelectionKey.OP_READ
 			if (server.isRegistered()) console.append("Se registro el servidor con el selector para aceptar conexiones!\n");
 
