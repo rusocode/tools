@@ -2,9 +2,11 @@ package nio.chat;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
 import javax.swing.JFrame;
@@ -141,8 +143,6 @@ public class Selector_ extends JFrame implements Runnable {
 
 			// Vincula el servidor a la diereccion local y puerto TCP
 			server.bind(new InetSocketAddress(SERVER_PORT));
-			
-			System.out.println(server.validOps());
 
 			// Configura el canal del servidor en modo sin bloqueo
 			server.configureBlocking(false);
@@ -170,12 +170,19 @@ public class Selector_ extends JFrame implements Runnable {
 
 					SelectionKey key = keys.next();
 
-					if (key.isAcceptable()) console.append("Se acepto una conexion!\n");
-
 					/* El Selector no elimina las instancias de SelectionKey del propio conjunto de keys seleccionadas. Tienes que hacer
 					 * esto cuando hayas terminado de procesar el canal. La proxima vez que el canal este "listo", el selector la agregara
 					 * al conjunto de keys seleccionadas nuevamente. */
 					keys.remove();
+
+					if (key.isAcceptable()) {
+						console.append("Se acepto una conexion!\n");
+						ServerSocketChannel server = (ServerSocketChannel) key.channel();
+						SocketChannel client = server.accept();
+						client.configureBlocking(false);
+						client.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
+
+					}
 
 				}
 
