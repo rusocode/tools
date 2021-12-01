@@ -41,14 +41,14 @@ import static util.Constants.*;
  * 
  */
 
-public class Server extends JFrame implements Runnable {
+public class ServerBlocking extends JFrame implements Runnable {
 
 	private static final long serialVersionUID = 1L;
 
 	private JPanel panel;
 	private JTextArea console;
 
-	public Server() {
+	public ServerBlocking() {
 		super("Servidor");
 		setResizable(false);
 		setSize(399, 430);
@@ -120,7 +120,7 @@ public class Server extends JFrame implements Runnable {
 			e.printStackTrace();
 		}
 
-		new Server().setVisible(true);
+		new ServerBlocking().setVisible(true);
 	}
 
 }

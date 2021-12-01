@@ -38,12 +38,7 @@ import static util.Constants.*;
  * Los canales seleccionables recien creados estan siempre en modo de bloqueo. El modo sin bloqueo es mas util junto con
  * la multiplexacion basada en selectores. Un canal debe colocarse en modo de no bloqueo antes de ser registrado con un
  * selector, y no puede volver al modo de bloqueo hasta que se haya cancelado su registro. En caso de registrar el
- * servidor con un selector que fue configurado con bloqueo, lanzara un IllegalBlockingModeException.
- * 
- * El Selector es un objeto utilizado para seleccionar un canal listo para comunicarse (para realizar una operacion).
- * Es decir que se consulta al Selector si hay algun canal que este listo para operar sin bloqueo. Tiene la posibilidad
- * de elegir un canal seleccionable que este listo para algunas operaciones de red, por ejemplo, conectar, aceptar, leer
- * y escribir.
+ * servidor con un selector que fue configurado con bloqueo, lanzara un IllegalBlockingModeException. *
  * 
  * Se dice que un canal que "dispara un evento" esta "listo" para ese evento. Por lo tanto, un canal que se ha
  * conectado correctamente a otro servidor esta "listo para conectarse". Un canal de socket de servidor que acepta una
@@ -91,7 +86,7 @@ import static util.Constants.*;
  * 
  */
 
-public class Selector_ extends JFrame implements Runnable {
+public class ServerNonBlocking extends JFrame implements Runnable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -101,7 +96,7 @@ public class Selector_ extends JFrame implements Runnable {
 	private Selector selector = null;
 	private ServerSocketChannel server = null;
 
-	public Selector_() {
+	public ServerNonBlocking() {
 
 		super("Servidor");
 		setResizable(false);
@@ -176,12 +171,17 @@ public class Selector_ extends JFrame implements Runnable {
 					keys.remove();
 
 					if (key.isAcceptable()) {
-						console.append("Se acepto una conexion!\n");
 						ServerSocketChannel server = (ServerSocketChannel) key.channel();
 						SocketChannel client = server.accept();
+						console.append(client.getRemoteAddress() + " se conecto!\n");
 						client.configureBlocking(false);
 						client.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
+					}
 
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
 
 				}
@@ -213,7 +213,7 @@ public class Selector_ extends JFrame implements Runnable {
 			e.printStackTrace();
 		}
 
-		new Selector_().setVisible(true);
+		new ServerNonBlocking().setVisible(true);
 	}
 
 }
