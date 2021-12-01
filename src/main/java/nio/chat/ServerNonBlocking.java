@@ -33,20 +33,19 @@ import static util.Constants.*;
  * Un canal seleccionable puede estar en modo de bloqueo o en modo sin bloqueo. En el modo de bloqueo, cada operacion de
  * I/O invocada en el canal se bloqueara hasta que se complete. En el modo sin bloqueo, una operacion de I/O nunca se
  * bloqueara y puede transferir menos bytes de los solicitados o posiblemente ningun byte. El modo de bloqueo de un
- * canal seleccionable puede determinarse invocando su metodo isBlocking().
+ * canal seleccionable puede determinarse invocando su metodo isBlocking(). Los canales seleccionables recien creados
+ * estan siempre en modo de bloqueo. El modo sin bloqueo es mas util junto con la multiplexacion basada en selectores.
+ * Un canal debe colocarse en modo de no bloqueo antes de ser registrado con un selector, y no puede volver al modo de
+ * bloqueo hasta que se haya cancelado su registro. En caso de registrar el servidor con un selector que fue configurado
+ * con bloqueo, lanzara un IllegalBlockingModeException.
  * 
- * Los canales seleccionables recien creados estan siempre en modo de bloqueo. El modo sin bloqueo es mas util junto con
- * la multiplexacion basada en selectores. Un canal debe colocarse en modo de no bloqueo antes de ser registrado con un
- * selector, y no puede volver al modo de bloqueo hasta que se haya cancelado su registro. En caso de registrar el
- * servidor con un selector que fue configurado con bloqueo, lanzara un IllegalBlockingModeException. *
+ * Un canal puede registrarse como maximo una vez con cualquier selector en particular y ademas, estos canales
+ * seleccionables son seguros para su uso por varios subprocesos simultaneos.
  * 
  * Se dice que un canal que "dispara un evento" esta "listo" para ese evento. Por lo tanto, un canal que se ha
  * conectado correctamente a otro servidor esta "listo para conectarse". Un canal de socket de servidor que acepta una
  * conexion entrante esta listo para "aceptar". Un canal que tiene datos listos para ser leidos esta listo para "leer".
  * Un canal que esta listo para escribir datos en el, esta listo para "escribir".
- * 
- * Un canal puede registrarse como maximo una vez con cualquier selector en particular y estos canales seleccionables
- * son seguros para su uso por varios subprocesos simultaneos.
  * 
  * El Selector incluye los siguientes canales seleccionables:
  * -ServerSocketChannel
@@ -143,7 +142,7 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 			server.configureBlocking(false);
 			if (!server.isBlocking()) console.append("Se configuro el servidor en modo sin bloqueo\n");
 
-			// Registra el canal del servidor con el selector usando la clave de seleccion OP_ACCEPT
+			// Registra el canal del servidor con el selector usando la clave OP_ACCEPT
 			server.register(selector, SelectionKey.OP_ACCEPT); // Para mas de un evento: | SelectionKey.OP_READ
 			if (server.isRegistered()) console.append("Se registro el servidor con el selector para aceptar conexiones!\n");
 
@@ -152,11 +151,12 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 			 * subprocesos. */
 			while (true) {
 
-				// FIXME ¿Por que sigue ejecutando el bucle?
+				/* FIXME Se sigue ejecutando el bucle cuando solo hay una conexion para aceptar. Una posible solucion seria cancelar la
+				 * clave una vez utilizada. */
 
 				console.append("Esperando la operacion de seleccion en el puerto " + SERVER_PORT + "...\n");
 
-				// Se bloquea hasta que al menos un canal este listo para los eventos para los que se registro
+				// Se bloquea hasta que un canal este listo
 				selector.select();
 
 				Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
@@ -170,7 +170,7 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 					 * al conjunto de keys seleccionadas nuevamente. */
 					keys.remove();
 
-					// Comprueba si el canal de esta clave esta listo para aceptar una nueva conexion de socket
+					// Comprueba si el canal de esta clave esta listo para aceptar una nueva conexion
 					if (key.isAcceptable()) {
 
 						/* TODO Creo que no hace falta obtener el canal desde la key ya que es lo mismo que usar la instancia server de esta
