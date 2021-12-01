@@ -33,7 +33,7 @@ public class Client {
 		if (client.isConnected()) System.out.println("Conectado!");
 		else System.out.println("El cliente no se pudo conectar!");
 
-		ByteBuffer buf = ByteBuffer.allocate(8);
+		ByteBuffer buf = ByteBuffer.allocate(8); // ByteBuffer buf = ByteBuffer.wrap("mensaje".getBytes());
 
 		// Agrega 7 bytes al buffer
 		buf.put("mensaje".getBytes());

@@ -188,6 +188,34 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 						client.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
 					}
 
+					// Comprueba si el canal de esta clave esta listo para leer
+					else if (key.isReadable()) {
+
+						// Obtiene el canal y el buffer de la clave registrada en la conexion del cliente
+						SocketChannel client = (SocketChannel) key.channel();
+						ByteBuffer buf = (ByteBuffer) key.attachment();
+
+						// Mientras no se haya leido todo el buffer
+						while (client.read(buf) > 0) {
+
+							// Voltea el buf para poder leerlo
+							buf.flip();
+
+							// Mientras haya bytes entre la posicion y el limite del buffer, va a mostrar la representacion del byte en caracter
+							while (buf.hasRemaining())
+								console.append("" + (char) buf.get());
+
+							console.append("\n");
+
+							// "Limpia" el buffer para rellenarlo con los bytes sobrantes del canal
+							buf.clear();
+
+						}
+
+						// ?
+						key.interestOps(SelectionKey.OP_READ);
+					}
+
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
