@@ -71,7 +71,10 @@ public class Channel_ {
 			 * 
 			 * Es importante aclarar que primero se llena (escriben) ese buffer con los datos del archivo y despues el canal los
 			 * lee, siendo esto, un proceso interno de java. El metodo read(buf) devuelve el numero de bytes leidos, posiblemente
-			 * cero o -1 si el canal ha alcanzado el final del flujo. */
+			 * cero o -1 si el canal ha alcanzado el final del flujo.
+			 * 
+			 * El metodo read() del canal se usa en el ciclo while, porque el numero de bytes leidos es incierto, por lo que se
+			 * llama al metodo read() en un ciclo hasta que no haya datos en el buffer. */
 			while (channel.read(buf) > 0) { // o "!= -1"
 
 				/* En la primera vuelta del bucle, la posicion del buffer quedo en la 7 porque el canal leyo hasta el ultimo byte del
