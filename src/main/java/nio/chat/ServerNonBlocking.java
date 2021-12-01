@@ -170,11 +170,21 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 					 * al conjunto de keys seleccionadas nuevamente. */
 					keys.remove();
 
+					// Comprueba si el canal de esta clave esta listo para aceptar una nueva conexion de socket
 					if (key.isAcceptable()) {
-						ServerSocketChannel server = (ServerSocketChannel) key.channel();
+
+						/* TODO Creo que no hace falta obtener el canal desde la key ya que es lo mismo que usar la instancia server de esta
+						 * clase. */
+						// ServerSocketChannel server = (ServerSocketChannel) key.channel();
+
+						// Acepta la conexion del cliente
 						SocketChannel client = server.accept();
-						console.append(client.getRemoteAddress() + " se conecto!\n");
+
+						if (client.isConnected()) console.append(client.getRemoteAddress() + " se conecto!\n");
+
 						client.configureBlocking(false);
+
+						// Agregega la conexion al selector
 						client.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
 					}
 
