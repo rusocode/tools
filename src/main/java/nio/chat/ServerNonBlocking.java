@@ -99,7 +99,7 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 
 		super("Servidor");
 		setResizable(false);
-		setSize(550, 430);
+		setSize(550, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		initialize();
 
@@ -151,7 +151,7 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 				/* FIXME Se sigue ejecutando el bucle cuando solo hay una conexion para aceptar. Una posible solucion seria cancelar la
 				 * clave una vez utilizada. */
 
-				console.append("Esperando la operacion de seleccion en el puerto " + SERVER_PORT + "...\n");
+				// console.append("Esperando la operacion de seleccion en el puerto " + SERVER_PORT + "...\n");
 
 				// Bloquea el servidor hasta que un canal este listo
 				selector.select();
@@ -216,12 +216,12 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 
 						}
 
-						// ?
+						// Establece el interes de esta clave establecido en el valor dado
 						key.interestOps(SelectionKey.OP_READ);
 					}
 
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(500);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
