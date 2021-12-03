@@ -146,9 +146,6 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 			server.register(selector, SelectionKey.OP_ACCEPT); // Para mas de un evento: | SelectionKey.OP_READ
 			if (server.isRegistered()) console.append("Se registro el servidor con el selector para aceptar conexiones!\n");
 
-			// Ciclo del servidor
-			/* Solo hay un hilo que maneja el servidor. Seria una pesadilla intentar sincronizar el bloqueo entre diferentes
-			 * subprocesos. */
 			while (true) {
 
 				/* FIXME Se sigue ejecutando el bucle cuando solo hay una conexion para aceptar. Una posible solucion seria cancelar la
@@ -234,17 +231,17 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 			}
 
 		} catch (IOException e) {
-			System.err.println("Error de I/O\n" + e.toString());
+			JOptionPane.showMessageDialog(null, "Error de I/O\n" + e.toString(), "Error en el servidor", JOptionPane.ERROR_MESSAGE);
 		} catch (IllegalArgumentException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error en el servidor", JOptionPane.ERROR_MESSAGE);
 			System.exit(0);
 		} finally {
 			try {
 				server.close();
-				// Cierra el Selector e invalida todas las instancias de SelectionKey registradas con este Selector
-				selector.close();
+				selector.close(); // Cierra el Selector e invalida todas las instancias de SelectionKey registradas con este Selector
 			} catch (IOException e) {
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Error al cerrar la conexion\n" + e.toString(), "Error en el servidor",
+						JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
