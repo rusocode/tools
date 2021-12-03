@@ -28,7 +28,7 @@ public class Client {
 
 		/* Configura el SocketChannel en modo sin bloqueo para llamar a los metodos connect(), read() y write() de forma
 		 * asincronica. */
-		// socketChannel.configureBlocking(false);
+		client.configureBlocking(false);
 
 		if (client.isConnected()) System.out.println("Conectado!");
 		else System.out.println("El cliente no se pudo conectar!");

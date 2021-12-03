@@ -142,7 +142,7 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 			server.configureBlocking(false);
 			if (!server.isBlocking()) console.append("Se configuro el servidor en modo sin bloqueo\n");
 
-			// Registra el canal del servidor con el selector usando la clave OP_ACCEPT
+			// Registra el canal del servidor con el selector y le asigna una clave
 			server.register(selector, SelectionKey.OP_ACCEPT); // Para mas de un evento: | SelectionKey.OP_READ
 			if (server.isRegistered()) console.append("Se registro el servidor con el selector para aceptar conexiones!\n");
 
@@ -156,7 +156,7 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 
 				console.append("Esperando la operacion de seleccion en el puerto " + SERVER_PORT + "...\n");
 
-				// Se bloquea hasta que un canal este listo
+				// Bloquea el servidor hasta que un canal este listo
 				selector.select();
 
 				Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
@@ -180,12 +180,19 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 						// Acepta la conexion del cliente
 						SocketChannel client = server.accept();
 
-						if (client.isConnected()) console.append(client.getRemoteAddress() + " se conecto!\n");
+						/* En el modo sin bloqueo, el metodo accept() regresa inmediatamente y puede devolver un valor nulo si no hubiera
+						 * llegado una conexion entrante. Por lo tanto, verifica si el SocketChannel devuelto es nulo. */
+						if (client != null && client.isConnected()) {
 
-						client.configureBlocking(false);
+							console.append(client.getRemoteAddress() + " se conecto!\n");
 
-						// Agrega el canal del cliente al selector
-						client.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
+							client.configureBlocking(false);
+
+							// Registra el canal del cliente y le asigna una clave
+							client.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
+
+						} else console.append("El cliente no se pudo conectar!\n");
+
 					}
 
 					// Comprueba si el canal de esta clave esta listo para leer
@@ -201,7 +208,7 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 							// Voltea el buf para poder leerlo
 							buf.flip();
 
-							// Mientras haya bytes entre la posicion y el limite del buffer, va a mostrar la representacion del byte en caracter
+							// Mientras haya bytes entre la posicion y el limite del buffer, muestra la representacion del byte en caracter
 							while (buf.hasRemaining())
 								console.append("" + (char) buf.get());
 
