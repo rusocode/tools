@@ -39,30 +39,28 @@ import static util.Constants.*;
  * bloqueo hasta que se haya cancelado su registro. En caso de registrar el servidor con un selector que fue configurado
  * con bloqueo, lanzara un IllegalBlockingModeException.
  * 
- * Un canal puede registrarse como maximo una vez con cualquier selector en particular y ademas, estos canales
- * seleccionables son seguros para su uso por varios subprocesos simultaneos.
- * 
- * Se dice que un canal que "dispara un evento" esta "listo" para ese evento. Por lo tanto, un canal que se ha
- * conectado correctamente a otro servidor esta "listo para conectarse". Un canal de socket de servidor que acepta una
- * conexion entrante esta listo para "aceptar". Un canal que tiene datos listos para ser leidos esta listo para "leer".
- * Un canal que esta listo para escribir datos en el, esta listo para "escribir".
- * 
  * El Selector incluye los siguientes canales seleccionables:
  * -ServerSocketChannel
  * -SocketChannel
  * -DatagramChannel
  * -Pipe.SinkChannel
  * -Pipe.SourceChannel
- * El canal de FileChannel no se puede usar con un Selector ya que el canal no se puede cambiar al modo sin bloqueo, sin
- * embargo, los canales de socket si.
+ * FileChannel no se puede usar con un Selector ya que no se puede cambiar al modo sin bloqueo.
  * 
- * Cada registro del canal esta representado por un SelectionKey. Un selector funciona con un conjunto (set) de
- * SelectionKey. SelectionKey es un token que representa el registro de un canal con un selector. El selector mantiene
- * tres set de keys:
- * -"Key set" contiene las keys con los canales registrados; se obtienen usando el metodo keys().
- * -"Selected-key set" contiene las keys listas para al menos una de las operaciones; se obtienen usando el metodo
+ * Se dice que un canal que "dispara un evento" esta "listo" para ese evento. Por lo tanto, un canal que se ha
+ * conectado correctamente a otro servidor esta "listo para conectarse". Un canal de socket de servidor que acepta una
+ * conexion entrante esta listo para "aceptar". Un canal que tiene datos listos para ser leidos esta listo para "leer".
+ * Un canal que esta listo para escribir datos en el, esta listo para "escribir".
+ * 
+ * Un canal puede registrarse como maximo una vez con cualquier selector en particular y ademas, estos canales
+ * seleccionables son seguros para su uso por varios subprocesos simultaneos.
+ * 
+ * Cada registro del canal esta representado por una clave (SelectionKey) que funcionan en conjunto con un selector.
+ * Existen tres tipos de conjuntos:
+ * -"Key set" contiene las claves con los canales registrados y se obtienen usando el metodo keys().
+ * -"Selected-key set" contiene las claves listas para al menos una de las operaciones y se obtienen usando el metodo
  * selectedKeys().
- * -"Cancelled-key set" contiene las keys canceladas cuyos canales aun no se han cancelado.
+ * -"Cancelled-key set" contiene las claves canceladas cuyos canales aun no se han cancelado.
  * Los tres conjuntos están vacíos en un selector recién creado.
  * 
  * Cuando registras un canal con un selector, el metodo register() devuelve un objeto de tipo SelectionKey que
@@ -151,7 +149,7 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 				/* FIXME Se sigue ejecutando el bucle cuando solo hay una conexion para aceptar. Una posible solucion seria cancelar la
 				 * clave una vez utilizada. */
 
-				// console.append("Esperando la operacion de seleccion en el puerto " + SERVER_PORT + "...\n");
+				console.append("Esperando la operacion de seleccion en el puerto " + SERVER_PORT + "...\n");
 
 				// Bloquea el servidor hasta que un canal este listo
 				selector.select();
