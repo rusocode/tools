@@ -8,6 +8,7 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
+import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -50,10 +51,14 @@ import static util.Constants.*;
  * Se dice que un canal que "dispara un evento" esta "listo" para ese evento. Por lo tanto, un canal que se ha
  * conectado correctamente a otro servidor esta "listo para conectarse". Un canal de socket de servidor que acepta una
  * conexion entrante esta listo para "aceptar". Un canal que tiene datos listos para ser leidos esta listo para "leer".
- * Un canal que esta listo para escribir datos en el, esta listo para "escribir".
+ * Un canal que esta listo para escribir datos en el, esta listo para "escribir". Estos eventos determinan de qué
+ * canales se pueden leer y escribir examinando las teclas seleccionadas del selector.
  * 
- * Un canal puede registrarse como maximo una vez con cualquier selector en particular y ademas, estos canales
- * seleccionables son seguros para su uso por varios subprocesos simultaneos.
+ * Un canal puede registrarse como maximo una vez con cualquier selector en particular. Una vez que el canal este
+ * registrado, el selector puede verificar y asegurarse de que las operaciones de I/O, como listo para leer o listo
+ * para escribir, se realicen en consecuencia. En realidad, el Selector funciona con canales directamente, pero usa
+ * objetos SelectionKey en su lugar.
+ * https://github.com/rusocode/utilidades/blob/master/src/main/resources/recortes/IO-NIO-Netty-Buffer/Datagrama%20NIO%20cliente-servidor.PNG
  * 
  * Cada registro del canal esta representado por una clave (SelectionKey) que funcionan en conjunto con un selector.
  * Existen tres tipos de conjuntos:
@@ -93,11 +98,13 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 	private Selector selector = null;
 	private ServerSocketChannel server = null;
 
+	private static final int BUFFER_SIZE = 1024;
+
 	public ServerNonBlocking() {
 
 		super("Servidor");
 		setResizable(false);
-		setSize(550, 600);
+		setSize(700, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		initialize();
 
@@ -125,72 +132,65 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 
 			// Abre el selector
 			selector = Selector.open();
-			if (selector.isOpen()) console.append("Se abrio el selector\n");
+			if (selector.isOpen()) console.append("[Server] Se abrio el selector\n");
 
 			/* Abre el servidor. Ahora mismo el socket del servidor no esta vinculado; debe estar vinculado a una direccion
 			 * especifica a traves de uno de los metodos de vinculacion de su socket antes de que se puedan aceptar las
 			 * conexiones. */
 			server = ServerSocketChannel.open();
-			if (server.isOpen()) console.append("Se abrio el servidor\n");
+			if (server.isOpen()) console.append("[Server] Se abrio el servidor\n");
 
 			// Vincula el servidor a la diereccion local y puerto TCP
 			server.bind(new InetSocketAddress(SERVER_PORT));
 
 			// Configura el canal del servidor en modo sin bloqueo
 			server.configureBlocking(false);
-			if (!server.isBlocking()) console.append("Se configuro el servidor en modo sin bloqueo\n");
+			if (!server.isBlocking()) console.append("[Server] Se configuro el servidor en modo sin bloqueo\n");
 
-			// Registra el canal del servidor con el selector y le asigna una clave
-			server.register(selector, SelectionKey.OP_ACCEPT); // Para mas de un evento: | SelectionKey.OP_READ
-			if (server.isRegistered()) console.append("Se registro el servidor con el selector para aceptar conexiones!\n");
+			/* Registra el canal del servidor con el selector y le asigna una clave.
+			 * Para registrar interes en mas de un evento: | SelectionKey.OP_READ */
+			server.register(selector, SelectionKey.OP_ACCEPT /* server.validOps() */);
+			if (server.isRegistered()) console.append("[Server] Se registro el servidor con el selector para aceptar conexiones!\n");
 
 			while (true) {
 
-				/* FIXME Se sigue ejecutando el bucle cuando solo hay una conexion para aceptar. Una posible solucion seria cancelar la
-				 * clave una vez utilizada. */
+				console.append("[Server] Esperando una conexion en el puerto " + SERVER_PORT + "...\n");
 
-				console.append("Esperando la operacion de seleccion en el puerto " + SERVER_PORT + "...\n");
-
-				// Bloquea el servidor hasta que un canal este listo
+				// Bloquea el servidor hasta que el selector notifique el evento de un canal
 				selector.select();
 
-				Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
+				Set<SelectionKey> selectedKeys = this.selector.selectedKeys();
+				Iterator<SelectionKey> keys = selectedKeys.iterator();
 
 				while (keys.hasNext()) {
 
 					SelectionKey key = keys.next();
 
-					/* El Selector no elimina las instancias de SelectionKey del propio conjunto de keys seleccionadas. Tienes que hacer
-					 * esto cuando hayas terminado de procesar el canal. La proxima vez que el canal este "listo", el selector la agregara
-					 * al conjunto de keys seleccionadas nuevamente. */
-					keys.remove();
+					// Si la clave no es valida
+					if (!key.isValid()) continue;
 
-					// Comprueba si el canal de esta clave esta listo para aceptar una nueva conexion
+					// Verifica si el cliente esta solicitando una conexion
 					if (key.isAcceptable()) {
 
-						/* TODO Creo que no hace falta obtener el canal desde la key ya que es lo mismo que usar la instancia server de esta
-						 * clase. */
-						// ServerSocketChannel server = (ServerSocketChannel) key.channel();
-
-						// Acepta la conexion del cliente
+						// El servidor acepta la conexion del cliente
 						SocketChannel client = server.accept();
 
 						/* En el modo sin bloqueo, el metodo accept() regresa inmediatamente y puede devolver un valor nulo si no hubiera
 						 * llegado una conexion entrante. Por lo tanto, verifica si el SocketChannel devuelto es nulo. */
 						if (client != null && client.isConnected()) {
 
-							console.append(client.getRemoteAddress() + " se conecto!\n");
+							console.append("[Server] " + client.getRemoteAddress() + " se conecto!\n");
 
 							client.configureBlocking(false);
 
 							// Registra el canal del cliente y le asigna una clave
-							client.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
+							client.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(BUFFER_SIZE));
 
-						} else console.append("El cliente no se pudo conectar!\n");
+						} else console.append("[Server]  El cliente no se pudo conectar!\n");
 
 					}
 
-					// Comprueba si el canal de esta clave esta listo para leer
+					// Si el cliente tiene datos para leer
 					else if (key.isReadable()) {
 
 						// Obtiene el canal y el buffer de la clave registrada en la conexion del cliente
@@ -214,17 +214,20 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 
 						}
 
-						// Establece el interes de esta clave establecido en el valor dado
-						key.interestOps(SelectionKey.OP_READ);
+						/* TODO Cuando y donde cerrar el cliente?
+						 * Cerrarlo cuando se hayan terminado de leer todos los bytes */
+						key.channel().close(); // client.close();
+
 					}
 
-					try {
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					/* El Selector no elimina las instancias de SelectionKey del propio conjunto de keys seleccionadas. Tienes que hacer
+					 * esto cuando hayas terminado de procesar el canal. La proxima vez que el canal este "listo", el selector la agregara
+					 * al conjunto de keys seleccionadas nuevamente. */
+					keys.remove();
 
 				}
+
+				selectedKeys.clear();
 
 			}
 
