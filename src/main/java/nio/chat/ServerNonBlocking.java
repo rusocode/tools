@@ -56,7 +56,7 @@ import static util.Constants.*;
  * 
  * Un canal puede registrarse como maximo una vez con cualquier selector en particular. Una vez que el canal este
  * registrado, el selector puede verificar y asegurarse de que las operaciones de I/O, como listo para leer o listo
- * para escribir, se realicen en consecuencia. En realidad, el Selector funciona con canales directamente, pero usa
+ * para escribir, se realicen en consecuencia. En realidad, el selector funciona con canales directamente, pero usa
  * objetos SelectionKey en su lugar.
  * https://github.com/rusocode/utilidades/blob/master/src/main/resources/recortes/IO-NIO-Netty-Buffer/Datagrama%20NIO%20cliente-servidor.PNG
  * 
@@ -147,9 +147,10 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 			server.configureBlocking(false);
 			if (!server.isBlocking()) console.append("[Server] Se configuro el servidor en modo sin bloqueo\n");
 
-			/* Registra el canal del servidor con el selector y le asigna una clave.
+			/* Registra el canal del servidor con el selector y le asigna un interest set.
 			 * Para registrar interes en mas de un evento: | SelectionKey.OP_READ */
 			server.register(selector, SelectionKey.OP_ACCEPT /* server.validOps() */);
+
 			if (server.isRegistered()) console.append("[Server] Se registro el servidor con el selector para aceptar conexiones!\n");
 
 			while (true) {
@@ -159,7 +160,7 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 				// Bloquea el servidor hasta que el selector notifique el evento de un canal
 				selector.select();
 
-				Set<SelectionKey> selectedKeys = this.selector.selectedKeys();
+				Set<SelectionKey> selectedKeys = selector.selectedKeys();
 				Iterator<SelectionKey> keys = selectedKeys.iterator();
 
 				while (keys.hasNext()) {
@@ -183,7 +184,7 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 
 							client.configureBlocking(false);
 
-							// Registra el canal del cliente y le asigna una clave
+							// Registra el canal del cliente con el selector en donde le asigna una clave y un buffer
 							client.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(BUFFER_SIZE));
 
 						} else console.append("[Server]  El cliente no se pudo conectar!\n");
