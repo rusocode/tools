@@ -1,4 +1,4 @@
-package nio.chat;
+package nio.server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -20,10 +20,7 @@ public class Client {
 
 		String host = "localhost";
 
-		/* Abre un canal de socket y lo conecta a una direccion remota, en este caso es la direccion local.
-		 * 
-		 * Pasandole un objeto InetSocketAddress se ahorra de conectar el socket usando el metodo connect()
-		 * channel.connect(new InetSocketAddress(host, SERVER_PORT)); */
+		// Abre un canal de socket y lo conecta a una direccion remota, en este caso es la direccion local
 		SocketChannel client = SocketChannel.open(new InetSocketAddress(host, SERVER_PORT));
 
 		/* Configura el SocketChannel en modo sin bloqueo para llamar a los metodos connect(), read() y write() de forma

@@ -35,6 +35,13 @@ public class Queue_ {
 
 		while (it.hasNext())
 			System.out.println("Quemado: " + it.next());
+		
+		String s = quemados.poll();
+
+		// El metodo poll() no lanza una excepcion si la cola esta vacia
+		System.out.println(s);
+
+		System.out.println(quemados);
 
 	}
 

@@ -1,4 +1,4 @@
-package nio.chat;
+package nio.server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -88,19 +88,19 @@ import static util.Constants.*;
  * 
  */
 
-public class ServerNonBlocking extends JFrame implements Runnable {
+public class Server extends JFrame implements Runnable {
 
 	private static final long serialVersionUID = 1L;
 
 	private JPanel panel;
 	private JTextArea console;
 
-	private Selector selector = null;
-	private ServerSocketChannel server = null;
+	private Selector selector;
+	private ServerSocketChannel server;
 
 	private static final int BUFFER_SIZE = 1024;
 
-	public ServerNonBlocking() {
+	public Server() {
 
 		super("Servidor");
 		setResizable(false);
@@ -184,7 +184,7 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 
 							client.configureBlocking(false);
 
-							// Registra el canal del cliente con el selector en donde le asigna una clave y un buffer
+							// Registra el canal del cliente con el selector en donde le asigna un interest set y un buffer
 							client.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(BUFFER_SIZE));
 
 						} else console.append("[Server]  El cliente no se pudo conectar!\n");
@@ -194,7 +194,7 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 					// Si el cliente tiene datos para leer
 					else if (key.isReadable()) {
 
-						// Obtiene el canal y el buffer de la clave registrada en la conexion del cliente
+						// Obtiene el canal y el buffer del cliente registrado usando la clave
 						SocketChannel client = (SocketChannel) key.channel();
 						ByteBuffer buf = (ByteBuffer) key.attachment();
 
@@ -257,7 +257,7 @@ public class ServerNonBlocking extends JFrame implements Runnable {
 			e.printStackTrace();
 		}
 
-		new ServerNonBlocking().setVisible(true);
+		new Server().setVisible(true);
 	}
 
 }
