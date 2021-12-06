@@ -55,20 +55,20 @@ import static util.Constants.*;
  * Un canal puede registrarse como maximo una vez con cualquier selector en particular y ademas, estos canales
  * seleccionables son seguros para su uso por varios subprocesos simultaneos.
  * 
- * Cada registro del canal esta representado por una clave (SelectionKey) que funcionan en conjunto con un selector.
- * Existen tres tipos de conjuntos:
- * -"Key set" contiene las claves con los canales registrados y se obtienen usando el metodo keys().
+ * Cada registro del canal esta identificado por una clave (SelectionKey) que es utilizada por el selector.
+ * Existen tres tipos de conjuntos de claves:
+ * -"Key set" contiene las claves de los canales registrados y se obtienen usando el metodo keys().
  * -"Selected-key set" contiene las claves listas para al menos una de las operaciones y se obtienen usando el metodo
  * selectedKeys().
  * -"Cancelled-key set" contiene las claves canceladas cuyos canales aun no se han cancelado.
  * Los tres conjuntos están vacíos en un selector recién creado.
  * 
  * Cuando registras un canal con un selector, el metodo register() devuelve un objeto de tipo SelectionKey que
- * representa el registro de los canales con ese selector. Este objeto contiene algunas propiedades interesantes:
+ * representa el canal registrado con ese selector. Este objeto contiene algunas propiedades interesantes:
+ * -El canal
+ * -El selector
  * -El interest set
  * -El ready set
- * -El Channel
- * -El Selector
  * -Y un objeto adjunto (opcional)
  * 
  * *Los multiplexores son circuitos combinacionales con varias entradas y una unica salida de datos. Estan dotados de
