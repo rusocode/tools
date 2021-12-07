@@ -187,7 +187,7 @@ public class Server extends JFrame implements Runnable {
 							// Registra el canal del cliente con el selector en donde le asigna un interest set y un buffer
 							client.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(BUFFER_SIZE));
 
-						} else console.append("[Server]  El cliente no se pudo conectar!\n");
+						} else console.append("[Server] El cliente no se pudo conectar!\n");
 
 					}
 
