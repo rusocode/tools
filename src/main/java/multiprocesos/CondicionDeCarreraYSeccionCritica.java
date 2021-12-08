@@ -28,11 +28,11 @@ public class CondicionDeCarreraYSeccionCritica {
 
 		/* Los subprocesos A y B ejecutan el metodo add() en la misma instancia de la clase principal
 		 * (CondicionDeCarreraYSeccionCritica). */
-		Thread t1 = new Thread(new Hilo(principal, 3)); // Hilo A
-		Thread t2 = new Thread(new Hilo(principal, 2)); // Hilo B
+		Thread A = new Thread(new Hilo(principal, 3)); // Hilo A
+		Thread B = new Thread(new Hilo(principal, 2)); // Hilo B
 
-		t1.start();
-		t2.start();
+		A.start();
+		B.start();
 
 	}
 
