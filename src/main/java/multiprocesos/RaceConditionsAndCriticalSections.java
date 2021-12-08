@@ -16,23 +16,38 @@ package multiprocesos;
  * ° Leer-modificar-escribir
  * ° Verificar y luego actuar
  * 
+ * Pero si varios subprocesos leen el mismo recurso, no se producen condiciones de carrera.
+ * 
+ * -La regla de escape del control de subprocesos
+ * "Si un recurso se crea, utiliza y elimina dentro el control del mismo hilo, y nunca escapa al control de este hilo,
+ * el uso de ese recurso es seguro para subprocesos."
+ * 
+ * Fuentes:
+ * http://tutorials.jenkov.com/java-concurrency/race-conditions-and-critical-sections.html
+ * http://tutorials.jenkov.com/java-concurrency/thread-safety.html
+ * 
+ * @author Ru$o
+ * 
  */
 
-public class CondicionDeCarreraYSeccionCritica {
+public class RaceConditionsAndCriticalSections {
 
-	protected int count;
+	StringBuilder builder = new StringBuilder();
 
 	public static void main(String[] args) throws InterruptedException {
 
-		CondicionDeCarreraYSeccionCritica principal = new CondicionDeCarreraYSeccionCritica();
+		RaceConditionsAndCriticalSections sharedInstance = new RaceConditionsAndCriticalSections();
 
-		/* Los subprocesos A y B ejecutan el metodo add() en la misma instancia de la clase principal
-		 * (CondicionDeCarreraYSeccionCritica). */
-		Thread A = new Thread(new Hilo(principal, 3)); // Hilo A
-		Thread B = new Thread(new Hilo(principal, 2)); // Hilo B
+		/* Las dos instancias de MyRunnable comparten la misma instancia de RaceConditionsAndCriticalSections. Por lo tanto,
+		 * cuando llaman al metodo add() en la instancia de RaceConditionsAndCriticalSections, conduce a una condicion de
+		 * carrera. */
+		new Thread(new MyRunnable(sharedInstance)).start();
+		new Thread(new MyRunnable(sharedInstance)).start();
 
-		A.start();
-		B.start();
+		/* Sin embargo, si dos subprocesos llaman al metodo add() simultaneamente EN DIFERENTES INSTANCIAS, no conduce a una
+		 * condicion de carrera. */
+		// new Thread(new MyRunnable(new RaceConditionsAndCriticalSections())).start();
+		// new Thread(new MyRunnable(new RaceConditionsAndCriticalSections())).start();
 
 	}
 
@@ -45,29 +60,21 @@ public class CondicionDeCarreraYSeccionCritica {
 	 * 
 	 * Las condiciones de carrera pueden evitarse mediante una sincronizacion de subprocesos adecuada en las secciones
 	 * criticas. */
-	private void add(int value) {
-		count += value;
+	private void add(String text) {
+		builder.append(text);
 	}
 
-	private int getCount() {
-		return count;
-	}
+	private static class MyRunnable implements Runnable {
 
-	private static class Hilo implements Runnable {
+		RaceConditionsAndCriticalSections instance;
 
-		CondicionDeCarreraYSeccionCritica principal;
-		int value;
-
-		public Hilo(CondicionDeCarreraYSeccionCritica principal, int value) {
-			this.principal = principal;
-			this.value = value;
+		public MyRunnable(RaceConditionsAndCriticalSections instance) {
+			this.instance = instance;
 		}
 
 		@Override
 		public void run() {
-			principal.add(value);
-			System.out.println(principal.getCount());
-
+			instance.add("text");
 		}
 
 	}
