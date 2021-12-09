@@ -4,9 +4,6 @@ package multiprocesos;
  * Las condiciones de carrera ocurren solo si varios subprocesos acceden al mismo recurso y uno o más subprocesos
  * escriben en el recurso. Si varios subprocesos leen el mismo recurso, no se producen condiciones de carrera.
  * 
- * Podemos asegurarnos de que los objetos compartidos entre subprocesos nunca sean actualizados por ninguno de los
- * subprocesos haciendo que los objetos compartidos sean inmutables y, por lo tanto, seguros para subprocesos.
- * 
  * Fuentes:
  * http://tutorials.jenkov.com/java-concurrency/thread-safety-and-immutability.html
  * 
@@ -16,9 +13,9 @@ package multiprocesos;
 
 public class ImmutableValue {
 
-	/* Observe como se pasa el valor de la instancia ImmutableValue en el constructor. Observe tambien que no
-	 * existe un metodo de establecimiento. Una vez que se crea una instancia de ImmutableValue, no puede
-	 * cambiar su valor. Es inmutable. Sin embargo, puede leerlo utilizando el metodo getValue(). */
+	/* Podemos asegurarnos de que los objetos compartidos entre subprocesos nunca sean actualizados por ninguno de los
+	 * subprocesos haciendo que los objetos compartidos sean inmutables y, por lo tanto, seguros para subprocesos. Aqui hay
+	 * un ejemplo: */
 
 	private int value = 0;
 
@@ -31,13 +28,23 @@ public class ImmutableValue {
 	}
 
 	/* Si necesita realizar operaciones en la instancia de ImmutableValue, puede hacerlo devolviendo una nueva
-	 * instancia con el valor resultante de la operacion. */
+	 * instancia con el valor resultante de la operacion.
+	 * 
+	 * Observe como el metodo add() devuelve una nueva instancia de ImmutableValue con el resultado de la operacion de
+	 * adicion, en lugar de agregar el valor a si mismo. */
 	public ImmutableValue add(int valueToAdd) {
 		return new ImmutableValue(this.value + valueToAdd);
 	}
 
-	/* Observe como el metodo add() devuelve una nueva instancia de ImmutableValue con el resultado de la operacion de
-	 * adicion, en lugar de agregar el valor a si mismo. */
+	public static void main(String[] args) {
+
+		/* Observe como se pasa el valor de la instancia ImmutableValue en el constructor. Observe tambien que no
+		 * existe un metodo de establecimiento. Una vez que se crea una instancia de ImmutableValue, no puede
+		 * cambiar su valor. Es inmutable. Sin embargo, puede leerlo utilizando el metodo getValue(). */
+		ImmutableValue immutable = new ImmutableValue(4);
+		System.out.println(immutable.getValue());
+
+	}
 }
 
 /* ¡La referencia no es segura para subprocesos!

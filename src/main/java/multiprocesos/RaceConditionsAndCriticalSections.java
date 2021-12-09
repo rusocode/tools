@@ -46,8 +46,8 @@ public class RaceConditionsAndCriticalSections {
 
 		/* Sin embargo, si dos subprocesos llaman al metodo add() simultaneamente EN DIFERENTES INSTANCIAS, no conduce a una
 		 * condicion de carrera. */
-		// new Thread(new MyRunnable(new RaceConditionsAndCriticalSections())).start();
-		// new Thread(new MyRunnable(new RaceConditionsAndCriticalSections())).start();
+//		new Thread(new MyRunnable(new RaceConditionsAndCriticalSections())).start();
+//		new Thread(new MyRunnable(new RaceConditionsAndCriticalSections())).start();
 
 	}
 
@@ -70,6 +70,7 @@ public class RaceConditionsAndCriticalSections {
 
 		public MyRunnable(RaceConditionsAndCriticalSections instance) {
 			this.instance = instance;
+
 		}
 
 		@Override
