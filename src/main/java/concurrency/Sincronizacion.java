@@ -1,4 +1,4 @@
-package multiprocesos;
+package concurrency;
 
 /**
  * La sincronizacion en Java es la capacidad de controlar el acceso de multiples Thread a cualquier recurso

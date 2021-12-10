@@ -1,4 +1,4 @@
-package multiprocesos;
+package concurrency;
 
 /**
  * El subproceso múltiple significa que tiene varios subprocesos de ejecución dentro de la misma aplicación. Un hilo es
