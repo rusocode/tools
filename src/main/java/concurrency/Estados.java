@@ -1,4 +1,4 @@
-package multiprocesos;
+package concurrency;
 
 public class Estados {
 

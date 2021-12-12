@@ -1,4 +1,4 @@
-package multiprocesos;
+package concurrency;
 
 /**
  * Las condiciones de carrera ocurren solo si varios subprocesos acceden al mismo recurso y uno o más subprocesos

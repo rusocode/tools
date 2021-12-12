@@ -1,4 +1,4 @@
-package multiprocesos;
+package concurrency;
 
 /**
  * Una condición de carrera es un problema de concurrencia que puede ocurrir dentro de una sección crítica. Una sección
