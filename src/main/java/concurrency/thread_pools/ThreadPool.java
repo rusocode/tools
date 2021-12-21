@@ -6,31 +6,27 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * Implementacion simple de grupo de subprocesos.
+ * Interfaz pública para el grupo de subprocesos.
  */
 
 public class ThreadPool {
 
 	private BlockingQueue taskQueue;
 	private List<PoolThreadRunnable> runnables = new ArrayList<>();
-	private boolean isStopped = false;
+	private boolean isStopped;
 
 	public ThreadPool(int noOfThreads, int maxNoOfTasks) {
 
 		// Crea una cola de bloqueo con la capacidad especificada
 		taskQueue = new ArrayBlockingQueue<>(maxNoOfTasks);
 
-		for (int i = 0; i < noOfThreads; i++) {
-
-			// FIXME Creo q esta de mas
-			PoolThreadRunnable poolThreadRunnable = new PoolThreadRunnable(taskQueue);
-
-			// Agrega los grupos de subprocesos ejecutables a la lista
+		for (int i = 0; i < noOfThreads; i++)
+			/* Agrega los grupos de subprocesos ejecutables a la lista utilizando una cola de bloqueo para cada uno, evitando asi la
+			 * congestion de subprocesos. */
 			runnables.add(new PoolThreadRunnable(taskQueue));
 
-		}
-
-		// Ejecuta el grupo de subprocesos
+		/* Ejecuta el grupo de subprocesos. Despues de la ejecucion, PoolThread se repite e intenta sacar una tarea de la cola
+		 * nuevamente, hasta que se detiene. */
 		for (PoolThreadRunnable runnable : runnables)
 			new Thread(runnable).start();
 

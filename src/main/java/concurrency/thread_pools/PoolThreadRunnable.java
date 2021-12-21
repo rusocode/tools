@@ -4,7 +4,7 @@ package concurrency.thread_pools;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * Clase PoolThreadRunnable que implementa la interfaz Runnable, por lo que puede ser ejecutada por un hilo de Java.
+ * Implementa los subprocesos que ejecutan las tareas.
  */
 
 public class PoolThreadRunnable implements Runnable {
@@ -29,7 +29,8 @@ public class PoolThreadRunnable implements Runnable {
 
 				/* Recupera y elimina el encabezado de esta cola (primer tarea). Si la cola no contiene ningun elemento, el metodo
 				 * take() bloqueara el hilo que llama a take() hasta que se inserte un elemento en la cola. En caso que de que haya
-				 * un elemento o mas, entonces la tarea se asigna a un subproceso (inactivo) dentro del grupo de subprocesos. */
+				 * un elemento o mas, entonces la tarea se asigna a un subproceso (inactivo) dentro del grupo de subprocesos y lo
+				 * ejecuta. */
 				Runnable runnable = (Runnable) taskQueue.take();
 				// Ejecuta la tarea
 				runnable.run();
