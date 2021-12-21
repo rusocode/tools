@@ -158,7 +158,7 @@ public class Server extends JFrame implements Runnable {
 				console.append("[Server] Esperando una conexion en el puerto " + SERVER_PORT + "...\n");
 
 				// Bloquea el servidor hasta que el selector notifique el evento de un canal
-				selector.select();
+				selector.select(); // selector.select(1000) bloquea el servidor 1 segundo antes de notificar un evento
 
 				Set<SelectionKey> selectedKeys = selector.selectedKeys();
 				Iterator<SelectionKey> keys = selectedKeys.iterator();
