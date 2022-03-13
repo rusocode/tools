@@ -157,8 +157,11 @@ public class Server extends JFrame implements Runnable {
 
 				console.append("[Server] Esperando una conexion en el puerto " + SERVER_PORT + "...\n");
 
-				// Bloquea el servidor hasta que el selector notifique el evento de un canal
-				selector.select(); // selector.select(1000) bloquea el servidor 1 segundo antes de notificar un evento
+				// Bloquea el servidor hasta que notifique un evento
+				selector.select(); // blocking selection
+
+				// Bloquea el servidor hasta que notifique un evento o expire el periodo de tiempo de espera dado
+				// selector.select(23); // blocking selection
 
 				Set<SelectionKey> selectedKeys = selector.selectedKeys();
 				Iterator<SelectionKey> keys = selectedKeys.iterator();
@@ -180,6 +183,7 @@ public class Server extends JFrame implements Runnable {
 						 * llegado una conexion entrante. Por lo tanto, verifica si el SocketChannel devuelto es nulo. */
 						if (client != null && client.isConnected()) {
 
+							// La IP es link-local?
 							console.append("[Server] " + client.getRemoteAddress() + " se conecto!\n");
 
 							client.configureBlocking(false);
@@ -197,6 +201,8 @@ public class Server extends JFrame implements Runnable {
 						// Obtiene el canal y el buffer del cliente registrado usando la clave
 						SocketChannel client = (SocketChannel) key.channel();
 						ByteBuffer buf = (ByteBuffer) key.attachment();
+
+						console.append("[Server] " + client.getRemoteAddress() + ": ");
 
 						// Mientras no se haya leido todo el buffer
 						while (client.read(buf) > 0) {
@@ -249,6 +255,10 @@ public class Server extends JFrame implements Runnable {
 
 	}
 
+	public void close(Client client) {
+		
+	}
+	
 	public static void main(String[] args) throws IOException {
 
 		try {
