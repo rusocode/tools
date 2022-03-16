@@ -32,7 +32,7 @@ public class Log4j2 {
 
 	public static void main(String[] args) {
 
-		for (int i = 0; i < 150; i++)
+		for (int i = 0; i < 5; i++)
 			log.debug("Testing");
 
 		log.warn("warn!");
