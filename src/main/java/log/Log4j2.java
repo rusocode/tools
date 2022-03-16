@@ -23,10 +23,11 @@ public class Log4j2 {
 	/* En la mayoria de los casos, las aplicaciones nombran a sus registradores pasando el nombre de la clase actual a
 	 * LogManager.getLogger(...). Debido a que este uso es tan comun, Log4j 2 lo proporciona como predeterminado cuando el
 	 * parametro del nombre del registrador se omite o es nulo.
+	 * 
 	 * Log4j2.class o Log4j2.class.getName() son dos formas diferentes de pasarle el nombre al logger, pero para una mejor
 	 * legibilidad se omite.
-	 * El registrador en si no realiza acciones directas. Simplemente tiene un nombre y esta asociado con un
-	 * LoggerConfig. */
+	 * 
+	 * El registrador en si no realiza acciones directas. Simplemente tiene un nombre y esta asociado con un LoggerConfig. */
 	private static final Logger log = LogManager.getLogger();
 
 	public static void main(String[] args) {
