@@ -43,7 +43,7 @@
 			<AppenderRef ref="Console" />
 		</Logger>
 		<Logger name="log" level="debug">
-			<AppenderRef ref="RollingFile" />
+			<AppenderRef ref="RollingRandomAccessFile" />
 		</Logger>
 		<!-- Nivel raiz -->
 		<Root level="all">
