@@ -3,13 +3,21 @@
 
 <!-- Configura el logger utilizando el nivel de eventos internos en "WARN" para registrar los mensajes 
 	en consola. -->
-<Configuration status="WARN" strict="true">
+<Configuration status="warn" strict="true">
+
+	<!-- El Layout es responsable de dar formato al LogEvent de acuerdo con los deseos del usuario, mientras 
+		que un appender se encarga de enviar la salida formateada a su destino. PatternLayout, parte de la distribución 
+		estándar de log4j, permite al usuario especificar el formato de salida de acuerdo con patrones de conversión 
+		similares a la función printf del lenguaje C. -->
+
+	<!-- Por ejemplo, PatternLayout con el patrón de conversión "%r [%t] %-5p %c - %m%n" generará algo similar 
+		a: 176 [main] INFO org.foo.Bar - Located nearest gas station -->
 
 	<Properties>
 		<Property name="LOG_DIR">target/logs</Property>
 	</Properties>
 
-	<!-- Anexadores -->
+	<!-- Anexadores (destino de salida) -->
 	<Appenders>
 
 		<!-- Salida en consola -->
@@ -38,8 +46,10 @@
 	<!-- Configura los loggers para cada appender -->
 	<Loggers>
 
-		<!-- Nivel raiz para configurar todos los appenders -->
+		<!-- Nivel raiz para configurar todos los appenders. Cada configuración debe tener un root logger. -->
 		<Root level="all">
+			<!-- Cada appender debe tener un atributo name especifico con un valor que sea unico dentro del conjunto 
+				de appenders. Los loggers utilizaran el nombre para hacer referencia al appender. -->
 			<AppenderRef ref="SysOut" />
 			<AppenderRef ref="File" />
 		</Root>

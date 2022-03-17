@@ -52,7 +52,7 @@ import static util.Constants.*;
  * conectado correctamente a otro servidor esta "listo para conectarse". Un canal de socket de servidor que acepta una
  * conexion entrante esta listo para "aceptar". Un canal que tiene datos listos para ser leidos esta listo para "leer".
  * Un canal que esta listo para escribir datos en el, esta listo para "escribir". Estos eventos determinan de qué
- * canales se pueden leer y escribir examinando las teclas seleccionadas del selector.
+ * canales se pueden leer y escribir examinando las keys seleccionadas del selector.
  * 
  * Un canal puede registrarse como maximo una vez con cualquier selector en particular. Una vez que el canal este
  * registrado, el selector puede verificar y asegurarse de que las operaciones de I/O, como listo para leer o listo
@@ -188,7 +188,9 @@ public class Server extends JFrame implements Runnable {
 
 							client.configureBlocking(false);
 
-							// Registra el canal del cliente con el selector en donde le asigna un interest set y un buffer
+							/* Registra el canal del cliente con el selector en donde le asigna un interest set y un buffer.
+							 * En este punto, la clave de seleccion ahora es de lectura, ya que logicamente despues de aceptar una conexion, se leen
+							 * los datos de esta. */
 							client.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(BUFFER_SIZE));
 
 						} else console.append("[Server] El cliente no se pudo conectar!\n");
@@ -256,9 +258,9 @@ public class Server extends JFrame implements Runnable {
 	}
 
 	public void close(Client client) {
-		
+
 	}
-	
+
 	public static void main(String[] args) throws IOException {
 
 		try {
