@@ -9,26 +9,26 @@
 		<Property name="LOG_DIR">target/logs</Property>
 	</Properties>
 
+	<!-- Anexadores -->
 	<Appenders>
 
 		<!-- Salida en consola -->
-		<Console name="Console" target="SYSTEM_OUT">
-			<PatternLayout pattern="[%d{HH:mm:ss}] [%c/%p]: %m%n" />
+		<Console name="SysOut" target="SYSTEM_OUT">
+			<PatternLayout pattern="[%d{HH:mm:ss}] [%c{1} thread/%level]: %msg%n" />
 		</Console>
 
 		<!-- Salida en archivo con renovacion. "Vimos una mejora del rendimiento del 20-200% en comparación 
 			con RollingFileAppender con "bufferedIO=true" en nuestras mediciones." -->
-		<RollingRandomAccessFile name="RollingRandomAccessFile"
-			fileName="${LOG_DIR}/latest.log" filePattern="${LOG_DIR}/%d-%i.log.gz">
+		<RollingRandomAccessFile name="File" fileName="${LOG_DIR}/latest.log"
+			filePattern="${LOG_DIR}/%d-%i.log.gz">
 			<!-- Patron de conversion. En el especificador de conversion "%-5p", -5 es el modificador de formato 
-				y p es el caracter de conversion. -->
-			<PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level]: %m%n" />
-			<!-- [%d{HH:mm:ss}] [thread %c{1}/%level]: %m%n -->
+				y p es el caracter de conversion. %d, %p, etc. son especificadores de conversion y las letras son caracteres 
+				de conversion. -->
+			<PatternLayout pattern="[%d{HH:mm:ss}] [%c{1} thread/%level]: %msg%n" />
 			<!-- Politicas de renovacion -->
 			<Policies>
-				<!-- Solo tiene que ir una politica -->
-				<!-- <TimeBasedTriggeringPolicy /> -->
-				<!-- Tamaño limite del archivo -->
+				<!-- Solo tiene que ir una politica <TimeBasedTriggeringPolicy /> <OnStartupTriggeringPolicy /> -->
+				<!-- Cada 10KB se renueva el archivo -->
 				<SizeBasedTriggeringPolicy size="10 KB" />
 			</Policies>
 		</RollingRandomAccessFile>
@@ -37,18 +37,16 @@
 
 	<!-- Configura los loggers para cada appender -->
 	<Loggers>
-		<!-- Indica el nombre del paquete que ejecuta el logger en el atributo name y establece la aditividad 
-			en falso para que el root (padre del appender de la consola) no repita los mensajes. -->
-		<Logger name="log" level="debug" additivity="false">
-			<AppenderRef ref="Console" />
-		</Logger>
-		<Logger name="log" level="debug">
-			<AppenderRef ref="RollingRandomAccessFile" />
-		</Logger>
-		<!-- Nivel raiz -->
+
+		<!-- Nivel raiz para configurar todos los appenders -->
 		<Root level="all">
-			<AppenderRef ref="Console" />
+			<AppenderRef ref="SysOut" />
+			<AppenderRef ref="File" />
 		</Root>
+
+		<!-- Configura un appender en especifico <Logger name="log" level="debug"> <AppenderRef ref="File" 
+			/> </Logger> -->
+
 	</Loggers>
 
 </Configuration>
