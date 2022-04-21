@@ -69,9 +69,8 @@ public class Channel_ {
 			/* Despues de llenar el buffer con los bytes del archivo, la posicion del buffer queda establecida en el ultimo byte y
 			 * mientras no se llegue al final del archivo, el canal sigue llenado el buffer con los datos del archivo.
 			 * 
-			 * Es importante aclarar que primero se llena (escriben) ese buffer con los datos del archivo y despues el canal los
-			 * lee, siendo esto, un proceso interno de java. El metodo read(buf) devuelve el numero de bytes leidos, posiblemente
-			 * cero o -1 si el canal ha alcanzado el final del flujo.
+			 * El metodo read(buf) devuelve el numero de bytes leidos, posiblemente cero o -1 si el canal ha alcanzado el final del
+			 * flujo.
 			 * 
 			 * El metodo read() del canal se usa en el ciclo while, porque el numero de bytes leidos es incierto, por lo que se
 			 * llama al metodo read() en un ciclo hasta que no haya datos en el buffer. */
@@ -88,9 +87,8 @@ public class Channel_ {
 					 * posicion actual del buffer e la incrementa. */
 					System.out.println("posicion: " + buf.position() + " - limite: " + buf.limit() + " - caracter: " + (char) buf.get());
 
-				/* Una vez que se hayan leido todos los bytes del buffer, lo "limpia" para rellenarlo (sobreescribir) con los bytes
-				 * sobrantes del archivo (3) y asi poder escribir de nuevo. En este caso cambia el buffer del modo lectura al modo
-				 * escritura. Estableciendo el limite en la capacidad, le estamos diciendo que el buffer ya esta lleno. */
+				/* Una vez que se hayan leido todos los bytes del buffer, lo "limpia" para llenarlo con los bytes sobrantes del archivo
+				 * (3) y asi poder escribir de nuevo. En este caso cambia el buffer del modo lectura al modo escritura. */
 				buf.clear(); // position = 0, limit = capacity
 
 			}

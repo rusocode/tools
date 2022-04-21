@@ -9,8 +9,8 @@ import java.nio.ByteBuffer;
  * escribir/leer en/desde un canal. A diferencia de la API IO que se maneja con bytes individuales, los buffers se
  * manejan con porciones de bytes.
  * Aparte de su contenido, las propiedades esenciales de un búffer son su capacidad, límite y posición:
- * ° La capacidad de un búffer es el número de elementos que contiene. La capacidad de un búfer nunca es negativa y
- * nunca cambia.
+ * ° La capacidad de un búffer es el número de elementos que puede contener. La capacidad de un búfer nunca es negativa
+ * y nunca cambia.
  * ° El límite de un búffer es el índice del primer elemento que no debe leerse ni escribirse. El límite de un búffer
  * nunca es negativo y nunca es mayor que su capacidad.
  * ° La posición de un búffer es el índice del siguiente elemento a leer o escribir. La posición de un búffer nunca es

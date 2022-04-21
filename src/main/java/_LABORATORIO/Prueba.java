@@ -1,28 +1,21 @@
 package _LABORATORIO;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
 
 public class Prueba {
 
-	static boolean bandera = true;
+	public static void main(String[] args) {
 
-	public static void main(String[] args) throws UnknownHostException {
-		salir();
-	}
+		ByteBuffer buf = ByteBuffer.allocate(10);
 
-	static void salir() {
-		try {
+		buf.put("abcdefhijk".getBytes());
 
-			if (bandera) return;
-			
-			System.out.println("asd");
-			
-		} catch (Exception e) {
-
-		} finally {
-			System.out.println("asd");
+		buf.flip();
+		
+		while (buf.hasRemaining()) {
+			System.out.print(buf.get());
 		}
+
 	}
 
 }

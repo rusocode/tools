@@ -2,13 +2,14 @@ package concurrency;
 
 public class Estados {
 
-	private static final int TIEMPO_BLOQUEADO = 1000;
+	private static final int TIEMPO_BLOQUEADO = 2000;
 
 	private static class Hilo implements Runnable {
 
 		private Thread hilo;
 		private boolean suspendido, pausado;
-		private final int TIEMPO_BLOQUEADO = 250;
+		private final int TIEMPO_BLOQUEADO = 1000;
+		private boolean bandera = false;
 
 		public Hilo(String name) {
 			hilo = new Thread(this, name);
@@ -16,7 +17,7 @@ public class Estados {
 
 		@Override
 		public void run() {
-			boolean bandera = false;
+			
 
 			System.out.println("[" + Thread.currentThread().getName() + "] iniciando...");
 
@@ -28,7 +29,9 @@ public class Estados {
 
 					System.out.print(i + " ");
 
-					// Cada 10 columnas...
+					// Thread.sleep(100);
+
+					// Cada 10 columnas salta de linea y suspende el hilo
 					if ((i % 10) == 0) {
 						System.out.println();
 						// Suspende el hilo temporalmente por una cantidad determinada en milisegundos

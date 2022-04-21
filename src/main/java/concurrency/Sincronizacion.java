@@ -39,6 +39,7 @@ package concurrency;
  * 
  * Tener una comprension basica del modelo de memoria de Java es realmente importante para obtener una concurrencia
  * correcta.
+ * https://en.wikipedia.org/wiki/Thread_(computing)
  * https://en.wikipedia.org/wiki/Java_memory_model
  * 
  * @author Juan Debenedetti aka Ru$o

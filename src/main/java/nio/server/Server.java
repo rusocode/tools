@@ -170,10 +170,16 @@ public class Server extends JFrame implements Runnable {
 
 					SelectionKey key = keys.next();
 
+					/* El Selector no elimina las instancias de SelectionKey del propio conjunto de keys seleccionadas. Tienes que hacer
+					 * esto cuando hayas terminado de procesar el canal. La proxima vez que el canal este "listo", el selector la agregara
+					 * al conjunto de keys seleccionadas nuevamente. */
+					keys.remove();
+
 					// Si la clave no es valida
 					if (!key.isValid()) continue;
 
-					// Verifica si el cliente esta solicitando una conexion
+					/* Si un cliente solicito una nueva conexion. Solo se espera que el canal ServerSocketChannel registrado para
+					 * OP_ACCEPT reciba una clave "aceptable". */
 					if (key.isAcceptable()) {
 
 						// El servidor acepta la conexion del cliente
@@ -228,11 +234,6 @@ public class Server extends JFrame implements Runnable {
 						key.channel().close(); // client.close();
 
 					}
-
-					/* El Selector no elimina las instancias de SelectionKey del propio conjunto de keys seleccionadas. Tienes que hacer
-					 * esto cuando hayas terminado de procesar el canal. La proxima vez que el canal este "listo", el selector la agregara
-					 * al conjunto de keys seleccionadas nuevamente. */
-					keys.remove();
 
 				}
 
