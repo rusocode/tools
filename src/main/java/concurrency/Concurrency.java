@@ -1,23 +1,6 @@
 package concurrency;
 
 /**
- * IMPORTANTE: leer estos articulos antes de seguir con la documentacion:
- * - https://sites.google.com/site/silvinaeduc/home/definicion-de-sincronica-y-asincronica
- * - https://stackoverflow.com/questions/200469/what-is-the-difference-between-a-process-and-a-thread
- * - https://www.tutorialspoint.com/difference-between-process-and-thread
- * - https://jenkov.com/tutorials/java-concurrency/index.html
- * 
- * Proceso/Aplicacion es lo mismo.
- * Subproceso/Thread/Hilo es lo mismo.
- * CPU/Nucleo es lo mismo (aunque un CPU puede tener varios nucleos).
- * 
- * Task/Tarea es la tarea que ejecuta el subproceso.
- * 
- * Todos estos terminos se relacionan entre si formando lo que se conoce como Multithreading.
- * 
- * ___________________________________________________________________________
- * 
- * 
  * El subproceso múltiple significa que tiene varios subprocesos de ejecución dentro de la misma aplicación. Un hilo es
  * como una CPU separada que ejecuta su aplicación. Por lo tanto, una aplicación multiproceso es como una aplicación que
  * tiene varias CPU que ejecutan diferentes partes del código al mismo tiempo.

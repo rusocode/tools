@@ -15,16 +15,15 @@ import static util.Constants.*;
  * escriba muchos datos a la vez. Es importante aclarar que el buffer seria una porcion de codigo que toma una parte de
  * la memoria RAM (volatil) para acceder mucho mas rapido a los datos.
  * 
- * FileOuputStream, FileInputStream, FileWriter y FileReader se utilizan para escribir o leer datos en memoria.
- * BufferedOutputStream, BufferedInputStream, BufferedWriter y BufferedReader, añaden un buffer intermedio encargado
- * de controlar el acceso a la memoria.
+ * Las clases FileOuputStream, FileInputStream, FileWriter y FileReader se utilizan para escribir o leer datos en
+ * memoria. Las BufferedOutputStream, BufferedInputStream, BufferedWriter y BufferedReader, añaden un buffer intermedio
+ * encargado de controlar el acceso a la memoria.
+ * 
  * Caracteristicas de los buffers en java:
  * -Si vamos escribiendo, se guardaran los datos hasta que tenga basantes como para hacer la escritura eficiente.
  * -Si queremos leer, la clase leera muchos datos de golpe, aunque solo nos de los que hayamos pedido. En las siguientes
  * lecturas nos dara lo que tiene almacenado, hasta que necesite leer otra vez.
- * En conclusion, los "Buffered" pueden manejar fragmentos de datos y los flujos normales leen/escriben bytes
- * individuales.
- *
+ * 
  * Esta forma de trabajar hace que el acceso al disco sea mas eficiente y el programa corra mas rapido. La diferencia se
  * notara mas cuanto mayor sea el archivo a leer o escribir. La clave en las clases que comienzan con Buffered es que
  * usan un buffer. Digamos que es una memoria interna que normalmente hace que esas clases sean mas eficientes, es
@@ -39,6 +38,8 @@ import static util.Constants.*;
  * FileInputStream utilizando un BufferedInputStream. BufferedInputStream lee un fragmento de bytes en un array
  * de bytes del FileInputStream subyacente. Luego puede leer los bytes uno por uno desde BufferedInputStream y aun asi
  * obtener gran parte de la aceleracion que proviene de leer un array de bytes en lugar de un byte a la vez.
+ * 
+ * En conclusion, los buffers manejan fragmentos de datos y los flujos normales leen/escriben bytes individuales.
  * 
  * Recursos
  * Java IO - Buffered Streams: https://www.youtube.com/watch?v=baHz_RmMt5I
