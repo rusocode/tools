@@ -27,7 +27,7 @@ package concurrency;
  * 
  */
 
-public class Subproceso {
+public class Estados {
 
 	private static final int TIEMPO_BLOQUEADO = 2000;
 
