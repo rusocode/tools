@@ -8,7 +8,7 @@ package concurrency;
  * 
  */
 
-public class PauseStop implements Runnable {
+public class PauseStopThread implements Runnable {
 
 	private boolean stopped;
 
@@ -46,7 +46,7 @@ public class PauseStop implements Runnable {
 
 	public static void main(String[] args) {
 
-		PauseStop runnable = new PauseStop();
+		PauseStopThread runnable = new PauseStopThread();
 		// No puedo usar "this" en un contexto estatico
 		Thread subproceso = new Thread(runnable, "Subproceso 1");
 		subproceso.start();

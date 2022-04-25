@@ -26,7 +26,7 @@ package concurrency;
  * http://tutorials.jenkov.com/java-concurrency/race-conditions-and-critical-sections.html
  * http://tutorials.jenkov.com/java-concurrency/thread-safety.html
  * 
- * @author Ru$o
+ * @author Ruso
  * 
  */
 
@@ -70,7 +70,6 @@ public class RaceConditionsAndCriticalSections {
 
 		public MyRunnable(RaceConditionsAndCriticalSections instance) {
 			this.instance = instance;
-
 		}
 
 		@Override

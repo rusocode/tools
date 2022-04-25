@@ -30,11 +30,14 @@ import java.lang.Thread;
  * CPU/Nucleo es lo mismo (aunque un CPU puede tener varios nucleos).
  * 
  * Recursos
+ * Process vs Thread: https://www.youtube.com/watch?v=Dhf-DYO1K78
+ * Intro to Processes & Threads: https://www.youtube.com/watch?v=exbKr6fnoUw (muy bien explicado)
+ * Multithreading Code - Computerphile: https://www.youtube.com/watch?v=7ENFeb-J75k
  * https://stackoverflow.com/questions/200469/what-is-the-difference-between-a-process-and-a-thread
  * https://www.tutorialspoint.com/difference-between-process-and-thread
  * https://jenkov.com/tutorials/java-concurrency/creating-and-starting-threads.html
  * 
- * @author Ru$o
+ * @author Ruso
  * 
  */
 
@@ -64,7 +67,7 @@ public class ProcesoSubproceso extends Thread {
 		 * 
 		 * thread.start(); */
 
-		// Inicia el subproceso usando Runnable
+		// Inicia el subproceso con un Runnable
 		Thread thread = new Thread(new MyRunnable()); // o una clase anonima, o lambda...
 		thread.start();
 	}
@@ -104,5 +107,12 @@ public class ProcesoSubproceso extends Thread {
 	/* Runnable runnable = () -> {
 	 * System.out.println("Runnable running");
 	 * }; */
+
+	/* Subclase o Runnable?
+	 * 
+	 * No hay reglas sobre cual de los dos metodos es el mejor. Ambos metodos funcionan. Sin embargo, personalmente,
+	 * prefiero implementar Runnable y entregar una instancia de la implementacion a una instancia de Thread. Cuando un
+	 * grupo de subprocesos ejecuta Runnable, es facil poner en cola las instancias de Runnable hasta que un subproceso del
+	 * grupo este inactivo. Esto es un poco mas dificil de hacer con las subclases Thread. */
 
 }
