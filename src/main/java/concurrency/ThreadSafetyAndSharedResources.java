@@ -30,9 +30,15 @@ public class ThreadSafetyAndSharedResources {
 
 		ThreadSafetyAndSharedResources sharedInstance = new ThreadSafetyAndSharedResources();
 
-		/* Las dos instancias de MyRunnable comparten la misma instancia de RaceConditionsAndCriticalSections. Por lo tanto,
-		 * cuando llaman al metodo add() en la instancia de RaceConditionsAndCriticalSections, conduce a una condicion de
-		 * carrera. */
+		/**
+		 * - Object Member Variables
+		 * Las variables de miembro de objeto (campos) se almacenan en el heap junto con el objeto. Por lo tanto, si dos
+		 * subprocesos llaman a un método en la misma instancia de objeto y este método actualiza las variables de miembro del
+		 * objeto, el método no es seguro para subprocesos.
+		 * 
+		 * Las dos instancias de MyRunnable comparten la misma instancia de objeto. Por lo tanto, cuando llaman al metodo add()
+		 * en la instancia de objeto, conduce a una condicion de carrera.
+		 */
 		new Thread(new MyRunnable(sharedInstance)).start();
 		new Thread(new MyRunnable(sharedInstance)).start();
 
@@ -47,17 +53,35 @@ public class ThreadSafetyAndSharedResources {
 		builder.append(text);
 	}
 
-	/* Las variables locales se almacenan en la propia pila de cada subproceso. Eso significa que las variables locales
+	/**
+	 * - Local Variables
+	 * Las variables locales se almacenan en la propia pila de cada subproceso. Eso significa que las variables locales
 	 * nunca se comparten entre subprocesos. Eso también significa que todas las variables primitivas locales son seguras
-	 * para subprocesos. */
+	 * para subprocesos.
+	 */
 	public void someMethod() {
 		long threadSafeInt = 0;
 		threadSafeInt++;
 	}
 
+	/**
+	 * - Local Object References
+	 * Las referencias locales a objetos son un poco diferentes. La referencia en sí no se comparte. Sin embargo, el objeto
+	 * al que se hace referencia no se almacena en la pila local de cada subproceso. Todos los objetos se almacenan en el
+	 * montón compartido.
+	 * 
+	 * Si un objeto creado localmente nunca escapa del método en el que se creó, es seguro para subprocesos. De hecho,
+	 * también puede pasarlo a otros métodos y objetos siempre que ninguno de estos métodos u objetos haga que el objeto
+	 * pasado esté disponible para otros subprocesos.
+	 */
 	public void someMethod2() {
 		LocalObject localObject = new LocalObject();
 		localObject.callMethod();
+		method2(localObject);
+	}
+
+	public void method2(LocalObject localObject) {
+		localObject.setValue("value");
 	}
 
 	private static class MyRunnable implements Runnable {
@@ -76,8 +100,15 @@ public class ThreadSafetyAndSharedResources {
 	}
 
 	private class LocalObject {
+
+		String value;
+
 		public void callMethod() {
 
+		}
+
+		public void setValue(String value) {
+			this.value = value;
 		}
 
 	}
