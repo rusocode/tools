@@ -32,7 +32,7 @@ package concurrency;
  * 
  */
 
-public class RaceConditionsAndCriticalSections implements Runnable {
+public class RaceConditionsAndCriticalSections /* implements Runnable */ {
 
 	protected long count;
 
@@ -104,17 +104,28 @@ public class RaceConditionsAndCriticalSections implements Runnable {
 	 * 
 	 */
 
-	@Override
-	public void run() {
-		// add();
-	}
+	/* @Override
+	 * public void run() {
+	 * 
+	 * } */
 
 	public static void main(String[] args) {
 
 		RaceConditionsAndCriticalSections instance = new RaceConditionsAndCriticalSections();
 
-		Thread A = new Thread(instance);
-		Thread B = new Thread(instance);
+		Thread A = new Thread() {
+			public void run() {
+				instance.add(3);
+
+			}
+		};
+
+		Thread B = new Thread() {
+			public void run() {
+				instance.add(2);
+				System.out.println(instance.count);
+			}
+		};
 
 		A.start();
 		B.start();
