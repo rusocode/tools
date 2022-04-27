@@ -1,17 +1,17 @@
 package concurrency;
 
 /**
- * El código que es seguro llamar por múltiples subprocesos simultáneamente se denomina subproceso seguro. Si un
- * fragmento de código es seguro para subprocesos, no contiene condiciones de carrera. La condición de carrera solo
- * ocurre cuando varios subprocesos actualizan los recursos compartidos. Por lo tanto, es importante saber qué recursos
+ * El codigo que es seguro llamar por multiples subprocesos simultaneamente se denomina subproceso seguro. Si un
+ * fragmento de codigo es seguro para subprocesos, no contiene condiciones de carrera. La condicion de carrera solo
+ * ocurre cuando varios subprocesos actualizan los recursos compartidos. Por lo tanto, es importante saber que recursos
  * comparten los subprocesos de Java cuando se ejecutan.
  * 
  * -La regla de escape del control de subprocesos
  * "Si un recurso se crea, utiliza y elimina dentro el control del mismo hilo, y nunca escapa al control de este hilo,
  * el uso de ese recurso es seguro para subprocesos."
  * 
- * Los recursos pueden ser cualquier recurso compartido como un objeto, una matriz, un archivo, una conexión a la base
- * de datos, un socket, etc. En Java, no siempre se desechan los objetos de forma explícita, por lo que "desechar"
+ * Los recursos pueden ser cualquier recurso compartido como un objeto, una matriz, un archivo, una conexion a la base
+ * de datos, un socket, etc. En Java, no siempre se desechan los objetos de forma explicita, por lo que "desechar"
  * significa perder o anular la referencia al objeto.
  * 
  * Fuentes:
@@ -66,13 +66,13 @@ public class ThreadSafetyAndSharedResources {
 
 	/**
 	 * - Local Object References
-	 * Las referencias locales a objetos son un poco diferentes. La referencia en sí no se comparte. Sin embargo, el objeto
+	 * Las referencias locales a objetos son un poco diferentes. La referencia en si no se comparte. Sin embargo, el objeto
 	 * al que se hace referencia no se almacena en la pila local de cada subproceso. Todos los objetos se almacenan en el
 	 * montón compartido.
 	 * 
-	 * Si un objeto creado localmente nunca escapa del método en el que se creó, es seguro para subprocesos. De hecho,
-	 * también puede pasarlo a otros métodos y objetos siempre que ninguno de estos métodos u objetos haga que el objeto
-	 * pasado esté disponible para otros subprocesos.
+	 * Si un objeto creado localmente nunca escapa del metodo en el que se creo, es seguro para subprocesos. De hecho,
+	 * tambien puede pasarlo a otros metodos y objetos siempre que ninguno de estos metodos u objetos haga que el objeto
+	 * pasado este disponible para otros subprocesos.
 	 */
 	public void someMethod2() {
 		LocalObject localObject = new LocalObject();

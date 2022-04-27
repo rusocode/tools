@@ -25,14 +25,15 @@ import java.lang.Thread;
  * tiene operaciones que hacen que los subprocesos sean eficientes).
  *
  * Nota:
- * Proceso/Aplicacion es lo mismo.
+ * Proceso/Aplicacion/Programa es lo mismo.
  * Subproceso/Thread/Hilo es lo mismo.
- * CPU/Nucleo es lo mismo (aunque un CPU puede tener varios nucleos).
  * 
  * Recursos
  * Process vs Thread: https://www.youtube.com/watch?v=Dhf-DYO1K78
  * Intro to Processes & Threads: https://www.youtube.com/watch?v=exbKr6fnoUw (muy bien explicado)
  * Multithreading Code - Computerphile: https://www.youtube.com/watch?v=7ENFeb-J75k
+ * Java Concurrency and Multithreading:
+ * https://www.youtube.com/watch?v=mTGdtC9f4EU&list=PLL8woMHwr36EDxjUoCzboZjedsnhLP1j4
  * https://stackoverflow.com/questions/200469/what-is-the-difference-between-a-process-and-a-thread
  * https://www.tutorialspoint.com/difference-between-process-and-thread
  * https://jenkov.com/tutorials/java-concurrency/creating-and-starting-threads.html
@@ -53,7 +54,7 @@ public class ProcesoSubproceso extends Thread {
 		/* La primera forma de especificar que codigo debe ejecutar un subproceso es crear una subclase de Thread y
 		 * sobreescribir el metodo run(). El metodo run() es lo que ejecuta el subproceso despues de llamar a start(). */
 		// Crea y ejecuta el subproceso
-		ProcesoSubproceso subproceso = new ProcesoSubproceso();
+		// ProcesoSubproceso subproceso = new ProcesoSubproceso();
 		/* La llamada start() regresara tan pronto como se inicie el hilo. No esperara hasta que finalice el metodo run(). El
 		 * metodo run() se ejecutara como si lo ejecutara una CPU diferente. */
 		// subproceso.start();
@@ -67,7 +68,7 @@ public class ProcesoSubproceso extends Thread {
 		 * 
 		 * thread.start(); */
 
-		// Inicia el subproceso con un Runnable
+		// Inicia el subproceso con un Runnable (segunda forma)
 		Thread thread = new Thread(new MyRunnable()); // o una clase anonima, o lambda...
 		thread.start();
 	}

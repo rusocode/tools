@@ -46,6 +46,9 @@ public class PauseStopThread implements Runnable {
 
 	public static void main(String[] args) {
 
+		/* Es importante tener en cuenta que esta aplicacion ejecuta dos subprocesos, el main thread y el subproceso que llama
+		 * al metodo run. */
+
 		PauseStopThread runnable = new PauseStopThread();
 		// No puedo usar "this" en un contexto estatico
 		Thread subproceso = new Thread(runnable, "Subproceso 1");
@@ -55,7 +58,7 @@ public class PauseStopThread implements Runnable {
 		 * clase que implementa la interfaz Runnable. */
 		// new Thread(new StopThread()).start();
 
-		// Pausa el subproceso por 2 segundos y lo detiene
+		// Pausa el subproceso por 2 segundos antes de detenerlo
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
