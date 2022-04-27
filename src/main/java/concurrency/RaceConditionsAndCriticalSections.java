@@ -83,32 +83,6 @@ public class RaceConditionsAndCriticalSections /* implements Runnable */ {
 	 * 
 	 */
 
-	/**
-	 * - Prevención de condiciones de carrera
-	 * 
-	 * Para evitar que ocurran condiciones de carrera, debe asegurarse de que la sección crítica se ejecute como una
-	 * instrucción atómica. Eso significa que una vez que un único subproceso lo está ejecutando, ningún otro subproceso
-	 * puede ejecutarlo hasta que el primer subproceso haya abandonado la sección crítica.
-	 * 
-	 * Las condiciones de carrera se pueden evitar mediante la sincronización adecuada de subprocesos en secciones críticas.
-	 * La sincronización de subprocesos se puede lograr utilizando un bloque sincronizado de código Java. La sincronización
-	 * de subprocesos también se puede lograr utilizando otras construcciones de sincronización como bloqueos o variables
-	 * atómicas como java.util.concurrent.atomic.AtomicInteger.
-	 * 
-	 */
-
-	/**
-	 * Observe cómo el método add() agrega valores a dos variables miembro de suma diferentes. Para evitar condiciones de
-	 * carrera, la suma se ejecuta dentro de un bloque sincronizado de Java. Con esta implementación, solo un único
-	 * subproceso puede ejecutar la suma al mismo tiempo.
-	 * 
-	 */
-
-	/* @Override
-	 * public void run() {
-	 * 
-	 * } */
-
 	public static void main(String[] args) {
 
 		RaceConditionsAndCriticalSections instance = new RaceConditionsAndCriticalSections();
