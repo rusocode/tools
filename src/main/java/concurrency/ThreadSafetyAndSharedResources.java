@@ -6,7 +6,7 @@ package concurrency;
  * ocurre cuando varios subprocesos actualizan los recursos compartidos. Por lo tanto, es importante saber que recursos
  * comparten los subprocesos de Java cuando se ejecutan.
  * 
- * -La regla de escape del control de subprocesos
+ * - La regla de escape del control de subprocesos
  * "Si un recurso se crea, utiliza y elimina dentro el control del mismo hilo, y nunca escapa al control de este hilo,
  * el uso de ese recurso es seguro para subprocesos."
  * 

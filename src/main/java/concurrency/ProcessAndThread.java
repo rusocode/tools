@@ -42,7 +42,7 @@ import java.lang.Thread;
  * 
  */
 
-public class ProcesoSubproceso extends Thread {
+public class ProcessAndThread extends Thread {
 
 	public static void main(String[] args) {
 
