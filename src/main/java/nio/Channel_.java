@@ -1,6 +1,5 @@
 package nio;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -41,8 +40,7 @@ import static util.Constants.*;
  * archivo se obtiene de una secuencia existente o un archivo de acceso aleatorio, el estado del canal de archivo está
  * íntimamente conectado al del objeto cuyo método getChannel devolvió el canal.
  * 
- * @author Ru$o
- * 
+ * @author Ruso
  */
 
 public class Channel_ {
@@ -50,7 +48,7 @@ public class Channel_ {
 	public static void main(String[] args) {
 
 		FileChannel channel = null;
-		RandomAccessFile file = null;
+		RandomAccessFile file;
 
 		try {
 
@@ -93,8 +91,6 @@ public class Channel_ {
 
 			}
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

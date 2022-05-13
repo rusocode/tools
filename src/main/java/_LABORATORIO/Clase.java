@@ -13,7 +13,7 @@ public class Clase {
 	// Atributos
 	private String valor1 = "valor default";
 	private String valor2;
-	private double decimal = 12.5;
+	private final double DECIMAL = 12.5;
 
 	// Constructor por defecto
 	public Clase() {
@@ -26,8 +26,6 @@ public class Clase {
 
 	/**
 	 * Devuelve una instancia de Clase dinamica a partir de un constructor vacio
-	 * 
-	 * @return
 	 */
 	public static Clase constructor() {
 		try {
@@ -40,9 +38,6 @@ public class Clase {
 
 	/**
 	 * Devuelve una instancia de Clase dinamica a partir de un constructor con atributos
-	 * 
-	 * @param valor1
-	 * @return
 	 */
 	public static Clase constructor(String valor1) {
 		try {

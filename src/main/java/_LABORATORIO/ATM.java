@@ -1,7 +1,6 @@
 package _LABORATORIO;
 
-import javax.swing.JFrame;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 
 /* Con esta clase es posible implementar, de una manera mas completa y eficiente, los metodos
@@ -12,12 +11,11 @@ import javax.swing.table.AbstractTableModel;
 
 public class ATM extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
-	private JFrame ventana;
 
 	public ATM() {
-		ventana = new JFrame();
+		JFrame ventana = new JFrame();
 		ventana.setTitle("AbstractTableModel");
-		ventana.setDefaultCloseOperation(3);
+		ventana.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		ventana.setBounds(100, 100, 395, 316);
 		ventana.setResizable(false);
 		ventana.getContentPane().setLayout(null);
@@ -57,7 +55,6 @@ public class ATM extends AbstractTableModel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }

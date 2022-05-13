@@ -4,11 +4,11 @@ package _LABORATORIO;
 // https://stackoverflow.com/questions/6828362/difference-between-string-isempty-and-string-equals/6828386
 public class ComparacionDeCadenas {
 
-	private static String str = "/SALIR";
+	private static final String STR = "/SALIR";
 
 	public static void main(String[] args) {
 
-		System.out.println("valor de srt = " + str);
+		System.out.println("valor de srt = " + STR);
 		forma1();
 	}
 
@@ -21,7 +21,7 @@ public class ComparacionDeCadenas {
 		 * 
 		 * "null-safe", se refiere a que si str fuera null, esta construccion simplemente se evaluaria a false y no arrojaria un
 		 * NullPointerException. */
-		System.out.println("\"\".equals(str) = " + "/SALIR".equals(str));
+		System.out.println("\"\".equals(str) = " + "/SALIR".equals(STR));
 
 	}
 
@@ -30,7 +30,7 @@ public class ComparacionDeCadenas {
 		 * luego iterara sobre la cadena para comparar si los tamaños coinciden.
 		 * 
 		 * isEmpty() en realidad hara mucho menos! y eso es bueno. */
-		System.out.println("str.isEmpty() = " + (str != null && !str.isEmpty()));
+		System.out.println("str.isEmpty() = " + (STR != null && !STR.isEmpty()));
 
 		// System.out.println("".compareTo(str));
 	}

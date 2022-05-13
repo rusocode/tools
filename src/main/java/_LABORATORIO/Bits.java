@@ -4,17 +4,17 @@ package _LABORATORIO;
  * Como sabran, los datos en una computadora internamente se representan en codigo binario. El microprocesador solo
  * entiende de ceros y unos. Luego, mediante una serie de procesos, nosotros vemos a este codigo ya transformado en
  * numeros, caracteres, imagenes y sonidos. Pero en realidad en la trastienda todo sigue siendo binario.
- * 
+ *
  * Una operación bit a bit opera sobre números binarios a nivel de sus bits individuales. Es una acción primitiva
  * rápida, soportada directamente por los procesadores. En procesadores simples de bajo costo, las operaciones
  * de bit a bit, junto con los de adición y sustracción, son típicamente sustancialmente más rápidas que la
  * multiplicación y la división, mientras que en los modernos procesadores de alto rendimiento usualmente las
  * operaciones se realizan a la misma velocidad.
- * 
+ *
  * El metodo mas sencillo de representacion son los numeros naturales. Por ejemplo, si tengo el numero 85 en decimal,
  * solo tengo que llevarlo a binario y obtengo una serie de unos y ceros:
  * 1010101 = 85 en binario
- * 
+ *
  * Java proporciona operadores para realizar operaciones a nivel de bits para todos los tipos integrales (byte, char,
  * short, int, long):
  * - ~a (complemento) transforma los 0s en 1s y los 1s en 0s en la representacion binaria. Por ejemplo, si el byte b
@@ -26,19 +26,19 @@ package _LABORATORIO;
  * - a<<n (left shift) desplaza el patron de bits n posiciones hacia la izquierda (rellena con ceros).
  * - a>>n (signed right shift) desplaza el patron de bits n posiciones hacia la derecha (rellena con el bit de signo).
  * - a>>>n (unsigned left shift) desplaza el patron de bits n posiciones hacia la derecha (rellena con ceros).
- * 
+ *
  * Para operar a nivel de bit es necesario tomar toda la longitud predefinida para el tipo de dato. Estamos
  * acostumbrados a desechar los ceros a la izquierda en nuestra representacion de numeros. Pero aqui es importante. Si
  * trabajamos una variable de tipo int con un valor de 3, esta representada de la siguiente manera:
- * 
+ *
  * 00000000000000000000000000000011
- * 
+ *
  * Aqui los 32 bits de un int se tienen en cuenta.
- * 
- * Fuente > https://es.wikibooks.org/wiki/Programaci%C3%B3n_en_Java/Operadores_de_bits
- * 
+ *
+ * Fuente > <a href="https://es.wikibooks.org/wiki/Programaci%C3%B3n_en_Java/Operadores_de_bits">...</a>
+ *
  * @author Juan Debenedetti aka Ru$o
- * 
+ *
  */
 
 public class Bits {
@@ -57,14 +57,15 @@ public class Bits {
 		// 0000_0000_0000_0000_0000_0000_0000_0001 = 1
 		// 0000_0000_0000_0000_0000_0000_0001_0000 = 16
 
-		byte[] binary = { 0, 0, 0, 1, 0, 0, 0, 0 };
+		byte[] binary = {0, 0, 0, 1, 0, 0, 0, 0};
 
 		System.out.println(leftShift(decimal));
-		// System.out.println(binaryToDecimal(binary));
+		System.out.println(binaryToDecimal(binary));
+		System.out.println(and(a, b));
 
 	}
 
-	/**
+	/*
 	 * -Operadores logicos de bits
 	 * Estos operadores extienden las operaciones booleanas a los enteros. Para comprender como trabajan debemos descomponer
 	 * los enteros en un conjunto de bits. El operador aplicara una operacion logica bit por bit, tomando el valor de uno
@@ -112,7 +113,7 @@ public class Bits {
 		return ~a;
 	}
 
-	/**
+	/*
 	 * -Desplazamientos
 	 * Los operadores de desplazamiento, mueven los bits a la izquierda o a la derecha. El primer operando sera la victima a
 	 * sacudir. El segundo indicara cuantas posiciones.
@@ -151,7 +152,6 @@ public class Bits {
 	 * 11111111111111111111111111111111 = -1 complemento a 2
 	 */
 	private static void signedRightShiftNegative() {
-
 		int x = -1;
 		int y = x >> 1;
 		System.out.println("El resultado es: " + y);
@@ -159,18 +159,16 @@ public class Bits {
 		/* Quedo exactamente igual. Prueben de correr el numero tantas posiciones como tengan ganas y obtendran el mismo
 		 * resultado. Esto ocurre porque en el desplazamiento, los "huecos" que quedan a la izquierda se rellenan con el bit uno
 		 * (1), quedando inalterable.
-		 * 
+		 *
 		 * Este operador desplaza el conjunto de bit a la derecha y agrega a la izquierda los bits que faltan segun el bit de
 		 * signo, o sea el mas significativo. Si se encuentra con un numero positivo, el bit de signo vale 0, entonces agrega
 		 * ceros, en cambio si son negativos el bit de signo vale 1, entonces agrega unos. Este proceso, denominado extension de
 		 * signo mantiene el signo del numero como si se tratara de una division. Por esto se lo conoce como desplazamiento con
 		 * signo. */
-
 	}
 
 	/** Modifiquemos ligeramente el programa anterior agregandole al operador un simbolo >. Nos queda de esta manera: */
 	private static void unsignedRightShift() {
-
 		int x = -1;
 		int y = x >>> 2;
 		System.out.println("El resultado es: " + y);
@@ -185,28 +183,26 @@ public class Bits {
 		 * tiene en cuenta el signo. Siempre agrega bit con el valor cero, por lo que se llama desplazamiento sin signo. Este
 		 * operador suele ser mas adecuado que el >> cuando queremos manipular los bits mismos, no su representacion
 		 * numerica. */
-
 	}
 
 	// https://cual-es-mi-ip.online/herramientas/conversores-numericos/conversor-decimal-a-binario/
 	private static String decimalToBinary(int decimal) {
-
-		String binary = "", reverse = "";
+		StringBuilder binary = new StringBuilder();
+		StringBuilder reverse = new StringBuilder();
 
 		for (int i = 0; i < LONGITUD_BINARIA; i++) {
-			if (decimal % 2 == 0) binary += "0";
-			else binary += "1";
+			if (decimal % 2 == 0) binary.append("0");
+			else binary.append("1");
 			decimal /= 2;
 		}
 
 		for (int i = LONGITUD_BINARIA - 1; i >= 0; i--)
-			reverse += binary.charAt(i);
+			reverse.append(binary.charAt(i));
 
-		return reverse;
+		return reverse.toString();
 	}
 
 	private static int binaryToDecimal(byte[] binary) {
-
 		int decimal = 0;
 
 		for (int i = binary.length - 1; i >= 0; i--)

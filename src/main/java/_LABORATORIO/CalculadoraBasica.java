@@ -4,17 +4,16 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CalculadoraBasica {
-	private static Scanner entrada = new Scanner(System.in);
+	private static final Scanner entrada = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		calcular();
 	}
 
 	private static void calcular() throws InputMismatchException {
-
 		final char suma = '+', resta = '-', division = '/', producto = '*';
 		char signo;
-		double n1 = 0, n2 = 0, total = 0;
+		double n1, n2, total = 0;
 
 		try {
 			do {
@@ -32,27 +31,12 @@ public class CalculadoraBasica {
 					signo = entrada.next().charAt(0);
 
 					switch (signo) {
-					case suma:
-						total = n1 + n2;
-						break;
-					case resta:
-						total = n1 - n2;
-						break;
-					case division:
-						total = n1 / n2;
-						break;
-					case producto:
-						total = n1 * n2;
-						break;
-					case 'S':
-						System.out.println("Salio.");
-						break;
-					case 's':
-						System.out.println("Salio.");
-						break;
-					default:
-						System.out.println("Signo incorrecto.");
-						break;
+						case suma -> total = n1 + n2;
+						case resta -> total = n1 - n2;
+						case division -> total = n1 / n2;
+						case producto -> total = n1 * n2;
+						case 'S', 's' -> System.out.println("Salio.");
+						default -> System.out.println("Signo incorrecto.");
 					}
 
 					if (signo == '+' || signo == '-' || signo == '/' || signo == '*') System.out.println("Total: " + total);

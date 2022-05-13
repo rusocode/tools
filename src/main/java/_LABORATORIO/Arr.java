@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Arr {
 
-	private static Scanner entrada = new Scanner(System.in);
+	private static final Scanner entrada = new Scanner(System.in);
 
 	public static void main(String[] args) {
 
@@ -27,20 +27,20 @@ public class Arr {
 
 		System.out.println(toString(arr, 0));
 
-		sortAsc(arr);
-//		sortDesc(arr);
-//		mayor(arr);
-		menor(arr);
-//		promedio(arr);
-//		pares(arr);
-//		impares(arr);
-//		desordenar(arr);
-//		contador(arr);
+		// sortAsc(arr);
+		// sortDesc(arr);
+		mayor(arr);
+		// menor(arr);
+		// promedio(arr);
+		// pares(arr);
+		// impares(arr);
+		// desordenar(arr);
+		// contador(arr);
 	}
 
 	private static int[] initArr(int l) {
 
-		int arr[] = new int[l];
+		int[] arr = new int[l];
 
 		for (int i = 0; i < arr.length; i++)
 			arr[i] = (int) (Math.random() * 100 + 1);
@@ -50,7 +50,7 @@ public class Arr {
 
 	private static void sortAsc(int[] arr) {
 		System.out.println("ordenando de manera ascendente...");
-		int aux = 0;
+		int aux;
 		/*
 		 * El primer for controla las pasadas y el segundo el intercambio. Si arr es el
 		 * array a ordenar, se realizan arr.length-1 pasadas. Si la variable i es la que
@@ -60,7 +60,7 @@ public class Arr {
 		 * desordenados se intercambian. El tiempo de ejecucion del algoritmo de la
 		 * burbuja es del orden O(n2). Es uno de los peores algoritmos de ordenacion en
 		 * cuanto a tiempo de ejecucion, solamente es recomendable su uso para ordenar
-		 * listas con un numero pequeño de elementos.
+		 * listas con un numero pequeÃ±o de elementos.
 		 */
 		for (int i = 0; i < arr.length - 1; i++) {
 			for (int j = 0; j < arr.length - 1 - i; j++) {
@@ -82,9 +82,9 @@ public class Arr {
 
 	private static void sortDesc(int[] arr) {
 		System.out.println("ordenando de manera descendente...");
-		int aux = 0;
+		int aux;
 		for (int i = 0; i < arr.length - 1; i++) { // Se itera hasta arr.length - 1 para evitar que el array se salga de
-													// los limites
+			// los limites
 			for (int j = 0; j < arr.length - 1 - i; j++) {
 				if (arr[j] < arr[j + 1]) {
 					aux = arr[j + 1];
@@ -95,15 +95,13 @@ public class Arr {
 		}
 
 		System.out.println(toString(arr, 0));
-
 	}
 
 	private static void mayor(int[] arr) {
 		int mayor = 0;
 
-		for (int i = 0; i < arr.length; i++)
-			if (mayor < arr[i])
-				mayor = arr[i];
+		for (int j : arr)
+			if (mayor < j) mayor = j;
 
 		System.out.println("El mayor es: " + mayor);
 	}
@@ -111,44 +109,39 @@ public class Arr {
 	private static void menor(int[] arr) {
 		int menor = arr[0];
 
-		for (int i = 0; i < arr.length; i++)
-			if (menor > arr[i])
-				menor = arr[i];
+		for (int j : arr)
+			if (menor > j) menor = j;
 
 		System.out.println("El menor es: " + menor);
-
 	}
 
 	private static void promedio(int[] arr) {
 		int suma = 0;
-		for (int i = 0; i < arr.length; i++)
-			suma += arr[i];
+		for (int j : arr) suma += j;
 
 		System.out.println("Promedio: " + (suma / arr.length));
 	}
 
 	private static void pares(int[] arr) {
 		System.out.print("Pares:");
-		for (int i = 0; i < arr.length; i++)
-			if (arr[i] % 2 == 0)
-				System.out.print(" " + arr[i]);
+
+		for (int j : arr)
+			if (j % 2 == 0) System.out.print(" " + j);
 
 		System.out.println();
-
 	}
 
 	private static void impares(int[] arr) {
 		System.out.print("Impares:");
-		for (int i = 0; i < arr.length; i++)
-			if (arr[i] % 2 == 1)
-				System.out.print(" " + arr[i]);
 
+		for (int j : arr)
+			if (j % 2 == 1) System.out.print(" " + j);
 	}
 
 	private static void desordenar(int[] arr) {
 		System.out.println("\ndesordenando...");
 
-		int posicionAleatoria = 0, posicionActual = 0;
+		int posicionAleatoria, posicionActual;
 
 		for (int i = 0; i < arr.length; i++) {
 			// Asigna el indice aleatorio
@@ -157,37 +150,32 @@ public class Arr {
 			posicionActual = arr[i];
 
 			// SWAPPING
-			// Intercambia el valor de la posicion actual por el valor de la posicion
-			// aleatoria
+			// Intercambia el valor de la posicion actual por el valor de la posicion aleatoria
 			arr[i] = arr[posicionAleatoria];
-			// Intercambia el valor de la posicion aleatoria por el valor de la posicion
-			// actual
+			// Intercambia el valor de la posicion aleatoria por el valor de la posicion actual
 			arr[posicionAleatoria] = posicionActual;
 
 		}
 
 		System.out.println(toString(arr, 0));
-
 	}
 
 	private static void contador(int[] arr) {
-		int c = 0, numero = 0;
+		int c = 0, numero;
 		do {
 			System.out.print("\nNumero que desea contar (-1 salir): ");
 			numero = entrada.nextInt();
 			if (numero != -1) {
-				for (int i = 0; i < arr.length; i++)
-					if (arr[i] == numero)
-						c++;
+				for (int j : arr)
+					if (j == numero) c++;
 				System.out.println("El " + numero + " se repite " + c + " veces.");
 				c = 0;
 			}
 
 		} while (numero != -1);
-
 	}
 
-	private static String toString(int arr[], int i) {
+	private static String toString(int[] arr, int i) {
 		return i < arr.length
 				? (i == 0 ? "Array: [" : "") + arr[i] + (i == arr.length - 1 ? "]" : ",") + toString(arr, i + 1)
 				: "";

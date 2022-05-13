@@ -9,9 +9,8 @@ import static util.Constants.*;
 
 /**
  * Canal de cliente para crear conexiones con el servidor.
- * 
+ *
  * @author Ru$o
- * 
  */
 
 public class Client {

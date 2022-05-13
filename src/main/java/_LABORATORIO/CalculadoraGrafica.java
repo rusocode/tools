@@ -1,12 +1,5 @@
 package _LABORATORIO;
 
-/**
- * @Name: Calculadora
- * @Author: Juan Debenedetti (alias ruso)
- * @Date last changes: 16.08.2019
- * @Version: 1.0.0
- * */
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -23,14 +16,18 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+/**
+ * @Name: Calculadora
+ * @Author: Juan Debenedetti (alias ruso)
+ * @Date last changes: 16.08.2019
+ * @Version: 1.0.0
+ * */
+
 public class CalculadoraGrafica extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	DecimalFormat decimales = new DecimalFormat("0.00");
 
-	private JPanel panel;
-	private JLabel lblN1;
-	private JLabel lblN2;
 	private JTextField txtN1;
 	private JTextField txtN2;
 	private JButton btnSuma;
@@ -47,20 +44,20 @@ public class CalculadoraGrafica extends JFrame implements ActionListener {
 	}
 
 	private void createGUI() {
-		panel = new JPanel();
+		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		panel.setBounds(0, 0, 237, 126);
 		panel.setLayout(null);
 		getContentPane().add(panel);
 
-		lblN1 = new JLabel("N1:");
+		JLabel lblN1 = new JLabel("N1:");
 		lblN1.setBounds(10, 11, 17, 14);
 		panel.add(lblN1);
 		txtN1 = new JTextField();
 		txtN1.setBounds(33, 8, 73, 20);
 		panel.add(txtN1);
 
-		lblN2 = new JLabel("N2:");
+		JLabel lblN2 = new JLabel("N2:");
 		lblN2.setBounds(116, 11, 17, 14);
 		panel.add(lblN2);
 		txtN2 = new JTextField();
@@ -132,7 +129,7 @@ public class CalculadoraGrafica extends JFrame implements ActionListener {
 	}
 
 	private double getN2() {
-		return Double.valueOf(this.txtN2.getText());
+		return Double.parseDouble(this.txtN2.getText());
 	}
 
 	// Comprueba si hay datos de entrada

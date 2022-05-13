@@ -9,21 +9,21 @@ import static util.Constants.*;
  * "Si no hubiera buffers, seria como comprar sin un carrito: deberia llevar los productos uno a uno hasta la caja. Los
  * buffers te dan un lugar en el que dejar temporalmente las cosas hasta que este lleno. Por ello has de hacer menos
  * viajes cuando usas el carrito."
- * 
+ *
  * Cualquier operacion que implique acceder al disco es muy costosa, por lo que es interesante intentar reducir al
  * maximo las operaciones de lectura/escritura que realizamos sobre los archivos, haciendo que cada operacion lea o
  * escriba muchos datos a la vez. Es importante aclarar que el buffer seria una porcion de codigo que toma una parte de
  * la memoria RAM (volatil) para acceder mucho mas rapido a los datos.
- * 
+ *
  * Las clases FileOuputStream, FileInputStream, FileWriter y FileReader se utilizan para escribir o leer datos en
  * memoria. Las BufferedOutputStream, BufferedInputStream, BufferedWriter y BufferedReader, añaden un buffer intermedio
  * encargado de controlar el acceso a la memoria.
- * 
+ *
  * Caracteristicas de los buffers en java:
  * -Si vamos escribiendo, se guardaran los datos hasta que tenga basantes como para hacer la escritura eficiente.
  * -Si queremos leer, la clase leera muchos datos de golpe, aunque solo nos de los que hayamos pedido. En las siguientes
  * lecturas nos dara lo que tiene almacenado, hasta que necesite leer otra vez.
- * 
+ *
  * Esta forma de trabajar hace que el acceso al disco sea mas eficiente y el programa corra mas rapido. La diferencia se
  * notara mas cuanto mayor sea el archivo a leer o escribir. La clave en las clases que comienzan con Buffered es que
  * usan un buffer. Digamos que es una memoria interna que normalmente hace que esas clases sean mas eficientes, es
@@ -33,29 +33,28 @@ import static util.Constants.*;
  * recolecta un array de bytes. Cuando se llama al metodo read() ya no tiene que acceder a la memoria, sino que devuelve
  * la informacion del buffer interno. En algun momento el buffer interno se agota, pero mientras esto ocurre se han
  * ahorrado un monton de procesos.
- * 
+ *
  * Puede agregar lectura y almacenamiento en buffers transparentes y automaticos de un array de bytes desde un
  * FileInputStream utilizando un BufferedInputStream. BufferedInputStream lee un fragmento de bytes en un array
  * de bytes del FileInputStream subyacente. Luego puede leer los bytes uno por uno desde BufferedInputStream y aun asi
  * obtener gran parte de la aceleracion que proviene de leer un array de bytes en lugar de un byte a la vez.
- * 
+ *
  * En conclusion, los buffers manejan fragmentos de datos y los flujos normales leen/escriben bytes individuales.
- * 
+ *
  * Recursos
- * Java IO - Buffered Streams: https://www.youtube.com/watch?v=baHz_RmMt5I
- * The Hard Drive Buffer: https://www.youtube.com/watch?v=lE7HXIJOpDU
- * Buffer Cache: https://www.youtube.com/watch?v=x2vegjeJICk
- * 
- * @author Ru$o
- * 
+ * Java IO - Buffered Streams: <a href="https://www.youtube.com/watch?v=baHz_RmMt5I">...</a>
+ * The Hard Drive Buffer: <a href="https://www.youtube.com/watch?v=lE7HXIJOpDU">...</a>
+ * Buffer Cache: <a href="https://www.youtube.com/watch?v=x2vegjeJICk">...</a>
+ *
+ * @author Ruso
  */
 
 public class Buffer_ {
 
-	private File file;
+	private final File FILE;
 
 	public Buffer_(File file) {
-		this.file = file;
+		this.FILE = file;
 	}
 
 	/**
@@ -68,10 +67,10 @@ public class Buffer_ {
 
 		try {
 
-			buffer = new BufferedInputStream(new FileInputStream(file));
+			buffer = new BufferedInputStream(new FileInputStream(FILE));
 
-			System.out.println("Archivo: " + file.getName());
-			System.out.println("Ruta: " + file.getPath());
+			System.out.println("Archivo: " + FILE.getName());
+			System.out.println("Ruta: " + FILE.getPath());
 			System.out.println("Tamaño: " + buffer.available() + " bytes / " + ((double) buffer.available() / 1024) + " Kb");
 
 			System.out.println("Decodificando...");
@@ -114,9 +113,9 @@ public class Buffer_ {
 
 		try {
 
-			input = new FileInputStream(file);
+			input = new FileInputStream(FILE);
 
-			buffer = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+			buffer = new BufferedReader(new InputStreamReader(new FileInputStream(FILE)));
 
 			/* Calcula el tiempo en leer el archivo de texto usando un BufferedReader. DIFERENCIA ENORME!
 			 * El metodo readLine() lee una linea de texto. Una linea se considera terminada por cualquiera de un avance de linea
@@ -168,7 +167,7 @@ public class Buffer_ {
 
 		try {
 
-			buffer = new BufferedWriter(new FileWriter(file, true));
+			buffer = new BufferedWriter(new FileWriter(FILE, true));
 
 			buffer.write("Soy el mejor!");
 

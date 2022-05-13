@@ -68,8 +68,8 @@ class LugarQuemado {
 	 * Ejemplo: El atributo flor en la clase LugarQuemado es de instancia, debido a que cada LugarQuemado
 	 * tendra su propia flor. Es importante remarcar que el aributo flor es non-static, osea que se almacena en
 	 * un nuevo bloque de memoria dinamica. */
-	private String flor;
-	private boolean picador;
+	private final String flor;
+	private final boolean picador;
 
 	/* Las constantes simpre deben inicializarse en su declaracion, pero en este caso se hace desde el constructor.
 	 * Como es una constante, no hace falta encapsularla con private ya que saltaria un error en tiempo de compilacion
@@ -81,7 +81,7 @@ class LugarQuemado {
 	public static int cantidadDeFlores = 10;
 
 	// Constante de clase
-	public static final String MENSAJE_PARA_LOS_QUEMADOS = "El señor sin cara los esta mirando";
+	public static final String MENSAJE_PARA_LOS_QUEMADOS = "El seï¿½or sin cara los esta mirando";
 
 	// PRO TIP!
 	// Por convenio es habitual que los modificadores de atributo se orden de la siguiente forma:

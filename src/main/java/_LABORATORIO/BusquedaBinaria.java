@@ -36,8 +36,8 @@ public class BusquedaBinaria {
 }
 
 class PruebaBusquedaBinaria {
-	private int[] datos;
-	private static Random generador = new Random();
+	private final int[] datos;
+	private static final Random generador = new Random();
 
 	public PruebaBusquedaBinaria(int n) {
 		datos = new int[n];
@@ -46,7 +46,6 @@ class PruebaBusquedaBinaria {
 			datos[i] = generador.nextInt(100);
 
 		Arrays.sort(datos);
-
 	}
 
 	public int busquedaBinaria(int clave) {

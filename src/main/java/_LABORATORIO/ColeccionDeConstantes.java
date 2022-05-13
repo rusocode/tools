@@ -27,10 +27,10 @@ public final class ColeccionDeConstantes {
 	 * locales, variables de clase o incluso variables de instancia. ¿Por que? Porque en (la mayoria) los sistemas
 	 * informaticos, las direcciones de las variables estan alineadas, por lo que, por ejemplo, si usa un solo byte, en
 	 * realidad terminara con dos bytes, uno para la variable en si y otro para el relleno.
-	 * 
+	 *
 	 * De nada :)
-	 * https://stackoverflow.com/questions/14531235/in-java-is-it-more-efficient-to-use-byte-or-short-instead-of-int-and-float-inst/14532302#14532302
-	 * https://stackoverflow.com/questions/27122610/why-does-the-java-api-use-int-instead-of-short-or-byte
+	 * <a href="https://stackoverflow.com/questions/14531235/in-java-is-it-more-efficient-to-use-byte-or-short-instead-of-int-and-float-inst/14532302#14532302">...</a>
+	 * <a href="https://stackoverflow.com/questions/27122610/why-does-the-java-api-use-int-instead-of-short-or-byte">...</a>
 	 *
 	 * Si nos fijamos en la constantes de las famosas clases GL11 (lwjgl) y Calendar (API Java), todas estan declaradas como
 	 * int.

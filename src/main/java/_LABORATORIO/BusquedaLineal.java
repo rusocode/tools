@@ -39,8 +39,8 @@ public class BusquedaLineal {
 
 class ArregloLineal {
 
-	private int[] datos;
-	private static Random generador = new Random();
+	private final int[] datos;
+	private static final Random generador = new Random();
 
 	public ArregloLineal(int n) {
 		datos = new int[n];
