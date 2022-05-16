@@ -18,15 +18,15 @@ import static util.Constants.*;
 /**
  * Canal de servidor TCP para escuchar conexiones CON bloqueo. Se puede configurar sin bloqueo con
  * configureBlocking(false), haciendo posible su uso con un Selector.
- *
+ * <p>
  * Para comunicaciones UDP se usa el canal de DatagramChannel.
- *
+ * <p>
  * ¿Por que usar NIO para hacer una conexion de sockets cuando tambien se puede usar el flujo I/O clasico?
  * Porque debido a que nio es sin bloqueo, no requiere subprocesos adicionales. Un chat basado en sockets requeriria
  * tantos subprocesos como usuarios, lo que agregaria una sobrecarga significativa, mientras que un chat nio siempre
  * necesitaria un solo subproceso, lo que lo haria mucho mas escalable, ya que la sobrecarga de subprocesos puede
  * volverse realmente significativa.
- *
+ * <p>
  * ...
  * No necesariamente. En medidas reales de Java en Linux, los multiprocesos de los diseños clasicos de I/O superan a NIO
  * en un 30% aproximadamente (ver "Libro de programacion de la red Java").
@@ -34,11 +34,10 @@ import static util.Constants.*;
  * 1. Tienes una enorme cantidad de clientes > 20.000.
  * 2. El intervalo entre paquetes de datos para enviar es muy corto.
  * Conclusion: Necesita un servidor para > 20.000 clientes con comunicacion de alta frecuencia.
- *
+ * <p>
  * Fuente: <a href="https://gist.github.com/Botffy/3860641">...</a>
  *
  * @author Ruso
- *
  */
 
 public class ServerBlocking extends JFrame implements Runnable {
@@ -107,7 +106,7 @@ public class ServerBlocking extends JFrame implements Runnable {
 			}
 
 		} catch (IOException e) {
-			System.err.println("Error de I/O\n" + e.toString());
+			System.err.println("Error de I/O\n" + e);
 		}
 	}
 

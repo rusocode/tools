@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 
 /**
  * IMPORTANTE: ver la clase Buffer explicada en el paquete io para entender mejor su funcionamiento.
- *
+ * <p>
  * Un buffer en NIO es un contenedor para una cantidad fija de datos de un tipo primitivo especifico que se puede
  * escribir/leer en/desde un canal. A diferencia de la API IO que se maneja con bytes individuales, los buffers se
  * manejan con porciones de bytes.
@@ -15,26 +15,26 @@ import java.nio.ByteBuffer;
  * nunca es negativo y nunca es mayor que su capacidad.
  * ° La posición de un búffer es el índice del siguiente elemento a leer o escribir. La posición de un búffer nunca es
  * negativa y nunca supera su límite.
- *
+ * <p>
  * Hay una subclase de esta clase para cada tipo primitivo no booleano.
- *
+ * <p>
  * Un búffer recién creado siempre tiene una posición de cero y una marca que no está definida. El límite inicial puede
  * ser cero o puede ser algún otro valor que dependa del tipo de búffer y de la forma en que se construye. Cada elemento
  * de un búffer recién asignado se inicializa a cero.
- *
+ * <p>
  * El siguiente invariante es válido para los valores de marca, posición, límite y capacidad:
  * 0 <= marca <= posición <= límite <= capacidad
- *
+ * <p>
  * Los búfferes de bytes se pueden crear con el metodo allocate(), que asigna espacio para el contenido del búffer, o
  * encapsulando una matriz de bytes existente en un búffer.
- *
+ * <p>
  * Existen los buffer directos y no directos. Los directos actuan directamente sobre el sistema operativo y se suponen
  * que son mas rapidos, y los no directos primero pasan por la memoria del JVM usando un buffer intermedio. ¿Entonces
  * por que no usar los buffers directos si se supone que son mas rapidos? Esto se debe a que se necesita mas tiempo
  * para crear un buffer directo.
- *
+ * <p>
  * Para este caso se utiliza la clase ByteBuffer como ejemplo.
- *
+ * <p>
  * Recursos
  * API JavaSE 8: <a href="https://docs.oracle.com/javase/8/docs/api/">...</a>
  * Grafico: <a href="https://github.com/rusocode/utilidades/blob/master/src/main/resources/tips/NIO%20byte%20buffer.PNG">...</a>

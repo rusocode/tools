@@ -12,34 +12,34 @@ import static util.Constants.*;
  * modelo de I/O basado en canales, buffers y selectores, siendo una mejora del flujo estandar del paquete IO. Tambien
  * habilita el no bloqueo de I/O y permite mejorar el rendimiento de las aplicaciones distribuidas (principalmente para
  * el lado del servidor).
- * 
+ * <p>
  * _________________________
- * 
+ * <p>
  * Un canal es un nexo para operaciones de I/O que representa una conexión abierta a una entidad, como un dispositivo de
  * hardware, un archivo, un conector de red o un componente de programa que es capaz de realizar una o más operaciones
  * de I/O distintas usando buffers para mover (leer/escribir) bloques de datos dentro/fuera del buffer desde/hacia las
  * fuentes de I/O.
- * 
+ * <p>
  * Para el protocolo cliente/servidor, el canal se puede entender como una conexion punto a punto (P2P), en donde a
  * travez de esos canales fluyen los paquetes que se leen o escriben dentro del buffer de la memoria RAM. Es importante
  * aclarar que la transferencia de datos se pueden producir en modo de bloqueo o no bloqueo.
- * 
+ * <p>
  * Los canales representan conexiones a varias fuentes de I/O, como pipes, sockets, files, datagrams.
  * ° Operan con buffers y fuentes de I/O: mueve bloques de datos (lectura/escritura) dentro/fuera de buffers desde/hacia
  * fuentes de I/O.
  * ° Pueden ser de bloqueo/no-bloqueo, habilitan operaciones de I/O sin bloqueo.
- * 
+ * <p>
  * En general, los canales están destinados a ser seguros para el acceso multiproceso.
- * 
+ * <p>
  * Para este caso se crea una conexion con un archivo usando un canal y a travez de ese canal se llena un buffer (direct
  * o non-direct) con los bytes del archivo, pudiendo asi leer o escribir en el mismo de una manera mas eficiente.
- * 
+ * <p>
  * Un canal de archivos se crea invocando el método open() definido por esta clase. También se puede obtener un canal de
  * archivo de un objeto FileInputStream, FileOutputStream o RandomAccessFile existente invocando el método getChannel de
  * ese objeto, que devuelve un canal de archivo que está conectado al mismo archivo subyacente. Cuando el canal de
  * archivo se obtiene de una secuencia existente o un archivo de acceso aleatorio, el estado del canal de archivo está
  * íntimamente conectado al del objeto cuyo método getChannel devolvió el canal.
- * 
+ *
  * @author Ruso
  */
 
@@ -66,10 +66,10 @@ public class Channel_ {
 
 			/* Despues de llenar el buffer con los bytes del archivo, la posicion del buffer queda establecida en el ultimo byte y
 			 * mientras no se llegue al final del archivo, el canal sigue llenado el buffer con los datos del archivo.
-			 * 
+			 *
 			 * El metodo read(buf) devuelve el numero de bytes leidos, posiblemente cero o -1 si el canal ha alcanzado el final del
 			 * flujo.
-			 * 
+			 *
 			 * El metodo read() del canal se usa en el ciclo while, porque el numero de bytes leidos es incierto, por lo que se
 			 * llama al metodo read() en un ciclo hasta que no haya datos en el buffer. */
 			while (channel.read(buf) > 0) { // o "!= -1"
