@@ -4,17 +4,16 @@ package concurrency;
  * Esta clase basicamente lo que hace es determinar cuales subprocesos se ejecutan, bloquean, liberan, detienen y
  * terminan. Todo este manejo lo hace el subproceso principal main que es agregado por la JVM un vez que se inicia
  * la aplicacion.
- * 
+ * <p>
  * El ciclo de un subproceso es:
- * 1. Nuevo
- * 2. Ejecutado
- * 3. Bloqueado
- * 4. Terminado
- * 
+ * <li>Nuevo</li>
+ * <li>Ejecutado</li>
+ * <li>Bloqueado</li>
+ * <li>Terminado</li>
+ * <p>
  * ¿Cual es la diferencia entre bloquear y detener (stop)?
- * 
+ *
  * @author Ruso
- * 
  */
 
 public class ThreadCycle {
@@ -23,9 +22,8 @@ public class ThreadCycle {
 
 	private static class Subproceso implements Runnable {
 
-		private Thread subproceso;
+		private final Thread subproceso;
 		private boolean bloqueado, stopped;
-		private final int TIEMPO_BLOQUEADO = 500;
 
 		public Subproceso(String name) {
 			subproceso = new Thread(this, name);
@@ -45,6 +43,7 @@ public class ThreadCycle {
 					// Cada 10 columnas salta de linea y bloquea el subproceso
 					if ((i % 10) == 0) {
 						System.out.println();
+						int TIEMPO_BLOQUEADO = 500;
 						Thread.sleep(TIEMPO_BLOQUEADO);
 					}
 

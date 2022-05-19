@@ -4,25 +4,24 @@ package concurrency;
  * El subproceso múltiple significa que tiene varios subprocesos de ejecución dentro de la misma aplicación. Un hilo es
  * como una CPU separada que ejecuta su aplicación. Por lo tanto, una aplicación multiproceso es como una aplicación que
  * tiene varias CPU que ejecutan diferentes partes del código al mismo tiempo.
- * 
+ * <p>
  * Un hilo de Java es como una CPU virtual que puede ejecutar su código dentro de la aplicación. Cuando se inicia una
  * aplicación, el método main() es ejecutado por el hilo principal - un hilo especial que es creado por la JVM para
  * ejecutar la aplicación. Desde el interior de su aplicación, puede crear e iniciar más subprocesos que pueden ejecutar
  * partes del código de su aplicación en paralelo con el subproceso principal.
- * 
+ * <p>
  * Sin embargo, un hilo no es igual a una CPU. Por lo general, una sola CPU compartirá su tiempo de ejecución entre
  * varios subprocesos, cambiando entre la ejecución de cada uno de los subprocesos durante un período de tiempo
  * determinado.
- * 
+ * <p>
  * En principio, los subprocesos se ejecutan en paralelo y no de forma secuencial. La JVM y/o el sistema operativo
  * determina el orden en el que se ejecutan los subprocesos. Este orden no tiene que ser el mismo orden en el que se
  * iniciaron.
- * 
+ * <p>
  * Fuente:
- * http://tutorials.jenkov.com/java-concurrency/index.html
- * 
- * @author Ru$o
- * 
+ * <a href="http://tutorials.jenkov.com/java-concurrency/index.html">tutorials.jenkov</a>
+ *
+ * @author Ruso
  */
 
 public class Concurrency {
