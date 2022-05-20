@@ -1,15 +1,16 @@
 package concurrency;
 
 /**
- * Esta clase basicamente lo que hace es determinar cuales subprocesos se ejecutan, bloquean, liberan, detienen y
- * terminan. Todo este manejo lo hace el subproceso principal main que es agregado por la JVM un vez que se inicia
- * la aplicacion.
+ * Esta clase ejecuta el subproceso principal en paralelo con los subprocesos A y B, en donde se muestra el
+ * cilo de vida.
  * <p>
  * El ciclo de un subproceso es:
  * <li>Nuevo</li>
  * <li>Ejecutado</li>
  * <li>Bloqueado</li>
  * <li>Terminado</li>
+ * <p>
+ * <a href="https://stackoverflow.com/questions/15680422/difference-between-wait-and-blocked-thread-states">Difference between WAIT and BLOCKED thread states</a>
  * <p>
  * ¿Cual es la diferencia entre bloquear y detener (stop)?
  *
@@ -43,15 +44,14 @@ public class ThreadCycle {
 					// Cada 10 columnas salta de linea y bloquea el subproceso
 					if ((i % 10) == 0) {
 						System.out.println();
-						int TIEMPO_BLOQUEADO = 500;
-						Thread.sleep(TIEMPO_BLOQUEADO);
+						Thread.sleep(500);
 					}
 
 					// Sincroniza este bloque de codigo
 					synchronized (this) {
 						// Mientras el subproceso este bloqueado, espera hasta que se libere, normalmente al ser notificado o interrumpido
 						while (bloqueado)
-							wait();
+							wait(); // Ahora el subproceso entra en estado de espera
 
 						if (stopped) break;
 
@@ -111,11 +111,11 @@ public class ThreadCycle {
 		// 2. Ejecutado
 		A.ejecutar();
 
-		// Bloquea el subproceso principal antes de bloquear el subproceso A
+		// Duerme el subproceso principal antes de bloquear el subproceso A
 		Thread.sleep(TIEMPO_BLOQUEADO);
 		// 3. Bloqueado
 		A.bloquear();
-		// Bloquea el subproceso principal antes de liberar el subproceso A
+		// Duerme el subproceso principal antes de liberar el subproceso A
 		Thread.sleep(TIEMPO_BLOQUEADO);
 		A.liberarBloqueo();
 
