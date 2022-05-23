@@ -6,6 +6,7 @@ package concurrency;
  * Fuente:
  * <a href="http://tutorials.jenkov.com/java-concurrency/index.html">Concurrency</a>
  * <a href="https://jenkov.com/tutorials/java-concurrency/creating-and-starting-threads.html">Creating and Starting Java Threads</a>
+ * <a href="https://es.sawakinome.com/articles/words/difference-between-pause-and-stop.html">Pausa vs Detener</a>
  *
  * @author Ruso
  */
@@ -24,12 +25,13 @@ public class ThreadStop {
 		@Override
 		public void run() {
 
+			// Mientras el subproceso no este detenido
 			while (!isStopped()) {
 
 				System.out.println(subproceso.getName() + " running");
 
 				try {
-					Thread.sleep(500L); // Duerme el subproceso
+					Thread.sleep(1000L); // Pausa el subproceso
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -59,7 +61,7 @@ public class ThreadStop {
 
 		subproceso.ejecutar();
 
-		// Duerme el hilo principal antes de detener el subproceso
+		// Pausa el hilo principal antes de detener el subproceso
 		Thread.sleep(4L * 1000L);
 
 		subproceso.stop();

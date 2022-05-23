@@ -12,7 +12,6 @@ package concurrency;
  * <p>
  * <a href="https://stackoverflow.com/questions/15680422/difference-between-wait-and-blocked-thread-states">Difference between WAIT and BLOCKED thread states</a>
  * <p>
- * ¿Cual es la diferencia entre bloquear y detener (stop)?
  *
  * @author Ruso
  */
@@ -41,7 +40,7 @@ public class ThreadCycle {
 
 					System.out.print(i + " ");
 
-					// Cada 10 columnas salta de linea y bloquea el subproceso
+					// Cada 10 columnas salta de linea y pausa el subproceso
 					if ((i % 10) == 0) {
 						System.out.println();
 						Thread.sleep(500);
@@ -111,11 +110,11 @@ public class ThreadCycle {
 		// 2. Ejecutado
 		A.ejecutar();
 
-		// Duerme el subproceso principal antes de bloquear el subproceso A
+		// Pausa el subproceso principal antes de bloquear el subproceso A
 		Thread.sleep(TIEMPO_BLOQUEADO);
 		// 3. Bloqueado
 		A.bloquear();
-		// Duerme el subproceso principal antes de liberar el subproceso A
+		// Pausa el subproceso principal antes de liberar el subproceso A
 		Thread.sleep(TIEMPO_BLOQUEADO);
 		A.liberarBloqueo();
 
