@@ -3,6 +3,7 @@ package concurrency;
 import java.lang.Thread;
 
 /**
+ * <h3>Proceso y Subproceso</h3>
  * Un PROCESO es un programa activo que proporciona los recursos necesarios para ejecutarse. Incluye un espacio de
  * direcciones virtuales, un codigo ejecutable, identificadores abiertos para los objetos del sistema, un contexto de
  * seguridad, un identificador de proceso unico, variables de entorno, una clase de prioridad, tamaños minimos y maximos
@@ -24,6 +25,23 @@ import java.lang.Thread;
  * Los subprocesos son una funcion del entorno operativo, en lugar de una funcion de la CPU (aunque la CPU normalmente
  * tiene operaciones que hacen que los subprocesos sean eficientes).
  * <p>
+ * <h3>Concurrencia</h3>
+ * El subproceso múltiple significa que tiene varios subprocesos de ejecución dentro de la misma aplicación. Un hilo es
+ * como una CPU separada que ejecuta su aplicación. Por lo tanto, una aplicación multiproceso es como una aplicación que
+ * tiene varias CPU que ejecutan diferentes partes del código al mismo tiempo.
+ * <p>
+ * Un hilo de Java es como una CPU virtual que puede ejecutar su código dentro de la aplicación. Cuando se inicia una
+ * aplicación, el método main() es ejecutado por el hilo principal - un hilo especial que es creado por la JVM para
+ * ejecutar la aplicación. Desde el interior de su aplicación, puede crear e iniciar más subprocesos que pueden ejecutar
+ * partes del código de su aplicación en paralelo con el subproceso principal.
+ * <p>
+ * Sin embargo, un hilo no es igual a una CPU. Por lo general, una sola CPU compartirá su tiempo de ejecución entre
+ * varios subprocesos, cambiando entre la ejecución de cada uno de los subprocesos durante un período de tiempo
+ * determinado.
+ * <p>
+ * En principio, los subprocesos se ejecutan en paralelo y no de forma secuencial. La JVM y/o el sistema operativo
+ * determina el orden en el que se ejecutan los subprocesos. Este orden no tiene que ser el mismo orden en el que se
+ * iniciaron.
  * Nota:
  * Proceso/Aplicacion/Programa es lo mismo.
  * Subproceso/Thread/Hilo es lo mismo.
