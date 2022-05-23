@@ -7,18 +7,19 @@ package concurrency;
  * asociado. Por convencion, un hilo que necesita acceso constante a los campos de un objeto tiene que adquirir el
  * bloqueo del objeto antes de acceder a ellos, y luego liberar el bloqueo cuando haya terminado con ellos. Si no hay
  * sincronizacion, la salida es inconsistente.
- * 
+ * <p>
  * Siempre se entienden mejor las cosas tomando ejemplos de la realidad...
+ * <p>
  * Tenemos un baño en donde rulo entra primero. Al cerrar la puerta adquiere el bloqueo, por lo tanto
  * ruso no puede entrar, evitando que se genere un desastre en el inodoro.
  * Esto se podria entender como una sincronizacion de rulo y ruso para usar el baño correctamente, en donde la puerta
  * es el bloqueo.
- * 
+ * <p>
  * ¿Por que utilizar la sincronizacion?
  * La sincronizacion se utiliza principalmente para:
  * 1. Evitar la interferencia del hilo.
  * 2. Evitar problemas de consistencia.
- * 
+ * <p>
  * Hay dos tipos de sincronizacion de subprocesos:
  * -La sincronizacion de subprocesos mutua exclusiva que ayuda a evitar que los hilos interfieran entre si mientras
  * comparten datos. Esto se puede hacer de tres formas en Java:
@@ -26,30 +27,27 @@ package concurrency;
  * 2. Por bloque sincronizado.
  * 3. Por sincronizacion estatica.
  * -Cooperacion (comunicacion entre subprocesos en java)
- * 
+ * <p>
  * Cita de Sun:
  * synchronized "Los metodos permiten una estrategia simple para prevenir la interferencia del hilo y los errores de
  * consistencia de la memoria: si un objeto es visible para mas de un hilo, todas las lecturas o escrituras en las
  * variables de ese objeto se realizan a traves de metodos sincronizados."
- * 
+ * <p>
  * En pocas palabras: cuando tiene dos subprocesos que leen y escriben en el mismo "recurso", digamos una variable
- * nombrada foo, debe asegurarse de que estos subprocesos accedan a la variable de forma atomica. Sin la palabra clave
- * synchronized, es posible que el hilo 1 no vea el cambio que se hizo en el hilo 2 foo o, lo que es peor,
+ * nombrada altura, debe asegurarse de que estos subprocesos accedan a la variable de forma atomica. Sin la palabra clave
+ * synchronized, es posible que el hilo A no vea el cambio que se hizo en el hilo B a la variable altura o, lo que es peor,
  * puede que solo se haya cambiado a la mitad. Esto no seria lo que logicamente esperas.
- * 
+ * <p>
  * Tener una comprension basica del modelo de memoria de Java es realmente importante para obtener una concurrencia
  * correcta.
- * https://en.wikipedia.org/wiki/Thread_(computing)
- * https://en.wikipedia.org/wiki/Java_memory_model
- * 
- * @author Juan Debenedetti aka Ru$o
- * 
+ * <a href="https://en.wikipedia.org/wiki/Thread_(computing)">Thread (computing)</a>
+ * <a href="https://en.wikipedia.org/wiki/Java_memory_model">Java Memory Model</a>
+ *
+ * @author Ruso
  */
 
-// Extendiendo la clase Thread es otra forma de aplicar el metodo run()
 public class Sincronizacion extends Thread {
 
-	private Objeto objeto;
 	private String name;
 
 	public Sincronizacion() {
@@ -61,7 +59,6 @@ public class Sincronizacion extends Thread {
 
 	public Sincronizacion(String name, Objeto objeto) {
 		this.name = name;
-		this.objeto = objeto;
 	}
 
 	@Override
@@ -70,7 +67,6 @@ public class Sincronizacion extends Thread {
 		metodo(name);
 	}
 
-	// Clase interna para sincronizar hilos (se declara estatica para poder crear objetos desde el main)
 	private static class Objeto {
 
 		/* Usando synchronized se bloquea la llamada del siguiente hilo al metodo, siempre que la ejecucion del hilo anterior
@@ -197,8 +193,8 @@ public class Sincronizacion extends Thread {
 
 		// Manejo de hilos usando la interfaz Runnable
 		Sincronizacion s = new Sincronizacion();
-		new Thread(new R(s, "Hilo 1")).start();
-		new Thread(new R(s, "Hilo 2")).start();
+		new Thread(new R(s, "A")).start();
+		new Thread(new R(s, "B")).start();
 
 	}
 

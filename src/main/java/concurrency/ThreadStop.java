@@ -29,7 +29,7 @@ public class ThreadStop {
 				System.out.println(subproceso.getName() + " running");
 
 				try {
-					Thread.sleep(500L); // Detiene el subproceso por 3 segundos
+					Thread.sleep(500L); // Duerme el subproceso
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -41,7 +41,7 @@ public class ThreadStop {
 			subproceso.start();
 		}
 
-		public /* synchronized */ void stop() { // TODO Hace falta que lo sincronize?
+		public synchronized void stop() { // TODO Hace falta que lo sincronize?
 			stopped = true;
 		}
 
