@@ -3,15 +3,14 @@ package concurrency;
 /**
  * Esta clase ejecuta el subproceso principal en paralelo con los subprocesos A y B, en donde se muestra el
  * cilo de vida.
- * <p>
+ * <br><br>
  * El ciclo de un subproceso es:
  * <li>Nuevo</li>
  * <li>Ejecutado</li>
  * <li>Bloqueado</li>
  * <li>Terminado</li>
- * <p>
+ * <br>
  * <a href="https://stackoverflow.com/questions/15680422/difference-between-wait-and-blocked-thread-states">Difference between WAIT and BLOCKED thread states</a>
- * <p>
  *
  * @author Ruso
  */

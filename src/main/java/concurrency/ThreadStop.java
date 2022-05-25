@@ -2,8 +2,8 @@ package concurrency;
 
 /**
  * Ejemplo de como se detiene un subproceso.
- * <p>
- * Fuente:
+ * <br>
+ * Fuentes:
  * <a href="http://tutorials.jenkov.com/java-concurrency/index.html">Concurrency</a>
  * <a href="https://jenkov.com/tutorials/java-concurrency/creating-and-starting-threads.html">Creating and Starting Java Threads</a>
  * <a href="https://es.sawakinome.com/articles/words/difference-between-pause-and-stop.html">Pausa vs Detener</a>

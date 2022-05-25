@@ -24,7 +24,7 @@ import java.lang.Thread;
  * <p>
  * Los subprocesos son una funcion del entorno operativo, en lugar de una funcion de la CPU (aunque la CPU normalmente
  * tiene operaciones que hacen que los subprocesos sean eficientes).
- * <p>
+ * <br><br>
  * <h3>Concurrencia</h3>
  * El subproceso múltiple significa que tiene varios subprocesos de ejecución dentro de la misma aplicación. Un hilo es
  * como una CPU separada que ejecuta su aplicación. Por lo tanto, una aplicación multiproceso es como una aplicación que
@@ -46,7 +46,7 @@ import java.lang.Thread;
  * Proceso/Aplicacion/Programa es lo mismo.
  * Subproceso/Thread/Hilo es lo mismo.
  * <p>
- * Recursos:
+ * Fuentes:
  * <a href="https://www.youtube.com/watch?v=Dhf-DYO1K78">Process vs Thread</a>
  * <a href="https://www.youtube.com/watch?v=exbKr6fnoUw">Intro to Processes & Threads (muy bien explicado)</a>
  * <a href="https://www.youtube.com/watch?v=7ENFeb-J75k">Multithreading Code - Computerphile</a>
@@ -60,7 +60,7 @@ import java.lang.Thread;
  * @author Ruso
  */
 
-public class ProcessAndThread extends Thread {
+public class ProcessSubprocess extends Thread {
 
 	public static void main(String[] args) {
 
@@ -87,8 +87,8 @@ public class ProcessAndThread extends Thread {
 		 * thread.start(); */
 
 		// Inicia el subproceso con un Runnable (segunda forma)
-		Thread thread = new Thread(new MyRunnable()); // o una clase anonima, o lambda...
-		thread.start();
+		Thread subproceso = new Thread(new MyRunnable()); // o una clase anonima, o lambda...
+		subproceso.start();
 	}
 
 	@Override
