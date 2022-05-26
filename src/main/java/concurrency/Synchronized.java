@@ -68,7 +68,7 @@ package concurrency;
  * @author Ruso
  */
 
-public class Sincronizacion extends Thread {
+public class Synchronized extends Thread {
 
 	private int n1, n3;
 	private static int n2, n4;
@@ -107,7 +107,7 @@ public class Sincronizacion extends Thread {
 	 * Los bloques sincronizados tambien se pueden usar dentro de metodos estaticos. Este metodo se sincroniza en el objeto de
 	 * clase de la clase a la que pertenece el metodo: */
 	public static void multiply(int value) {
-		synchronized (Sincronizacion.class) {
+		synchronized (Synchronized.class) {
 			n4 *= value;
 		}
 	}
