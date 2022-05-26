@@ -29,17 +29,17 @@ public class SharedResources {
 		SharedResources sharedInstance = new SharedResources();
 
 		/* - Variables de miembro de objeto
-		 Las variables de miembro de objeto (campos) se almacenan en el heap junto con el objeto. Por lo tanto, si dos
-		 subprocesos llaman a un metodo en la misma instancia de objeto y este método actualiza las variables de miembro del
-		 objeto, el método no es seguro para subprocesos.
+		 * Las variables de miembro de objeto (campos) se almacenan en el heap junto con el objeto. Por lo tanto, si dos
+		 * subprocesos llaman a un metodo en la misma instancia de objeto y este método actualiza las variables de miembro del
+		 * objeto, el método no es seguro para subprocesos.
 
-		 Las dos instancias de MyRunnable comparten la misma instancia de objeto. Por lo tanto, cuando llaman al metodo add()
-		 en la instancia de objeto, conduce a una condicion de carrera. */
+		 * Las dos instancias de MyRunnable comparten la misma instancia de objeto. Por lo tanto, cuando llaman al metodo add()
+		 * en la instancia de objeto, conduce a una condicion de carrera. */
 		new Thread(new MyRunnable(sharedInstance)).start();
 		new Thread(new MyRunnable(sharedInstance)).start();
 
 		/* Sin embargo, si dos subprocesos llaman al metodo add() simultaneamente EN DIFERENTES INSTANCIAS, no conduce a una
-		 condicion de carrera. */
+		 * condicion de carrera. */
 		// new Thread(new MyRunnable(new RaceConditionsAndCriticalSections())).start();
 		// new Thread(new MyRunnable(new RaceConditionsAndCriticalSections())).start();
 

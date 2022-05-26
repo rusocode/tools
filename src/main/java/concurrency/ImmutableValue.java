@@ -37,9 +37,9 @@ public class ImmutableValue {
 
 	public static void main(String[] args) {
 
-		/* Observe como se pasa el valor de la instancia ImmutableValue en el constructor. Observe tambien que no
-		 * existe un metodo de establecimiento. Una vez que se crea una instancia de ImmutableValue, no puede
-		 * cambiar su valor. Es inmutable. Sin embargo, puede leerlo utilizando el metodo getValue(). */
+		/* Observe cómo se pasa el valor de la instancia de ImmutableValue en el constructor. Observe tambien como no hay un metodo
+		 setter. Una vez que se crea una instancia de ImmutableValue, no puede cambiar su valor, es inmutable. Sin embargo, puede leerlo
+		 utilizando el metodo getValue(). */
 		ImmutableValue immutable = new ImmutableValue(4);
 		System.out.println(immutable.getValue());
 
@@ -52,7 +52,7 @@ public class ImmutableValue {
  * la referencia a este objeto no sea seguro para subprocesos.
  * <p>
  * La clase Calculator contiene una referencia a una instancia de ImmutableValue. Observe como es posible cambiar esa
- * referencia a traves de los metodos setValue() y add(). Por lo tanto, incluso si la clase Calculadora usa un objeto
+ * referencia a traves de los metodos setValue() y add(). Por lo tanto, incluso si la clase Calculator usa un objeto
  * inmutable internamente, no es inmutable en si mismo y, por lo tanto, no es seguro para subprocesos. En otras
  * palabras: la clase ImmutableValue es segura para subprocesos, pero su uso no lo es. Esto es algo a tener en cuenta al
  * intentar lograr la seguridad de los hilos mediante la inmutabilidad.
@@ -62,7 +62,7 @@ public class ImmutableValue {
  */
 class Calculator {
 
-	private ImmutableValue currentValue = null;
+	private ImmutableValue currentValue;
 
 	public ImmutableValue getValue() {
 		return currentValue;

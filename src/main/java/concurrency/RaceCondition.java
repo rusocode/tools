@@ -26,9 +26,9 @@ package concurrency;
  * increment() como una unica instruccion atomica. Mas bien se ejecuta como un conjunto de instrucciones mas pequeñas,
  * similar a esto:
  * <ol>
- *     <li>Lee c de la memoria en el registro.</li>
- *     <li>Agrega un valor al registro.</li>
- *     <li>Escribe el registro en memoria.</li>
+ * 	<li>Lee c de la memoria en el registro.</li>
+ *  <li>Agrega un valor al registro.</li>
+ *  <li>Escribe el registro en memoria.</li>
  * </ol>
  * Los dos subprocesos querian incrementar el valor del contador en 1. Por lo tanto, el valor deberia haber sido 2 despues
  * de que los dos subprocesos completaran la ejecucion. Sin embargo, como la ejecucion de los dos hilos esta intercalada, el
@@ -58,7 +58,7 @@ public class RaceCondition implements Runnable {
 	public void run() {
 
 		/* Para corregir la condicion de carrera, necesitamos tener una forma de restringir el acceso a los recursos a
-		un solo subproceso a la vez. Tenemos que usar la palabra clave synchronized para sincronizar el acceso al recurso compartido. */
+		 * un solo subproceso a la vez. Tenemos que usar la palabra clave synchronized para sincronizar el acceso al recurso compartido. */
 
 		// SECCION CRITICA
 		// synchronized (this) {
@@ -76,11 +76,11 @@ public class RaceCondition implements Runnable {
 	public void increment() {
 
 		/* Aqui se simula cierto retraso usando sleep(), ya que en un sistema de produccion real puede haber muchos
-		 procesos ejecutandose y muchos usuarios pueden estar accediendo a la misma aplicacion en un momento dado.
-		 En ese tipo de escenario, no podemos estar seguros de cuando ocurrira el cambio de contexto entre los subprocesos
-		 que compiten por el ciclo de la CPU. Es por eso que los errores relacionados con la condicion de carrera son muy
-		 dificiles de encontrar y es posible que ni siquiera pueda reproducirlos, ya que ese tipo de cambio de contexto
-		 puede no ocurrir cuando intenta reproducir el error relacionado con la condicion de carrera.*/
+		 * procesos ejecutandose y muchos usuarios pueden estar accediendo a la misma aplicacion en un momento dado.
+		 * En ese tipo de escenario, no podemos estar seguros de cuando ocurrira el cambio de contexto entre los subprocesos
+		 * que compiten por el ciclo de la CPU. Es por eso que los errores relacionados con la condicion de carrera son muy
+		 * dificiles de encontrar y es posible que ni siquiera pueda reproducirlos, ya que ese tipo de cambio de contexto
+		 * puede no ocurrir cuando intenta reproducir el error relacionado con la condicion de carrera. */
 		try {
 			Thread.sleep(10);
 		} catch (InterruptedException e) {
@@ -102,7 +102,11 @@ public class RaceCondition implements Runnable {
 
 		RaceCondition instance = new RaceCondition();
 
-		// Crea 2 subprocesos en donde se le pasa la instancia compartida y un nombre a cada uno
+		/* Crea 2 subprocesos en donde se le pasa la instancia compartida y un nombre a cada uno. Por lo tanto,
+		 * al compartir la misma instancia, comparten la visibilidad de los datos en memoria. Esto se hace a proposito
+		 * para generar una condicion de carrera. Si ambos subprocesos usaran un objeto diferente cada uno, entonces
+		 * no habria problema de constistencia, ya que los metodos se llamarian en diferentes instancias y por lo tanto
+		 * estarian sincronizados. */
 		Thread A = new Thread(instance, "A");
 		Thread B = new Thread(instance, "B");
 
