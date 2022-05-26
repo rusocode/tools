@@ -61,7 +61,7 @@ package concurrency;
  * <br><br>
  * <b><i>Tener una comprension basica del modelo de memoria de Java es realmente importante para obtener una concurrencia
  * correcta.</i></b>
- * <br><br>
+ * <br>
  * Fuentes:
  * <a href="https://jenkov.com/tutorials/java-concurrency/synchronized.html">jenkov.com</a>
  *

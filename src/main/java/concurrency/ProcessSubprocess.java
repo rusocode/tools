@@ -72,12 +72,12 @@ public class ProcessSubprocess extends Thread {
 		/* La primera forma de especificar que codigo debe ejecutar un subproceso es crear una subclase de Thread y
 		 * sobreescribir el metodo run(). El metodo run() es lo que ejecuta el subproceso despues de llamar a start(). */
 		// Crea y ejecuta el subproceso
-		// ProcessAndThread subproceso = new ProcessAndThread();
+		// ProcessSubprocess subproceso = new ProcessSubprocess();
 		/* La llamada start() regresara tan pronto como se inicie el hilo. No esperara hasta que finalice el metodo run(). El
 		 * metodo run() se ejecutara como si lo ejecutara una CPU diferente. */
 		// subproceso.start();
 
-		// Tambien puede crear una subclase anonima de Thread como esta
+		// Subclase anonima de Thread
 		/* Thread thread = new Thread() {
 		 * public void run() {
 		 * System.out.println("Thread running in anonymous class");
@@ -85,6 +85,12 @@ public class ProcessSubprocess extends Thread {
 		 * };
 		 *
 		 * thread.start(); */
+
+		// Lambda
+		/* Thread subproceso = new Thread(() -> {
+		 *	System.out.println("Thread running in lambda");
+		 * });
+		 * subproceso.start(); */
 
 		// Inicia el subproceso con un Runnable (segunda forma)
 		Thread subproceso = new Thread(new MyRunnable()); // o una clase anonima, o lambda...

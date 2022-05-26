@@ -7,7 +7,7 @@ package concurrency;
  * la memoria principal, y que otras variables se han sincronizado al mismo tiempo. Java sucede antes de
  * que la garantia se centre en el acceso a variables volatiles y variables a las que se accede desde
  * dentro de bloques sincronizados.
- * <p>
+ * <br>
  * Fuentes: <a href="https://jenkov.com/tutorials/java-concurrency/java-happens-before-guarantee.html">jenkov.com</a>
  */
 
