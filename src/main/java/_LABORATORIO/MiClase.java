@@ -1,7 +1,9 @@
 package _LABORATORIO;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
 /**
  * El objeto Class representa la clase de tiempo de ejecucion del objeto especificado.
@@ -30,6 +32,7 @@ public class MiClase {
 	private String valor1 = "valor default";
 	private String valor2;
 	private final double DECIMAL = 12.5;
+	private static Game game;
 
 	public MiClase() {
 
@@ -84,13 +87,50 @@ public class MiClase {
 
 	}
 
+	/**
+	 * Devuelve el objeto Class asociado con la clase o interfaz con el nombre de cadena proporcionado.
+	 */
+	public Class forName(String name) {
+		try {
+			return Class.forName(name);
+		} catch (ClassNotFoundException e) {
+			System.err.println("Clase no encontrada: " + name);
+		}
+		return null;
+	}
+
 	public static void main(String[] args) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 
-		MiClase clase1 = new MiClase();
-		clase1.printClassName();
-		clase1.imprimirAtributos();
+		Screen newScreen = null;
 
-		MiClase clase2 = MiClase.getInstance();
+		MiClase clase1 = new MiClase();
+		// clase1.printClassName();
+		// clase1.imprimirAtributos();
+
+		try {
+
+			/* Devuelve el objeto Class asociado con la clase con el nombre de cadena especificado ("_LABORATORIO.Byte_").
+			 * Ahora a partir del objeto Class puedo obtener las caracteristicas del objeto especificado. */
+			Class<?> clase = Class.forName("_LABORATORIO.GameScreen");
+
+			/* Devuelve un objeto Constructor que refleja el constructor publico especificado de la clase representada
+			 * por este objeto Class. El parametro ParameterTypes es una matriz de objetos Class que identifican los
+			 * tipos de parametros formales del constructor, en el orden declarado (es un varargs de tipo Class). */
+			Constructor<?> constructor = clase.getConstructor(Game.class);
+
+			/* Utiliza el constructor representado por este objeto Constructor para crear e inicializar una nueva
+			 * instancia de la clase de declaracion del constructor, con los parametros de inicializacion especificados. */
+			newScreen = (Screen) constructor.newInstance(game);
+
+			newScreen.print();
+
+		} catch (ClassNotFoundException e) {
+			System.err.println("Clase no encontrada! " + e.getMessage());
+		} catch (NoSuchMethodException e) {
+			System.out.println("Metodo no encontrado! " + e.getMessage());
+		}
+
+		// MiClase clase2 = MiClase.getInstance();
 		// clase2.printCanonicalName();
 
 	}
