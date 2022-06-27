@@ -2,7 +2,6 @@ package _LABORATORIO;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 
 /**
  * El objeto Class representa la clase de tiempo de ejecucion del objeto especificado.
@@ -49,7 +48,7 @@ public class MiClase {
 
 	/**
 	 * Devuelve una instancia recien asignada de la clase representada por el objeto Class, utilizando un constructor
-	 * con parametros.
+	 * con parametros (constructor dinamico?).
 	 */
 	public static MiClase getInstance(String value) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
 		return MiClase.class.getConstructor(String.class).newInstance(value);
@@ -60,24 +59,28 @@ public class MiClase {
 	}
 
 	public void printCanonicalName() {
-		System.out.println(this.getClass().getCanonicalName());
+		System.out.println("El nombre canonico de esta clase es: " + this.getClass().getCanonicalName());
 	}
 
-	// Muestra los atributos existentes en la clase (nombre y valor)
+	/**
+	 * Imprime los atributos/campos (fields) publicos, protegidos, de acceso predeterminado (paquete) y privados
+	 * declarados por la clase representada por el objeto Class.
+	 */
 	public void imprimirAtributos() {
 		System.out.println("Atributos>");
 		Field[] fields = this.getClass().getDeclaredFields();
 		if (fields.length != 0) {
 			for (Field field : fields) {
 				try {
-					String fieldName = field.getName();
-					Object fieldValue = field.get(this);
-					System.out.println(fieldName + ": " + fieldValue);
-				} catch (IllegalArgumentException | IllegalAccessException e) {
-					e.printStackTrace();
+					System.out.println(field.getName() + ": " + field.get(this));
+				} catch (IllegalArgumentException e) {
+					System.err.println("El objeto especificado no es una instancia de la clase o interfaz que declara " +
+							"el campo subyacente (o una subclase o implementador del mismo).");
+				} catch (IllegalAccessException e) {
+					System.err.println("No se puede acceder al campo subyacente.");
 				}
 			}
-		} else System.out.println("No existen atributos.");
+		} else System.out.println("No hay atributos declarados.");
 
 	}
 
@@ -85,39 +88,10 @@ public class MiClase {
 
 		MiClase clase1 = new MiClase();
 		clase1.printClassName();
+		clase1.imprimirAtributos();
 
 		MiClase clase2 = MiClase.getInstance();
-		clase2.printCanonicalName();
-
-		/* MiClase clase1 = new MiClase("valor 1");
-		System.out.println(clase1.valor1);
-
-		String nombre = "";
-		// Devuelve el nombre completo (ruta) de la variable clase1
-		System.out.println("Clase de la variable clase1: " + clase1.getClass());
-		System.out.println("Clase de la variable nombre: " + nombre.getClass());
-
-		MiClase clase2 = MiClase.getConstructor();
-		System.out.println(clase2.valor1);
-
-		// Creando un objeto desde un constructor dinamico
-		MiClase clase3 = MiClase.getConstructor("valor 1 - constructor dinamico");
-		System.out.println(clase3.valor1);
-
-		// Otra forma de crear objetos de la propia clase
-		try {
-			MiClase clase4 = MiClase.class.newInstance();
-			System.out.println(clase4.getClassName());
-		} catch (InstantiationException | IllegalAccessException e) {
-			e.printStackTrace();
-		}  */
-
-		// System.out.println(clase.getNombreClase());
-		// clase.imprimirAtributos();
-
-		/* System.out.println("Ruta de clase en los paquetes de la API de java: " + sb.getClass().getName());
-		 * System.out.println("Nombre de clase: " + sb.getClass().getSimpleName());
-		 * System.out.println("sb es instancia de String?: " + sb.getClass().isInstance(args)); */
+		// clase2.printCanonicalName();
 
 	}
 
