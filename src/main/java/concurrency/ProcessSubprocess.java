@@ -26,36 +26,31 @@ import java.lang.Thread;
  * tiene operaciones que hacen que los subprocesos sean eficientes).
  * <br><br>
  * <h3>Concurrencia</h3>
- * El subproceso múltiple significa que tiene varios subprocesos de ejecución dentro de la misma aplicación. Un hilo es
- * como una CPU separada que ejecuta su aplicación. Por lo tanto, una aplicación multiproceso es como una aplicación que
- * tiene varias CPU que ejecutan diferentes partes del código al mismo tiempo.
+ * El subproceso multiple significa que tiene varios subprocesos de ejecucion dentro de la misma aplicacion. Un hilo es
+ * como una CPU separada que ejecuta su aplicacion. Por lo tanto, una aplicacion multiproceso es como una aplicacion que
+ * tiene varias CPU que ejecutan diferentes partes del codigo al mismo tiempo.
  * <p>
- * Un hilo de Java es como una CPU virtual que puede ejecutar su código dentro de la aplicación. Cuando se inicia una
- * aplicación, el método main() es ejecutado por el hilo principal - un hilo especial que es creado por la JVM para
- * ejecutar la aplicación. Desde el interior de su aplicación, puede crear e iniciar más subprocesos que pueden ejecutar
- * partes del código de su aplicación en paralelo con el subproceso principal.
- * <p>
- * Sin embargo, un hilo no es igual a una CPU. Por lo general, una sola CPU compartirá su tiempo de ejecución entre
- * varios subprocesos, cambiando entre la ejecución de cada uno de los subprocesos durante un período de tiempo
+ * Sin embargo, un hilo no es igual a una CPU. Por lo general, una sola CPU compartira su tiempo de ejecucion entre
+ * varios subprocesos, cambiando entre la ejecucion de cada uno de los subprocesos durante un periodo de tiempo
  * determinado.
  * <p>
  * En principio, los subprocesos se ejecutan en paralelo y no de forma secuencial. La JVM y/o el sistema operativo
  * determina el orden en el que se ejecutan los subprocesos. Este orden no tiene que ser el mismo orden en el que se
  * iniciaron.
+ * <br><br>
  * Nota:
+ * <br>
  * Proceso/Aplicacion/Programa es lo mismo.
+ * <br>
  * Subproceso/Thread/Hilo es lo mismo.
- * <p>
+ * <br><br>
  * Fuentes:
+ * <a href="https://jenkov.com/tutorials/java-concurrency/index.html">Java Concurrency and Multithreading</a>
  * <a href="https://www.youtube.com/watch?v=Dhf-DYO1K78">Process vs Thread</a>
  * <a href="https://www.youtube.com/watch?v=exbKr6fnoUw">Intro to Processes & Threads (muy bien explicado)</a>
  * <a href="https://www.youtube.com/watch?v=7ENFeb-J75k">Multithreading Code - Computerphile</a>
- * <p>
- * Java Concurrency and Multithreading:
- * <a href="https://www.youtube.com/watch?v=mTGdtC9f4EU&list=PLL8woMHwr36EDxjUoCzboZjedsnhLP1j4">...</a>
- * <a href="https://stackoverflow.com/questions/200469/what-is-the-difference-between-a-process-and-a-thread">...</a>
- * <a href="https://www.tutorialspoint.com/difference-between-process-and-thread">...</a>
- * <a href="https://jenkov.com/tutorials/java-concurrency/creating-and-starting-threads.html">...</a>
+ * <a href="https://stackoverflow.com/questions/200469/what-is-the-difference-between-a-process-and-a-thread">Difference between Process and Thread (stackoverflow)</a>
+ * <a href="https://www.tutorialspoint.com/difference-between-process-and-thread">Difference between Process and Thread (tutorialspoint)</a>
  *
  * @author Ruso
  */

@@ -7,7 +7,7 @@ package concurrency;
  * asociado. Por convencion, un hilo que necesita acceso constante a los campos de un objeto tiene que adquirir el
  * bloqueo del objeto antes de acceder a ellos, y luego liberar el bloqueo cuando haya terminado con ellos. Si no hay
  * sincronizacion, la salida es inconsistente.
- * <br><br>
+ * <p>
  * La sincronizacion se utiliza principalmente para:
  * <ol>
  * 		<li>Evitar la interferencia del hilo.</li>
@@ -16,7 +16,7 @@ package concurrency;
  * Todos los bloques sincronizados en el mismo objeto solo pueden tener un subproceso ejecutandose dentro de ellos
  * al mismo tiempo. Todos los demas subprocesos que intentan ingresar al bloque sincronizado se bloquean hasta que
  * el subproceso dentro del bloque sincronizado sale del bloque.
- * <br><br>
+ * <p>
  * La palabra clave sincronizada se puede utilizar para marcar cuatro tipos diferentes de bloques:
  * <ol>
  * 		<li>Metodos de instancia</li>
@@ -41,7 +41,7 @@ package concurrency;
  * subprocesos tienen acceso), los otros subprocesos pueden ver el valor cambiado. No hay garantias sobre cuando una variable
  * guardada en un registro de CPU por un subproceso se "compromete" en la memoria principal, y no hay garantia sobre cuando
  * otros subprocesos "actualizan" una variable guardada en un registro de CPU desde la memoria principal.
- * <br><br>
+ * <p>
  * La palabra clave synchronized cambia eso. Cuando un subproceso ingresa a un bloque sincronizado, actualizara los valores
  * de todas las variables visibles para el subproceso. Cuando un subproceso sale de un bloque sincronizado, todos los cambios
  * en las variables visibles para el subproceso se confirmaran en la memoria principal. Esto es similar a como funciona la
@@ -50,10 +50,10 @@ package concurrency;
  * <h3>Sobrecarga de rendimiento de bloque sincronizado</h3>
  * Hay una pequeña sobrecarga de rendimiento asociada con la entrada y salida de un bloque sincronizado en Java. A medida que Java
  * ha evolucionado, esta sobrecarga de rendimiento se ha reducido, pero todavia hay que pagar un pequeño precio.
- * <br><br>
+ * <p>
  * La sobrecarga de rendimiento de ingresar y salir de un bloque sincronizado es principalmente algo de lo que preocuparse si
  * ingresa y sale de un bloque sincronizado muchas veces dentro de un ciclo cerrado mas o menos.
- * <br><br>
+ * <p>
  * Ademas, trate de no tener bloques sincronizados mas grandes de lo necesario. En otras palabras, solo sincronice las operaciones
  * que son realmente necesarias para sincronizar, para evitar bloquear otros subprocesos para que no ejecuten operaciones que no
  * tienen que sincronizarse. Solo las instrucciones absolutamente necesarias en bloques sincronizados. Eso deberia aumentar
@@ -61,9 +61,9 @@ package concurrency;
  * <br><br>
  * <b><i>Tener una comprension basica del modelo de memoria de Java es realmente importante para obtener una concurrencia
  * correcta.</i></b>
- * <br>
+ * <br><br>
  * Fuentes:
- * <a href="https://jenkov.com/tutorials/java-concurrency/synchronized.html">jenkov.com</a>
+ * <a href="https://jenkov.com/tutorials/java-concurrency/synchronized.html">Java Synchronized Blocks</a>
  *
  * @author Ruso
  */
