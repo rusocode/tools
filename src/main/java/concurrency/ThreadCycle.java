@@ -17,12 +17,12 @@ package concurrency;
 
 public class ThreadCycle {
 
-	private static final int TIEMPO_BLOQUEADO = 2000;
+	private static final int TIEMPO_BLOQUEADO = 1000;
 
 	private static class Subproceso implements Runnable {
 
 		private final Thread subproceso;
-		private boolean bloqueado, stopped;
+		private boolean blocked, stopped;
 
 		public Subproceso(String name) {
 			subproceso = new Thread(this, name);
@@ -47,9 +47,10 @@ public class ThreadCycle {
 
 					// Sincroniza este bloque de codigo
 					synchronized (this) {
-						// Mientras el subproceso este bloqueado, espera hasta que se libere, normalmente al ser notificado o interrumpido
-						while (bloqueado)
-							wait(); // Ahora el subproceso entra en estado de espera
+						/* Mientras el subproceso este bloqueado, entra en estado de espera hasta que se desbloquee,
+						 * normalmente al ser notificado o interrumpido. */
+						while (blocked)
+							wait();
 
 						if (stopped) break;
 
@@ -65,28 +66,30 @@ public class ThreadCycle {
 
 		}
 
-		private void ejecutar() {
+		private void start() {
 			subproceso.start();
 		}
 
-		private void bloquear() {
-			bloqueado = true;
+		private void block() {
+			blocked = true;
 			System.out.println("Subproceso " + subproceso.getName() + " bloqueado");
 		}
 
-		private synchronized void liberarBloqueo() {
-			bloqueado = false;
-			// A diferencia de notifyAll(), este despierta uno de los subprocesos en espera
-			notify();
-			System.out.println("Subproceso " + subproceso.getName() + " liberado");
+		private synchronized void unlock() {
+			blocked = false;
+			notify(); // A diferencia de notifyAll(), este despierta uno de los subprocesos en espera
+			System.out.println("Subproceso " + subproceso.getName() + " desbloqueado");
 		}
 
-		private void stop() { // TODO No tiene que ser un metodo sincronizado?
+		/**
+		 * TODO No tiene que ser un metodo sincronizado?
+		 */
+		private void stop() {
 			stopped = true;
 			System.out.println("Subproceso " + subproceso.getName() + " detenido");
 		}
 
-		public void terminar() {
+		public void join() {
 			try {
 				/* El metodo join() que se llamamo al final, hace que el subproceso principal espere (synchronized) hasta que el
 				 * subproceso actual termine. */
@@ -101,34 +104,35 @@ public class ThreadCycle {
 
 	public static void main(String[] args) throws InterruptedException {
 
+		// Subproceso principal (monotarea)
 		System.out.println("Ejecutando subrpoceso " + Thread.currentThread().getName());
 
 		// 1. Nuevo
 		Subproceso A = new Subproceso("A");
 
 		// 2. Ejecutado
-		A.ejecutar();
+		A.start();
 
 		// Pausa el subproceso principal antes de bloquear el subproceso A
 		Thread.sleep(TIEMPO_BLOQUEADO);
 		// 3. Bloqueado
-		A.bloquear();
-		// Pausa el subproceso principal antes de liberar el subproceso A
+		A.block();
+		// Pausa el subproceso principal antes de desbloquear el subproceso A
 		Thread.sleep(TIEMPO_BLOQUEADO);
-		A.liberarBloqueo();
+		A.unlock();
 
 		// 4. Terminado
-		A.terminar();
+		A.join();
 
 		Subproceso B = new Subproceso("B");
 
+		// Pausa el subproceso principal antes de ejecutar el subproceso B
 		Thread.sleep(TIEMPO_BLOQUEADO);
-		B.ejecutar();
+		B.start();
 		Thread.sleep(TIEMPO_BLOQUEADO);
 		B.stop();
-		B.terminar();
+		B.join();
 
-		// Subproceso principal (monotarea)
 		System.out.println("Subproceso " + Thread.currentThread().getName() + " terminado");
 	}
 
