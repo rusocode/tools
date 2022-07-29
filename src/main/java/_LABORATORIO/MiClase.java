@@ -3,7 +3,6 @@ package _LABORATORIO;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 
 /**
  * El objeto Class representa la clase de tiempo de ejecucion del objeto especificado.
@@ -66,7 +65,7 @@ public class MiClase {
 	}
 
 	/**
-	 * Imprime los atributos/campos (fields) publicos, protegidos, de acceso predeterminado (paquete) y privados
+	 * Imprime los atributos/campos (fields) publicos, protegidos, de acceso predeterminado (paquete) y privados,
 	 * declarados por la clase representada por el objeto Class.
 	 */
 	public void imprimirAtributos() {
@@ -109,7 +108,7 @@ public class MiClase {
 
 		try {
 
-			/* Devuelve el objeto Class asociado con la clase con el nombre de cadena especificado ("_LABORATORIO.Byte_").
+			/* Devuelve el objeto Class asociado con la clase con el nombre de cadena especificado ("_LABORATORIO.GameScreen").
 			 * Ahora a partir del objeto Class puedo obtener las caracteristicas del objeto especificado. */
 			Class<?> clase = Class.forName("_LABORATORIO.GameScreen");
 
