@@ -3,13 +3,9 @@ package _LABORATORIO;
 import java.io.InputStream;
 
 /**
- * El ClassLoader es una clase que se utiliza para cargar archivos <code>.class</code>. El codigo java se compila en ese
- * archivo mediante el compilador javac y la JVM ejecuta ese bytecode. ClassLoader es responsable de cargar archivos
- * .class desde sistemas de archivos, redes o cualquier otra fuente.
- * <p>
  * El classpath es la ruta al directorio que usa el ClassLoader para buscar y cargar clases, recursos y jar requeridos
- * por el programa. Se pueden verificar los valores del classpath dentro de la aplicacion usando la siguiente
- * propiedad del sistema <code>System.getProperty("java.class.path")</code>.
+ * por el programa. Se pueden verificar los valores del classpath dentro de la aplicacion usando la siguiente propiedad
+ * del sistema <code>System.getProperty("java.class.path")</code>.
  * <p>
  * Un recurso puede ser algo tan simple como un archivo o un directorio, o puede ser una referencia a un objeto mas
  * complicado, como una consulta a una base de datos o un motor de busqueda.
@@ -33,20 +29,14 @@ import java.io.InputStream;
  * equivalente a getClass().getClassLoader().getResource("foo/bar.txt").
  * <br><br>
  * Fuentes:
+ * <a href="https://www.geeksforgeeks.org/classloader-in-java/">¿Como funciona el classloader?</a>
  * <a href="https://javarevisited.blogspot.com/2011/01/how-classpath-work-in-java.html">¿Como funciona el classpath?</a>
- * <a href="https://stackoverflow.com/questions/14739550/difference-between-getclass-getclassloader-getresource-and-getclass-getres">...</a>
- * <a href="https://stackoverrun.com/es/q/3990978">...</a>
- *
- *
- * https://javarevisited.blogspot.com/2012/12/how-classloader-works-in-java.html
  * https://learntutorials.net/es/java/topic/2433/recursos--en-classpath-#:~:text=Un%20recurso%20son%20datos%20de,recursos%20con%20los%20m%C3%A9todos%20ClassLoader.
  * https://stackoverflow.com/questions/2396493/what-is-a-classpath-and-how-do-i-set-it
  * https://mkyong.com/java/java-read-a-file-from-resources-folder/#:~:text=In%20Java%2C%20we%20can%20use,content%20InputStream%20is%20%3D%20getClass().
  * https://stackoverflow.com/questions/6608795/what-is-the-difference-between-class-getresource-and-classloader-getresource
  * https://stackoverflow.com/questions/941754/how-to-get-a-path-to-a-resource-in-a-java-jar-file
  * https://stackoverflow.com/questions/1464291/how-to-really-read-text-file-from-classpath-in-java
- *
- *
  */
 
 public class Resources {

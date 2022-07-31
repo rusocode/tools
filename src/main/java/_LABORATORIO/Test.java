@@ -1,4 +1,6 @@
 package _LABORATORIO;
 
-public class Game {
+public class Test {
+
+
 }
