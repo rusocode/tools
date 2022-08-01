@@ -44,7 +44,8 @@ import java.lang.reflect.*;
  * Class c = test.getClass();
  * } </pre>
  * </ol>
- * Una vez creado el objeto Class que representa la clase del objeto dado, este ya puede acceder a una serie de
+ *
+ * <p> Una vez creado el objeto Class que representa la clase del objeto dado, este ya puede acceder a una serie de
  * caracteristicas de ese objeto. El siguiente ejemplo usa un objeto Class para imprimir el nombre de clase de un objeto:
  *
  * <pre> {@code
@@ -106,19 +107,49 @@ public class Class_ {
 				}
 			}
 		} else System.out.println("No hay atributos declarados.");
-
 	}
 
 	public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
 
-		Class<?> c = forName("_LABORATORIO.Test");
-		Class c2 = int.class;
+		StringBuilder sb = new StringBuilder();
 
-		if (c != null && c2 != null) {
-			System.out.println("Nombre de clase asociado con obj: " + c.getName());
-			System.out.println("Nombre simple de clase asociado con obj: " + c.getSimpleName());
-			System.out.println("Representacion en cadena del tipo primitivo: " + c2.toString());
+		Test test = new Test();
+		Class<?> c1 = forName("_LABORATORIO.Test");
+		Class<?> c2 = forName("java.lang.Thread");
+
+		if (true) {
+			if (c1 != null) {
+				sb.append("Nombre de clase asociado con c1: " + c1.getName() +
+						"\nNombre simple de clase asociado con c1: " + c1.getSimpleName() +
+						"\nClassLoader de c1: " + c1.getClassLoader().getName() +
+						"\nPaquete del objeto que representa c1: " + c1.getPackage() +
+						"\nSuperclase del objeto que representa c1: " + c1.getSuperclass() +
+						"\n¿c1 representa una interfaz? " + (c1.isInterface() ? "Si" : "No") +
+						"\n¿c1 representa un tipo primitivo? " + (c1.isPrimitive() ? "Si" : "No") +
+						"\n¿c1 representa un array? " + (c1.isArray() ? "Si" : "No") +
+						"\n¿c1 representa una clase anonima? " + (c1.isAnonymousClass() ? "Si" : "No") +
+						"\n¿c1 representa una clase local? " + (c1.isLocalClass() ? "Si" : "No") +
+						"\n¿c1 representa una enumeracion? " + (c1.isEnum() ? "Si" : "No") +
+						"\n¿El objeto especificado es compatible con el objeto representado por c1? " + (c1.isInstance(test) ? "Si" : "No") +
+						"\n¿La clase Thread se asigna en el objeto representado por c1? " + (c1.isAssignableFrom(c2) ? "Si" : "No"));
+
+				Field[] fields = c1.getFields();
+				Method[] methods = c1.getMethods();
+
+				sb.append("\nAtributos publicos del objeto representado por c1: ");
+				for (Field field : fields) sb.append("\n" + field);
+
+				sb.append("\nMetodos publicos del objeto representado por c1: ");
+				for (Method method : methods) sb.append("\n" + method);
+
+			}
+
+			System.out.println(sb.toString());
 		}
+
+		/* Crea una nueva instancia de la clase representada por este objeto Class
+		 Test test = (Test) c.newInstance();
+		 test.someMethod(); */
 
 		/* Devuelve un objeto Constructor que refleja el constructor publico especificado de la clase representada
 		 * por este objeto Class. El parametro ParameterTypes es una matriz de objetos Class que identifican los

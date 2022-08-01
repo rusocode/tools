@@ -3,9 +3,9 @@ package _LABORATORIO;
 public class Test {
 
 	private int n;
-	private String name;
+	public String name;
 
-	void someMethod() {
+	public void someMethod() {
 
 	}
 
