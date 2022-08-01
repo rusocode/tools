@@ -46,8 +46,7 @@ import java.lang.reflect.*;
  * 	System.out.println("The class of " + obj + " is " + obj.getClass().getName());
  * }
  * }</pre>
- * Nota: para utilizar el objeto Class en un contexto estatico se utiliza el literal <i>class</i>, ejemplo: Test.class.getName().
- * <br><br>
+ * <br>
  * Fuentes:
  * <a href="https://www.geeksforgeeks.org/java-lang-class-class-java-set-1/">¿Que es el objeto Class?</a>
  *
@@ -83,21 +82,6 @@ public class Class_ {
 	}
 
 	/**
-	 * Devuelve una instancia recien asignada de la clase representada por el objeto Class.
-	 */
-	public static Class_ getInstance() throws InstantiationException, IllegalAccessException {
-		return Class_.class.newInstance();
-	}
-
-	/**
-	 * Devuelve una instancia recien asignada de la clase representada por el objeto Class, utilizando un constructor
-	 * con parametros (constructor dinamico?).
-	 */
-	public static Class_ getInstance(String value) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-		return Class_.class.getConstructor(String.class).newInstance(value);
-	}
-
-	/**
 	 * Imprime los atributos/campos (fields) publicos, protegidos, de acceso predeterminado (paquete) y privados,
 	 * declarados por la clase representada por el objeto Class.
 	 */
@@ -121,13 +105,13 @@ public class Class_ {
 
 	public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
 
-		Test test = new Test();
-
 		Class<?> c = forName("_LABORATORIO.Test");
+		Class c2 = int.class;
 
-		if (c != null) {
+		if (c != null && c2 != null) {
 			System.out.println("Nombre de clase asociado con obj: " + c.getName());
 			System.out.println("Nombre simple de clase asociado con obj: " + c.getSimpleName());
+			System.out.println("Representacion en cadena del tipo primitivo: " + c2.toString());
 		}
 
 		/* Devuelve un objeto Constructor que refleja el constructor publico especificado de la clase representada
