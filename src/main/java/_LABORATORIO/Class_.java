@@ -1,7 +1,6 @@
 package _LABORATORIO;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.*;
 
 /**
  * Java proporciona una clase con el nombre Class en el paquete java.lang. Las instancias de la clase Class representan
@@ -10,23 +9,49 @@ import java.lang.reflect.InvocationTargetException;
  * publico. Los objetos de Class son construidos automaticamente por la JVM a medida que se cargan las clases y mediante
  * llamadas al metodo defineClass en el ClassLoader. Es una clase final, por lo que no se puede extender.
  * <p>
- * Para imprimir el nombre de clase de un objeto se utiliza el objeto Class, que se obtiene utilizando el metodo
- * getCLass(). Este metodo nos permite acceder a una serie de caracteristicas del objeto:
+ * </pre>
+ * Hay 3 formas de crear un objeto Class:
+ * <ol>
+ * <li><b>Class.forName(“className”):</b> como la clase Class no tiene ningun constructor, hay un metodo de fabrica
+ * estatico presente, que es Class.forName(), y se usa para crear objetos de la clase Class asociados con el nombre de
+ * clase dado. A continuacion se muestra la sintaxis:
+ * <pre>
+ * {@code Class c = Class.forName(String className)}</pre>
+ * La declaracion anterior crea el objeto Class para la clase pasada como un argumento String (className). Tenga en
+ * cuenta que el parametro className debe ser el nombre completo de la clase deseada para la que se creara el objeto
+ * Class. Los metodos en cualquier clase en Java que devuelven el mismo objeto de clase tambien se conocen como metodos
+ * de fabrica. El nombre de clase para el que se va a crear el objeto Class se determina en tiempo de ejecucion.</li>
+ * <li><b>Test.class:</b> cuando escribimos .class despues de un nombre de clase, hace referencia al objeto Class que
+ * representa la clase dada. Se usa principalmente con tipos de datos primitivos y solo cuando conocemos el nombre de la
+ * clase. El nombre de clase para el que se va a crear el objeto Class se determina en tiempo de compilacion. A
+ * continuacion se muestra la sintaxis:
+ * <pre>
+ * {@code Class c = int.class}</pre>
+ * Tenga en cuenta que este metodo se usa con el nombre de la clase, no con las instancias de la clase. Por ejemplo:
+ * <pre>
+ * {@code Test test = new Test();
+ * Class c = Test.class; // No error
+ * Class c = test.class; // Error}</pre></li>
+ * <li><b>test.getClass():</b> este metodo esta presente en la clase Object. Devuelve la clase en tiempo de ejecucion de
+ * este objeto (test). A continuacion se muestra la sintaxis:
+ * <pre>
+ * {@code Test test = new Test();
+ * Class c = test.getClass();}</pre></li>
+ * </ol>
+ * Una vez creado el objeto Class que representa la clase del objeto dado, este ya puede acceder a una serie de
+ * caracteristicas de ese objeto. El siguiente ejemplo usa un objeto Class para imprimir el nombre de clase de un objeto:
  * <pre>
  * {@code
  * void printClassName(Object obj) {
  * 	System.out.println("The class of " + obj + " is " + obj.getClass().getName());
  * }
- * }
- * </pre>
- * Es importante aclarar que para utilizar el objeto Class en un contexto estatico se utiliza el literal "class",
- * ejemplo: Class_.class.getName().
+ * }</pre>
+ * Nota: para utilizar el objeto Class en un contexto estatico se utiliza el literal <i>class</i>, ejemplo: Test.class.getName().
  * <br><br>
  * Fuentes:
- * <a href="https://mundosica.com/el-metodo-getclass-explicacion-y-uso-practico-construyendo-librerias-en-java-i/">...</a>
- * <a href="https://www.geeksforgeeks.org/java-lang-class-class-java-set-1/">Class</a>
+ * <a href="https://www.geeksforgeeks.org/java-lang-class-class-java-set-1/">¿Que es el objeto Class?</a>
  *
- * @author Juan Debenedetti
+ * @author Juan
  */
 
 public class Class_ {
@@ -98,13 +123,11 @@ public class Class_ {
 
 		Test test = new Test();
 
-		/* Como la clase Class no tiene ningun constructor, hay un metodo de fabrica estatico presente, que es
-		 * Class.forName(), y se usa para crear objetos de la clase Class asociados con el nombre de clase dado. */
-		Class<?> obj = forName("_LABORATORIO.Test");
+		Class<?> c = forName("_LABORATORIO.Test");
 
-		if (obj != null) {
-			System.out.println("Nombre de clase asociado con obj: " + obj.getName());
-			System.out.println("Nombre simple de clase asociado con obj: " + obj.getSimpleName());
+		if (c != null) {
+			System.out.println("Nombre de clase asociado con obj: " + c.getName());
+			System.out.println("Nombre simple de clase asociado con obj: " + c.getSimpleName());
 		}
 
 		/* Devuelve un objeto Constructor que refleja el constructor publico especificado de la clase representada
