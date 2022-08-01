@@ -1,6 +1,5 @@
 package _LABORATORIO;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
@@ -25,15 +24,15 @@ import java.lang.reflect.InvocationTargetException;
  * <br><br>
  * Fuentes:
  * <a href="https://mundosica.com/el-metodo-getclass-explicacion-y-uso-practico-construyendo-librerias-en-java-i/">...</a>
+ * <a href="https://www.geeksforgeeks.org/java-lang-class-class-java-set-1/">Class</a>
  *
  * @author Juan Debenedetti
  */
 
 public class Class_ {
 
-	private String valor1 = "valor default";
-	private String valor2;
-	private final double DECIMAL = 12.5;
+	private String valor1 = "valor default", valor2;
+	private final double decimal = 12.5;
 
 	public Class_() {
 
@@ -46,7 +45,7 @@ public class Class_ {
 	/**
 	 * Devuelve el objeto Class asociado con la clase o interfaz con el nombre de cadena dado.
 	 *
-	 * @param className el ombre completo de la clase especificada.
+	 * @param className el nombre completo de la clase especificada.
 	 * @return el objeto Class para la clase con el nombre especificado.
 	 */
 	public static Class<?> forName(String className) {
@@ -71,14 +70,6 @@ public class Class_ {
 	 */
 	public static Class_ getInstance(String value) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
 		return Class_.class.getConstructor(String.class).newInstance(value);
-	}
-
-	public static void printClassName(Object obj) {
-		System.out.println("La clase de " + obj + " es " + obj.getClass().getName());
-	}
-
-	public void printCanonicalName() {
-		System.out.println("El nombre canonico de esta clase es: " + this.getClass().getCanonicalName());
 	}
 
 	/**
@@ -110,18 +101,20 @@ public class Class_ {
 		/* Como la clase Class no tiene ningun constructor, hay un metodo de fabrica estatico presente, que es
 		 * Class.forName(), y se usa para crear objetos de la clase Class asociados con el nombre de clase dado. */
 		Class<?> obj = forName("_LABORATORIO.Test");
-		System.out.println(obj.getSimpleName());
 
-		printClassName(test);
+		if (obj != null) {
+			System.out.println("Nombre de clase asociado con obj: " + obj.getName());
+			System.out.println("Nombre simple de clase asociado con obj: " + obj.getSimpleName());
+		}
 
 		/* Devuelve un objeto Constructor que refleja el constructor publico especificado de la clase representada
 		 * por este objeto Class. El parametro ParameterTypes es una matriz de objetos Class que identifican los
 		 * tipos de parametros formales del constructor, en el orden declarado (es un varargs de tipo Class). */
-		Constructor<?> constructor = obj.getConstructor(Test.class);
+		// Constructor<?> constructor = obj.getConstructor(Test.class);
 
 		/* Utiliza el constructor representado por este objeto Constructor para crear e inicializar una nueva
 		 * instancia de la clase de declaracion del constructor, con los parametros de inicializacion especificados. */
-		test = (Test) constructor.newInstance(test);
+		// test = (Test) constructor.newInstance(test);
 
 	}
 
