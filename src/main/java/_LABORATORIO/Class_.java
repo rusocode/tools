@@ -4,53 +4,59 @@ import java.lang.reflect.*;
 
 /**
  * Java proporciona una clase con el nombre Class en el paquete java.lang. Las instancias de la clase Class representan
- * clases e interfaces en una aplicacion Java en ejecucion. Los tipos primitivos de Java (boolean, byte, char, short,
- * int, long, float y double) y la palabra clave void tambien se representan como objetos Class. No tiene constructor
- * publico. Los objetos de Class son construidos automaticamente por la JVM a medida que se cargan las clases y mediante
- * llamadas al metodo defineClass en el ClassLoader. Es una clase final, por lo que no se puede extender.
- * <p>
- * </pre>
- * Hay 3 formas de crear un objeto Class:
+ * clases e interfaces en una aplicacion Java en ejecucion. Los tipos primitivos (boolean, byte, char, short, int, long,
+ * float y double) y la palabra clave void tambien se representan como objetos Class. No tiene constructor publico. Los
+ * objetos de Class son construidos automaticamente por la JVM a medida que se cargan las clases y mediante llamadas al
+ * metodo defineClass en el ClassLoader. Es una clase final, por lo que no se puede extender.
+ *
+ * <p> Hay 3 formas de crear un objeto Class:
  * <ol>
  * <li><b>Class.forName(“className”):</b> como la clase Class no tiene ningun constructor, hay un metodo de fabrica
  * estatico presente, que es Class.forName(), y se usa para crear objetos de la clase Class asociados con el nombre de
  * clase dado. A continuacion se muestra la sintaxis:
- * <pre>
- * {@code Class c = Class.forName(String className)}</pre>
- * La declaracion anterior crea el objeto Class para la clase pasada como un argumento String (className). Tenga en
+ *
+ * <pre> {@code Class c = Class.forName(String className);} </pre>
+ *
+ * <p> La declaracion anterior crea el objeto Class para la clase pasada como un argumento String (className). Tenga en
  * cuenta que el parametro className debe ser el nombre completo de la clase deseada para la que se creara el objeto
  * Class. Los metodos en cualquier clase en Java que devuelven el mismo objeto de clase tambien se conocen como metodos
- * de fabrica. El nombre de clase para el que se va a crear el objeto Class se determina en tiempo de ejecucion.</li>
+ * de fabrica. El nombre de clase para el que se va a crear el objeto Class se determina en tiempo de ejecucion.
  * <li><b>Test.class:</b> cuando escribimos .class despues de un nombre de clase, hace referencia al objeto Class que
  * representa la clase dada. Se usa principalmente con tipos de datos primitivos y solo cuando conocemos el nombre de la
  * clase. El nombre de clase para el que se va a crear el objeto Class se determina en tiempo de compilacion. A
  * continuacion se muestra la sintaxis:
- * <pre>
- * {@code Class c = int.class}</pre>
- * Tenga en cuenta que este metodo se usa con el nombre de la clase, no con las instancias de la clase. Por ejemplo:
- * <pre>
- * {@code Test test = new Test();
+ *
+ * <pre> {@code Class c = int.class;} </pre>
+ *
+ * <p> Tenga en cuenta que este metodo se usa con el nombre de la clase, no con las instancias de la clase. Por ejemplo:
+ *
+ * <pre> {@code
+ * Test test = new Test();
  * Class c = Test.class; // No error
- * Class c = test.class; // Error}</pre></li>
+ * Class c = test.class; // Error
+ * } </pre>
+ *
  * <li><b>test.getClass():</b> este metodo esta presente en la clase Object. Devuelve la clase en tiempo de ejecucion de
  * este objeto (test). A continuacion se muestra la sintaxis:
- * <pre>
- * {@code Test test = new Test();
- * Class c = test.getClass();}</pre></li>
+ *
+ * <pre> {@code
+ * Test test = new Test();
+ * Class c = test.getClass();
+ * } </pre>
  * </ol>
  * Una vez creado el objeto Class que representa la clase del objeto dado, este ya puede acceder a una serie de
  * caracteristicas de ese objeto. El siguiente ejemplo usa un objeto Class para imprimir el nombre de clase de un objeto:
- * <pre>
- * {@code
+ *
+ * <pre> {@code
  * void printClassName(Object obj) {
  * 	System.out.println("The class of " + obj + " is " + obj.getClass().getName());
  * }
- * }</pre>
- * <br>
- * Fuentes:
+ * } </pre>
+ *
+ * <br> Fuentes:
  * <a href="https://www.geeksforgeeks.org/java-lang-class-class-java-set-1/">¿Que es el objeto Class?</a>
  *
- * @author Juan
+ * @author Ruso
  */
 
 public class Class_ {
