@@ -62,6 +62,8 @@ import java.lang.reflect.*;
 
 public class Class_ {
 
+	private static final StringBuilder builder = new StringBuilder();
+
 	private String valor1 = "valor default", valor2;
 	private final double decimal = 12.5;
 
@@ -109,43 +111,45 @@ public class Class_ {
 		} else System.out.println("No hay atributos declarados.");
 	}
 
+	private static void append(String line) {
+		builder.append(line);
+		builder.append(System.lineSeparator());
+	}
+
 	public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
 
-		StringBuilder sb = new StringBuilder();
+		// Crea un objeto Class que representa la clase Test
+		Class<?> clase = forName("_LABORATORIO.Test");
 
-		Test test = new Test();
-		Class<?> c1 = forName("_LABORATORIO.Test");
-		Class<?> c2 = forName("java.lang.Thread");
+		if (clase != null) {
 
-		if (true) {
-			if (c1 != null) {
-				sb.append("Nombre de clase asociado con c1: " + c1.getName() +
-						"\nNombre simple de clase asociado con c1: " + c1.getSimpleName() +
-						"\nClassLoader de c1: " + c1.getClassLoader().getName() +
-						"\nPaquete del objeto que representa c1: " + c1.getPackage() +
-						"\nSuperclase del objeto que representa c1: " + c1.getSuperclass() +
-						"\n¿c1 representa una interfaz? " + (c1.isInterface() ? "Si" : "No") +
-						"\n¿c1 representa un tipo primitivo? " + (c1.isPrimitive() ? "Si" : "No") +
-						"\n¿c1 representa un array? " + (c1.isArray() ? "Si" : "No") +
-						"\n¿c1 representa una clase anonima? " + (c1.isAnonymousClass() ? "Si" : "No") +
-						"\n¿c1 representa una clase local? " + (c1.isLocalClass() ? "Si" : "No") +
-						"\n¿c1 representa una enumeracion? " + (c1.isEnum() ? "Si" : "No") +
-						"\n¿El objeto especificado es compatible con el objeto representado por c1? " + (c1.isInstance(test) ? "Si" : "No") +
-						"\n¿La clase Thread se asigna en el objeto representado por c1? " + (c1.isAssignableFrom(c2) ? "Si" : "No"));
+			append("Nombre de clase: " + clase.getName());
+			append("Nombre simple de clase: " + clase.getSimpleName());
+			append("ClassLoader: " + clase.getClassLoader().getName());
+			append("Paquete: " + clase.getPackage().getName());
+			append("Superclase: " + clase.getSuperclass().getSimpleName());
+			append("Constructor: " + clase.getConstructor());
+			append("¿Representa una interfaz? " + (clase.isInterface() ? "Si" : "No"));
+			append("¿Representa un tipo primitivo? " + (clase.isPrimitive() ? "Si" : "No"));
+			append("¿Representa un array? " + (clase.isArray() ? "Si" : "No"));
+			append("¿Representa una clase anonima? " + (clase.isAnonymousClass() ? "Si" : "No"));
+			append("¿Representa una clase local? " + (clase.isLocalClass() ? "Si" : "No"));
+			append("¿Representa una enumeracion? " + (clase.isEnum() ? "Si" : "No"));
+			append("¿El objeto especificado es compatible con la clase? " + (clase.isInstance(new Test()) ? "Si" : "No"));
 
-				Field[] fields = c1.getFields();
-				Method[] methods = c1.getMethods();
+			Field[] fields = clase.getFields();
+			Method[] methods = clase.getMethods();
 
-				sb.append("\nAtributos publicos del objeto representado por c1: ");
-				for (Field field : fields) sb.append("\n" + field);
+			append("Atributos publicos: ");
+			for (Field field : fields) append(field.getName());
 
-				sb.append("\nMetodos publicos del objeto representado por c1: ");
-				for (Method method : methods) sb.append("\n" + method);
+			append("Metodos publicos: ");
+			for (Method method : methods) append(method.getName());
 
-			}
-
-			System.out.println(sb.toString());
 		}
+
+		System.out.print(builder);
+
 
 		/* Crea una nueva instancia de la clase representada por este objeto Class
 		 Test test = (Test) c.newInstance();
