@@ -2,10 +2,14 @@ package _LABORATORIO;
 
 public class Test {
 
-	private int n;
-	public String name;
+	public String publicVar = "variable publica";
+	private final String privateVar = "variable privada";
 
-	public void someMethod() {
+	public void publicMethod() {
+
+	}
+
+	private void privateMethod() {
 
 	}
 

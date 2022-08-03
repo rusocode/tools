@@ -91,24 +91,32 @@ public class Class_ {
 	}
 
 	/**
-	 * Imprime los atributos/campos (fields) publicos, protegidos, de acceso predeterminado (paquete) y privados,
-	 * declarados por la clase representada por el objeto Class.
+	 * Muestra todos los campos declarados por la clase o interfaz representada por este objeto Class. Esto incluye
+	 * campos publicos, protegidos, default y privados, pero excluye los campos heredados.
+	 * <p> Ademas de mostrar todos los campos, tambien muestra sus valores excepto el de los privados.
+	 * <br><br>
+	 * Nota: si el campo privado pertenece a la misma clase, entonces si puede acceder a su valor.
+	 *
+	 * @param obj clase representada por el objeto Class.
 	 */
-	public void imprimirAtributos() {
-		System.out.println("Atributos>");
-		Field[] fields = this.getClass().getDeclaredFields();
-		if (fields.length != 0) {
-			for (Field field : fields) {
-				try {
-					System.out.println(field.getName() + ": " + field.get(this));
-				} catch (IllegalArgumentException e) {
-					System.err.println("El objeto especificado no es una instancia de la clase o interfaz que declara " +
-							"el campo subyacente (o una subclase o implementador del mismo).");
-				} catch (IllegalAccessException e) {
-					System.err.println("No se puede acceder al campo subyacente.");
+	private static void showDeclaredFields(Class<?> obj) {
+		try {
+			Object o = obj.getDeclaredConstructor().newInstance();
+			Field[] fields = obj.getDeclaredFields();
+			if (fields.length != 0) {
+				append("Atributos>");
+				for (Field field : fields) {
+					/* Si el campo no es privado o no es privado y final.
+					 * TODO Reemplazar esta forma de comprobar el modificador de campo. */
+					if (!(field.getModifiers() == Modifier.PRIVATE || field.getModifiers() == Modifier.PRIVATE + Modifier.FINAL))
+						append(field.getName() + " = " + field.get(o));
+					else append(field.getName() + " = No se puede acceder a este valor ya que es un campo privado!");
 				}
-			}
-		} else System.out.println("No hay atributos declarados.");
+			} else append("La clase no tiene atributos declarados!");
+		} catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException |
+				 InstantiationException e) {
+			append(e.getMessage());
+		}
 	}
 
 	private static void append(String line) {
@@ -137,14 +145,7 @@ public class Class_ {
 			append("¿Representa una enumeracion? " + (clase.isEnum() ? "Si" : "No"));
 			append("¿El objeto especificado es compatible con la clase? " + (clase.isInstance(new Test()) ? "Si" : "No"));
 
-			Field[] fields = clase.getFields();
-			Method[] methods = clase.getMethods();
-
-			append("Atributos publicos: ");
-			for (Field field : fields) append(field.getName());
-
-			append("Metodos publicos: ");
-			for (Method method : methods) append(method.getName());
+			showDeclaredFields(clase);
 
 		}
 
