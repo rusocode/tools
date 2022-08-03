@@ -2,8 +2,8 @@ package _LABORATORIO;
 
 public class Test {
 
-	public String publicVar = "variable publica";
-	private final String privateVar = "variable privada";
+	public String publicVar = "rulo quemado";
+	private final String privateVar = "mi valor es privado";
 
 	public void publicMethod() {
 
