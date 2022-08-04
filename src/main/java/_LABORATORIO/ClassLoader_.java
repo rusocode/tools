@@ -1,5 +1,6 @@
 package _LABORATORIO;
 
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -30,7 +31,7 @@ import java.util.ArrayList;
  * tipo Hibernate, Spring, etc. Se lo conoce tambien como Application ClassLoader.
  * </ol>
  *
- * <h3>Estructura de clases</h3>
+ * <h3> Estructura de clases </h3>
  * La clase ClassLoader usa un modelo de delegacion para buscar clases y recursos. Cada instancia de ClassLoader
  * tiene un cargador de clases principal asociado. Cuando se le solicite encontrar una clase o un recurso, una instancia
  * de ClassLoader delegara la busqueda de la clase o el recurso a su cargador de clases principal antes de intentar
@@ -76,18 +77,84 @@ public class ClassLoader_ {
 	 * clases de arranque esta escrito en codigo nativo, no en Java, por lo que no aparece como una clase de Java</b>.
 	 * Como resultado, el comportamiento del cargador de clases de arranque diferira entre las JVM.
 	 */
-	public void printClassLoaders() throws ClassNotFoundException {
+	public void printClassLoaders() {
 		System.out.println("Cargador de clases de esta clase: " + ClassLoader_.class.getClassLoader());
 		// System.out.println("Cargador de clases de Logging: " + Loggin.class.getClassLoader());
 		System.out.println("Cargador de clases de ArrayList: " + ArrayList.class.getClassLoader());
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException {
+	/**
+	 * La subclase del cargador de clases de aplicacion debe definir los metodos {@link #findClass findClass} y {@code
+	 * loadClassData} para cargar una clase de la aplicacion. Una vez que haya descargado los bytes que componen la
+	 * clase, debe usar el metodo {@code defineClass} para crear una instancia de clase.
+	 *
+	 * <p> El siguiente ejemplo, define un cargador de clases personalizado que extiende {@code ClassLoader}
+	 * predeterminado.
+	 *
+	 * <p> <i>¿Por que no utilizo el metodo {@code findClass} directamente desde un objeto {@code ClassLoader}?</i>
+	 * <br>
+	 * Porque el metodo {@code findClass} esta protegido y solo es accesible desde una subclase que extienda {@code
+	 * ClassLoader}. Por lo tanto este metodo debe ser anulado por las implementaciones del cargador de clases que
+	 * siguen el modelo de delegacion para cargar clases, y el metodo loadClass lo invocara despues de verificar el
+	 * cargador de clases principal para la clase solicitada. La implementacion predeterminada lanza una
+	 * ClassNotFoundException.
+	 *
+	 * <br><br>
+	 * <h3> Nombres binarios </h3>
+	 * Cualquier nombre de clase proporcionado como un parametro de {@code String} a los metodos en {@code ClassLoader}
+	 * debe ser un nombre binario segun lo define la <cite>especificacion del lenguaje Java™</cite>.
+	 *
+	 * <p> Ejemplos de nombres de clase validos incluyen:
+	 * <blockquote><pre>
+	 *   "java.lang.String"
+	 *   "javax.swing.JSpinner$DefaultEditor"
+	 *   "java.security.KeyStore$Builder$FileBuilder$1"
+	 *   "java.net.URLClassLoader$3$1"
+	 * </pre></blockquote>
+	 */
+	private static class CustomClassLoader extends ClassLoader {
 
-		ClassLoader_ loader = new ClassLoader_();
+		/**
+		 * Encuentra la clase con el nombre binario especificado y la carga en un array de bytes.
+		 *
+		 * @param name el nombre binario de la clase.
+		 * @return el objeto Class que se creo a partir de los datos de clase especificados.
+		 */
+		@Override
+		public Class<?> findClass(String name) {
+			// A diferencia del metodo loadClass(), este devuelve una matriz de bytes
+			byte[] b = loadClassData(name);
+			// Metodo responsable de la conversion de una matriz de bytes a una instancia de Class
+			return defineClass(name, b, 0, b.length);
+		}
 
-		loader.printClassLoaders();
+		/**
+		 * Carga la clase con el nombre binario especificado.
+		 *
+		 * <p> Obtiene el flujo de entrada a travez del cargador de clases de esta clase para leer el recurso
+		 * especificado. Lee los bytes del flujo de entrada y los escribe en el buffer de bytes del flujo de salida.
+		 *
+		 * @param name el nombre binario de la clase.
+		 * @return el array con los bytes del archivo .class.
+		 */
+		private byte[] loadClassData(String name) {
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(name.replace('.', File.separatorChar) + ".class");
+			ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+			int nextValue;
+			try {
+				while ((nextValue = inputStream.read()) != -1) byteStream.write(nextValue);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return byteStream.toByteArray();
+		}
 
+	}
+
+	public static void main(String[] args) {
+		CustomClassLoader customLoader = new CustomClassLoader();
+		Class<?> clase = customLoader.findClass("_LABORATORIO.ClassLoadeer_");
+		System.out.println(clase.getSimpleName());
 	}
 
 }
