@@ -3,33 +3,32 @@ package _LABORATORIO;
 import java.io.InputStream;
 
 /**
- * El classpath es la ruta al directorio que usa el ClassLoader para buscar y cargar clases, recursos y jar requeridos
- * por el programa. Se pueden verificar los valores del classpath dentro de la aplicacion usando la siguiente propiedad
- * del sistema <code>System.getProperty("java.class.path")</code>.
- * <p>
- * Un recurso puede ser algo tan simple como un archivo o un directorio, o puede ser una referencia a un objeto mas
+ * El <b>classpath</b> es la ruta al directorio que usa el {@code ClassLoader} para cargar los recursos requeridos por el programa. Se
+ * pueden verificar los valores del classpath dentro de la aplicacion usando la siguiente propiedad del sistema {@code
+ * System.getProperty("java.class.path")}.
+ *
+ * <p> Un recurso puede ser algo tan simple como un archivo o un directorio, o puede ser una referencia a un objeto mas
  * complicado, como una consulta a una base de datos o un motor de busqueda.
- * En Java, podemos usar getResourceAsStream() o getResource() para leer un archivo o varios archivos de una carpeta de
+ * En Java, podemos usar {@code getResourceAsStream} o {@code getResource} para leer un archivo o varios archivos de una carpeta de
  * recursos o raiz de classpath.
- * <p>
- * La diferencia entre el getResource() y getResourceAsStream() es que el primero devuelve una URL, mientras que el
+ *
+ * <p> La diferencia entre el getResource() y getResourceAsStream() es que el primero devuelve una URL, mientras que el
  * segundo abre esa URL y devuelve un InputStream.
  * getClassLoader().getResource("/...") siempre regresa null: ya que el cargador de clases no elimina la barra /
  * principal de la ruta, por lo que la busqueda siempre falla. Solo getClass().getResource() maneja un inicio / como una
  * ruta absoluta relativa a la ruta de clases.
- * <p>
- * getClassLoader().getResource() toma rutas que no comienzan con /, y siempre comienzan en la raiz del classpath.
- * <p>
- * getResource() toma un camino que puede comenzar con /. Si es asi, comienza en la raiz del classpath. De lo contrario,
+ *
+ * <p> getClassLoader().getResource() toma rutas que no comienzan con /, y siempre comienzan en la raiz del classpath.
+ *
+ * <p> getResource() toma un camino que puede comenzar con /. Si es asi, comienza en la raiz del classpath. De lo contrario,
  * comienza en el paquete de la clase en la que se llama al metodo.
- * <p>
- * Entonces getClassLoader().getResource("foo/bar.txt") es quivalente a getResource("/foo/bar.txt").
- * <p>
- * Y, asumiendo que getClass() devuelve una clase que esta en el paquete foo, getClass().getResource("bar.txt") es
+ *
+ * <p> Entonces getClassLoader().getResource("foo/bar.txt") es quivalente a getResource("/foo/bar.txt").
+ *
+ * <p> Y, asumiendo que getClass() devuelve una clase que esta en el paquete foo, getClass().getResource("bar.txt") es
  * equivalente a getClass().getClassLoader().getResource("foo/bar.txt").
  * <br><br>
  * Fuentes:
- * <a href="https://www.geeksforgeeks.org/classloader-in-java/">¿Como funciona el classloader?</a>
  * <a href="https://javarevisited.blogspot.com/2011/01/how-classpath-work-in-java.html">¿Como funciona el classpath?</a>
  * https://learntutorials.net/es/java/topic/2433/recursos--en-classpath-#:~:text=Un%20recurso%20son%20datos%20de,recursos%20con%20los%20m%C3%A9todos%20ClassLoader.
  * https://stackoverflow.com/questions/2396493/what-is-a-classpath-and-how-do-i-set-it

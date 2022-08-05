@@ -2,6 +2,7 @@ package _LABORATORIO;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Los cargadores de clases son responsables de <b>cargar las clases de Java dinamicamente en la JVM (Java Virtual
@@ -10,7 +11,7 @@ import java.util.ArrayList;
  * cargadores de clases.
  *
  * <p> Ademas, estas clases de Java no se cargan en la memoria todas a la vez, sino cuando las requiere una aplicacion.
- * Aqui es donde los cargadores de clases entran en escena. Son responsables de cargar las clases en la memoria.
+ * Aqui es donde los cargadores de clases entran en escena.
  *
  * <p> No todas las clases se cargan con un solo ClassLoader. Dependiendo del tipo de clase y la ruta de la clase, se
  * decide el ClassLoader que carga esa clase en particular. Para conocer el ClassLoader que carga una clase se utiliza
@@ -23,7 +24,7 @@ import java.util.ArrayList;
  * Integer, Date, etc. cuando la JVM lo requiere. No es una clase java y su trabajo es cargar el primer ClassLoader de
  * Java puro. Carga clases desde la ubicacion rt.jar dentro del JDK. No tiene ClassLoaders principales y se lo conoce
  * como Primodial ClassLoader.
- * <li><b>Extension ClassLoader:</b> la extension ClassLoader es un elemento secundario de Bootstrap ClassLoader y carga
+ * <li><b>Extension ClassLoader:</b> la Extension ClassLoader es un elemento secundario de BootStrap ClassLoader y carga
  * las extensiones de las clases principales de Java desde la biblioteca de extension JDK respectiva. Carga archivos
  * desde el directorio jre/lib/ext o cualquier otro directorio señalado por la propiedad del sistema java.ext.dirs.
  * <li><b>System ClassLoader:</b> este cargador de clases es uno de los mas habituales ya que se encarga de cargar las
@@ -67,7 +68,7 @@ public class ClassLoader_ {
 	 * <p> El cargador de clases de la aplicacion carga la clase donde se encuentra el metodo de ejemplo. <b>Un cargador
 	 * de clases de aplicacion o sistema carga nuestros propios archivos en el classpath</b>.
 	 *
-	 * <p> A continuacion, el cargador de clases de extension carga la clase Logging. <b>Los cargadores de clases de
+	 * <p> A continuacion, el cargador de clases de extension carga la clase Loggin. <b>Los cargadores de clases de
 	 * extension cargan clases que son una extension de las clases basicas estandar de Java</b>.
 	 *
 	 * <p> Finalmente, el cargador de clases de arranque carga la clase ArrayList. <b>Un cargador de clases de arranque
@@ -95,14 +96,14 @@ public class ClassLoader_ {
 	 * <br>
 	 * Porque el metodo {@code findClass} esta protegido y solo es accesible desde una subclase que extienda {@code
 	 * ClassLoader}. Por lo tanto este metodo debe ser anulado por las implementaciones del cargador de clases que
-	 * siguen el modelo de delegacion para cargar clases, y el metodo loadClass lo invocara despues de verificar el
-	 * cargador de clases principal para la clase solicitada. La implementacion predeterminada lanza una
+	 * siguen el modelo de delegacion para cargar clases, y el metodo {@code loadClassData} lo invocara despues de
+	 * verificar el cargador de clases principal para la clase solicitada. La implementacion predeterminada lanza una
 	 * ClassNotFoundException.
 	 *
 	 * <br><br>
 	 * <h3> Nombres binarios </h3>
-	 * Cualquier nombre de clase proporcionado como un parametro de {@code String} a los metodos en {@code ClassLoader}
-	 * debe ser un nombre binario segun lo define la <cite>especificacion del lenguaje Java™</cite>.
+	 * Cualquier nombre de clase proporcionado como un parametro {@code String} a los metodos {@code ClassLoader} debe
+	 * ser un nombre binario segun lo define la <cite>especificacion del lenguaje Java™</cite>.
 	 *
 	 * <p> Ejemplos de nombres de clase validos incluyen:
 	 * <blockquote><pre>
@@ -121,24 +122,25 @@ public class ClassLoader_ {
 		 * @return el objeto Class que se creo a partir de los datos de clase especificados.
 		 */
 		@Override
-		public Class<?> findClass(String name) {
+		public Class<?> findClass(String name) throws ClassNotFoundException {
 			// A diferencia del metodo loadClass(), este devuelve una matriz de bytes
 			byte[] b = loadClassData(name);
-			// Metodo responsable de la conversion de una matriz de bytes a una instancia de Class
+			// Convierte la matriz de bytes a una instancia de Class
 			return defineClass(name, b, 0, b.length);
 		}
 
 		/**
 		 * Carga la clase con el nombre binario especificado.
 		 *
-		 * <p> Obtiene el flujo de entrada a travez del cargador de clases de esta clase para leer el recurso
-		 * especificado. Lee los bytes del flujo de entrada y los escribe en el buffer de bytes del flujo de salida.
+		 * <p> Obtiene el flujo de entrada del recurso especificado. Lee los bytes del flujo de entrada y los escribe
+		 * en el buffer de bytes del flujo de salida.
 		 *
 		 * @param name el nombre binario de la clase.
 		 * @return el array con los bytes del archivo .class.
 		 */
-		private byte[] loadClassData(String name) {
+		private byte[] loadClassData(String name) throws ClassNotFoundException {
 			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(name.replace('.', File.separatorChar) + ".class");
+			if (inputStream == null) throw new ClassNotFoundException();
 			ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 			int nextValue;
 			try {
@@ -151,10 +153,15 @@ public class ClassLoader_ {
 
 	}
 
-	public static void main(String[] args) {
-		CustomClassLoader customLoader = new CustomClassLoader();
-		Class<?> clase = customLoader.findClass("_LABORATORIO.ClassLoadeer_");
-		System.out.println(clase.getSimpleName());
+	public static void main(String[] args) throws ClassNotFoundException {
+		/* CustomClassLoader customLoader = new CustomClassLoader();
+		 * Class<?> clase = customLoader.findClass("_LABORATORIO.ClassLoader_");
+		 * System.out.println(clase.getSimpleName()); */
+
+		String classpath = System.getProperty("java.class.path");
+		String[] paths = classpath.split(System.getProperty("path.separator"));
+		for (String path : paths) System.out.println(path);
+
 	}
 
 }
