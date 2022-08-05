@@ -13,7 +13,6 @@ public class Properties_ {
 
 		Properties properties = System.getProperties();
 
-		// Thanks Java 8
 		LinkedHashMap<String, String> collect = properties.entrySet().stream()
 				.collect(Collectors.toMap(k -> (String) k.getKey(), e -> (String) e.getValue()))
 				.entrySet().stream().sorted(Map.Entry.comparingByKey())
