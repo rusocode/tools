@@ -26,11 +26,11 @@ public final class Constants {
 	public static final String BOLA = getTextureDir() + "bola.png";
 	public static final String BOLA_AMARILLA2 = getTextureDir() + "bola_amarilla2.png";
 	public static final String CONFIG = getResourcesDir() + "config.properties";
-	
+
 	public static String getResourcesDir() {
 		return DIR_PROJECT + s + DIR_RESOURCES + s;
 	}
-	
+
 	public static String getDatDir() {
 		return DIR_PROJECT + s + DIR_RESOURCES + s + DIR_DAT + s;
 	}
