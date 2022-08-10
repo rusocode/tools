@@ -3,16 +3,17 @@ package _lab;
 import java.io.InputStream;
 
 /**
- * El <b>classpath</b> es la ruta al directorio que usa el {@code ClassLoader} para cargar los recursos requeridos por el programa. Se
- * pueden verificar los valores del classpath dentro de la aplicacion usando la siguiente propiedad del sistema {@code
- * System.getProperty("java.class.path")}.
+ * El <b>classpath</b> es la ruta al directorio que usa el {@code ClassLoader} para cargar los recursos requeridos por
+ * el programa. Se pueden verificar los valores del classpath dentro de la aplicacion usando la propiedad del sistema
+ * {@code System.getProperty("java.class.path")}.
  *
  * <p> Un recurso puede ser algo tan simple como un archivo o un directorio, o puede ser una referencia a un objeto mas
  * complicado, como una consulta a una base de datos o un motor de busqueda.
- * En Java, podemos usar {@code getResourceAsStream} o {@code getResource} para leer un archivo o varios archivos de una carpeta de
- * recursos o raiz de classpath.
  *
- * <p> La diferencia entre el getResource() y getResourceAsStream() es que el primero devuelve una URL, mientras que el
+ * <p> En Java podemos usar {@code getResource} o {@code getResourceAsStream} para leer un archivo o varios archivos de
+ * una carpeta de recursos o raiz de classpath.
+ *
+ * <p> La diferencia entre getResource() y getResourceAsStream() es que el primero devuelve una URL, mientras que el
  * segundo abre esa URL y devuelve un InputStream.
  * getClassLoader().getResource("/...") siempre regresa null: ya que el cargador de clases no elimina la barra /
  * principal de la ruta, por lo que la busqueda siempre falla. Solo getClass().getResource() maneja un inicio / como una
