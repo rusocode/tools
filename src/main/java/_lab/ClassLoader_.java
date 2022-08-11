@@ -152,7 +152,11 @@ public class ClassLoader_ {
 
 	}
 
+	/**
+	 * Imprime la ruta de clases.
+	 */
 	private static void printClasspath() {
+		// Dividi las rutas de clase usando el separador del sistema operativo (; en windows) como delimitador
 		String[] classpath = System.getProperty("java.class.path").split(System.getProperty("path.separator"));
 		for (String path : classpath) System.out.println(path);
 	}
@@ -160,10 +164,9 @@ public class ClassLoader_ {
 
 	public static void main(String[] args) throws ClassNotFoundException {
 		/* CustomClassLoader customLoader = new CustomClassLoader();
-		 * Class<?> clase = customLoader.findClass("_LABORATORIO.ClassLoader_");
+		 * Class<?> clase = customLoader.findClass("_lab.ClassLoader_");
 		 * System.out.println(clase.getSimpleName()); */
 		printClasspath();
-
 	}
 
 }

@@ -119,7 +119,7 @@ public class Class_ {
 	public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
 
 		// Crea un objeto Class que representa la clase Test
-		Class<?> clase = forName("_LABORATORIO.Test");
+		Class<?> clase = forName("_lab.Test");
 
 		if (clase != null) {
 			append("Nombre de clase: " + clase.getName());
