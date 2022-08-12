@@ -166,6 +166,10 @@ public class ClassLoader_ {
 		/* CustomClassLoader customLoader = new CustomClassLoader();
 		 * Class<?> clase = customLoader.findClass("_lab.ClassLoader_");
 		 * System.out.println(clase.getSimpleName()); */
+
+		// Obtiene el cargador de clases predeterminado de la JVM
+		// ClassLoader loader = ClassLoader.getSystemClassLoader();
+
 		printClasspath();
 	}
 

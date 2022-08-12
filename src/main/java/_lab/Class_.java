@@ -13,7 +13,7 @@ import java.lang.reflect.*;
  * <ol>
  * <li><b>Class.forName(“className”):</b> como la clase Class no tiene ningun constructor, hay un metodo de fabrica
  * estatico presente, que es Class.forName(), y se usa para crear objetos de la clase Class asociados con el nombre de
- * clase dado. A continuacion se muestra la sintaxis:
+ * clase dado. Este metodo carga dinamicamente una clase. A continuacion se muestra la sintaxis:
  *
  * <pre> {@code Class clase = Class.forName(String className);} </pre>
  *
@@ -28,7 +28,7 @@ import java.lang.reflect.*;
  *
  * <pre> {@code Class clase = int.class;} </pre>
  *
- * <p> Tenga en cuenta que este metodo se usa con el nombre de clase, no con la instancia. Por ejemplo:
+ * <p> Tenga en cuenta que esta forma usa el <i>literal de clase</i> del nombre de clase. Por ejemplo:
  *
  * <pre> {@code
  * Test test = new Test();
