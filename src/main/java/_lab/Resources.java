@@ -67,10 +67,10 @@ import util.Testing;
  * <p> Una <i>ruta absoluta</i> es la ruta de acceso completa a un archivo, incluido el nombre de la particion o disco
  * en que se encuentra.
  *
- * <p> Una ruta relativa comienza con un nombre y una ruta absoluta comienza con un separador (/). Cuando se resuelve
- * una ruta absoluta, los cargadores de clases interpretan el separador como la raiz del espacio de nombres. Por el
- * contrario, una ruta relativa <i>puede</i> resolverse en relacion con cualquier "carpeta" en el espacio de nombres.
- * La carpeta utilizada dependera del objeto que utilice para resolver la ruta.
+ * <p> En terminos de Java, una ruta relativa comienza con un nombre y una ruta absoluta comienza con un separador (/).
+ * Cuando se resuelve una ruta absoluta, los cargadores de clases interpretan el separador como la raiz del espacio de
+ * nombres. Por el contrario, una ruta relativa <i>puede</i> resolverse en relacion con cualquier "carpeta" en el
+ * espacio de nombres. La carpeta utilizada dependera del objeto que utilice para resolver la ruta.
  *
  * <p> La principal diferencia entre las versiones {@code Class} y {@code ClassLoader} de los metodos
  * {@code getResource} y {@code getResourceAsStream}, se encuentra en la forma en que se interpretan las rutas
@@ -110,8 +110,6 @@ import util.Testing;
 public class Resources {
 
 	public static void main(String[] args) {
-
-		Testing test = new Testing();
 
 		Class<?> clase = Resources.class;
 		InputStream inputFromClass, inputFromClassLoader;
