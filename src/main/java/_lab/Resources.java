@@ -122,14 +122,14 @@ public class Resources {
 		 * ('\u002e').
 		 *
 		 * Desde Class, la ruta es relativa al paquete de la clase a menos que incluye una barra inclinada inicial, por
-		 * lo que si no desea utilizar el paquete actual, incluya una barra inclinada como esta: */
-		inputFromClass = clase.getResourceAsStream("/textures/bola.png"); // Ruta absoluta
+		 * lo que si no desea utilizar el paquete actual, incluya una barra inclinada: */
+		inputFromClass = clase.getResourceAsStream("/textures/bola.png");
 
 		System.out.println(inputFromClass != null);
 
 		/* Desde ClassLoader, todas las rutas ya son "absolutas", no hay contexto de los que podrian ser relativos. Por
 		 * lo tanto, no necesita una barra inclinada inicial. */
-		inputFromClassLoader = clase.getClassLoader().getResourceAsStream("textures/bola.png"); // Ruta relativa
+		inputFromClassLoader = clase.getClassLoader().getResourceAsStream("textures/bola.png");
 
 		System.out.println(inputFromClassLoader != null);
 
