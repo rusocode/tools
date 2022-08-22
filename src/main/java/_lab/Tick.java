@@ -1,5 +1,7 @@
 package _lab;
 
+import java.lang.management.ThreadMXBean;
+
 /**
  * Un tick es una unidad de medida de tiempo, especificamente se refiere a una sola instancia de una accion repetida
  * (generalmente una accion amplia) en un juego, o el periodo de tiempo que consume esa accion.
@@ -144,6 +146,15 @@ public class Tick {
 		// Muestra la cantidad de ticks (ciclos de relojs) que puede ejecutar el procesador en 1 segundo
 		int c = 0;
 		long lastTime = System.currentTimeMillis();
+
+
+		/*
+		https://stackoverflow.com/questions/42039530/calculate-cpu-cycle-for-java-function
+		* IMPORTANTE! System.currentTimeMillis() solo medirá el tiempo del reloj de pared, nunca el tiempo de la CPU.
+
+		https://stackoverflow.com/questions/7467245/cpu-execution-time-in-java
+		*
+		* */
 
 		while (true) {
 			c++;
