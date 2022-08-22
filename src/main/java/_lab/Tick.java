@@ -137,6 +137,10 @@ public class Tick {
 
 	public static void main(String[] args) {
 
+		/*
+		 * Para calcular los ciclos por segundo: https://www.convertworld.com/es/frecuencia/ciclos-por-segundo.html
+		 * */
+
 		// Muestra la cantidad de ticks (ciclos de relojs) que puede ejecutar el procesador en 1 segundo
 		int c = 0;
 		long lastTime = System.currentTimeMillis();
