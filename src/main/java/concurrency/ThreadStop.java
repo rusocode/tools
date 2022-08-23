@@ -2,15 +2,16 @@ package concurrency;
 
 /**
  * Ejemplo de como se detiene un subproceso.
- * <br><br>
- * Fuentes:
- * <a href="https://jenkov.com/tutorials/java-concurrency/creating-and-starting-threads.html">Creating and Starting Java Threads</a>
- * <a href="https://es.sawakinome.com/articles/words/difference-between-pause-and-stop.html">Pausa vs Detener</a>
  *
- * @author Ruso
+ * <p>Recursos:
+ * <a href="https://www.youtube.com/watch?v=eQk5AWcTS8w">Detener subprocesos</a>
+ *
+ * @author Juan Debenedetti
  */
 
 public class ThreadStop {
+
+	private static final int TIEMPO_BLOQUEADO = 1000;
 
 	private static class Subproceso implements Runnable {
 
@@ -27,10 +28,10 @@ public class ThreadStop {
 			// Mientras el subproceso no este detenido
 			while (!isStopped()) {
 
-				System.out.println(subproceso.getName() + " running");
+				System.out.println("Ejecutando subproceso " + subproceso.getName());
 
 				try {
-					Thread.sleep(1000L); // Pausa el subproceso
+					Thread.sleep(TIEMPO_BLOQUEADO);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -38,7 +39,7 @@ public class ThreadStop {
 			}
 		}
 
-		private void ejecutar() {
+		private synchronized void start() {
 			subproceso.start();
 		}
 
@@ -56,14 +57,15 @@ public class ThreadStop {
 
 	public static void main(String[] args) throws InterruptedException {
 
-		Subproceso subproceso = new Subproceso("A");
+		System.out.println("Ejecutando subrpoceso " + Thread.currentThread().getName());
 
-		subproceso.ejecutar();
+		Subproceso A = new Subproceso("A");
 
-		// Pausa el hilo principal antes de detener el subproceso
-		Thread.sleep(4L * 1000L);
+		A.start();
 
-		subproceso.stop();
+		Thread.sleep(4L * TIEMPO_BLOQUEADO);
+
+		A.stop();
 
 	}
 
