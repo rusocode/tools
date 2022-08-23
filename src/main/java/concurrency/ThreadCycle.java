@@ -1,8 +1,8 @@
 package concurrency;
 
 /**
- * Esta clase ejecuta el subproceso principal en paralelo con los subprocesos A y B, en donde se muestra el cilo de
- * vida.
+ * Esta clase ejecuta el subproceso principal (main) en paralelo con los subprocesos A y B, en donde se muestra el cilo
+ * de vida de cada uno.
  *
  * <p>El ciclo de un subproceso es:
  *
@@ -10,18 +10,28 @@ package concurrency;
  * <li>Nuevo
  * <li>Ejecutado
  * <li>Bloqueado
- * <li>Terminado
+ * <li>Muerto
  * </ul>
+ *
+ * <p>El subproceso se puede bloquear con los metodos {@code wait()} o {@code sleep()}. Esto permite al subproceso
+ * liberar la CPU en espera a que otro subproceso termine o le notifique que puede continuar, o bien a que termine un
+ * proceso de I/O, o bien a que termine una espera provocada por la funcion {@code sleep()}. Tras eso volvera al estado
+ * ejecutable.
+ *
+ * <p>Para matar un subproceso es necesario esperar hasta que se complete el bucle principal {@code run()} o detenerlo
+ * desde el metodo {@link Subproceso#stop() stop()}. Una vez que se complete el bucle o se detenga, se mata al
+ * subproceso. Sino se detiene, el subproceso principal esperara hasta que el subproceso actual termine de ejecutarse.
  *
  * <p>Recursos:
  * <a href="https://stackoverflow.com/questions/15680422/difference-between-wait-and-blocked-thread-states">Difference between WAIT and BLOCKED thread states</a>
+ * <a href="http://www.jtech.ua.es/dadm/2011-2012/restringido/android-av/sesion01-apuntes.html">Hilos</a>
  *
  * @author Juan Debenedetti
  */
 
 public class ThreadCycle {
 
-	private static final int TIEMPO_BLOQUEADO = 1000;
+	private static final int TIEMPO_DORMIDO = 1000;
 
 	private static class Subproceso implements Runnable {
 
@@ -39,7 +49,7 @@ public class ThreadCycle {
 
 			try {
 
-				for (int i = 1; i <= 100; i++) {
+				for (int i = 1; i <= 50; i++) {
 
 					System.out.print(i + " ");
 
@@ -51,10 +61,10 @@ public class ThreadCycle {
 
 					// Sincroniza este bloque de codigo
 					synchronized (this) {
-						/* Mientras el subproceso este bloqueado, entra en estado de espera hasta que se desbloquee,
+
+						/* Mientras el subproceso este bloqueado, entra en estado de espera hasta que se libere,
 						 * normalmente al ser notificado o interrumpido. */
-						while (blocked)
-							wait();
+						while (blocked) wait();
 
 						if (stopped) break;
 
@@ -66,15 +76,13 @@ public class ThreadCycle {
 				System.out.println("Subproceso " + subproceso.getName() + " interrumpido");
 			}
 
-			System.out.println("Subproceso " + subproceso.getName() + " terminado");
-
 		}
 
-		private void start() {
+		private synchronized void start() {
 			subproceso.start();
 		}
 
-		private void block() {
+		private synchronized void block() {
 			blocked = true;
 			System.out.println("Subproceso " + subproceso.getName() + " bloqueado");
 		}
@@ -85,22 +93,24 @@ public class ThreadCycle {
 			System.out.println("Subproceso " + subproceso.getName() + " desbloqueado");
 		}
 
-		/**
-		 * TODO No tiene que ser un metodo sincronizado?
-		 */
-		private void stop() {
+		private synchronized void stop() {
 			stopped = true;
 			System.out.println("Subproceso " + subproceso.getName() + " detenido");
 		}
 
-		public void join() {
+		/**
+		 * Este metodo se llama una vez que finalize el bucle principal.
+		 */
+		public void kill() {
 			try {
-				/* El metodo join() que se llamamo al final, hace que el subproceso principal espere (synchronized) hasta que el
-				 * subproceso actual termine. */
+				/* El metodo join() que se llamamo al final, hace que el subproceso principal espere (synchronized)
+				 * hasta que el subproceso actual termine. */
 				subproceso.join();
 			} catch (InterruptedException e) {
 				System.out.println("Subproceso " + subproceso.getName() + " interrumpido");
 			}
+
+			if (!subproceso.isAlive()) System.out.println("Subproceso " + subproceso.getName() + " muerto!");
 
 		}
 
@@ -117,25 +127,23 @@ public class ThreadCycle {
 		// 2. Ejecutado
 		A.start();
 
-		// Pausa el subproceso principal antes de bloquear el subproceso A
-		Thread.sleep(TIEMPO_BLOQUEADO);
 		// 3. Bloqueado
+		/* Suspende (deja de ejecutarse temporalmente) el subproceso principal durante el numero especificado de
+		 * milisegundos, antes de bloquear el subproceso A. */
+		Thread.sleep(TIEMPO_DORMIDO); // Libera la CPU durante un tiempo
 		A.block();
-		// Pausa el subproceso principal antes de desbloquear el subproceso A
-		Thread.sleep(TIEMPO_BLOQUEADO);
+		Thread.sleep(TIEMPO_DORMIDO);
 		A.unlock();
 
-		// 4. Terminado
-		A.join();
+		// 4. Muerto
+		A.kill();
 
 		Subproceso B = new Subproceso("B");
-
-		// Pausa el subproceso principal antes de ejecutar el subproceso B
-		Thread.sleep(TIEMPO_BLOQUEADO);
+		Thread.sleep(TIEMPO_DORMIDO);
 		B.start();
-		Thread.sleep(TIEMPO_BLOQUEADO);
+		Thread.sleep(TIEMPO_DORMIDO);
 		B.stop();
-		B.join();
+		B.kill();
 
 		System.out.println("Subproceso " + Thread.currentThread().getName() + " terminado");
 	}

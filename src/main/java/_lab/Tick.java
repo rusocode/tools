@@ -141,7 +141,7 @@ import java.lang.management.ThreadMXBean;
 public class Tick implements Runnable {
 
 	private int c;
-	private static boolean running, stopped;
+	private boolean running, stopped;
 	private Thread subproceso;
 
 	public static void main(String[] args) {
@@ -164,13 +164,12 @@ public class Tick implements Runnable {
 
 	@Override
 	public void run() {
+
 		while (running) {
 			c++;
-
 			synchronized (this) {
 				if (stopped) break;
 			}
-
 		}
 
 		System.out.println("Subproceso terminado!");
@@ -184,7 +183,7 @@ public class Tick implements Runnable {
 		subproceso.start();
 	}
 
-	private void stop() {
+	private synchronized void stop() {
 		// if (!running) return;
 		// running = false;
 		stopped = true;
@@ -193,7 +192,6 @@ public class Tick implements Runnable {
 
 	private void join() {
 		try {
-
 			subproceso.join();
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
