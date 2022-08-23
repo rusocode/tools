@@ -20,11 +20,12 @@ import java.lang.management.ThreadMXBean;
  * la fisica del juego por cualquier motivo.
  *
  * <br><br>
+ *
  * <h3>Tiempo del sistema</h3>
  * El <a href="https://en.wikipedia.org/wiki/System_time">tiempo del sistema</a> representa la nocion de un sistema
- * informatico del paso del tiempo. Este se mide mediante un <i>reloj del sistema</i>, que generalmente se implementa
- * como un simple recuento de la cantidad de <i>ticks</i> que han transcurrido desde una fecha de inicio arbitraria,
- * denominada <a href="https://en.wikipedia.org/wiki/Epoch_(computing)">epoca</a>.
+ * informatico del paso del tiempo. Este se mide mediante un <a href="https://www.intel.es/content/www/es/es/gaming/resources/cpu-clock-speed.html#:~:text=La%20velocidad%20de%20reloj%20mide,la%20velocidad%20de%20la%20CPU">reloj del sistema</a>,
+ * que generalmente se implementa como un simple recuento de la cantidad de <i>ticks</i> que han transcurrido desde una
+ * fecha de inicio arbitraria, denominada <a href="https://en.wikipedia.org/wiki/Epoch_(computing)">epoca</a>.
  *
  * <p>Una epoca es una fecha y hora a partir de la cual una computadora mide el tiempo del sistema.
  *
@@ -133,39 +134,88 @@ import java.lang.management.ThreadMXBean;
  * <a href="https://www.intel.es/content/www/es/es/gaming/resources/cpu-clock-speed.html#:~:text=La%20velocidad%20de%20reloj%20mide,la%20velocidad%20de%20la%20CPU">¿Que es la velocidad de reloj de la CPU?</a>
  * <a href="https://www.youtube.com/watch?v=Bmgga8ZUiL8">¿Que es la frecuencia de un CPU?</a>
  * <a href="https://stackoverflow.com/questions/351565/system-currenttimemillis-vs-system-nanotime">currentTimeMillis vs nanoTime</a>
+ * <a href="https://stackoverflow.com/questions/7467245/cpu-execution-time-in-java">Tiempo de ejecucion de la CPU en Java</a>
+ * <a href="https://www.quora.com/What-is-the-amount-of-times-that-a-while-loop-runs-per-second-in-C">¿Cual es la cantidad de veces que se ejecuta un ciclo while() por segundo en C#?</a>
  */
 
-public class Tick {
+public class Tick implements Runnable {
+
+	private int c;
+	private static boolean running, stopped;
+	private Thread subproceso;
 
 	public static void main(String[] args) {
+		// test();
 
-		/*
-		 * Para calcular los ciclos por segundo: https://www.convertworld.com/es/frecuencia/ciclos-por-segundo.html
-		 * */
+		Tick tick = new Tick();
+		tick.start();
 
-		// Muestra la cantidad de ticks (ciclos de relojs) que puede ejecutar el procesador en 1 segundo
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+
+		tick.stop();
+		tick.join();
+
+	}
+
+
+	@Override
+	public void run() {
+		while (running) {
+			c++;
+
+			synchronized (this) {
+				if (stopped) break;
+			}
+
+		}
+
+		System.out.println("Subproceso terminado!");
+
+	}
+
+	private synchronized void start() {
+		if (running) return;
+		running = true;
+		subproceso = new Thread(this);
+		subproceso.start();
+	}
+
+	private void stop() {
+		// if (!running) return;
+		// running = false;
+		stopped = true;
+		System.out.println(c + " iteraciones en un segundo!");
+	}
+
+	private void join() {
+		try {
+
+			subproceso.join();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * Muestra la cantidad de iteraciones que hace el ciclo while en 1 segundo.
+	 */
+	private static void test() {
 		int c = 0;
 		long lastTime = System.currentTimeMillis();
-
-
-		/*
-		https://stackoverflow.com/questions/42039530/calculate-cpu-cycle-for-java-function
-		* IMPORTANTE! System.currentTimeMillis() solo medirá el tiempo del reloj de pared, nunca el tiempo de la CPU.
-
-		https://stackoverflow.com/questions/7467245/cpu-execution-time-in-java
-		*
-		* */
 
 		while (true) {
 			c++;
 			if (System.currentTimeMillis() - lastTime > 1000) {
 				lastTime += 1000;
 				// O el otro mensaje podria ser " ciclos por segundo!"?
-				System.out.println(c + " ticks en un segundo!");
+				System.out.println(c + " iteraciones en un segundo!");
 				c = 0;
 			}
 		}
-
 	}
 
 }
