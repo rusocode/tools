@@ -9,7 +9,7 @@ package concurrency;
  * @author Juan Debenedetti
  */
 
-public class ThreadStop {
+public class Stop {
 
 	private static final int TIEMPO_BLOQUEADO = 1000;
 

@@ -1,4 +1,4 @@
-package herencia.basico.vehiculo;
+package inheritance.basico.vehiculo;
 
 /* La clase principal "Vehiculo" va a contener menos metodos que todas sus clases hijas, ya que las 
  * subclases van a estar formadas por sus propias funciones mas las funciones de la superclase. 

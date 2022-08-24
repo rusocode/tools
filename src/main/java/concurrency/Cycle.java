@@ -43,9 +43,9 @@ package concurrency;
  * @author Juan Debenedetti
  */
 
-public class ThreadCycle {
+public class Cycle {
 
-	private static final int TIEMPO_BLOQUEADO = 1000;
+	private static final int TIEMPO_BLOQUEADO = 1500;
 
 	private static class Subproceso implements Runnable {
 
@@ -59,7 +59,7 @@ public class ThreadCycle {
 		@Override
 		public void run() {
 
-			System.out.println("Ejecutando subproceso " + subproceso.getName());
+			System.out.println("Subproceso " + subproceso.getName() + " ejecutado");
 
 			try {
 
@@ -146,6 +146,7 @@ public class ThreadCycle {
 		// Bloquea el subproceso principal durante el numero especificado de milisegundos, antes de bloquear el subproceso A
 		Thread.sleep(TIEMPO_BLOQUEADO);
 		A.block();
+		// Bloquea el subproceso principal durante el numero especificado de milisegundos, antes de desbloquear el subproceso A
 		Thread.sleep(TIEMPO_BLOQUEADO);
 		A.unlock();
 

@@ -1,4 +1,4 @@
-package herencia.abstracto;
+package inheritance.abstracto;
 
 import java.util.Date;
 import java.util.GregorianCalendar;

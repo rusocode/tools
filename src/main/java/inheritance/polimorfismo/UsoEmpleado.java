@@ -1,4 +1,4 @@
-package herencia.polimorfismo;
+package inheritance.polimorfismo;
 
 import java.util.Date;
 import java.util.GregorianCalendar;

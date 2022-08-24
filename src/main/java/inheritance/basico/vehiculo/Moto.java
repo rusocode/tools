@@ -1,4 +1,4 @@
-package herencia.basico.vehiculo;
+package inheritance.basico.vehiculo;
 
 // Subclase de Vehiculo
 public class Moto extends Vehiculo {

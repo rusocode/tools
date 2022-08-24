@@ -1,4 +1,4 @@
-package herencia.basico.juego;
+package inheritance.basico.juego;
 
 // Principal herada de Object
 public class Main {

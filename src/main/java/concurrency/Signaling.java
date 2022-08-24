@@ -2,22 +2,24 @@ package concurrency;
 
 /**
  * El proposito de la señalizacion de subprocesos es permitir que los subprocesos se envien señales entre si. Ademas, la
- * señalizacion de subprocesos permite que los subprocesos esperen señales de otros subprocesos. Por ejemplo, un subproceso
- * B podria esperar una señal del subproceso A que indique que los datos estan listos para ser procesados.
- * <br>
- * Fuentes:
- * <a href="https://jenkov.com/tutorials/java-concurrency/thread-signaling.html">jenkov.com</a>
+ * señalizacion de subprocesos permite que los subprocesos esperen señales de otros subprocesos. Por ejemplo, un
+ * subproceso B podria esperar una señal del subproceso A que indique que los datos estan listos para ser procesados.
+ *
+ * <p>Recursos:
+ * <a href="https://jenkov.com/tutorials/java-concurrency/thread-signaling.html">Thread Signaling</a>
  */
 
-public class ThreadSignaling {
+public class Signaling {
 
-	/* -wait(), notify() and notifyAll()
+	/**
+	 * -wait(), notify() and notifyAll()
 	 * Java tiene un mecanismo de espera incorporado que permite que los subprocesos se vuelvan inactivos mientras esperan
 	 * señales. La clase java.lang.Object define tres metodos, wait(), notify() y notifyAll(), para facilitar esto.
-	 *
+	 * <p>
 	 * Un subproceso que llama a wait() en cualquier objeto se vuelve inactivo hasta que otro subproceso llama a notify() en
 	 * ese objeto. Para llamar a wait() o notify(), el subproceso de llamada primero debe obtener el bloqueo en ese objeto.
-	 * En otras palabras, el subproceso de llamada debe llamar a wait() o notify() desde dentro de un bloque sincronizado. */
+	 * En otras palabras, el subproceso de llamada debe llamar a wait() o notify() desde dentro de un bloque sincronizado.
+	 */
 
 	private static class MonitorObject {
 

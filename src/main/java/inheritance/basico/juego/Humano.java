@@ -1,4 +1,4 @@
-package herencia.basico.juego;
+package inheritance.basico.juego;
 
 // Subclase de Personaje
 public class Humano extends Personaje {

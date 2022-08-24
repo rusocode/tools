@@ -1,4 +1,4 @@
-package herencia.basico.juego;
+package inheritance.basico.juego;
 
 // Clase principal
 public class Personaje {

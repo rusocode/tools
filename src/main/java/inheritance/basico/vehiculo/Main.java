@@ -1,4 +1,4 @@
-package herencia.basico.vehiculo;
+package inheritance.basico.vehiculo;
 
 public class Main {
 
