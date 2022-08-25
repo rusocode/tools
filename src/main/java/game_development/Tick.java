@@ -1,6 +1,4 @@
-package _lab;
-
-import java.lang.management.ThreadMXBean;
+package game_development;
 
 /**
  * Un tick es una unidad de medida de tiempo, especificamente se refiere a una sola instancia de una accion repetida
@@ -13,11 +11,11 @@ import java.lang.management.ThreadMXBean;
  * por ejemplo, que la logica del juego "tick (marca)" una vez por cuadro, o que "durante el tictac, las posiciones de
  * los personajes se actualizan".
  *
- * <p><b>FPS</b> es una medida de cuantos cuadros (generalmente render frames) procesa un juego en un segundo. Los ticks
- * y los FPS no estan necesariamente relacionados, sin embargo, a veces la gente llamara a una sola ejecucion del bucle
- * logico del juego un "logic frame", en cuyo caso la tasa de FPS (logica) seria la cantidad de ticks procesados por
- * segundo. Esto es particularmente comun para los juegos que imponen velocidades de fotogramas fijas para la logica o
- * la fisica del juego por cualquier motivo.
+ * <p><b>FPS</b> es una medida de cuantos frames procesa un juego en un segundo. Los ticks y los FPS no estan
+ * necesariamente relacionados, sin embargo, a veces la gente llamara a una sola ejecucion del bucle logico del juego un
+ * "logic frame", en cuyo caso la tasa de FPS (logica) seria la cantidad de ticks procesados por segundo. Esto es
+ * particularmente comun para los juegos que imponen velocidades de fotogramas fijas para la logica o la fisica del
+ * juego por cualquier motivo.
  *
  * <br><br>
  *
@@ -55,8 +53,8 @@ import java.lang.management.ThreadMXBean;
  * alto uso de la CPU por parte de un solo programa puede indicar que exige mucho poder de procesamiento o que puede
  * funcionar mal; por ejemplo, ha entrado en un bucle infinito.
  *
- * <p>Por el contrario, el <a href="https://en.wikipedia.org/wiki/Elapsed_real_time">tiempo real</a> (o tiempo de reloj
- * de pared) es el tiempo que transcurre desde el inicio de un programa hasta el final medido por un reloj ordinario. El
+ * <p>Por el contrario, el <a href="https://en.wikipedia.org/wiki/Elapsed_real_time">tiempo real</a> (tiempo de reloj de
+ * pared) es el tiempo que transcurre desde el inicio de un programa hasta el final medido por un reloj ordinario. El
  * tiempo real incluye el tiempo de E/S, los retrasos multitarea y todos los demas tipos de espera en los que incurre el
  * programa.
  *
@@ -71,7 +69,7 @@ import java.lang.management.ThreadMXBean;
  * propio chip. Debido a que la CPU necesita realizar mas operaciones por vez que la placa base, el reloj de la CPU es
  * mucho mas alto. Y como no queremos tener otro oscilador (por ejemplo, porque tambien tendrian que estar
  * sincronizados), la CPU simplemente toma el reloj del sistema y lo multiplica por un numero, que esta fijo o
- * desbloqueado (en ese caso, el usuario puede cambie el multiplicador para hacer overclocking o underclockear la CPU).
+ * desbloqueado (en ese caso, el usuario puede cambiar el multiplicador para hacer overclocking o underclockear la CPU).
  *
  * <br><br>
  *
