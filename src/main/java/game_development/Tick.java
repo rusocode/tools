@@ -1,6 +1,6 @@
 package game_development;
 
-/** <h3>¿Que es un tick?</h3>
+/** <h2>¿Que es un tick?</h2>
  * Un tick es una unidad de medida de tiempo, especificamente se refiere a una sola instancia de una accion repetida
  * (generalmente una accion amplia) en un juego, o el periodo de tiempo que consume esa accion.
  *
@@ -19,7 +19,7 @@ package game_development;
  *
  * <br><br>
  *
- * <h3>¿Cual es la relacion entre FPS y Game Loop?</h3>
+ * <h2>¿Cual es la relacion entre FPS y Game Loop?</h2>
  * Por lo general, se dibuja un cuadro cada vez que se completa el ciclo del juego. Por lo tanto, el FPS te dice que tan
  * rapido se repite el juego.
  *
