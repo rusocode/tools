@@ -11,7 +11,7 @@ package game_development;
  * CPU, mas operaciones logicas puede realizar por segundo. Entonces, a medida que aumenta la frecuencia del reloj de la
  * CPU, disminuye el tiempo requerido para realizar las tareas.
  *
- * <p>La velocidad de reloj se miden en Hertz, 1 MHz representa 1 millon de ciclos por segundo, o en GHz, 1 GHz
+ * <p>La velocidad del reloj se miden en Hertz, 1 MHz representa 1 millon de ciclos por segundo, o en GHz, 1 GHz
  * representa 1 mil millones de ciclos por segundo. Cuanto mayor sea la velocidad de la CPU, mejor sera el rendimiento
  * de una computadora, en un sentido general. Otros componentes como la memoria RAM, el disco duro, la placa base y la
  * cantidad de nucleos del procesador (por ejemplo, de dos o cuatro nucleos) tambien pueden mejorar la velocidad de la
@@ -39,12 +39,11 @@ package game_development;
  * desbloqueado (en ese caso, el usuario puede cambiar el multiplicador para hacer overclocking o underclockear la CPU).
  *
  * <p>Recursos:
+ * <a href="https://www.intel.es/content/www/es/es/gaming/resources/cpu-clock-speed.html#:~:text=La%20velocidad%20de%20reloj%20mide,la%20velocidad%20de%20la%20CPU">¿Que es la velocidad de reloj?</a>
+ * <a href="https://www.computerhope.com/jargon/c/clockspe.htm">Velocidad de reloj</a>
+ * <a href="https://www.youtube.com/watch?v=Bmgga8ZUiL8">¿Que es la frecuencia de un CPU?</a>
  * <a href="https://cs.stackexchange.com/questions/32149/what-are-system-clock-and-cpu-clock-and-what-are-their-functions">Diferencia entre reloj del sistema y reloj del cpu</a>
  * <a href="https://stackoverflow.com/questions/43651954/what-is-a-clock-cycle-and-clock-speed">¿Que es un ciclo de reloj y la velocidad del reloj?</a>
- * <a href="https://www.computerhope.com/jargon/c/clockspe.htm">Velocidad del reloj</a>
- * <a href="https://www.intel.es/content/www/es/es/gaming/resources/cpu-clock-speed.html#:~:text=La%20velocidad%20de%20reloj%20mide,la%20velocidad%20de%20la%20CPU">¿Que es la velocidad de reloj de la CPU?</a>
- * <a href="https://www.youtube.com/watch?v=Bmgga8ZUiL8">¿Que es la frecuencia de un CPU?</a>
- * <a href="https://es.wikipedia.org/wiki/Frecuencia_de_reloj">Frecuencia de reloj</a>
  */
 
 public class CpuClock {
