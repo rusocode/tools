@@ -1,10 +1,10 @@
 package game_development;
 
 /**
- * <h2>Tiempo del sistema</h2>
- * El <a href="https://en.wikipedia.org/wiki/System_time">tiempo del sistema</a> representa la nocion de un sistema
- * informatico del paso del tiempo. Este se mide mediante un reloj del sistema, que generalmente se implementa como un
- * simple recuento de la cantidad de <i>ticks</i> que han transcurrido desde una fecha de inicio arbitraria, denominada
+ * <h2>Reloj del sistema</h2>
+ * El <a href="https://en.wikipedia.org/wiki/System_time">reloj del sistema</a> representa la nocion de un sistema
+ * informatico del paso del tiempo. Este se mide mediante un reloj, que generalmente se implementa como un simple
+ * recuento de la cantidad de <i>ticks</i> que han transcurrido desde una fecha de inicio arbitraria, denominada
  * <a href="https://en.wikipedia.org/wiki/Epoch_(computing)">epoca</a>.
  *
  * <p>Un <b>tick</b> es una unidad arbitraria para medir el tiempo interno del sistema. Por lo general, hay un contador
@@ -81,8 +81,8 @@ package game_development;
  * <p>{@code System.currentTimeMillis()} devolvera el mismo valor (aproximado) entre JVM, porque esta vinculado a la
  * hora del reloj de pared del sistema.
  *
- * <p>Si desea calcular la cantidad de tiempo transcurrido entre dos eventos, como un cronometro, use {@code nanoTime()}
- * los cambios en el reloj de pared del sistema hacen que {@code currentTimeMillis()} sea incorrecto para este caso de
+ * <p>Si desea calcular la cantidad de tiempo transcurrido entre dos eventos, como un cronometro, use {@code nanoTime()}.
+ * Los cambios en el reloj de pared del sistema hacen que {@code currentTimeMillis()} sea incorrecto para este caso de
  * uso.
  *
  * <p>Ver tambien: <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/System.html#nanoTime--">JavaDoc System.nanoTime()</a> y <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/System.html#currentTimeMillis--">JavaDoc System.currentTimeMillis()</a> para mas informacion.
@@ -92,8 +92,7 @@ package game_development;
  * <a href="https://stackoverflow.com/questions/19052316/why-is-system-nanotime-way-slower-in-performance-than-system-currenttimemill">¿Por que System.nanoTime() es mucho mas lento (en rendimiento) que System.currentTimeMillis()?</a>
  */
 
-public class SystemTime {
-
+public class SystemClock {
 
 	/**
 	 * Devuelve la hora actual en milisegundos. Tenga en cuenta que, si bien la unidad de tiempo del valor devuelto es

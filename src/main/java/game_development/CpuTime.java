@@ -18,6 +18,7 @@ package game_development;
  * programa.
  *
  * <p>Recursos:
+ * <a href="https://superuser.com/questions/1169583/what-is-the-difference-between-processor-time-and-clock-time">¿Cual es la diferencia entre la hora del procesador y la hora del reloj?</a>
  * <a href="https://stackoverflow.com/questions/7467245/cpu-execution-time-in-java">Tiempo de ejecucion de la CPU en Java</a>
  * <a href="https://serverfault.com/questions/48455/what-are-the-differences-between-wall-clock-time-user-time-and-cpu-time">¿Cuales son las diferencias entre la hora del reloj de pared, la hora del usuario y la cpu time?</a>
  */
