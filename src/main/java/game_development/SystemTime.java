@@ -1,13 +1,15 @@
 package game_development;
 
 /**
- * <h2>Reloj del sistema</h2>
- * El <a href="https://en.wikipedia.org/wiki/System_time">reloj del sistema</a> representa la nocion de un sistema
+ * <h2>Tiempo del sistema</h2>
+ * El <a href="https://en.wikipedia.org/wiki/System_time">tiempo del sistema</a> representa la nocion de un sistema
  * informatico del paso del tiempo. Este se mide mediante un reloj del sistema, que generalmente se implementa como un
  * simple recuento de la cantidad de <i>ticks</i> que han transcurrido desde una fecha de inicio arbitraria, denominada
  * <a href="https://en.wikipedia.org/wiki/Epoch_(computing)">epoca</a>.
  *
- * <p>Una epoca es una fecha y hora a partir de la cual una computadora mide el tiempo del sistema.
+ * <p>Un <b>tick</b> es una unidad arbitraria para medir el tiempo interno del sistema. Por lo general, hay un contador
+ * interno del sistema operativo para los ticks; la hora y la fecha actuales utilizadas por varias funciones del sistema
+ * operativo se derivan de ese contador.
  *
  * <p>El reloj del sistema generalmente se implementa como un temporizador de intervalo programable que interrumpe
  * periodicamente la CPU, que luego comienza a ejecutar una rutina de servicio de interrupcion del temporizador. Esta
@@ -58,6 +60,12 @@ package game_development;
  * long estimatedTime = System.nanoTime() - startTime;
  * }</pre>
  *
+ * <p>Para comparar el tiempo transcurrido con un tiempo de espera, utilice
+ * <pre>{@code if (System.nanoTime() - startTime >= timeoutNanos) ... }</pre>
+ * en vez de <pre>{@code
+ * if (System.nanoTime() >= startTime + timeoutNanos) ...}</pre>
+ * debido a la posibilidad de desbordamiento numerico.
+ *
  * <p>Esta respuesta es tecnicamente correcta al elegir {@code nanoTime()} pero pasa por alto por completo un punto
  * extremadamente importante. {@code nanoTime()}, como dice el documento, es un temporizador de precision.
  * {@code currentTimeMillis()} NO ES UN TEMPORIZADOR, es el "reloj de pared".
@@ -84,5 +92,40 @@ package game_development;
  * <a href="https://stackoverflow.com/questions/19052316/why-is-system-nanotime-way-slower-in-performance-than-system-currenttimemill">¿Por que System.nanoTime() es mucho mas lento (en rendimiento) que System.currentTimeMillis()?</a>
  */
 
-public class SystemClock {
+public class SystemTime {
+
+
+	/**
+	 * Devuelve la hora actual en milisegundos. Tenga en cuenta que, si bien la unidad de tiempo del valor devuelto es
+	 * un milisegundo, la granularidad del valor depende del sistema operativo subyacente y puede ser mayor.
+	 *
+	 * @return la diferencia, medida en milisegundos, entre la hora actual y la medianoche del 1 de enero de 1970 UTC.
+	 */
+	private static long getCurrentTimeMillis() {
+		return System.currentTimeMillis();
+	}
+
+	/**
+	 * Devuelve el valor actual de la fuente de tiempo de alta resolucion de la maquina virtual Java en ejecucion, en
+	 * nanosegundos. Este metodo solo se puede utilizar para medir el tiempo transcurrido y no esta relacionado con
+	 * ninguna otra nocion de tiempo del sistema o del reloj de pared. El valor devuelto representa nanosegundos desde
+	 * algun tiempo de origen fijo pero arbitrario (quizas en el futuro, por lo que los valores pueden ser negativos).
+	 * Todas las invocaciones de este metodo utilizan el mismo origen en una instancia de una maquina virtual Java; es
+	 * probable que otras instancias de maquinas virtuales usen un origen diferente.
+	 *
+	 * <p>Este metodo proporciona una precision de nanosegundos, pero no necesariamente una resolucion de nanosegundos
+	 * (es decir, la frecuencia con la que cambia el valor); no se garantiza que la resolucion sea al menos tan buena
+	 * como la de {@code currentTimeMillis()}.
+	 *
+	 * @return el valor actual de la fuente de tiempo de alta resolucion de la maquina virtual Java en ejecucion, en
+	 * nanosegundos.
+	 */
+	private static long getNanoTime() {
+		return System.nanoTime();
+	}
+
+	public static void main(String[] args) {
+		System.out.println(getNanoTime());
+	}
+
 }

@@ -62,11 +62,11 @@ public class WhileLoop implements Runnable {
 	 */
 	private static void whileLoopPerSec2() {
 		int c = 0;
-		long lastTime = System.currentTimeMillis();
+		long startTime = System.currentTimeMillis();
 		while (true) {
 			c++;
-			if (System.currentTimeMillis() - lastTime > 1000) {
-				lastTime += 1000;
+			if (System.currentTimeMillis() - startTime >= 1000) {
+				startTime += 1000;
 				System.out.println(c + " ejecuciones en un segundo!");
 				c = 0;
 			}
