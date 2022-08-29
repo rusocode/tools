@@ -11,7 +11,7 @@ package game_development;
  * CPU, mas operaciones logicas puede realizar por segundo. Entonces, a medida que aumenta la frecuencia del reloj de la
  * CPU, disminuye el tiempo requerido para realizar las tareas.
  *
- * <p>Las velocidades de reloj se miden en MHz, 1 MHz representa 1 millon de ciclos por segundo, o en GHz, 1 GHz
+ * <p>La velocidad de reloj se miden en Hertz, 1 MHz representa 1 millon de ciclos por segundo, o en GHz, 1 GHz
  * representa 1 mil millones de ciclos por segundo. Cuanto mayor sea la velocidad de la CPU, mejor sera el rendimiento
  * de una computadora, en un sentido general. Otros componentes como la memoria RAM, el disco duro, la placa base y la
  * cantidad de nucleos del procesador (por ejemplo, de dos o cuatro nucleos) tambien pueden mejorar la velocidad de la
