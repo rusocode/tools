@@ -1,4 +1,4 @@
-package game_development;
+package gamedev;
 
 /**
  * <h2>Exactitud vs Precision</h2>

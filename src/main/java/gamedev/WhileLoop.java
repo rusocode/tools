@@ -1,4 +1,4 @@
-package game_development;
+package gamedev;
 
 /**
  * La cantidad de veces que se ejecuta el ciclo while en un segundo depende del codigo maquina en el que se compila el

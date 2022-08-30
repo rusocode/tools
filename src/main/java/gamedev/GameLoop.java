@@ -1,7 +1,8 @@
-package game_development;
+package gamedev;
 
 /**
  * <p>Recursos:
+ * <a href="https://gamedev.stackexchange.com/questions/1589/when-should-i-use-a-fixed-or-variable-time-step">¿Cuando debo usar un timestep fijo o variable?</a>
  * <a href="http://gameprogrammingpatterns.com/game-loop.html">Game Loop</a>
  * <a href="https://gamedev.stackexchange.com/questions/160329/java-game-loop-efficiency">Eficiencia del Game Loop</a>
  * <a href="https://gamedev.stackexchange.com/questions/132831/what-is-the-point-of-update-independent-rendering-in-a-game-loop">¿Cual es el punto de actualizar (tick) independientemente del render en el Game Loop?</a>

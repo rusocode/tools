@@ -1,4 +1,4 @@
-package game_development;
+package gamedev;
 
 /** <h2>¿Que es un tick?</h2>
  * Un tick es una unidad de medida de tiempo, especificamente se refiere a una sola instancia de una accion repetida

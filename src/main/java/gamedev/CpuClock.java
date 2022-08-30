@@ -1,4 +1,4 @@
-package game_development;
+package gamedev;
 
 /**
  * <h2>Reloj del CPU</h2>
@@ -41,9 +41,9 @@ package game_development;
  * mantenimiento antes de regresar a la tarea que la CPU estaba ejecutando antes de la interrupcion.
  *
  * <p>Para recuperar la hora del sistema en Java se utilizan los metodos {@code System.currentTimeMillis()} que devuelve
- * el tiempo actual en milisegundos y el metodo {@code System.nanoTime()} que devuelve el tiempo en nanosegundos. La
- * epoca que toma {@code currentTimeMillis()} es desde el <i>1 de enero de 1970</i> y el valor devuelto por
- * {@code nanoTime()} es arbitrario.
+ * el tiempo actual en milisegundos y {@code System.nanoTime()} que devuelve el tiempo en nanosegundos. La epoca que
+ * toma {@code currentTimeMillis()} es desde el <i>1 de enero de 1970</i> y el valor devuelto por {@code nanoTime()} es
+ * arbitrario.
  *
  * <p>Estrechamente relacionado con el reloj del sistema esta el tiempo de CPU, que es un recuento del tiempo total de
  * CPU consumido por un proceso en ejecucion.
@@ -65,18 +65,18 @@ package game_development;
  *
  * <h3>Tiempo del CPU</h3>
  * El <a href="https://en.wikipedia.org/wiki/CPU_time">tiempo del CPU</a> es la cantidad de tiempo durante el cual se
- * utilizo el CPU para procesar instrucciones de un programa, a diferencia del tiempo de pared, que incluye, por
- * ejemplo, la espera de E/S o entrar en el modo de bajo consumo (inactivo). El tiempo del CPU se mide con el reloj del
- * sistema. A menudo, es util medir el tiempo del CPU como un porcentaje de la capacidad de este, lo que se denomina
- * uso del CPU.
+ * utilizo el CPU para procesar instrucciones de un programa, a diferencia del <a href="https://en.wikipedia.org/wiki/Elapsed_real_time">tiempo de pared</a>,
+ * que incluye, por ejemplo, la espera de E/S o entrar en el modo de bajo consumo (inactivo). El tiempo del CPU se mide
+ * con el reloj del sistema. A menudo, es util medir el tiempo del CPU como un porcentaje de la capacidad de este, lo
+ * que se denomina uso del CPU.
  *
  * <p>El uso del CPU se utiliza para cuantificar como se comparte el procesador entre los programas de computadora. El
  * alto uso del CPU por parte de un solo programa puede indicar que exige mucho poder de procesamiento o que puede
  * funcionar mal; por ejemplo, ha entrado en un bucle infinito.
  *
- * <p>Por el contrario, el <a href="https://en.wikipedia.org/wiki/Elapsed_real_time">tiempo de pared</a> es el tiempo
- * que transcurre desde el inicio de un programa hasta el final medido por un reloj ordinario. El tiempo real incluye el
- * tiempo de E/S, los retrasos multitarea y todos los demas tipos de espera en los que incurre el programa.
+ * <p>Por el contrario, el tiempo de pared es el tiempo que transcurre desde el inicio de un programa hasta el final
+ * medido por un reloj ordinario. El tiempo real incluye el tiempo de E/S, los retrasos multitarea y todos los demas
+ * tipos de espera en los que incurre el programa.
  *
  * <p>Recursos:
  * <a href="https://www.youtube.com/watch?v=SeNrVQBRHqE">¡Antes de hacer Overclock, mira esto!</a>
@@ -88,7 +88,7 @@ package game_development;
  * <a href="https://stackoverflow.com/questions/7467245/cpu-execution-time-in-java">Tiempo de ejecucion de la CPU en Java</a>
  * <a href="https://serverfault.com/questions/48455/what-are-the-differences-between-wall-clock-time-user-time-and-cpu-time">¿Cual es la diferencia entre reloj de pared, hora del usuario y el tiempo del cpu?</a>
  *
- * @author Juan
+ * @author Juan Debenedetti
  */
 
 public class CpuClock {
