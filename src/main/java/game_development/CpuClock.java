@@ -5,7 +5,12 @@ package game_development;
  * Denominado alternativamente como <b>velocidad del reloj</b>, <b>velocidad del procesador</b> y <b>frecuencia del reloj</b>,
  * la velocidad del reloj es la velocidad a la que el microprocesador ejecuta cada instruccion o cada vibracion del <a href="https://www.computerhope.com/jargon/c/clock.htm">reloj</a>.
  * La CPU requiere un numero fijo de ticks de reloj, o ciclos, para <a href="https://www.computerhope.com/jargon/e/execute.htm">ejecutar</a>
- * cada <a href="https://www.computerhope.com/jargon/c/compinst.htm">instruccion</a>.
+ * cada <a href="https://www.computerhope.com/jargon/c/compinst.htm">instruccion</a>. Tu CPU procesa muchas
+ * instrucciones (calculos de bajo nivel como los aritmeticos) a partir de diferentes programas a cada segundo.
+ *
+ * <p>Un "ciclo" es tecnicamente un pulso sincronizado por un oscilador interno, pero, para nuestros fines, es una
+ * unidad basica que ayuda a comprender la velocidad de una CPU. Durante cada ciclo, miles de millones de transistores
+ * dentro del procesador se abren y cierran.
  *
  * <p>Cuanto mayor sea la <a href="https://www.computerhope.com/jargon/f/frequenc.htm">frecuencia</a> del reloj de la
  * CPU, mas operaciones logicas puede realizar por segundo. Entonces, a medida que aumenta la frecuencia del reloj de la
@@ -42,7 +47,7 @@ package game_development;
  * <a href="https://www.intel.es/content/www/es/es/gaming/resources/cpu-clock-speed.html#:~:text=La%20velocidad%20de%20reloj%20mide,la%20velocidad%20de%20la%20CPU">¿Que es la velocidad de reloj?</a>
  * <a href="https://www.computerhope.com/jargon/c/clockspe.htm">Velocidad de reloj</a>
  * <a href="https://www.youtube.com/watch?v=Bmgga8ZUiL8">¿Que es la frecuencia de un CPU?</a>
- * <a href="https://cs.stackexchange.com/questions/32149/what-are-system-clock-and-cpu-clock-and-what-are-their-functions">Diferencia entre reloj del sistema y reloj del cpu</a>
+ * <a href="https://cs.stackexchange.com/questions/32149/what-are-system-clock-and-cpu-clock-and-what-are-their-functions">Diferencia entre el reloj del sistema y el reloj del cpu</a>
  * <a href="https://stackoverflow.com/questions/43651954/what-is-a-clock-cycle-and-clock-speed">¿Que es un ciclo de reloj y la velocidad del reloj?</a>
  */
 
