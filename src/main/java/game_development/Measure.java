@@ -1,31 +1,6 @@
 package game_development;
 
 /**
- * <h2>Reloj del sistema</h2>
- * El <a href="https://en.wikipedia.org/wiki/System_time">reloj del sistema</a> representa la nocion de un sistema
- * informatico del paso del tiempo. Este se mide mediante un reloj, que generalmente se implementa como un simple
- * recuento de la cantidad de <i>ticks</i> que han transcurrido desde una fecha de inicio arbitraria, denominada
- * <a href="https://en.wikipedia.org/wiki/Epoch_(computing)">epoca</a>.
- *
- * <p>Un <b>tick</b> es una unidad arbitraria para medir el tiempo interno del sistema. Por lo general, hay un contador
- * interno del sistema operativo para los ticks; la hora y la fecha actuales utilizadas por varias funciones del sistema
- * operativo se derivan de ese contador.
- *
- * <p>El reloj del sistema generalmente se implementa como un temporizador de intervalo programable que interrumpe
- * periodicamente la CPU, que luego comienza a ejecutar una rutina de servicio de interrupcion del temporizador. Esta
- * rutina generalmente agrega un tick al reloj del sistema (un contador simple) y maneja otras tareas periodicas de
- * mantenimiento antes de regresar a la tarea que la CPU estaba ejecutando antes de la interrupcion.
- *
- * <p>Para recuperar la hora del sistema en Java se utilizan los metodos {@code System.currentTimeMillis()} que devuelve
- * el tiempo actual en milisegundos y el metodo {@code System.nanoTime()} que devuelve el tiempo en nanosegundos. La
- * epoca que toma {@code currentTimeMillis()} es desde el <i>1 de enero de 1970</i> y el valor devuelto por
- * {@code nanoTime()} es arbitrario.
- *
- * <p>Estrechamente relacionado con el tiempo del sistema esta el tiempo de CPU, que es un recuento del tiempo total de
- * CPU consumido por un proceso en ejecucion.
- *
- * <br><br>
- *
  * <h2>Exactitud vs Precision</h2>
  * Si solo esta buscando mediciones extremadamente precisas del tiempo transcurrido, use {@code nanoTime()}.
  * {@code currentTimeMillis()} le dara el tiempo transcurrido mas preciso posible en milisegundos desde la epoca, pero
@@ -92,7 +67,7 @@ package game_development;
  * <a href="https://stackoverflow.com/questions/19052316/why-is-system-nanotime-way-slower-in-performance-than-system-currenttimemill">¿Por que System.nanoTime() es mucho mas lento (en rendimiento) que System.currentTimeMillis()?</a>
  */
 
-public class SystemClock {
+public class Measure {
 
 	/**
 	 * Devuelve la hora actual en milisegundos. Tenga en cuenta que, si bien la unidad de tiempo del valor devuelto es

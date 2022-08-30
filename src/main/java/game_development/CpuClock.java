@@ -25,6 +25,31 @@ package game_development;
  *
  * <br><br>
  *
+ * <h3>Reloj del sistema</h3>
+ * El <a href="https://en.wikipedia.org/wiki/System_time">reloj del sistema</a> representa la nocion de un sistema
+ * informatico del paso del tiempo. Este se mide mediante un reloj, que generalmente se implementa como un simple
+ * recuento de la cantidad de <i>ticks</i> que han transcurrido desde una fecha de inicio arbitraria, denominada
+ * <a href="https://en.wikipedia.org/wiki/Epoch_(computing)">epoca</a>.
+ *
+ * <p>Un <i>tick</i> es una unidad arbitraria para medir el tiempo interno del sistema. Por lo general, hay un contador
+ * interno del sistema operativo para los ticks; la hora y la fecha actuales utilizadas por varias funciones del sistema
+ * operativo se derivan de ese contador.
+ *
+ * <p>El reloj del sistema generalmente se implementa como un temporizador de intervalo programable que interrumpe
+ * periodicamente la CPU, que luego comienza a ejecutar una rutina de servicio de interrupcion del temporizador. Esta
+ * rutina generalmente agrega un tick al reloj del sistema (un contador simple) y maneja otras tareas periodicas de
+ * mantenimiento antes de regresar a la tarea que la CPU estaba ejecutando antes de la interrupcion.
+ *
+ * <p>Para recuperar la hora del sistema en Java se utilizan los metodos {@code System.currentTimeMillis()} que devuelve
+ * el tiempo actual en milisegundos y el metodo {@code System.nanoTime()} que devuelve el tiempo en nanosegundos. La
+ * epoca que toma {@code currentTimeMillis()} es desde el <i>1 de enero de 1970</i> y el valor devuelto por
+ * {@code nanoTime()} es arbitrario.
+ *
+ * <p>Estrechamente relacionado con el reloj del sistema esta el tiempo de CPU, que es un recuento del tiempo total de
+ * CPU consumido por un proceso en ejecucion.
+ *
+ * <br><br>
+ *
  * <h3>Diferencia entre el reloj del sistema y el reloj del cpu</h3>
  * El reloj del sistema es necesario para sincronizar todos los componentes de la placa base, lo que significa que
  * todos hacen su trabajo solo si el reloj esta alto; nunca cuando esta bajo. Y debido a que la velocidad del reloj se
@@ -36,6 +61,23 @@ package game_development;
  * sincronizados), la CPU simplemente toma el reloj del sistema y lo multiplica por un numero, que esta fijo o
  * desbloqueado (en ese caso, el usuario puede cambiar el multiplicador para hacer overclocking o underclockear la CPU).
  *
+ * <br><br>
+ *
+ * <h3>Tiempo del CPU</h3>
+ * El <a href="https://en.wikipedia.org/wiki/CPU_time">tiempo del CPU</a> es la cantidad de tiempo durante el cual se
+ * utilizo el CPU para procesar instrucciones de un programa, a diferencia del tiempo de pared, que incluye, por
+ * ejemplo, la espera de E/S o entrar en el modo de bajo consumo (inactivo). El tiempo del CPU se mide con el reloj del
+ * sistema. A menudo, es util medir el tiempo del CPU como un porcentaje de la capacidad de este, lo que se denomina
+ * uso del CPU.
+ *
+ * <p>El uso del CPU se utiliza para cuantificar como se comparte el procesador entre los programas de computadora. El
+ * alto uso del CPU por parte de un solo programa puede indicar que exige mucho poder de procesamiento o que puede
+ * funcionar mal; por ejemplo, ha entrado en un bucle infinito.
+ *
+ * <p>Por el contrario, el <a href="https://en.wikipedia.org/wiki/Elapsed_real_time">tiempo de pared</a> es el tiempo
+ * que transcurre desde el inicio de un programa hasta el final medido por un reloj ordinario. El tiempo real incluye el
+ * tiempo de E/S, los retrasos multitarea y todos los demas tipos de espera en los que incurre el programa.
+ *
  * <p>Recursos:
  * <a href="https://www.youtube.com/watch?v=SeNrVQBRHqE">¡Antes de hacer Overclock, mira esto!</a>
  * <a href="https://www.intel.es/content/www/es/es/gaming/resources/cpu-clock-speed.html#:~:text=La%20velocidad%20de%20reloj%20mide,la%20velocidad%20de%20la%20CPU">¿Que es la velocidad de reloj?</a>
@@ -43,6 +85,8 @@ package game_development;
  * <a href="https://www.youtube.com/watch?v=Bmgga8ZUiL8">¿Que es la frecuencia de un CPU?</a>
  * <a href="https://cs.stackexchange.com/questions/32149/what-are-system-clock-and-cpu-clock-and-what-are-their-functions">Diferencia entre el reloj del sistema y el reloj del cpu</a>
  * <a href="https://stackoverflow.com/questions/43651954/what-is-a-clock-cycle-and-clock-speed">¿Que es un ciclo de reloj y la velocidad del reloj?</a>
+ * <a href="https://stackoverflow.com/questions/7467245/cpu-execution-time-in-java">Tiempo de ejecucion de la CPU en Java</a>
+ * <a href="https://serverfault.com/questions/48455/what-are-the-differences-between-wall-clock-time-user-time-and-cpu-time">¿Cual es la diferencia entre reloj de pared, hora del usuario y el tiempo del cpu?</a>
  *
  * @author Juan
  */
