@@ -4,7 +4,7 @@ package gamedev;
  * El Game Loop (bucle del juego) se encarga de actualizar y dibujar los frames en pantalla a una velocidad constante
  * usando el delta time. Los frames se dibujan a 60 fps (frames per second) independientemente del dispositivo en el que
  * se este ejecutando el juego. El tiempo entre cada frame se calcula usando el delta, que se obtiene de la diferencia
- * del tiempo incial y el ultimo tiempo medidos en nanosegundos, ya que esta es una medidad precisa.
+ * del tiempo incial y el ultimo tiempo medidos en nanosegundos.
  *
  * <p>El renderizado se elimina del ciclo de actualizacion, ya que asi, se libera un monton de tiempo del CPU. El
  * resultado final es que el juego simula a una velocidad constante utilizando time steps fijos y seguros en una
@@ -41,7 +41,7 @@ public class GameLoop implements Runnable {
 			timer += currentTime - startTime;
 			startTime = currentTime;
 
-			if (delta >= nsPerTick) { // TODO Se condiciona con un while o if?
+			if (delta >= nsPerTick) {
 				delta -= nsPerTick;
 				ticks++;
 				tick();
