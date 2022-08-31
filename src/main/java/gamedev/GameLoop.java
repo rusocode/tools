@@ -1,12 +1,21 @@
 package gamedev;
 
 /**
- * El Game Loop (bucle del juego) se encarga de actualizar y dibujar los frames en pantalla a una velocidad constante
- * usando el delta time. Los frames se dibujan a 60 fps (frames per second) independientemente del dispositivo en el que
- * se este ejecutando el juego. El tiempo entre cada frame se calcula usando el delta, que se obtiene de la diferencia
- * del tiempo incial y el ultimo tiempo medidos en nanosegundos.
+ * https://www.reddit.com/r/gamedev/comments/8sci48/should_i_be_using_a_fixed_timestep_or_delta_time/
+ * https://www.gamedev.net/forums/topic/673798-what-is-a-timestep/
+ * https://www.reddit.com/r/gamedev/comments/22k6pl/fixed_time_step_vs_variable_time_step/
  *
- * <p>El renderizado se elimina del ciclo de actualizacion, ya que asi, se libera un monton de tiempo del CPU. El
+ * El Game Loop (bucle del juego) se encarga de actualizar (tick) y dibujar (render) los frames en pantalla a una
+ * velocidad constante independientemente del dispositivo en el que se este ejecutando el juego. El tiempo entre cada
+ * frame se calcula usando el delta, que se obtiene de la diferencia del tiempo incial y el ultimo tiempo del reloj del
+ * sistema medidos en nanosegundos.
+ *
+ * <p>Los ticks son las actualizaciones de la posicion por segundo, en este caso, actualiza la posicion del player 60
+ * veces por segundo.
+ *
+ * <p>Los ticks se calculan en base al delta y el render en base a la velocidad del procesador.
+ *
+ * <p>El renderizado se elimina del bloque de actualizacion, ya que asi, se libera un monton de tiempo del CPU. El
  * resultado final es que el juego simula a una velocidad constante utilizando time steps fijos y seguros en una
  * variedad de hardware.
  *
@@ -28,10 +37,8 @@ public class GameLoop implements Runnable {
 	public void run() {
 
 		int fps = 60, ticks = 0, frames = 0;
-		double nsPerTick = 1e9 / fps;
-		double delta = 0, timer = 0;
-		long startTime = System.nanoTime();
-		long currentTime;
+		long startTime = System.nanoTime(), currentTime;
+		double nsPerTick = 1e9 / fps, delta = 0, timer = 0;
 		boolean shouldRender = false;
 
 		while (isRunning()) {

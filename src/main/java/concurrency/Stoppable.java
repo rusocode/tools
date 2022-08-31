@@ -5,7 +5,6 @@ package concurrency;
  * subproceso. Estos se hace utilizando una bandera (stopped) para indicar el estado de ejecucion. Mientras ningun
  * otro subproceso haya detenido la ejecucion, el subproceso actual sigue con su ejecucion hasta que se detenga.
  *
- *
  * <p>A tener en cuenta...
  *
  * <p>La palabra clave <i>synchronized</i> detendra los subprocesos que ejecutan el metodo simultaneamente, pero si se
