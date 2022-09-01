@@ -1,28 +1,103 @@
 package gamedev;
 
 /**
- * https://www.reddit.com/r/gamedev/comments/8sci48/should_i_be_using_a_fixed_timestep_or_delta_time/
- * https://www.gamedev.net/forums/topic/673798-what-is-a-timestep/
- * https://www.reddit.com/r/gamedev/comments/22k6pl/fixed_time_step_vs_variable_time_step/
- *
  * El Game Loop (bucle del juego) se encarga de actualizar (tick) y dibujar (render) los frames en pantalla a una
  * velocidad constante independientemente del dispositivo en el que se este ejecutando el juego. El tiempo entre cada
- * frame se calcula usando el delta, que se obtiene de la diferencia del tiempo incial y el ultimo tiempo del reloj del
- * sistema medidos en nanosegundos.
+ * frame se puede calcular usando el delta o timestep (fijo o variable). En este caso se utiliza el delta que se obtiene
+ * de la diferencia del tiempo incial y el ultimo tiempo del reloj del sistema medidos en nanosegundos.
  *
- * <p>Los ticks son las actualizaciones de la posicion por segundo, en este caso, actualiza la posicion del player 60
- * veces por segundo.
+ * <p>El renderizado se interpola del bloque de actualizacion, ya que asi, se libera un monton de tiempo del CPU. El
+ * resultado final es que el juego simula a una velocidad constante utilizando timesteps fijos y seguros en una variedad
+ * de hardware. Lo que queremos es lo mejor de ambos mundos: un valor de tiempo delta fijo para la simulacion mas la
+ * capacidad de renderizar a diferentes fps.
  *
- * <p>Los ticks se calculan en base al delta y el render en base a la velocidad del procesador.
+ * <p>La <i>interpolacion</i> hace que el juego se ejecute a una velocidad de fotogramas variable, pero sus sistemas
+ * fisicos y de red se actualizan 60 veces por segundo. Interpolaria entre valores conocidos (hace dos tics y hace un
+ * tic) para que el resto de su juego pueda ejecutarse lo mas rapido posible y la velocidad de fotogramas se desacople
+ * del timestep fijo.
  *
- * <p>El renderizado se elimina del bloque de actualizacion, ya que asi, se libera un monton de tiempo del CPU. El
- * resultado final es que el juego simula a una velocidad constante utilizando time steps fijos y seguros en una
- * variedad de hardware.
+ * <p>¿Como hacer esto?
+ * <p>Haga avanzar la simulacion fisica en timesteps de delta fijos y, al mismo tiempo, asegurese de que se mantiene al
+ * dia con los valores del timer que provienen del renderizador para que la simulacion avance a la velocidad correcta.
+ *
+ * <br><br>
+ *
+ * <h2>Timestep</h2>
+ * "Step" es un proceso de calculo del siguiente estado del sistema. "Timestep" es el intervalo de tiempo durante el
+ * cual la simulacion progresara durante el siguiente "step".
+ *
+ * <p>El timestep tienen que ver con la sincronizacion y se dividen en fijos e variables. Un timestep fijo es util para
+ * garantizar una experiencia consistente cuando cambia la velocidad de fotogramas. Por ejemplo, la integracion numerica
+ * produce diferentes resultados con diferentes timesteps.
+ *
+ * <br><br>
+ *
+ * <h3>¿Fijo o Variable?</h3>
+ * Hay dos cuestiones importantes.
+ * <ul>
+ * <li>¿Deberia vincularse la velocidad de paso de la fisica a la velocidad de fotogramas?
+ * <li>¿Debe la fisica ser escalonada con deltas constantes?
+ * </ul>
+ *
+ * <p>En <a href="https://gafferongames.com/post/fix_your_timestep/">Fix your Timestep!</a> de Glen fielder, dice
+ * "Liberar la fisica". Eso significa que su tasa de actualizacion de fisica <b>no</b> debe estar vinculada a su tasa de
+ * fotogramas.
+ *
+ * <p>"Por ejemplo, si la velocidad de fotogramas de la pantalla es de 50 fps y la simulacion esta diseñada para
+ * ejecutarse a 100 fps, debemos realizar dos pasos fisicos en cada actualizacion de la pantalla para mantener la fisica
+ * sincronizada."
+ *
+ * <p>En las recomendaciones de Erin Catto para Box2D, el tambien aboga por esto.
+ *
+ * <p>"Por lo tanto, no vincule el paso de tiempo a su velocidad de cuadros (a menos que realmente tenga que hacerlo)."
+ *
+ * <p><i>¿Debe vincularse la frecuencia de pasos de fisica con la velocidad de fotogramas?</i> No.
+ * <hr/>
+ * <p>Los pensamientos de Erin sobre el paso fijo frente al paso variable:
+ *
+ * <p>"Box2D utiliza un algoritmo computacional llamado integrador. Los integradores simulan las ecuaciones fisicas en
+ * puntos de tiempo discretos. ... Tampoco nos gusta que el paso del tiempo cambie mucho. Un paso de tiempo variable
+ * produce resultados variables, lo que dificulta la depuracion."
+ *
+ * <p>Los pensamientos de Glen sobre pasos fijos vs variables:
+ *
+ * <p><b>Arregla tu timestep o explota</b>
+ *
+ * <p>"... Si tiene una serie de restricciones de resorte realmente rigidas para los amortiguadores en una simulacion de
+ * automovil, entonces pequeños cambios en dt pueden hacer que la simulacion explote. ..."
+ *
+ * <p><i>¿Debe la fisica ser escalonada con deltas constantes?</i> Si.
+ * <hr/>
+ *
+ * <br><br>
+ *
+ * <p>El articulo <a href="https://www.reddit.com/r/gamedev/comments/22k6pl/fixed_time_step_vs_variable_time_step/">Timestep fijo vs timestep variable</a> dice...
+ * <p><i>"Ademas, el paso variable significa que el juego se mueve a una velocidad constante independientemente de la
+ * velocidad de fotogramas, lo que es excelente para admitir una amplia variedad de hardware."
+ *
+ * <p>La mayor desventaja del paso variable es que tiende a explotar a velocidades de cuadro realmente bajas. Una vez
+ * que dt se vuelve excesivamente grande, los objetos comienzan a moverse grandes distancias entre cuadros, lo que, a
+ * menos que sea MUY cuidadoso, generalmente resulta en colisiones perdidas y bucles de
+ * retroalimentacion/sobrecorreccion similares a resortes que arruinan el juego espectacularmente. En muchos casos, es
+ * ventajoso limitar el dt a un valor maximo, volviendo efectivamente al paso fijo si la velocidad de fotogramas es lo
+ * suficientemente mala."</i>
+ *
+ * <p>Contras del timestep fijo: no sincronizado para monitorear v-sync (causa graficos nerviosos a menos que interpole),
+ * velocidad de cuadro maxima limitada (a menos que interpole), dificil de trabajar dentro de marcos que asumen pasos de
+ * tiempo variables (como Pyglet o Flixel).
+ *
+ * <p>Nota: Los ticks se calculan en base al delta y el render en base a la velocidad del procesador.
+ *
+ * <p>¿El delta no es lo mismo que el timestep?
  *
  * <p>Recursos:
  * <a href="http://gameprogrammingpatterns.com/game-loop.html">Game Loop</a>
+ * <a href="https://www.gamedev.net/forums/topic/673798-what-is-a-timestep/">¿Que es un timestep?</a>
+ * <a href="https://www.reddit.com/r/gamedev/comments/22k6pl/fixed_time_step_vs_variable_time_step/">Timestep fijo vs timestep variable</a>
  * <a href="https://gamedev.stackexchange.com/questions/1589/when-should-i-use-a-fixed-or-variable-time-step">¿Cuando debo usar un timestep fijo o variable?</a>
  * <a href="https://gamedev.stackexchange.com/questions/160329/java-game-loop-efficiency">Eficiencia del Game Loop</a>
+ * <a href="https://gafferongames.com/post/fix_your_timestep/">¡Arregla tu timestep!</a>
+ * <a href="https://www.reddit.com/r/gamedev/comments/8sci48/should_i_be_using_a_fixed_timestep_or_delta_time/">¿Debo usar un timestep fijo o un delta?</a>
  * <a href="https://gamedev.stackexchange.com/questions/132831/what-is-the-point-of-update-independent-rendering-in-a-game-loop">¿Cual es el punto de actualizar (tick) independientemente del render en el Game Loop?</a>
  * <a href="https://gamedev.stackexchange.com/questions/81608/what-is-a-tick-in-the-context-of-game-development#:~:text=A%20tick%20is%20a%20unit,%22%20and%20%22tock%22">¿Que es un "tick" en el contexto del desarrollo de juegos?</a>
  * <a href="https://gamedev.stackexchange.com/questions/96758/what-is-the-relationship-between-frames-per-second-and-a-game-loop">¿Cual es la relacion entre FPS y Game Loop?</a>
@@ -39,7 +114,7 @@ public class GameLoop implements Runnable {
 		int fps = 60, ticks = 0, frames = 0;
 		long startTime = System.nanoTime(), currentTime;
 		double nsPerTick = 1e9 / fps, delta = 0, timer = 0;
-		boolean shouldRender = false;
+		boolean shouldRender = false; // TODO Se podria renombrar como "interpolation"
 
 		while (isRunning()) {
 
