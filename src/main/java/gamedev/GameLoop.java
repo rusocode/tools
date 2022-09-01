@@ -1,6 +1,7 @@
 package gamedev;
 
 /**
+ * <h1>Game Loop</h1>
  * Para este caso el Game Loop (bucle del juego) se encarga de actualizar (tick) y dibujar (render) los frames en
  * pantalla a una velocidad constante independientemente del dispositivo en el que se este ejecutando el juego. El
  * tiempo entre cada frame se calcula usando el delta o timestep (fijo o variable). En este caso se utiliza el delta que
@@ -55,7 +56,7 @@ package gamedev;
  *
  * <br><br>
  *
- * <h3>¿Debe un Game Loop basarse en timestep fijos o variables?</h3>
+ * <h2>¿Debe un Game Loop basarse en timestep fijos o variables?</h2>
  * <b><i>Timestep variable</i></b>
  * <br>
  * Las actualizaciones de fisica reciben un argumento de "tiempo transcurrido desde la ultima actualizacion" y, por
