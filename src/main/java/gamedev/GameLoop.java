@@ -20,6 +20,13 @@ package gamedev;
  * <p>Haga avanzar la simulacion fisica en timesteps de delta fijos y, al mismo tiempo, asegurese de que se mantiene al
  * dia con los valores del timer que provienen del renderizador para que la simulacion avance a la velocidad correcta.
  *
+ * <p>Nota: Los ticks se calculan en base al delta y el render en base a la velocidad del procesador.
+ *
+ * <br><br>
+ *
+ * <h2>Delta</h2>
+ * ???
+ *
  * <br><br>
  *
  * <h2>Timestep</h2>
@@ -32,20 +39,46 @@ package gamedev;
  *
  * <br><br>
  *
- * <h3>¿Fijo o Variable?</h3>
- * Hay dos cuestiones importantes.
+ * <h3>¿Debe un Game Loop basarse en timestep fijos o variables?</h3>
+ * <b><i>Timestep variable</i></b>
+ * <br>
+ * Las actualizaciones de fisica reciben un argumento de "tiempo transcurrido desde la ultima actualizacion" y, por
+ * lo tanto, dependen de la velocidad de fotogramas. Esto puede significar hacer calculos como {@code position += distancePerSecond * timeElapsed}.
+ *
+ * <p><i>Pros</i>: suave, mas fácil de codificar
+ * <br>
+ * <i>Contras</i>: no determinista, impredecible en pasos muy pequeños o grandes
+ *
+ * <p><b><i>Timestep fijo</i></b>
+ * <br>
+ * Es posible que las actualizaciones ni siquiera acepten un "tiempo transcurrido", ya que asumen que cada actualizacion
+ * es por un periodo de tiempo fijo. Los calculos se pueden realizar como {@code position += distancePerUpdate}. El
+ * ejemplo incluye una interpolacion durante el renderizado.
+ *
+ * <p><i>Pros</i>: predecible, determinista (¿mas facil de sincronizar con la red?), codigo de calculo mas claro
+ * <br>
+ * <i>Contras</i>: no sincronizado para monitorear v-sync (causa graficos nerviosos a menos que interpole), velocidad
+ * de cuadro maxima limitada (a menos que interpole), dificil de trabajar dentro de marcos que asumen timesteps
+ * variables (como Pyglet o Flixel).
+ *
+ * <p><i>Despues de analizar los pros y contras de cada timestep, quedan dos cuestiones importantes...</i>
  * <ul>
  * <li>¿Deberia vincularse la velocidad de paso de la fisica a la velocidad de fotogramas?
  * <li>¿Debe la fisica ser escalonada con deltas constantes?
  * </ul>
  *
- * <p>En <a href="https://gafferongames.com/post/fix_your_timestep/">Fix your Timestep!</a> de Glen fielder, dice
+ * <p>En <a href="https://gafferongames.com/post/fix_your_timestep/">Fix your Timestep!</a> de Glen Fiedler, dice
  * "Liberar la fisica". Eso significa que su tasa de actualizacion de fisica <b>no</b> debe estar vinculada a su tasa de
  * fotogramas.
  *
- * <p>"Por ejemplo, si la velocidad de fotogramas de la pantalla es de 50 fps y la simulacion esta diseñada para
- * ejecutarse a 100 fps, debemos realizar dos pasos fisicos en cada actualizacion de la pantalla para mantener la fisica
- * sincronizada."
+ * <p>"Entonces, lo que queremos es lo mejor de ambos mundos: un valor de tiempo delta fijo para la simulacion mas la
+ * capacidad de renderizar a diferentes velocidades de cuadro. Estas dos cosas parecen completamente opuestas, y lo son,
+ * a menos que podamos encontrar una manera de desacoplar la simulacion y la velocidad de fotogramas de renderizado."
+ *
+ * <p>"Aqui esta como hacerlo. Haga avanzar la simulacion fisica en pasos de tiempo de dt fijos y, al mismo tiempo,
+ * asegurese de que se mantiene al dia con los valores del temporizador que provienen del renderizador para que la
+ * simulacion avance a la velocidad correcta. Por ejemplo, si la velocidad de fotogramas de la pantalla es de 50 fps y
+ * la simulacion se ejecuta a 100 fps, debemos realizar dos pasos fisicos en cada actualizacion de la pantalla. Facil."
  *
  * <p>En las recomendaciones de Erin Catto para Box2D, el tambien aboga por esto.
  *
@@ -69,26 +102,21 @@ package gamedev;
  * <p><i>¿Debe la fisica ser escalonada con deltas constantes?</i> Si.
  * <hr/>
  *
- * <br><br>
- *
  * <p>El articulo <a href="https://www.reddit.com/r/gamedev/comments/22k6pl/fixed_time_step_vs_variable_time_step/">Timestep fijo vs timestep variable</a> dice...
- * <p><i>"Ademas, el paso variable significa que el juego se mueve a una velocidad constante independientemente de la
+ *
+ * <p>"La mayor ventaja del paso fijo es la consistencia. Puede grabar solo la entrada del jugador en cada cuadro,
+ * reproducirlo y ver una recreacion perfecta de todo lo que sucedio. Tambien es mas facil de desarrollar de muchas
+ * maneras, ya que no tiene que preocuparse por multiplicar dt (delta time) por todo."
+ *
+ * <p>"Ademas, el paso variable significa que el juego se mueve a una velocidad constante independientemente de la
  * velocidad de fotogramas, lo que es excelente para admitir una amplia variedad de hardware."
  *
- * <p>La mayor desventaja del paso variable es que tiende a explotar a velocidades de cuadro realmente bajas. Una vez
- * que dt se vuelve excesivamente grande, los objetos comienzan a moverse grandes distancias entre cuadros, lo que, a
- * menos que sea MUY cuidadoso, generalmente resulta en colisiones perdidas y bucles de
+ * <p>"La mayor desventaja del paso variable es que tiende a explotar a velocidades de cuadro realmente bajas. Una
+ * vez que dt se vuelve excesivamente grande, los objetos comienzan a moverse grandes distancias entre cuadros, lo que,
+ * a menos que sea MUY cuidadoso, generalmente resulta en colisiones perdidas y bucles de
  * retroalimentacion/sobrecorreccion similares a resortes que arruinan el juego espectacularmente. En muchos casos, es
  * ventajoso limitar el dt a un valor maximo, volviendo efectivamente al paso fijo si la velocidad de fotogramas es lo
- * suficientemente mala."</i>
- *
- * <p>Contras del timestep fijo: no sincronizado para monitorear v-sync (causa graficos nerviosos a menos que interpole),
- * velocidad de cuadro maxima limitada (a menos que interpole), dificil de trabajar dentro de marcos que asumen pasos de
- * tiempo variables (como Pyglet o Flixel).
- *
- * <p>Nota: Los ticks se calculan en base al delta y el render en base a la velocidad del procesador.
- *
- * <p>¿El delta no es lo mismo que el timestep?
+ * suficientemente mala."
  *
  * <p>Recursos:
  * <a href="http://gameprogrammingpatterns.com/game-loop.html">Game Loop</a>
