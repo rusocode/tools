@@ -1,24 +1,40 @@
 package gamedev;
 
 /**
- * El Game Loop (bucle del juego) se encarga de actualizar (tick) y dibujar (render) los frames en pantalla a una
- * velocidad constante independientemente del dispositivo en el que se este ejecutando el juego. El tiempo entre cada
- * frame se puede calcular usando el delta o timestep (fijo o variable). En este caso se utiliza el delta que se obtiene
- * de la diferencia del tiempo incial y el ultimo tiempo del reloj del sistema medidos en nanosegundos.
+ * Para este caso el Game Loop (bucle del juego) se encarga de actualizar (tick) y dibujar (render) los frames en
+ * pantalla a una velocidad constante independientemente del dispositivo en el que se este ejecutando el juego. El
+ * tiempo entre cada frame se calcula usando el delta o timestep (fijo o variable). En este caso se utiliza el delta que
+ * se obtiene de la diferencia del tiempo incial y el ultimo tiempo del reloj del sistema medido en nanosegundos.
  *
- * <p>El renderizado se interpola del bloque de actualizacion, ya que asi, se libera un monton de tiempo del CPU. El
- * resultado final es que el juego simula a una velocidad constante utilizando timesteps fijos y seguros en una variedad
- * de hardware. Lo que queremos es lo mejor de ambos mundos: un valor de tiempo delta fijo para la simulacion mas la
- * capacidad de renderizar a diferentes fps.
+ * <p>Extraccion de <a href="http://gameprogrammingpatterns.com/game-loop.html#play-catch-up">Game Loop</a>
+ * <br>
+ * El renderizado se interpola de la actualizacion, ya que asi, se libera un monton de tiempo del CPU. El resultado
+ * final es que el juego simula a una velocidad constante utilizando timesteps fijos y seguros en una variedad de
+ * hardware.
  *
- * <p>La <i>interpolacion</i> hace que el juego se ejecute a una velocidad de fotogramas variable, pero sus sistemas
+ * <p>Extraccion de <a href="https://www.reddit.com/r/gamedev/comments/8sci48/should_i_be_using_a_fixed_timestep_or_delta_time/">¿Debo usar un paso de tiempo fijo o un tiempo delta?</a>
+ * <br>
+ * La <i>interpolacion</i> hace que el juego se ejecute a una velocidad de fotogramas variable, pero sus sistemas
  * fisicos y de red se actualizan 60 veces por segundo. Interpolaria entre valores conocidos (hace dos tics y hace un
  * tic) para que el resto de su juego pueda ejecutarse lo mas rapido posible y la velocidad de fotogramas se desacople
  * del timestep fijo.
  *
- * <p>¿Como hacer esto?
- * <p>Haga avanzar la simulacion fisica en timesteps de delta fijos y, al mismo tiempo, asegurese de que se mantiene al
- * dia con los valores del timer que provienen del renderizador para que la simulacion avance a la velocidad correcta.
+ *
+ * <p>Extraccion de <a href="https://gamedev.stackexchange.com/questions/132831/what-is-the-point-of-update-independent-rendering-in-a-game-loop">¿Cual es el punto de actualizar la representacion independiente en un bucle de juego?</a>
+ * <br>
+ * <b>2. Entonces, ¿Por que no simplemente bloquear la velocidad de fotogramas (por ejemplo, usando VSync) y seguir
+ * ejecutando las actualizaciones de estado del juego y la renderizacion al mismo tiempo?</b>
+ * <br>
+ * El desacoplamiento de las tasas de actualizacion y renderizacion brinda mas flexibilidad para lidiar con la
+ * variabilidad del rendimiento.
+ *
+ * <p><b>3. ¿La actualizacion en un intervalo de tiempo fijo no tiene los mismos problemas que (2)?</b>
+ * <br>
+ * a) La velocidad de actualizacion puede ser mas rapida que la velocidad de fotogramas renderizada. Ahora, el jugador
+ * que renderiza a 120 fps puede obtener 2 actualizaciones por cuadro, mientras que el jugador con renderizado de
+ * hardware de menor especificacion a 30 fps obtiene 8 actualizaciones por cuadro, y ambos juegos se ejecutan a la misma
+ * velocidad de juego por segundo en tiempo real. El mejor hardware hace que parezca mas fluido, pero no altera
+ * radicalmente el funcionamiento del juego.
  *
  * <p>Nota: Los ticks se calculan en base al delta y el render en base a la velocidad del procesador.
  *
