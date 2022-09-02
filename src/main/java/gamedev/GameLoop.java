@@ -2,10 +2,10 @@ package gamedev;
 
 /**
  * <h1>Game Loop</h1>
- * Para este caso el Game Loop (bucle del juego) se encarga de actualizar (tick) y dibujar (render) los frames en
- * pantalla a una velocidad constante independientemente del dispositivo en el que se este ejecutando el juego. El
- * tiempo entre cada frame se calcula usando el delta o timestep (fijo o variable). En este caso se utiliza el delta que
- * se obtiene de la diferencia del tiempo incial y el ultimo tiempo del reloj del sistema medido en nanosegundos.
+ * Para este caso, el Game Loop (bucle del juego) se encarga de actualizar (tick) y dibujar (render) los frames en
+ * pantalla a una velocidad constante independientemente del dispositivo en el que se este ejecutando el juego, ya sea
+ * en un hardware viejo o potente. Para que el juego se ejecute en cualquier dispositivo a la misma velocidad, se
+ * utiliza el <i>delta time</i>.
  *
  * <p>Extraccion de <a href="http://gameprogrammingpatterns.com/game-loop.html#play-catch-up">Game Loop</a>
  * <br>
@@ -13,7 +13,7 @@ package gamedev;
  * final es que el juego simula a una velocidad constante utilizando timesteps fijos y seguros en una variedad de
  * hardware.
  *
- * <p>Extraccion de <a href="https://www.reddit.com/r/gamedev/comments/8sci48/should_i_be_using_a_fixed_timestep_or_delta_time/">¿Debo usar un paso de tiempo fijo o un tiempo delta?</a>
+ * <p>Extraccion de <a href="https://www.reddit.com/r/gamedev/comments/8sci48/should_i_be_using_a_fixed_timestep_or_delta_time/">¿Debo usar un timestep fijo o un tiempo delta?</a>
  * <br>
  * La <i>interpolacion</i> hace que el juego se ejecute a una velocidad de fotogramas variable, pero sus sistemas
  * fisicos y de red se actualizan 60 veces por segundo. Interpolaria entre valores conocidos (hace dos tics y hace un
@@ -21,7 +21,7 @@ package gamedev;
  * del timestep fijo.
  *
  *
- * <p>Extraccion de <a href="https://gamedev.stackexchange.com/questions/132831/what-is-the-point-of-update-independent-rendering-in-a-game-loop">¿Cual es el punto de actualizar la representacion independiente en un bucle de juego?</a>
+ * <p>Extraccion de <a href="https://gamedev.stackexchange.com/questions/132831/what-is-the-point-of-update-independent-rendering-in-a-game-loop">¿Cual es el punto de actualizar el renderizado independiente en un bucle de juego?</a>
  * <br>
  * <b>2. Entonces, ¿Por que no simplemente bloquear la velocidad de fotogramas (por ejemplo, usando VSync) y seguir
  * ejecutando las actualizaciones de estado del juego y la renderizacion al mismo tiempo?</b>
@@ -41,11 +41,6 @@ package gamedev;
  *
  * <br><br>
  *
- * <h2>Delta</h2>
- * ???
- *
- * <br><br>
- *
  * <h2>Timestep</h2>
  * "Step" es un proceso de calculo del siguiente estado del sistema. "Timestep" es el intervalo de tiempo durante el
  * cual la simulacion progresara durante el siguiente "step".
@@ -56,7 +51,8 @@ package gamedev;
  *
  * <br><br>
  *
- * <h2>¿Debe un Game Loop basarse en timestep fijos o variables?</h2>
+ *
+ * <h2><a href="https://gamedev.stackexchange.com/questions/1589/when-should-i-use-a-fixed-or-variable-time-step">¿Timestep fijo o variable?</a></h2>
  * <b><i>Timestep variable</i></b>
  * <br>
  * Las actualizaciones de fisica reciben un argumento de "tiempo transcurrido desde la ultima actualizacion" y, por
@@ -172,9 +168,11 @@ public class GameLoop implements Runnable {
 				delta -= nsPerTick;
 				ticks++;
 				tick();
+				// Actualiza primero para tener algo que renderizar en la primera iteracion
 				shouldRender = true;
 			}
 
+			// Desacopla el renderizado de la fisica para no esperar entre cada ciclo
 			if (shouldRender) {
 				frames++;
 				render();

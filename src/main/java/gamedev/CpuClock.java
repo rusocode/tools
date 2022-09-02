@@ -1,7 +1,7 @@
 package gamedev;
 
 /**
- * <h2>Reloj del CPU</h2>
+ * <h1>Reloj del CPU</h1>
  * En pocas palabras, el reloj del procesador (tambien conocido como «frecuencia de reloj» o «frecuencia») es la
  * velocidad a la que el procesador (circuito electrico) ejecuta cada instruccion por segundo.
  *
@@ -25,7 +25,7 @@ package gamedev;
  *
  * <br><br>
  *
- * <h3>Reloj del sistema</h3>
+ * <h2>Reloj del sistema</h2>
  * El <a href="https://en.wikipedia.org/wiki/System_time">reloj del sistema</a> representa la nocion de un sistema
  * informatico del paso del tiempo. Este se mide mediante un reloj, que generalmente se implementa como un simple
  * recuento de la cantidad de <i>ticks</i> que han transcurrido desde una fecha de inicio arbitraria, denominada
@@ -50,7 +50,7 @@ package gamedev;
  *
  * <br><br>
  *
- * <h3>Diferencia entre el reloj del sistema y el reloj del cpu</h3>
+ * <h2>Diferencia entre el reloj del sistema y el reloj del cpu</h2>
  * El reloj del sistema es necesario para sincronizar todos los componentes de la placa base, lo que significa que
  * todos hacen su trabajo solo si el reloj esta alto; nunca cuando esta bajo. Y debido a que la velocidad del reloj se
  * establece por encima del tiempo mas largo que cualquier señal necesita para propagarse a traves de cualquier
@@ -63,7 +63,7 @@ package gamedev;
  *
  * <br><br>
  *
- * <h3>Tiempo del CPU</h3>
+ * <h2>Tiempo del CPU</h2>
  * El <a href="https://en.wikipedia.org/wiki/CPU_time">tiempo del CPU</a> es la cantidad de tiempo durante el cual se
  * utilizo el CPU para procesar instrucciones de un programa, a diferencia del <a href="https://en.wikipedia.org/wiki/Elapsed_real_time">tiempo de pared</a>,
  * que incluye, por ejemplo, la espera de E/S o entrar en el modo de bajo consumo (inactivo). El tiempo del CPU se mide

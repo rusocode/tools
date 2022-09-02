@@ -1,7 +1,7 @@
 package gamedev;
 
 /**
- * <h2>Exactitud vs Precision</h2>
+ * <h1>Exactitud vs Precision</h1>
  * Si solo esta buscando mediciones extremadamente precisas del tiempo transcurrido, use {@code nanoTime()}.
  * {@code currentTimeMillis()} le dara el tiempo transcurrido mas preciso posible en milisegundos desde la epoca, pero
  * {@code nanoTime()} le dara un tiempo preciso en nanosegundos, relativo a algun punto arbitrario.
