@@ -16,10 +16,9 @@ package gamedev;
  * <p>Extraccion de <a href="https://www.reddit.com/r/gamedev/comments/8sci48/should_i_be_using_a_fixed_timestep_or_delta_time/">¿Debo usar un timestep fijo o un tiempo delta?</a>
  * <br>
  * La <i>interpolacion</i> hace que el juego se ejecute a una velocidad de fotogramas variable, pero sus sistemas
- * fisicos y de red se actualizan 60 veces por segundo. Interpolaria entre valores conocidos (hace dos tics y hace un
- * tic) para que el resto de su juego pueda ejecutarse lo mas rapido posible y la velocidad de fotogramas se desacople
+ * fisicos y de red se actualizan 60 veces por segundo. Interpolaria entre valores conocidos (hace dos ticks y hace un
+ * tick) para que el resto de su juego pueda ejecutarse lo mas rapido posible y la velocidad de fotogramas se desacople
  * del timestep fijo.
- *
  *
  * <p>Extraccion de <a href="https://gamedev.stackexchange.com/questions/132831/what-is-the-point-of-update-independent-rendering-in-a-game-loop">¿Cual es el punto de actualizar el renderizado independiente en un bucle de juego?</a>
  * <br>
@@ -50,7 +49,6 @@ package gamedev;
  * produce diferentes resultados con diferentes timesteps.
  *
  * <br><br>
- *
  *
  * <h2><a href="https://gamedev.stackexchange.com/questions/1589/when-should-i-use-a-fixed-or-variable-time-step">¿Timestep fijo o variable?</a></h2>
  * <b><i>Timestep variable</i></b>
@@ -149,12 +147,14 @@ public class GameLoop implements Runnable {
 	private Thread thread;
 	private boolean running, stopped;
 
+	private static final int TICKS = 60;
+
 	@Override
 	public void run() {
 
-		int fps = 60, ticks = 0, frames = 0;
+		int ticks = 0, frames = 0;
 		long startTime = System.nanoTime(), currentTime;
-		double nsPerTick = 1e9 / fps, delta = 0, timer = 0;
+		double nsPerTick = 1e9 / TICKS, delta = 0, timer = 0;
 		boolean shouldRender = false; // TODO Se podria renombrar como "interpolation"
 
 		while (isRunning()) {

@@ -19,7 +19,7 @@ package gamedev;
  * procesador (por ejemplo, de dos o cuatro nucleos) pueden mejorar la velocidad de la computadora.
  *
  * <p>Normalmente el reloj tiene por defecto una frecuencia base de 1 GHz. Eso significa que de base, el reloj manda
- * al procesador a hacer un millon de operaciones (ciclos) por segundo. Cada ciclo del procesador es un conjunto de
+ * al procesador a hacer mil millones de operaciones (ciclos) por segundo. Cada ciclo del procesador es un conjunto de
  * operaciones con un resultado. En su version mas basica podemos imaginar que es una suma, una resta, etc. Todas estas
  * operaciones son las que hacen funcionar a la computadora.
  *

@@ -15,21 +15,25 @@ package gamedev;
  * reloj del procesador. Hay 1.000.000.000 (1e9) de nanosegundos en un segundo, lo que indica que el tiempo entre cada
  * frame aplicando para este caso 60 ticks (60 actualizaciones por segundo), es igual a 1.000.000.000/60, que es
  * aproximadamente 16.666.666 de nanosegundos, valor conocido como {@code nsPerTick}. Esto significa que cada vez que se
- * actuliza el juego, el Game Loop espera 16.666.666 de nanosegundos antes de volver a llamar al metodo {@code tick()}.
+ * actuliza el juego, el Game Loop espera 16.666.666 de nanosegundos antes de volver a actualizar.
+ *
+ * <p>No es necesario actualizar el juego con cada tick de CPU por muchos factores, por ejemplo, el monitor tiene una
+ * tasa de refresco limitada, normalmente de 60hz (solo puede mostrar 60 frames por segundo), o, el ser humano medio
+ * solo puede percibir cerca de 150 fps, por estas razones no necesitamos dibujar 2000 frames por segundo.
  *
  * <br><br>
  *
  * <h2>¿Como encuentro el Delta Time?</h2>
- * Para encontrar el delta, es necesario calcular la diferencia de tiempo (en nanosegundos!) del actual y ultimo ciclo
- * de reloj acumulando el resultado en cada vuelta del Game Loop. Cuando el delta sea >= 1/60 de segundo o 16.666.666 de
+ * Para encontrar el delta, es necesario calcular la diferencia de tiempo (en nanosegundos!) del sistema actual e
+ * inicial acumulando el resultado en cada vuelta del Game Loop. Cuando el delta sea >= 1/60 de segundo o 16.666.666 de
  * nanosegundos para ser mas especificos, entonces actualiza nuevamente. Es importante eliminar 1/60 de segundo del
- * delta despues de actualizar, para que comience a contar desde el "desbordamiento" de tiempo. <b>Esto hace posible que
- * el juego se ejecute en cualquier dispositivo a la misma velocidad</b>.
+ * delta despues de actualizar, para que comience a contar desde el "desbordamiento" de tiempo hasta que alcance 1/60 de
+ * segundo nuevamente. <b>Esto hace posible que el juego se ejecute en cualquier dispositivo a la misma velocidad</b>.
  *
  * <p>La operacion {@code (currentTime - startTime) / nsPerTick}, solo esta ahi para hacer que el delta actue como un
  * porcentaje decimal de 1 de cuanto ha pasado del tiempo necesario. El 1 representa el 100% de 1/60 ticks.
  *
- * <p>La varible {@code timer} sirve de temporizador para mostrar la cantidad de ticks y frames cada 1 segundo.
+ * <p>La varible {@code timer} sirve como temporizador para mostrar la cantidad de ticks y frames cada 1 segundo.
  *
  * <p>TODO ¿A que se debe condicionar el delta con un ciclo {@code while()}?
  *
