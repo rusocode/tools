@@ -1,6 +1,7 @@
 package gamedev;
 
-/** <h2>¿Que es un tick?</h2>
+/**
+ * <h2>¿Que es un tick?</h2>
  * Un tick es una unidad de medida de tiempo, especificamente se refiere a una sola instancia de una accion repetida
  * (generalmente una accion amplia) en un juego, o el periodo de tiempo que consume esa accion.
  *
@@ -33,6 +34,10 @@ package gamedev;
  *
  * <p>La razon por la que a menudo se mezcla es que muchos motores de juegos usan el mismo bucle unico para calcular su
  * estado y luego reproducir el video.
+ *
+ * <p>Recursos:
+ * <a href="https://gamedev.stackexchange.com/questions/81608/what-is-a-tick-in-the-context-of-game-development#:~:text=A%20tick%20is%20a%20unit,%22%20and%20%22tock%22">¿Que es un "tick" en el contexto del desarrollo de juegos?</a>
+ * <a href="https://gamedev.stackexchange.com/questions/96758/what-is-the-relationship-between-frames-per-second-and-a-game-loop">¿Cual es la relacion entre FPS y Game Loop?</a>
  */
 
 public class Tick {

@@ -138,8 +138,7 @@ package gamedev;
  * <a href="https://gafferongames.com/post/fix_your_timestep/">¡Arregla tu timestep!</a>
  * <a href="https://www.reddit.com/r/gamedev/comments/8sci48/should_i_be_using_a_fixed_timestep_or_delta_time/">¿Debo usar un timestep fijo o un delta?</a>
  * <a href="https://gamedev.stackexchange.com/questions/132831/what-is-the-point-of-update-independent-rendering-in-a-game-loop">¿Cual es el punto de actualizar (tick) independientemente del render en el Game Loop?</a>
- * <a href="https://gamedev.stackexchange.com/questions/81608/what-is-a-tick-in-the-context-of-game-development#:~:text=A%20tick%20is%20a%20unit,%22%20and%20%22tock%22">¿Que es un "tick" en el contexto del desarrollo de juegos?</a>
- * <a href="https://gamedev.stackexchange.com/questions/96758/what-is-the-relationship-between-frames-per-second-and-a-game-loop">¿Cual es la relacion entre FPS y Game Loop?</a>
+ * <a href="https://stackoverflow.com/questions/57710138/why-gameloops-render-more-times-than-updating#:~:text=A%20tick%20is%20whenever%20game,to%20a%20redstone%20circuit%20updating">¿Por que el game loop se renderiza mas veces de las que se actualiza?</a>
  */
 
 public class GameLoop implements Runnable {
@@ -175,7 +174,7 @@ public class GameLoop implements Runnable {
 				System.out.println(ticks + " ticks, " + frames + " fps");
 				ticks = 0;
 				frames = 0;
-				delta.reset();
+				delta.resetTimer();
 			}
 
 			if (stopped) break;

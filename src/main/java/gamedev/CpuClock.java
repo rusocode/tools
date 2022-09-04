@@ -10,9 +10,7 @@ package gamedev;
  *
  * <p>La frecuencia (ciclos por segundo) se regula desde un oscilador de cristal. Este es un componente electronico que
  * esta echo de cristal, normalmente de cuarzo y tiene la capacidad de mandar al procesador a funcionar de forma
- * periodica. Este componente se conoce como <i>reloj</i>. Hay varios relojes de este tipo en tu computadora (reloj de
- * pared, reloj de sistema, y algunos otros), pero vamos a obviar todo eso y centrarnos en el unico que nos interesa
- * ahora mismo, y que controla la frecuencia de los nucleos de tu procesador.
+ * periodica. Este componente se conoce como <i>reloj</i>.
  *
  * <p>La velocidad del reloj se miden en Hertz. Cuanto mayor sea la frecuencia del reloj, mas operaciones puede realizar
  * por segundo. Otros componentes como la memoria RAM, el disco duro, la placa base y la cantidad de nucleos del
@@ -28,10 +26,9 @@ package gamedev;
  * <h2>Reloj del sistema</h2>
  * El <a href="https://en.wikipedia.org/wiki/System_time">reloj del sistema</a> representa la nocion de un sistema
  * informatico del paso del tiempo. Este se mide mediante un reloj, que generalmente se implementa como un simple
- * recuento de la cantidad de <i>ticks</i> que han transcurrido desde una fecha de inicio arbitraria, denominada
- * <a href="https://en.wikipedia.org/wiki/Epoch_(computing)">epoca</a>.
+ * recuento de la cantidad de ticks que han transcurrido desde una fecha de inicio arbitraria, denominada <a href="https://en.wikipedia.org/wiki/Epoch_(computing)">epoca</a>.
  *
- * <p>Un <i>tick</i> es una unidad arbitraria para medir el tiempo interno del sistema. Por lo general, hay un contador
+ * <p>Un <b>tick</b> es una unidad arbitraria para medir el tiempo interno del sistema. Por lo general, hay un contador
  * interno del sistema operativo para los ticks; la hora y la fecha actuales utilizadas por varias funciones del sistema
  * operativo se derivan de ese contador.
  *
@@ -40,8 +37,8 @@ package gamedev;
  * rutina generalmente agrega un tick al reloj del sistema (un contador simple) y maneja otras tareas periodicas de
  * mantenimiento antes de regresar a la tarea que la CPU estaba ejecutando antes de la interrupcion.
  *
- * <p>Para recuperar la hora del sistema en Java se utilizan los metodos {@code System.currentTimeMillis()} que devuelve
- * el tiempo actual en milisegundos y {@code System.nanoTime()} que devuelve el tiempo en nanosegundos. La epoca que
+ * <p>Para obtener la hora del sistema en Java se utilizan los metodos {@code currentTimeMillis()} que devuelve el
+ * tiempo actual en milisegundos y {@code nanoTime()} que devuelve el tiempo en nanosegundos. La epoca que
  * toma {@code currentTimeMillis()} es desde el <i>1 de enero de 1970</i> y el valor devuelto por {@code nanoTime()} es
  * arbitrario.
  *

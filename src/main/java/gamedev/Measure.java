@@ -9,25 +9,7 @@ package gamedev;
  * <p>La llamada a {@code nanoTime()} es relativamente costosa. {@code currentTimeMillis()} se ejecuta en algunos (5-6)
  * relojes de CPU, {@code nanoTime()} depende de la arquitectura subyacente y puede tener mas de 100 relojes de CPU.
  *
- * <p>De la Documentacion de Java:
- *
- * <blockquote>
- * {@code public static long nanoTime()}
- *
- * <br><br>
- *
- * <p>Devuelve el valor actual del temporizador del sistema disponible mas preciso, en nanosegundos.
- *
- * <p>Este metodo solo se puede utilizar para medir el tiempo transcurrido y no esta relacionado con ninguna otra
- * nocion de tiempo del sistema o del reloj de pared. El valor devuelto representa nanosegundos desde algun tiempo de
- * <i>origen</i> fijo pero arbitrario (quizas en el futuro, por lo que los valores pueden ser negativos). Este metodo
- * proporciona una precision de nanosegundos, pero no necesariamente una precision de nanosegundos. No se garantiza la
- * frecuencia con la que cambian los valores. Las diferencias en llamadas sucesivas que abarcan mas de aproximadamente
- * 292 años (2<sup>63</sup> nanosegundos) no calcularan con precision el tiempo transcurrido debido al desbordamiento
- * numerico.
- * </blockquote>
- *
- * <p>Por ejemplo, para medir cuanto tiempo tarda en ejecutarse un codigo:
+ * <p>Para medir cuanto tiempo tarda en ejecutarse un codigo:
  *
  * <pre>{@code
  * long startTime = System.nanoTime();
@@ -36,35 +18,27 @@ package gamedev;
  * }</pre>
  *
  * <p>Para comparar el tiempo transcurrido con un tiempo de espera, utilice
- * <pre>{@code if (System.nanoTime() - startTime >= timeoutNanos) ... }</pre>
+ * <pre>{@code if (System.nanoTime() - startTime >= timeoutNanos)}</pre>
  * en vez de <pre>{@code
- * if (System.nanoTime() >= startTime + timeoutNanos) ...}</pre>
+ * if (System.nanoTime() >= startTime + timeoutNanos)}</pre>
  * debido a la posibilidad de desbordamiento numerico.
  *
- * <p>Esta respuesta es tecnicamente correcta al elegir {@code nanoTime()} pero pasa por alto por completo un punto
- * extremadamente importante. {@code nanoTime()}, como dice el documento, es un temporizador de precision.
- * {@code currentTimeMillis()} NO ES UN TEMPORIZADOR, es el "reloj de pared".
- * {@code nanoTime()} siempre producira un tiempo transcurrido positivo, {@code currentTimeMillis} no lo hara (por
- * ejemplo, si cambia la fecha, golpea un segundo bisiesto, etc.) Esta es una distincion extremadamente importante para
- * algunos tipos de sistemas.
+ * <p>{@code nanoTime()}, como dice el documento, es un temporizador de precision. {@code currentTimeMillis()} NO ES UN
+ * TEMPORIZADOR, es el <b>reloj de pared</b> del sistema. {@code nanoTime()} siempre producira un tiempo transcurrido
+ * positivo, {@code currentTimeMillis()} no lo hara (por ejemplo, si cambia la fecha, golpea un segundo bisiesto, etc.).
+ * Esta es una distincion extremadamente importante para algunos tipos de sistemas.
  *
- * <p>Otra cosa a mencionar...
+ * <p><i>Otra cosa a mencionar...</i>
  *
- * <p> No es seguro comparar los resultados de las llamadas {@code System.nanoTime()} entre diferentes JVM, cada JVM
- * puede tener un tiempo de "origen" independiente.
+ * <p>No es seguro comparar los resultados de las llamadas a {@code nanoTime()} entre diferentes JVM, cada JVM puede
+ * tener un tiempo de "origen" independiente.
  *
- * <p>{@code System.currentTimeMillis()} devolvera el mismo valor (aproximado) entre JVM, porque esta vinculado a la
- * hora del reloj de pared del sistema.
- *
- * <p>Si desea calcular la cantidad de tiempo transcurrido entre dos eventos, como un cronometro, use {@code nanoTime()}.
- * Los cambios en el reloj de pared del sistema hacen que {@code currentTimeMillis()} sea incorrecto para este caso de
- * uso.
- *
- * <p>Ver tambien: <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/System.html#nanoTime--">JavaDoc System.nanoTime()</a> y <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/System.html#currentTimeMillis--">JavaDoc System.currentTimeMillis()</a> para mas informacion.
+ * <p>{@code currentTimeMillis()} devolvera el mismo valor (aproximado) entre JVM, porque esta vinculado a la hora del
+ * reloj de pared.
  *
  * <p>Recursos:
- * <a href="https://stackoverflow.com/questions/351565/system-currenttimemillis-vs-system-nanotime">System.currentTimeMillis() vs System.nanoTime()</a>
- * <a href="https://stackoverflow.com/questions/19052316/why-is-system-nanotime-way-slower-in-performance-than-system-currenttimemill">¿Por que System.nanoTime() es mucho mas lento (en rendimiento) que System.currentTimeMillis()?</a>
+ * <a href="https://stackoverflow.com/questions/351565/system-currenttimemillis-vs-system-nanotime">currentTimeMillis() vs nanoTime()</a>
+ * <a href="https://stackoverflow.com/questions/19052316/why-is-system-nanotime-way-slower-in-performance-than-system-currenttimemill">¿Por que nanoTime() es mucho mas lento (en rendimiento) que currentTimeMillis()?</a>
  */
 
 public class Measure {
@@ -82,14 +56,7 @@ public class Measure {
 	/**
 	 * Devuelve el valor actual de la fuente de tiempo de alta resolucion de la maquina virtual Java en ejecucion, en
 	 * nanosegundos. Este metodo solo se puede utilizar para medir el tiempo transcurrido y no esta relacionado con
-	 * ninguna otra nocion de tiempo del sistema o del reloj de pared. El valor devuelto representa nanosegundos desde
-	 * algun tiempo de origen fijo pero arbitrario (quizas en el futuro, por lo que los valores pueden ser negativos).
-	 * Todas las invocaciones de este metodo utilizan el mismo origen en una instancia de una maquina virtual Java; es
-	 * probable que otras instancias de maquinas virtuales usen un origen diferente.
-	 *
-	 * <p>Este metodo proporciona una precision de nanosegundos, pero no necesariamente una resolucion de nanosegundos
-	 * (es decir, la frecuencia con la que cambia el valor); no se garantiza que la resolucion sea al menos tan buena
-	 * como la de {@code currentTimeMillis()}.
+	 * ninguna otra nocion de tiempo del sistema o del reloj de pared.
 	 *
 	 * @return el valor actual de la fuente de tiempo de alta resolucion de la maquina virtual Java en ejecucion, en
 	 * nanosegundos.

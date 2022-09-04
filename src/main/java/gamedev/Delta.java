@@ -14,8 +14,9 @@ package gamedev;
  * nanosegundos no dependen del sistema operativo, sino del procesador y se miden tomando como referencia los ciclos de
  * reloj del procesador. Hay 1.000.000.000 (1e9) de nanosegundos en un segundo, lo que indica que el tiempo entre cada
  * frame aplicando para este caso 60 ticks (60 actualizaciones por segundo), es igual a 1.000.000.000/60, que es
- * aproximadamente 16.666.666 de nanosegundos, valor conocido como {@code nsPerTick}. Esto significa que cada vez que se
- * actuliza el juego, el Game Loop espera 16.666.666 de nanosegundos antes de volver a actualizar.
+ * aproximadamente 16.666.666 de nanosegundos, valor conocido como <a href="https://www.gamedev.net/forums/topic/673798-what-is-a-timestep/">{@code timestep}</a>.
+ * Esto significa que cada vez que se actuliza el juego, el Game Loop espera 16.666.666 de nanosegundos antes de volver
+ * a actualizar.
  *
  * <p>No es necesario actualizar el juego con cada tick de CPU por muchos factores, por ejemplo, el monitor tiene una
  * tasa de refresco limitada, normalmente de 60hz (solo puede mostrar 60 frames por segundo), o, el ser humano medio
@@ -30,18 +31,15 @@ package gamedev;
  * delta despues de actualizar, para que comience a contar desde el "desbordamiento" de tiempo hasta que alcance 1/60 de
  * segundo nuevamente. <b>Esto hace posible que el juego se ejecute en cualquier dispositivo a la misma velocidad</b>.
  *
- * <p>La operacion {@code (currentTime - startTime) / nsPerTick}, solo esta ahi para hacer que el delta actue como un
+ * <p>La operacion {@code (currentTime - startTime) / timestep}, solo esta ahi para hacer que el delta actue como un
  * porcentaje decimal de 1 de cuanto ha pasado del tiempo necesario. El 1 representa el 100% de 1/60 ticks.
  *
  * <p>La varible {@code timer} sirve como temporizador para mostrar la cantidad de ticks y frames cada 1 segundo.
- *
- * <p>TODO ¿A que se debe condicionar el delta con un ciclo {@code while()}?
  *
  * <p>Recursos:
  * <a href="https://www.parallelcube.com/es/2017/10/25/por-que-necesitamos-utilizar-delta-time/">¿Por que necesitamos utilizar Delta Time?</a>
  * <a href="https://stackoverflow.com/questions/26838286/delta-time-getting-60-updates-a-second-in-java">¿Como obtener 60 actualizaciones por segundo?</a>
  * <a href="https://stackoverflow.com/questions/37678799/how-to-get-accurate-deltatime-in-java">¿Como obtener el Delta Time preciso en Java?</a>
- * <a href="https://stackoverflow.com/questions/57710138/why-gameloops-render-more-times-than-updating#:~:text=A%20tick%20is%20whenever%20game,to%20a%20redstone%20circuit%20updating">¿Por que el game loop se renderiza mas veces de las que se actualiza?</a>
  * <a href="https://www.youtube.com/watch?v=3lSzfidowTE">Java Delta Time Tutorial</a>
  *
  * @author Juan Debenedetti
@@ -51,26 +49,26 @@ public class Delta {
 
 	private int timer;
 	private long startTime;
-	private final double nsPerTick; // TODO Este nombre hace referencia al termino "timestep"?
+	private final double timestep;
 	private double delta;
 
 	public Delta(int ticks) {
 		startTime = System.nanoTime();
-		nsPerTick = 1e9 / ticks;
+		timestep = 1e9 / ticks;
 	}
 
 	/**
-	 * Comprueba si el delta alcanzo 1/60 de segundo.
+	 * Comprueba si el delta alcanzo el timestep.
 	 *
-	 * @return true si el delta alcanzo 1/60 de segundo, o false.
+	 * @return true si el delta alcanzo el timestep, o false.
 	 */
 	public boolean checkDelta() {
 		long currentTime = System.nanoTime();
 		delta += currentTime - startTime;
 		timer += currentTime - startTime;
 		startTime = currentTime;
-		if (delta >= nsPerTick) {
-			delta -= nsPerTick;
+		if (delta >= timestep) {
+			delta -= timestep;
 			return true;
 		} else return false;
 	}
@@ -87,7 +85,7 @@ public class Delta {
 	/**
 	 * Resetea el timer a 0.
 	 */
-	public void reset() {
+	public void resetTimer() {
 		timer = 0;
 	}
 
