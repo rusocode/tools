@@ -48,4 +48,48 @@ package gamedev;
  */
 
 public class Delta {
+
+	private int timer;
+	private long startTime;
+	private final double nsPerTick; // TODO Este nombre hace referencia al termino "timestep"?
+	private double delta;
+
+	public Delta(int ticks) {
+		startTime = System.nanoTime();
+		nsPerTick = 1e9 / ticks;
+	}
+
+	/**
+	 * Comprueba si el delta alcanzo 1/60 de segundo.
+	 *
+	 * @return true si el delta alcanzo 1/60 de segundo, o false.
+	 */
+	public boolean checkDelta() {
+		long currentTime = System.nanoTime();
+		delta += currentTime - startTime;
+		timer += currentTime - startTime;
+		startTime = currentTime;
+		if (delta >= nsPerTick) {
+			delta -= nsPerTick;
+			return true;
+		} else return false;
+	}
+
+	/**
+	 * Comprueba si el timer alcanzo 1 segundo.
+	 *
+	 * @return true si el timer alcanzo 1 segundo, o false.
+	 */
+	public boolean checkTimer() {
+		return timer >= 1e9;
+	}
+
+	/**
+	 * Resetea el timer a 0.
+	 */
+	public void reset() {
+		timer = 0;
+	}
+
+
 }

@@ -152,20 +152,13 @@ public class GameLoop implements Runnable {
 	@Override
 	public void run() {
 
+		Delta delta = new Delta(TICKS);
 		int ticks = 0, frames = 0;
-		long startTime = System.nanoTime(), currentTime;
-		double nsPerTick = 1e9 / TICKS, delta = 0, timer = 0;
 		boolean shouldRender = false; // TODO Se podria renombrar como "interpolation"
 
 		while (isRunning()) {
 
-			currentTime = System.nanoTime();
-			delta += currentTime - startTime;
-			timer += currentTime - startTime;
-			startTime = currentTime;
-
-			if (delta >= nsPerTick) {
-				delta -= nsPerTick;
+			if (delta.checkDelta()) {
 				ticks++;
 				tick();
 				// Actualiza primero para tener algo que renderizar en la primera iteracion
@@ -178,11 +171,11 @@ public class GameLoop implements Runnable {
 				render();
 			}
 
-			if (timer >= 1e9) {
+			if (delta.checkTimer()) {
 				System.out.println(ticks + " ticks, " + frames + " fps");
 				ticks = 0;
 				frames = 0;
-				timer = 0;
+				delta.reset();
 			}
 
 			if (stopped) break;
