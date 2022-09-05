@@ -18,6 +18,22 @@ package gamedev;
  * segundo. Esto es particularmente comun para los juegos que imponen velocidades de fotogramas fijas para la logica o
  * la fisica del juego por cualquier motivo.
  *
+ * <p>El metodo {@code tick()} actualiza tiempos especificos por segundo (por ejemplo, 20, 60, etc.). Llamo a ese numero
+ * <i>UPS</i> (actualizaciones por segundo). Consideremos el movimiento del jugador. Su velocidad es de 20 pixeles por
+ * segundo. Entonces, si lo queremos mover a esta velocidad, necesitamos saber los UPS (por ejemplo, 20). Por lo tanto,
+ * nuestro jugador se movera 20 pixeles por tick. Y eso esta mal. Si es entonces con nuestros 20 ticks, durante 1
+ * segundo nuestro jugador se movera 20*20 pixeles (400 pixeles por segundo). Entonces, la velocidad de nuestro de la
+ * entidad sera de 20 * (1 / UPS) por tick. Podemos cambiar nuestro UPS y tambien se cambiara la cantidad de pixeles que
+ * mueve el jugaddor por tick. Pero todavia se movera 20 pixeles por segundo. Para que quede claro, supongamos que
+ * nuestro UPS es 1. Entonces la velocidad sera 20 * (1/1) = 20 pixeles por tick (en un segundo es un tic) = 30 pixeles
+ * por segundo. Lo mismo que queremos.
+ *
+ * <p>El {@code render()} solo dibuja lo que actualizamos. Puede hacerlo con la misma velocidad que actualizamos y
+ * tambien puede hacerlo mas rapido. Pero da igual, porque solo veremos lo que actualicemos. UPS puede ser 1 pero FPS es
+ * 160. Veras que todo se mueve cada segundo. Pero eso no significa que rendericemos 1 vez por segundo, significa que
+ * durante un segundo renderizamos la misma imagen. Despues de 1 segundo, actualizamos nuestro juego y veremos otra
+ * imagen.
+ *
  * <br><br>
  *
  * <h2>¿Cual es la relacion entre FPS y Game Loop?</h2>
