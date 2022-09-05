@@ -2,8 +2,6 @@ package _lab;
 
 import java.io.InputStream;
 
-import util.Testing;
-
 /**
  * Un recurso puede ser algo tan simple como un archivo o un directorio. El uso mas comun de los recursos es el
  * agrupamiento de imagenes, sonidos y datos de solo lectura.

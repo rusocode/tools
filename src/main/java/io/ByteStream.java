@@ -2,7 +2,7 @@ package io;
 
 import java.io.*;
 
-import static util.Constants.*;
+import static utils.Constants.*;
 
 /**
  * Las clases FileInputStream y FileOutputStream, hacen posible leer y escribir un archivo como un flujo de bytes.

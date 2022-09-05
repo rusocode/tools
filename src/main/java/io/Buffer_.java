@@ -2,7 +2,7 @@ package io;
 
 import java.io.*;
 
-import static util.Constants.*;
+import static utils.Constants.*;
 
 /**
  * El concepto de buffer queda muy bien explicado en el siguiente parrafo extraido del libro <Head First Java>:

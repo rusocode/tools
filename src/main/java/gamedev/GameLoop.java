@@ -3,9 +3,9 @@ package gamedev;
 /**
  * <h1>Game Loop</h1>
  * Para este caso, el Game Loop (bucle del juego) se encarga de actualizar (tick) y dibujar (render) los frames en
- * pantalla a una velocidad constante independientemente del dispositivo en el que se este ejecutando el juego, ya sea
- * en un hardware viejo o potente. Para que el juego se ejecute en cualquier dispositivo a la misma velocidad, se
- * utiliza el <i>delta time</i>.
+ * pantalla a una velocidad constante independientemente del dispositivo en el que se este ejecutando el juego. Para que
+ * el juego se ejecute en cualquier dispositivo a la misma velocidad, se utiliza el <i>Delta Time</i>. Apropiadamente,
+ * un ciclo del Game Loop se llama tick.
  *
  * <p>Extraccion de <a href="http://gameprogrammingpatterns.com/game-loop.html#play-catch-up">Game Loop</a>
  * <br>

@@ -3,7 +3,7 @@ package properties;
 import java.io.*;
 import java.util.Properties;
 
-import static util.Constants.CONFIG;
+import static utils.Constants.CONFIG;
 
 public class Props {
 

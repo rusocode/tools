@@ -2,7 +2,7 @@ package io;
 
 import java.io.*;
 
-import static util.Constants.*;
+import static utils.Constants.*;
 
 /**
  * Clase para leer y escribir archivos de caracteres usando la codificacion predeterminada.

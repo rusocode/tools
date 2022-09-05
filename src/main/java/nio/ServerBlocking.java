@@ -13,7 +13,7 @@ import javax.swing.UIManager;
 
 import net.miginfocom.swing.MigLayout;
 
-import static util.Constants.*;
+import static utils.Constants.*;
 
 /**
  * Canal de servidor TCP para escuchar conexiones CON bloqueo. Se puede configurar sin bloqueo con
