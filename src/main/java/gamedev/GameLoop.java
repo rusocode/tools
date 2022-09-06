@@ -146,6 +146,11 @@ public class GameLoop implements Runnable {
 	private Thread thread;
 	private boolean running, stopped;
 
+	/* Otra forma de detener el loop es declarando running como una variable volatil. La palabra clave volatil prohibe
+	 * que una variable se copie a la memoria local; la variable permanece en la memoria principal. Por lo tanto, el
+	 * cambio en esa variable por parte de un subproceso sera visto por todos los otros. */
+	// private volatile boolean running;
+
 	private static final int TICKS = 60;
 
 	@Override

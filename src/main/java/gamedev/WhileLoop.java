@@ -1,15 +1,15 @@
 package gamedev;
 
 /**
- * La computadora va a tratar de cumplir el ciclo a la mayor velocidad posible, aunque esa velocidad puede ser afectada
- * por algunos factores principales.
+ * En el cilo while, la CPU va a tratar de cumplir el ciclo a la mayor velocidad posible, aunque esa velocidad puede ser
+ * afectada por algunos factores principales.
  *
  * <p>La cantidad de veces que se ejecute el ciclo while en un segundo depende del codigo maquina en el que se compile
  * el codigo fuente, del porcentaje de uso del CPU que este ocurriendo durante el ciclo, de la velocidad del procesador
  * y de como se ejecute el ciclo.
  *
  * <p>En caso de querer regular la velocidad del ciclo, se usaria un {@code Thread.sleep()} especificando un periodo muy
- * corto de tiempo en milisegundos (por ejemplo, 2).
+ * corto de tiempo en milisegundos (por ejemplo, 2ms).
  *
  * <p>El ciclo se ejecuta mucho mas rapido desde el metodo {@link WhileLoop#whileLoopPerSec2()} ya que el uso de
  * subprocesos es costoso y requieren mas tiempo.
