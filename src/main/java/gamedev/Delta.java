@@ -14,7 +14,7 @@ package gamedev;
  * nanosegundos no dependen del sistema operativo, sino del procesador y se miden tomando como referencia los ciclos de
  * reloj del procesador. Hay 1.000.000.000 (1e9) de nanosegundos en un segundo, lo que indica que el tiempo entre cada
  * frame aplicando para este caso 60 ticks (60 actualizaciones por segundo), es igual a 1.000.000.000/60, que es
- * aproximadamente 16.666.666 de nanosegundos, valor conocido como <a href="https://www.gamedev.net/forums/topic/673798-what-is-a-timestep/">{@code timestep}</a>.
+ * aproximadamente 16.666.666 de nanosegundos, valor conocido como <a href="https://www.gamedev.net/forums/topic/673798-what-is-a-timestep/">timestep</a>.
  * Esto significa que cada vez que se actuliza el juego, el Game Loop espera 16.666.666 de nanosegundos antes de volver
  * a actualizar.
  *
