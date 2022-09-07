@@ -12,8 +12,8 @@ package gamedev;
  * pasan tan rapido que lo captas como un movimiento constante. Esta velocidad a la que pasan las imagenes esta
  * determinada por los FPS.
  *
- * <p>Cuando estas jugando a un videojuego, los fotogramas de la imagen son renderizados en tiempo real por la GPU y se
- * muestran instantaneamente en pantalla.
+ * <p>Cuando estas jugando a un videojuego, los fotogramas de la imagen son <a href="https://videojuegos.fandom.com/es/wiki/Renderizaci%C3%B3n">renderizados</a>
+ * en tiempo real por la GPU y se muestran instantaneamente en pantalla.
  *
  * <p>Cuando hay muchos fps en un juego, <b>los movimientos que suceden en pantalla se ven mas fluidos</b> y tienes mas
  * informacion de todo lo que esta pasando en ese momento. Por lo tanto, cuanto mayor sea el framerate mejor se vera el
