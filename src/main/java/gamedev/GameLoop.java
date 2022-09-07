@@ -151,7 +151,7 @@ public class GameLoop implements Runnable {
 	 * cambio en esa variable por parte de un subproceso sera visto por todos los otros. */
 	// private volatile boolean running;
 
-	private static final int TICKS = 60;
+	private static final int TICKS = 60; // o UPS (updates per second)
 
 	@Override
 	public void run() {
@@ -169,7 +169,7 @@ public class GameLoop implements Runnable {
 				shouldRender = true;
 			}
 
-			// Desacopla el renderizado de la fisica para no esperar entre cada ciclo
+			// Desacopla el renderizado de la fisica
 			if (shouldRender) {
 				frames++;
 				render();
