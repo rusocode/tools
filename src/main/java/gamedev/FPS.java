@@ -15,7 +15,7 @@ package gamedev;
  * <p>Cuando estas jugando a un videojuego, los fotogramas de la imagen son <a href="https://videojuegos.fandom.com/es/wiki/Renderizaci%C3%B3n">renderizados</a>
  * en tiempo real por la GPU y se muestran instantaneamente en pantalla.
  *
- * <p>Cuando hay muchos fps en un juego, <b>los movimientos que suceden en pantalla se ven mas fluidos</b> y tienes mas
+ * <p>Cuando hay muchos FPS en un juego, <b>los movimientos que suceden en pantalla se ven mas fluidos</b> y tienes mas
  * informacion de todo lo que esta pasando en ese momento. Por lo tanto, cuanto mayor sea el framerate mejor se vera el
  * juego en movimiento.
  *
@@ -72,7 +72,7 @@ package gamedev;
  * <br><br>
  *
  * <h2>¿Cual es la relacion entre FPS y el Game Loop?</h2>
- * Por lo general, se dibuja un cuadro cada vez que se completa el ciclo del juego. Por lo tanto, el FPS te dice que tan
+ * Por lo general, se dibuja un frame cada vez que se completa el ciclo del juego. Por lo tanto, el FPS te dice que tan
  * rapido se repite el juego.
  *
  * <p>Dicho esto, las arquitecturas de renderizado mas sofisticadas a menudo desacoplan el renderizado del bucle
