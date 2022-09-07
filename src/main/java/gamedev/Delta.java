@@ -5,11 +5,12 @@ package gamedev;
  * Los juegos <b>framerate independent</b> (independencia de fotogramas), son juegos que corren a la misma velocidad sin
  * importar la tasa de {@link FPS}. Por ejemplo, una entidad (jugador, zombie, etc.) puede moverse a 30 FPS en una
  * computadora lenta y 60 FPS en una rapida, pero ambos recorren la misma distancia a la misma velocidad. La diferencia
- * esta en que a 30 FPS, la entidad da como "saltos", y a 60 FPS, el movimiento es mas fluido ya que se renderizan mas
- * frames por segundo. Esa cantidad variable de FPS depende del hardware del dispositivo en el que se este ejecutando el
- * juego. Por otra parte, un juego <b>framerate dependent</b> (dependencia de fotogramas) se procesa a la mitad de la
- * velocidad en una computadora lenta, dando el horrible efecto del <a href="https://www.xataka.com/basics/lag-que-a-que-puede-deberse">lag</a>.
- * Para hacer el juego framerate independent se aplica el <b><i>Delta Time</i></b> (abreviado Δt, dt o delta).
+ * esta en que a 30 FPS, la entidad da como "saltos" para equilibrar (que ironico) la distancia que necesita alcanzar, y
+ * a 60 FPS, el movimiento es mas fluido ya que se renderizan mas frames por segundo. Esa cantidad variable de FPS
+ * depende del hardware del dispositivo en el que se este ejecutando el juego. Por otra parte, un juego <b>framerate
+ * dependent</b> (dependencia de fotogramas) se procesa a la mitad de la velocidad en una computadora lenta, dando el
+ * horrible efecto del <a href="https://www.xataka.com/basics/lag-que-a-que-puede-deberse">lag</a>. Para hacer el juego
+ * framerate independent se aplica el <b><i>Delta Time</i></b> (abreviado Δt, dt o delta).
  *
  * <p>Delta Time es el <b>tiempo transcurrido entre cada frame renderizado durante un segundo</b>.
  *
@@ -20,9 +21,11 @@ package gamedev;
  * <br><br>
  *
  * <h2>¿Como calcular el Delta?</h2>
- * Antes que nada necesitamos saber cuantos {@link Tick ticks} por segundo se van a aplicar al delta. Para este caso se
- * toman 60 ticks, osea, 60 actualizaciones por segundo. La fisica del juego se puede actualizar a 30, 60, 80 veces por
- * segundo, pero la cantidad estandar suele ser de 60. Algunos juegos como Minecraft y Quake3 usan 20 ticks.
+ * Antes que nada necesitamos saber cuantos {@link Tick ticks} por segundo se van a aplicar a al fisica. Para este caso
+ * se toman 60 ticks, osea, 60 actualizaciones por segundo. La fisica del juego se puede actualizar a 30, 60, 80 veces
+ * por segundo, pero la cantidad estandar suele ser de 60. Algunos juegos como Minecraft y Quake3 usan 20 ticks (¿Para
+ * no acaparar demasiado la CPU quiza?). Recuerden que la fisica no tiene nada que ver con la cantidad de veces que se
+ * dibuja en pantalla, aunque esten estrechamente relacionados.
  *
  * <p>Lo ideal es {@link Measure medir} el tiempo para el delta en nanosegundos ya que es una unidad mucho mas
  * especifica para la CPU que los milisegundos. Los nanosegundos no dependen del sistema operativo, sino del procesador
@@ -36,7 +39,8 @@ package gamedev;
  * inicial acumulando el resultado en cada vuelta del Game Loop. Cuando el delta sea >= 1/60 de segundo o 16.666.666 de
  * nanosegundos para ser mas especificos, entonces actualiza nuevamente. Es importante eliminar 1/60 de segundo del
  * delta despues de actualizar, para que comience a contar desde el "desbordamiento" de tiempo hasta que alcance 1/60 de
- * segundo nuevamente. <b>Esto hace posible que el juego se ejecute en cualquier dispositivo a la misma velocidad</b>.
+ * segundo nuevamente. <b>Esto hace posible que el juego se ejecute en cualquier dispositivo a la misma velocidad sin
+ * importar los FPS</b>.
  *
  * <p>En algunos casos vas a encontrar la operacion {@code (currentTime - startTime) / nsPerTick}. Esta operacion solo
  * esta ahi para hacer que el delta actue como un porcentaje decimal de 1 de cuanto ha pasado del tiempo necesario. El 1
