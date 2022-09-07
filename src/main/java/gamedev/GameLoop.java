@@ -162,6 +162,8 @@ public class GameLoop implements Runnable {
 
 		while (isRunning()) {
 
+			/* La ventaja de comprobar el tiempo entre cada frame dentro del Game Loop, es que no necesitamos
+			 * multiplicar todo por el delta (timestep fijo?). */
 			if (delta.checkDelta()) {
 				ticks++;
 				tick();
