@@ -28,7 +28,7 @@ package gamedev;
  *
  * <br><br>
  *
- * <h2>¿Como calcular el Delta?</h2>
+ * <h2>Escalonar la fisica con deltas constantes</h2>
  * Antes que nada, necesitamos saber cuantos {@link Tick ticks} por segundo se van a aplicar a la fisica del juego. Para
  * este caso se toman 60 ticks, osea, 60 actualizaciones por segundo. La fisica del juego se puede actualizar a 30, 60 o
  * 80 veces por segundo, pero la cantidad estandar suele ser de 60. Algunos juegos como Minecraft y Quake3 usan 20 ticks
