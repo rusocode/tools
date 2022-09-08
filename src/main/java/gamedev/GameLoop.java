@@ -36,8 +36,6 @@ package gamedev;
  * velocidad de juego por segundo en tiempo real. El mejor hardware hace que parezca mas fluido, pero no altera
  * radicalmente el funcionamiento del juego.
  *
- * <p>Nota: Los ticks se calculan en base al delta y el render en base a la velocidad del procesador.
- *
  * <br><br>
  *
  * <h2>Timestep</h2>
@@ -119,7 +117,8 @@ package gamedev;
  * reproducirlo y ver una recreacion perfecta de todo lo que sucedio. Tambien es mas facil de desarrollar de muchas
  * maneras, ya que no tiene que preocuparse por multiplicar dt (delta time) por todo."
  *
- * <p>"Ademas, el paso variable significa que el juego se mueve a una velocidad constante independientemente de la
+ * <p>Seguro?
+ * <br>"Ademas, el paso variable significa que el juego se mueve a una velocidad constante independientemente de la
  * velocidad de fotogramas, lo que es excelente para admitir una amplia variedad de hardware."
  *
  * <p>"La mayor desventaja del paso variable es que tiende a explotar a velocidades de cuadro realmente bajas. Una
@@ -151,27 +150,28 @@ public class GameLoop implements Runnable {
 	 * cambio en esa variable por parte de un subproceso sera visto por todos los otros. */
 	// private volatile boolean running;
 
-	private static final int TICKS = 60; // o UPS (updates per second)
-
 	@Override
 	public void run() {
 
+		// Fixed Timestep (cantidad fija de actualizaciones)
+		final int TICKS = 60; // o UPS (updates per second)
 		Delta delta = new Delta(TICKS);
 		int ticks = 0, frames = 0;
-		boolean shouldRender = false; // TODO Se podria renombrar como "interpolation"
+		boolean shouldRender = false;
 
 		while (isRunning()) {
-
-			/* La ventaja de comprobar el tiempo entre cada frame dentro del Game Loop, es que no necesitamos
-			 * multiplicar todo por el delta (timestep fijo?). */
+			/* Interpola la fisica usando el delta. Ademas, la ventaja de comprobar el tiempo entre cada frame dentro
+			 * del Game Loop, es que no necesita multiplicar todo lo relacionado con la fisica por el delta. Esto hace
+			 * que se actualice independientemente de los FPS, aplicando el concepto de "Fixed Timestep". */
 			if (delta.checkDelta()) {
 				ticks++;
 				tick();
-				// Actualiza primero para tener algo que renderizar en la primera iteracion
-				shouldRender = true;
+				shouldRender = true; // Actualiza primero para tener algo que renderizar en la primera iteracion
 			}
 
-			// Desacopla el renderizado de la fisica
+			/* La interpolacion del renderizado (desacopla la velocidad de frames del fixed timestep) ejecuta el juego a
+			 * una velocidad de frames variable aprovechando la variabilidad del rendimiento de distintos hardwares,
+			 * pero la fisica (colisiones, IA, etc.) se actualiza 60 veces por segundo. */
 			if (shouldRender) {
 				frames++;
 				render();
