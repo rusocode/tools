@@ -2,10 +2,21 @@ package gamedev;
 
 /**
  * <h1>Game Loop</h1>
- * Para este caso, el Game Loop (bucle del juego) se encarga de actualizar y dibujar los frames en pantalla a una
+ * Los juegos mas antiguos fueron cuidadosamente codificados para hacer el trabajo suficiente en cada cuadro para que el
+ * juego se ejecutara a la velocidad que querian los desarrolladores. Pero si intentara jugar ese mismo juego en una
+ * maquina mas rapida o mas lenta, entonces el juego en si se aceleraria o se ralentizaria.
+ *
+ * <p>En estos dias, sin embargo, pocos desarrolladores tienen el lujo de saber exactamente en que hardware se ejecutara
+ * su juego. En cambio, nuestros juegos deben adaptarse de manera inteligente a una variedad de dispositivos.
+ *
+ * <p>Este es el otro trabajo clave de un bucle de juego: <i>ejecuta el juego a una velocidad constante a pesar de las
+ * diferencias en el hardware subyacente</i>.
+ *
+ * <p>Para este caso, el Game Loop (bucle del juego) se encarga de actualizar y dibujar los frames en pantalla a una
  * velocidad constante independientemente del dispositivo en el que se este ejecutando el juego, interpolando el
  * renderizado de la actualizacion. Para que el juego se ejecute en cualquier dispositivo a la misma velocidad, se
  * utiliza el {@link Delta}. Apropiadamente, un ciclo del Game Loop se llama tick.
+ *
  *
  * <p>Extraccion de <a href="http://gameprogrammingpatterns.com/game-loop.html#play-catch-up">Game Loop</a>
  * <br>
@@ -155,14 +166,15 @@ public class GameLoop implements Runnable {
 
 		// Fixed Timestep (cantidad fija de actualizaciones)
 		final int TICKS = 60; // o UPS (updates per second)
+		// Crea un delta fijo
 		Delta delta = new Delta(TICKS);
 		int ticks = 0, frames = 0;
 		boolean shouldRender = false;
 
 		while (isRunning()) {
-			/* Interpola la fisica usando el delta. Ademas, la ventaja de comprobar el tiempo entre cada frame dentro
-			 * del Game Loop, es que no necesita multiplicar todo lo relacionado con la fisica por el delta. Esto hace
-			 * que se actualice independientemente de los FPS, aplicando el concepto de "Fixed Timestep". */
+			/* Interpola la fisica usando el delta. Ademas, la ventaja de comprobar el delta dentro del Game Loop, es
+			 * que no necesita multiplicar todo lo relacionado con la fisica por el delta. Esto hace que se actualice
+			 * la fisica independientemente de los FPS, aplicando el concepto de "Fixed Timestep". */
 			if (delta.checkDelta()) {
 				ticks++;
 				tick();
@@ -184,8 +196,8 @@ public class GameLoop implements Runnable {
 				delta.resetTimer();
 			}
 
-			if (stopped) break;
 		}
+
 	}
 
 	private void tick() {
@@ -205,12 +217,12 @@ public class GameLoop implements Runnable {
 	private synchronized void stop() {
 		if (!running) return;
 		running = false;
-		stopped = true;
-		try {
+		// FIXME Usar join() desde esta funcion no finaliza el subproceso y por lo tanto la aplicacion queda en ejecucion
+		/*try {
 			thread.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	private synchronized boolean isRunning() {
@@ -228,8 +240,9 @@ public class GameLoop implements Runnable {
 	public static void main(String[] args) {
 		GameLoop game = new GameLoop();
 		game.start();
-		game.sleep(10 * 1000);
+		game.sleep(3 * 1000);
 		game.stop();
+		// FIXME El subproceso del juego sigue vivo despues de salir del Game Loop
 		if (!game.thread.isAlive()) System.out.println(game.thread.getName() + " muerto!");
 	}
 
