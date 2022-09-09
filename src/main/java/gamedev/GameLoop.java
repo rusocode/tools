@@ -2,7 +2,26 @@ package gamedev;
 
 /**
  * <h1>Game Loop</h1>
- * Los juegos mas antiguos fueron cuidadosamente codificados para hacer el trabajo suficiente en cada cuadro para que el
+ * Los bucles de juego
+ *
+ * <p>Las partes basicas del Game Loop son las siguientes y van por orden. La entrada del usuario {@code input()} (que
+ * se procesa sin bloquear), la simulacion de la fisica {@code tick()} y el dibujado en pantalla {@code render()}.
+ *
+ * <br><br>
+ *
+ * <h2>¿Que tan rapido gira el bucle del juego?</h2>
+ * Si medimos la rapidez con la que se repite el Game Loop en terminos de tiempo real, obtenemos los FPS.
+ *
+ * <p>Con el bucle crudo que tenemos ahora, donde simplemente se cicla tan rapido como puede, dos factores determinan la
+ * velocidad de fotogramas. El primero es <i>cuanto trabajo tiene que hacer cada frame</i>. La fisica compleja, un
+ * monton de objetos de juego y muchos detalles graficos mantendran ocupados a la CPU y GPU, y llevara mas tiempo
+ * completar un frame. Esto tambien se explica en {@link WhileLoop}.
+ *
+ * <p>El segundo es <i>la velocidad de la plataforma subyacente</i>. Los chips mas rapidos procesan mas codigo en la
+ * misma cantidad de tiempo. Multiples nucleos, GPU, hardware de audio dedicado y el programador del sistema operativo
+ * afectan cuanto se hace en un solo paso.
+ *
+ * <p>Los juegos mas antiguos fueron cuidadosamente codificados para hacer el trabajo suficiente en cada frame para que el
  * juego se ejecutara a la velocidad que querian los desarrolladores. Pero si intentara jugar ese mismo juego en una
  * maquina mas rapida o mas lenta, entonces el juego en si se aceleraria o se ralentizaria.
  *
@@ -11,6 +30,7 @@ package gamedev;
  *
  * <p>Este es el otro trabajo clave de un bucle de juego: <i>ejecuta el juego a una velocidad constante a pesar de las
  * diferencias en el hardware subyacente</i>.
+ *
  *
  * <p>Para este caso, el Game Loop (bucle del juego) se encarga de actualizar y dibujar los frames en pantalla a una
  * velocidad constante independientemente del dispositivo en el que se este ejecutando el juego, interpolando el
