@@ -14,13 +14,12 @@ package gamedev;
  *
  * <p>Delta Time es el <b>tiempo transcurrido entre cada frame renderizado</b>.
  *
- * <p>Por ejemplo si el juego en tu PC va a 10 FPS (por que es un microondas), el delta seria de 0,1 seg. Cuando el
+ * <p>Por ejemplo si el juego en tu pc va a 10 FPS (por que es un microondas), el delta seria de 0,1 seg. Cuando el
  * juego procesa todo lo relacionado con el juego una vez, tarda 0,1 seg hasta volver a procesarlo en el siguiente frame
  * y van transcurriendo todos los delta hasta que suman 1 segundo. Ahi ya se han ejecutado esos 10 FPS. Al ser una tasa
- * de fotogramas muy baja, puede causar que la entidad se "teletransporte" causando perdida de colisiones con otros
- * objetos.
+ * de fotogramas muy baja, puede causar que la entidad se "teletransporte".
  *
- * <p>Por otro lado si tu PC es un poco mejor y corre el juego a 30 FPS, el delta en este caso sera de 0,033 seg. Como
+ * <p>Por otro lado si tu pc es un poco mejor y corre el juego a 30 FPS, el delta en este caso sera de 0,033 seg. Como
  * hay muchos mas frames por segundo, se estan ejecutando frames con mucha mas frecuencia. Eso significa que el tiempo
  * entre dos frames sera mucho mas pequeño, y como hay tantos frames, en cuanto termina uno, enseguida ya llega el
  * siguiente. De ahi que ahora el delta sea de 0,033 seg, mucho mas pequeño que antes que era de 0,1 seg. Esto genera
@@ -44,16 +43,14 @@ package gamedev;
  * variable, aunque no es recomendable). Esto significa que cada vez que se actuliza la fisica del juego, el Game Loop
  * espera 16.666.666 de nanosegundos antes de volver a hacerlo.
  *
- * <p>Ahora para comprobar si el Game Loop alcanzo el tiempo delta, es necesario calcular la diferencia de tiempo en
- * nanosegundos del sistema actual e inicial acumulando el resultado en cada ciclo del Game Loop en la variable {@link Delta#elapsed}.
- * Cuando el tiempo transcurrido del ciclo sea igual o mayor al tiempo delta, entonces actualiza la fisica. Es
- * importante eliminar el tiempo del delta del tiempo transcurrido del ciclo despues de actualizar, para que comience a
- * contar desde el "desbordamiento" de tiempo hasta que alcance el delta nuevamente. <b>Esto hace posible que el juego
- * se ejecute en cualquier dispositivo a la misma velocidad independientemente de los FPS</b>.
- *
- * <p>En algunos casos vas a encontrar la operacion {@code (currentTime - startTime) / delta}. Esta operacion solo
- * esta ahi para hacer que el delta actue como un porcentaje decimal de 1 de cuanto ha pasado del tiempo necesario. El 1
- * representa el 100% del tiempo delta.
+ * <p>Ahora para comprobar si el tiempo transcurrido alcanzo el tiempo delta, es necesario calcular la diferencia de
+ * tiempo en nanosegundos del sistema actual e inicial con {@code System.nanoTime()} acumulando el resultado en la
+ * variable {@link Delta#lag}. La variable {@code lag} refleja el <i>retraso</i> que hay en cada maquina. Un retraso
+ * mayor indica pocos pasos grandes, es decir, menos frames. Y un restraso menor indica muchos pasos cortos, osea, mas
+ * frames (fluidez). Cuando el tiempo transcurrido sea igual o mayor al tiempo delta, entonces actualiza la fisica. Es
+ * importante eliminar el tiempo del delta al tiempo transcurrido despues de actualizar, para que comience a contar
+ * desde el "desbordamiento" hasta que alcance el delta nuevamente. <b>Esto hace posible que el juego se ejecute en
+ * cualquier dispositivo a la misma velocidad independientemente de los FPS</b>.
  *
  * <p>La varible {@code timer} sirve como temporizador para mostrar la cantidad de ticks y frames cada un segundo.
  *
@@ -82,9 +79,9 @@ public class Delta {
 	}
 
 	/**
-	 * Comprueba si el Game Loop alcanzo el tiempo delta.
+	 * Comprueba si el tiempo transcurrido alcanzo el tiempo delta.
 	 *
-	 * @return true si el Game Loop alcanzo el tiempo delta, o false.
+	 * @return true si el tiempo transcurrido alcanzo el tiempo delta, o false.
 	 */
 	public boolean checkDelta() {
 		long currentTime = System.nanoTime();

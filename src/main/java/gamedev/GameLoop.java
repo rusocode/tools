@@ -135,7 +135,7 @@ package gamedev;
  *
  * <br><br>
  *
- * <h2>Extracciones importantes de buenos articulos</h2>
+ * <h3>Extracciones importantes de buenos articulos</h3>
  * Extraccion de <a href="https://www.reddit.com/r/gamedev/comments/8sci48/should_i_be_using_a_fixed_timestep_or_delta_time/">¿Debo usar un timestep fijo o un tiempo delta?</a>
  * <br>
  * La <i>interpolacion</i> hace que el juego se ejecute a una velocidad de fotogramas variable, pero sus sistemas
@@ -340,7 +340,7 @@ public class GameLoop implements Runnable {
 	public static void main(String[] args) {
 		GameLoop game = new GameLoop();
 		game.start();
-		game.sleep(3 * 1000);
+		game.sleep(10 * 1000);
 		game.stop();
 		// FIXME El subproceso del juego sigue vivo despues de salir del Game Loop
 		if (!game.thread.isAlive()) System.out.println(game.thread.getName() + " muerto!");
