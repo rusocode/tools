@@ -45,7 +45,7 @@ package gamedev;
  * espera 16.666.666 de nanosegundos antes de volver a hacerlo.
  *
  * <p>Ahora para comprobar si el Game Loop alcanzo el tiempo delta, es necesario calcular la diferencia de tiempo en
- * nanosegundos del sistema actual e inicial acumulando el resultado en cada ciclo del Game Loop en la variable {@link Delta#unprocessed}.
+ * nanosegundos del sistema actual e inicial acumulando el resultado en cada ciclo del Game Loop en la variable {@link Delta#elapsed}.
  * Cuando el tiempo transcurrido del ciclo sea igual o mayor al tiempo delta, entonces actualiza la fisica. Es
  * importante eliminar el tiempo del delta del tiempo transcurrido del ciclo despues de actualizar, para que comience a
  * contar desde el "desbordamiento" de tiempo hasta que alcance el delta nuevamente. <b>Esto hace posible que el juego
@@ -74,11 +74,11 @@ public class Delta {
 	private int timer;
 	private long startTime;
 	private final double delta;
-	private double unprocessed;
+	private double elapsed, lag; // lag = retraso
 
 	public Delta(final int ticks) {
 		startTime = System.nanoTime();
-		delta = 1e9 / ticks; // Delta constante
+		delta = 1e9 / ticks;
 	}
 
 	/**
@@ -88,11 +88,12 @@ public class Delta {
 	 */
 	public boolean checkDelta() {
 		long currentTime = System.nanoTime();
-		unprocessed += currentTime - startTime;
+		elapsed = currentTime - startTime;
+		lag += elapsed;
 		timer += currentTime - startTime;
 		startTime = currentTime;
-		if (unprocessed >= delta) {
-			unprocessed -= delta;
+		if (lag >= delta) {
+			lag -= delta;
 			return true;
 		} else return false;
 	}
