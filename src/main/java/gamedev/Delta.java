@@ -14,16 +14,16 @@ package gamedev;
  *
  * <p>Delta Time es el <b>tiempo transcurrido entre cada frame renderizado</b>.
  *
- * <p>Por ejemplo si el juego en tu pc va a 10 FPS (por que es un microondas), el delta seria de 0,1 seg. Cuando el
+ * <p>Por ejemplo si el juego en tu PC va a 10 FPS (por que es un microondas), el delta seria de 0,1 seg. Cuando el
  * juego procesa todo lo relacionado con el juego una vez, tarda 0,1 seg hasta volver a procesarlo en el siguiente frame
  * y van transcurriendo todos los delta hasta que suman 1 segundo. Ahi ya se han ejecutado esos 10 FPS. Al ser una tasa
  * de fotogramas muy baja, puede causar que la entidad se "teletransporte".
  *
- * <p>Por otro lado si tu pc es un poco mejor y corre el juego a 30 FPS, el delta en este caso sera de 0,033 seg. Como
+ * <p>Por otro lado si tu PC es un poco mejor y corre el juego a 30 FPS, el delta en este caso sera de 0,033 seg. Como
  * hay muchos mas frames por segundo, se estan ejecutando frames con mucha mas frecuencia. Eso significa que el tiempo
  * entre dos frames sera mucho mas pequeño, y como hay tantos frames, en cuanto termina uno, enseguida ya llega el
  * siguiente. De ahi que ahora el delta sea de 0,033 seg, mucho mas pequeño que antes que era de 0,1 seg. Esto genera
- * un "movimiento" de la entidad mas fluido.
+ * un "movimiento" de la entidad mas fluido. Ver "Diferencia en la cantidad de FPS.png".
  *
  * <br><br>
  *
@@ -32,7 +32,10 @@ package gamedev;
  * este caso se toman 60 ticks, osea, 60 actualizaciones por segundo. La fisica del juego se puede actualizar a 30, 60 o
  * 80 veces por segundo, pero la cantidad estandar suele ser de 60. Algunos juegos como Minecraft y Quake3 usan 20 ticks
  * (¿Para no acaparar demasiado la CPU quiza?). La fisica no tiene nada que ver con la cantidad de veces que se dibuja
- * en pantalla, aunque esten estrechamente relacionados.
+ * en pantalla, aunque esten estrechamente relacionados. Definiendo la cantidad de ticks, estamos diciendo que la
+ * actualizacion de la fisica es un timestep fijo, ya que no depende de la tasa de fotogramas en la que se ejecuta el
+ * juego, como seria el caso de un timestep variable. Sabiendo esto, aunque los FPS bajen (tirones) o suban (fluido),
+ * la velocidad se mantiene.
  *
  * <p>Lo ideal es {@link Measure medir} el tiempo para el delta en nanosegundos ya que es una unidad mucho mas
  * especifica para la CPU que los milisegundos. Los nanosegundos no dependen del sistema operativo, sino del procesador

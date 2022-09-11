@@ -249,6 +249,7 @@ package gamedev;
  * <a href="https://www.reddit.com/r/gamedev/comments/8sci48/should_i_be_using_a_fixed_timestep_or_delta_time/">¿Debo usar un timestep fijo o un tiempo delta?</a>
  * <a href="https://gamedev.stackexchange.com/questions/160329/java-game-loop-efficiency">Eficiencia del Game Loop</a>
  * <a href="https://stackoverflow.com/questions/57710138/why-gameloops-render-more-times-than-updating#:~:text=A%20tick%20is%20whenever%20game,to%20a%20redstone%20circuit%20updating">¿Por que el Game Loop se renderiza mas veces de las que se actualiza?</a>
+ * <a href="https://www.youtube.com/watch?v=pctGOMDW-HQ">TIMESTEPS and DELTA TIME | Game engine series</a>
  */
 
 public class GameLoop implements Runnable {
@@ -274,14 +275,14 @@ public class GameLoop implements Runnable {
 		while (isRunning()) {
 			/* Interpola la fisica usando el delta. Ademas, la ventaja de comprobar el delta dentro del Game Loop, es
 			 * que no necesita multiplicar todo lo relacionado con la fisica por el delta. Esto hace que se actualice
-			 * la fisica independientemente de los FPS, aplicando el concepto de "Fixed Timestep". */
+			 * la fisica independientemente de los FPS. */
 			if (delta.checkDelta()) {
 				ticks++;
 				tick();
 				shouldRender = true; // Actualiza primero para tener algo que renderizar en la primera iteracion
 			}
 
-			/* La interpolacion del renderizado (desacopla la velocidad de frames del fixed timestep) ejecuta el juego a
+			/* La interpolacion del renderizado (desacopla la tasa de frames del timestep fijo) ejecuta el juego a
 			 * una velocidad de frames variable aprovechando la variabilidad del rendimiento de distintos hardwares,
 			 * pero la fisica (colisiones, IA, etc.) se actualiza 60 veces por segundo. */
 			if (shouldRender) {
