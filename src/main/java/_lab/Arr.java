@@ -3,48 +3,55 @@ package _lab;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Crea un array de enteros aleatorios entre 1 y 100, con un tamaño especificado entre 1 y 50 (ambos incluidos). Si el
+ * tamaño es menor o igual a 0 o mayor a 50, entonces por defecto se inicializa en 4.
+ *
+ * <p>Esta clase cuenta con diferentes funciones para poder jugar con el array.
+ *
+ * @author Juan Debenedetti
+ */
+
 public class Arr {
 
-	private static final Scanner entrada = new Scanner(System.in);
+	private static final Scanner input = new Scanner(System.in);
 
 	public static void main(String[] args) {
 
-		int l = 0;
+		int size = 0;
 
-		try {
-			System.out.print("Size: ");
-			l = entrada.nextInt();
-		} catch (InputMismatchException e) {
-			System.err.println("Error, la entrada recuperada no coincide con el patron para el tipo esperado.");
-		}
+		do {
 
-		/*
-		 * Crea un Array de enteros aleatorios entre 1 y 100, con una capacidad de l
-		 * elementos para alamacenarlos en la memoria STACK. Si l es menor o igual a 0 o
-		 * mayor a 50 entonces por defecto se inicializa en 4.
-		 */
-		int[] arr = initArr(l <= 0 || l > 50 ? 4 : l);
+			try {
+				System.out.print("Size or -1 to exit: ");
+				size = input.nextInt();
+			} catch (InputMismatchException e) {
+				System.err.println("La entrada recuperada no coincide con el patron para el tipo esperado!");
+				System.exit(1);
+			}
 
-		System.out.println(toString(arr, 0));
+			if (size != -1) {
+				int[] arr = init(size <= 0 || size > 50 ? 4 : size);
+				System.out.println(toString(arr, 0));
+				// sortAsc(arr);
+				// sortDesc(arr);
+				mayor(arr);
+				// menor(arr);
+				// promedio(arr);
+				// pares(arr);
+				// impares(arr);
+				// desordenar(arr);
+				// contador(arr);
+			}
 
-		// sortAsc(arr);
-		// sortDesc(arr);
-		mayor(arr);
-		// menor(arr);
-		// promedio(arr);
-		// pares(arr);
-		// impares(arr);
-		// desordenar(arr);
-		// contador(arr);
+		} while (size != -1);
+
 	}
 
-	private static int[] initArr(int l) {
-
-		int[] arr = new int[l];
-
+	private static int[] init(int size) {
+		int[] arr = new int[size];
 		for (int i = 0; i < arr.length; i++)
 			arr[i] = (int) (Math.random() * 100 + 1);
-
 		return arr;
 	}
 
@@ -69,7 +76,6 @@ public class Arr {
 					arr[j + 1] = arr[j];
 					arr[j] = aux;
 				}
-
 			}
 		}
 
@@ -99,10 +105,8 @@ public class Arr {
 
 	private static void mayor(int[] arr) {
 		int mayor = 0;
-
 		for (int j : arr)
 			if (mayor < j) mayor = j;
-
 		System.out.println("El mayor es: " + mayor);
 	}
 
@@ -164,7 +168,7 @@ public class Arr {
 		int c = 0, numero;
 		do {
 			System.out.print("\nNumero que desea contar (-1 salir): ");
-			numero = entrada.nextInt();
+			numero = input.nextInt();
 			if (numero != -1) {
 				for (int j : arr)
 					if (j == numero) c++;
@@ -176,9 +180,7 @@ public class Arr {
 	}
 
 	private static String toString(int[] arr, int i) {
-		return i < arr.length
-				? (i == 0 ? "Array: [" : "") + arr[i] + (i == arr.length - 1 ? "]" : ",") + toString(arr, i + 1)
-				: "";
+		return i < arr.length ? (i == 0 ? "Array: [" : "") + arr[i] + (i == arr.length - 1 ? "]" : ",") + toString(arr, i + 1) : "";
 	}
 
 }
