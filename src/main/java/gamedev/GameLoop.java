@@ -247,7 +247,6 @@ package gamedev;
  * <a href="https://gamedev.stackexchange.com/questions/132831/what-is-the-point-of-update-independent-rendering-in-a-game-loop">¿Cual es el punto de actualizar independientemente del renderizado?</a>
  * <a href="https://www.reddit.com/r/gamedev/comments/22k6pl/fixed_time_step_vs_variable_time_step/">Timestep fijo vs timestep variable</a>
  * <a href="https://www.reddit.com/r/gamedev/comments/8sci48/should_i_be_using_a_fixed_timestep_or_delta_time/">¿Debo usar un timestep fijo o un tiempo delta?</a>
- * <a href="https://gamedev.stackexchange.com/questions/160329/java-game-loop-efficiency">Eficiencia del Game Loop</a>
  * <a href="https://stackoverflow.com/questions/57710138/why-gameloops-render-more-times-than-updating#:~:text=A%20tick%20is%20whenever%20game,to%20a%20redstone%20circuit%20updating">¿Por que el Game Loop se renderiza mas veces de las que se actualiza?</a>
  * <a href="https://www.youtube.com/watch?v=pctGOMDW-HQ">TIMESTEPS and DELTA TIME | Game engine series</a>
  */
@@ -281,6 +280,21 @@ public class GameLoop implements Runnable {
 				tick();
 				shouldRender = true; // Actualiza primero para tener algo que renderizar en la primera iteracion
 			}
+
+			/* Suspender el Game Loop antes de renderizar, reduce el tiempo del CPU. La desventaja de esto, es que no se
+			 * aprovecha el pontencial de una maquina rapida, y en los dispositivos de bajos recursos, genera un pequeño
+			 * lag.
+			 * https://www.gamedev.net/forums/topic/445787-game-loop---free-cpu/
+			 * https://gamedev.stackexchange.com/questions/651/what-should-a-main-game-loop-do/656#656
+			 * https://stackoverflow.com/questions/10740187/game-loop-frame-independent
+			 * https://gamedev.stackexchange.com/questions/160329/java-game-loop-efficiency
+			 * https://stackoverflow.com/questions/18283199/java-main-game-loop */
+
+			/* try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}*/
 
 			/* La interpolacion del renderizado (desacopla la tasa de frames del timestep fijo) ejecuta el juego a
 			 * una velocidad de frames variable aprovechando la variabilidad del rendimiento de distintos hardwares,
