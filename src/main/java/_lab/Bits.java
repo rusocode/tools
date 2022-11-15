@@ -1,44 +1,48 @@
 package _lab;
 
 /**
- * Como sabran, los datos en una computadora internamente se representan en codigo binario. El microprocesador solo
- * entiende de ceros y unos. Luego, mediante una serie de procesos, nosotros vemos a este codigo ya transformado en
- * numeros, caracteres, imagenes y sonidos. Pero en realidad en la trastienda todo sigue siendo binario.
+ * Los datos en una computadora internamente se representan en codigo binario. El microprocesador solo entiende de ceros
+ * y unos. Luego, mediante una serie de procesos, nosotros vemos a este codigo ya transformado en numeros, caracteres,
+ * imagenes y sonidos. Pero en realidad en la trastienda todo sigue siendo binario.
  *
- * Una operación bit a bit opera sobre números binarios a nivel de sus bits individuales. Es una acción primitiva
- * rápida, soportada directamente por los procesadores. En procesadores simples de bajo costo, las operaciones
- * de bit a bit, junto con los de adición y sustracción, son típicamente sustancialmente más rápidas que la
- * multiplicación y la división, mientras que en los modernos procesadores de alto rendimiento usualmente las
+ * <p>Una operacion bit a bit opera sobre numeros binarios a nivel de sus bits individuales. Es una accion primitiva
+ * rapida, soportada directamente por los procesadores. En procesadores simples de bajo costo, las operaciones
+ * de bit a bit, junto con los de adicion y sustraccion, son tipicamente sustancialmente mas rapidas que la
+ * multiplicacion y la division, mientras que en los modernos procesadores de alto rendimiento usualmente las
  * operaciones se realizan a la misma velocidad.
  *
- * El metodo mas sencillo de representacion son los numeros naturales. Por ejemplo, si tengo el numero 85 en decimal,
- * solo tengo que llevarlo a binario y obtengo una serie de unos y ceros:
- * 1010101 = 85 en binario
+ * <p>El metodo mas sencillo de representacion son los numeros naturales. Por ejemplo, si tengo el numero 85 en decimal,
+ * solo tengo que llevarlo a binario y obtengo una serie de unos y ceros: 1010101 = 85 en binario
  *
- * Java proporciona operadores para realizar operaciones a nivel de bits para todos los tipos integrales (byte, char,
- * short, int, long):
- * - ~a (complemento) transforma los 0s en 1s y los 1s en 0s en la representacion binaria. Por ejemplo, si el byte b
- * contiene 00000001 (0x01), ~b sera 11111110 (0xFE).
- * - a&b (AND) realiza la operacion binaria AND bit a bit.
- * - a|b (OR) realiza la operacion binaria OR bit a bit.
- * - a^b (XOR) realiza al operacion binaria XOR (o exclusivo) bit a bit.
- * Tambien tenemos operaciones para hacer desplazamientos:
- * - a<<n (left shift) desplaza el patron de bits n posiciones hacia la izquierda (rellena con ceros).
- * - a>>n (signed right shift) desplaza el patron de bits n posiciones hacia la derecha (rellena con el bit de signo).
- * - a>>>n (unsigned left shift) desplaza el patron de bits n posiciones hacia la derecha (rellena con ceros).
+ * <p>Java proporciona diferentes operadores para realizar operaciones a nivel de bits para todos los tipos integrales
+ * (byte, char, short, int, long):
  *
- * Para operar a nivel de bit es necesario tomar toda la longitud predefinida para el tipo de dato. Estamos
+ * <ul>
+ * <li>{@code a&b (AND)} realiza la operacion binaria AND bit a bit.
+ * <li>{@code a|b (OR)} realiza la operacion binaria OR bit a bit.
+ * <li>{@code a^b (XOR)} realiza al operacion binaria XOR (o exclusivo) bit a bit.
+ * <li>{@code ~a (complemento)} transforma los 0s en 1s y los 1s en 0s en la representacion binaria. Por ejemplo, si el
+ * byte b contiene 00000001 (0x01), ~b sera 11111110 (0xFE).
+ * </ul>
+ *
+ * <p>Tambien tenemos operaciones para hacer desplazamientos:
+ * <li>{@code a<<n (left shift)} desplaza el patron de bits n posiciones hacia la izquierda (rellena con ceros).
+ * <li>{@code a>>n (signed right shift)} desplaza el patron de bits n posiciones hacia la derecha (rellena con el bit de signo).
+ * <li>{@code a>>>n (unsigned left shift)} desplaza el patron de bits n posiciones hacia la derecha (rellena con ceros).
+ * </ul>
+ *
+ * <p>Para operar a nivel de bit es necesario tomar toda la longitud predefinida para el tipo de dato. Estamos
  * acostumbrados a desechar los ceros a la izquierda en nuestra representacion de numeros. Pero aqui es importante. Si
  * trabajamos una variable de tipo int con un valor de 3, esta representada de la siguiente manera:
  *
- * 00000000000000000000000000000011
+ * <p>{@code 0000_0000_0000_0000_0000_0000_0000_0011}
  *
- * Aqui los 32 bits de un int se tienen en cuenta.
+ * <p>Aqui los 32 bits de un int se tienen en cuenta.
  *
- * Fuente > <a href="https://es.wikibooks.org/wiki/Programaci%C3%B3n_en_Java/Operadores_de_bits">...</a>
+ * <p>Recursos:
+ * <a href="https://es.wikibooks.org/wiki/Programaci%C3%B3n_en_Java/Operadores_de_bits">Operadores de bits</a>
  *
- * @author Juan Debenedetti aka Ru$o
- *
+ * @author Juan Debenedetti
  */
 
 public class Bits {
@@ -48,126 +52,120 @@ public class Bits {
 
 	public static void main(String[] args) {
 
-		// Operandos
-		int a = 132, b = 144;
+		byte[] binary = {1, 1, 1, 1, 1, 1, 1, 1};
 
-		int decimal = 1;
+		// Operadores logicos
+		int a = 1, b = 3; // Operandos
+		// System.out.println(and(a, b));
+		// System.out.println(or(a, b));
+		// System.out.println(xor(a, b));
+		// System.out.println(not(a));
 
-		// 1 << 4
-		// 0000_0000_0000_0000_0000_0000_0000_0001 = 1
-		// 0000_0000_0000_0000_0000_0000_0001_0000 = 16
-
-		byte[] binary = {0, 0, 0, 1, 0, 0, 0, 0};
-
-		System.out.println(leftShift(decimal));
-		System.out.println(binaryToDecimal(binary));
-		System.out.println(and(a, b));
+		// Desplazamientos
+		int c = 1, d = 4, x = -1; // Operandos
+		// System.out.println(leftShift(c));
+		// System.out.println(signedRightShift(d));
+		System.out.println(signedRightShiftNegative(x));
+		// unsignedRightShift();
 
 	}
 
-	/*
-	 * -Operadores logicos de bits
-	 * Estos operadores extienden las operaciones booleanas a los enteros. Para comprender como trabajan debemos descomponer
-	 * los enteros en un conjunto de bits. El operador aplicara una operacion logica bit por bit, tomando el valor de uno
-	 * como verdadero y el valor de cero como falso. De un operando toma un bit y aplica la operacion al bit que tiene la
-	 * misma posicion del segundo operando. Como resultado obtenemos otro entero.
-	 */
+	/* Operadores logicos de bits
+	 * Estos operadores extienden las operaciones booleanas a los enteros. Para comprender como trabajan debemos
+	 * descomponer los enteros en un conjunto de bits. El operador aplicara una operacion logica bit por bit, tomando el
+	 * valor 1 como verdadero y el 0 como falso. De un operando toma un bit y aplica la operacion al bit que tiene la
+	 * misma posicion del segundo operando. Como resultado obtenemos otro bit. */
 
-	/** Si ambos bits comparados son 1, establece el resultado en 1. De lo contrario da como resultado 0. */
+	/**
+	 * Si ambos bits comparados son 1, el resultado es 1. De lo contrario es 0.
+	 * <p>____1 = 0001
+	 * <p>____3 = 0011
+	 * <p>1 & 3 = 0001 = 1
+	 */
 	private static int and(int a, int b) {
-		// 132______ = 00000000000000000000000010000100
-		// 144______ = 00000000000000000000000010010000
-		// 132 & 144 = 00000000000000000000000010000000 = 128
 		return a & b;
 	}
 
 	/**
-	 * Si por lo menos uno de los dos bits comparados es 1, establece el resultado en 1. De lo contrario da como resultado
-	 * 0.
+	 * Si por lo menos uno de los dos bits comparados es 1, el resultado es 1. De lo contrario es 0.
+	 * <p>____1 = 0001
+	 * <p>____3 = 0011
+	 * <p>1 | 3 = 0011 = 3
 	 */
 	private static int or(int a, int b) {
-		// 132______ = 00000000000000000000000010000100
-		// 144______ = 00000000000000000000000010010000
-		// 132 | 144 = 00000000000000000000000010010100 = 148
 		return a | b;
 	}
 
 	/**
-	 * Si uno de los bits comparados es 0 y el otro 1, el resultado es 1. Si ambos bits comparados son iguales, el resultado
-	 * es 0.
+	 * Si uno de los bits comparados es 0 y el otro 1, el resultado es 1. Si ambos bits comparados son iguales, el
+	 * resultado es 0.
+	 * <p>____1 = 0001
+	 * <p>____3 = 0011
+	 * <p>1 ^ 3 = 0010 = 2
 	 */
 	private static int xor(int a, int b) {
-		// 132______ = 00000000000000000000000010000100
-		// 144______ = 00000000000000000000000010010000
-		// 132 ^ 144 = 00000000000000000000000000010100 = 20
 		return a ^ b;
 	}
 
 	/**
-	 * Solo invierte los bits, es decir, convierte los ceros en unos y viceversa. Observemos que es el unico de esta familia
-	 * que tiene un solo operando.
+	 * Solo invierte los bits, es decir, convierte los ceros en unos y viceversa. Es el unico de esta familia que tiene
+	 * un solo operando.
+	 * <p>_1 = 0001
+	 * <p>~1 = 0010 = 2 = -2
 	 */
 	private static int not(int a) {
-		// 132_ = 00000000000000000000000010000100
-		// ~132 = 11111111111111111111111101111011 = -133
 		return ~a;
 	}
 
-	/*
-	 * -Desplazamientos
-	 * Los operadores de desplazamiento, mueven los bits a la izquierda o a la derecha. El primer operando sera la victima a
-	 * sacudir. El segundo indicara cuantas posiciones.
-	 */
+	/* Desplazamientos de bits
+	 * Los operadores de desplazamiento, mueven los bits a la izquierda o a la derecha. El primer operando sera la
+	 * victima a sacudir. El segundo indicara cuantas posiciones. */
 
-	/** Corre el numero 33 dos posiciones a la izquierda. */
-	private static int leftShift(int decimal) {
-		// 33_____ = 00000000000000000000000000100001
-		// 33 << 2 = 00000000000000000000000010000100 = 132
-		/* Cada "hueco" que queda a la derecha tras correr este numero se rellena con ceros. Los bits a la izquierda se pierden,
-		 * no es una operacion de rotacion. Si prestamos atencion, observaremos que esta operacion multiplico al numero decimal
-		 * por 2 tantas veces como posiciones se ha desplazado. En este caso se multiplico por 4 ( 2 x 2 ). Hay que notar que el
-		 * signo del numero puede cambiar tras la operacion (por ejemplo 1 << 31 = -2147483648). */
-		return decimal << 2;
+	/**
+	 * Desplaza los bits a la izquierda.
+	 * <p>Los "huecos" que quedan a la derecha tras correr los bits se rellenan con ceros. Los bits a la izquierda se
+	 * pierden, no es una operacion de rotacion. Esta operacion multiplica el numero decimal tantas veces como
+	 * posiciones se ha desplazado. Hay casos en las que el signo del numero puede cambiar tras una operacion como la
+	 * siguiente: 1 << 31 = -2147483648.
+	 * <p>_____1 = 0001
+	 * <p>1 << 2 = 0100 = 4
+	 */
+	private static int leftShift(int c) {
+		return c << 2;
 	}
 
 	/**
-	 * Volvamos a colocar como estaban los bits del caso anterior. Queremos obtener nuevamente el numero 33. Para esto
-	 * desplazamos el numero 132 dos posiciones a la derecha.
+	 * Desplaza los bits a la derecha.
+	 * <p>En este caso, cuando se desplaza 3 veces hacia la derecha un bit positivo, se pierde. Esto quiere decir que
+	 * los "huecos" que quedan a la izquierda se rellenan con ceros y los bits a la derecha se pierden. Esta operacion
+	 * divide el numero decimal tantas veces como posiciones se ha desplazado.
+	 * <p>_____4 = 0100
+	 * <p>4 >> 3 = 0000 = 0
 	 */
-	private static int signedRightShift(int decimal) {
-		// 132_____ = 00000000000000000000000010000100
-		// 132 >> 2 = 00000000000000000000000000100001 = 33
-		/* Podemos ver que el corrimiento a la derecha realiza una division de enteros. Divide por 2, tantas veces como
-		 * posiciones desplazadas. */
-		// 132 >> 3 = 00000000000000000000000000010000 = 16
-		/* En este caso, cuando se desplaza 3 veces hacia la derecha un bit positivo (1) se pierde. Esto quiere decir que los
-		 * "huecos" que quedan a la izquierda se llena con ceros y los bits a la derecha se pierden. */
-		return decimal >> 2;
+	private static int signedRightShift(int d) {
+		return d >> 3;
 	}
 
 	/**
-	 * Veamos que ocurre si pretendemos realizar un desplazamiento a la derecha con un numero negativo. Tengan en cuenta que
-	 * la representacion de numeros es de complemento a 2. Si tengo una variable de tipo int con el valor –1 , internamente
-	 * esta almacenada de la siguiente forma:
-	 * 11111111111111111111111111111111 = -1 complemento a 2
+	 * Desplaza los bits a la derecha utilizando un numero negativo.
+	 * <p>Si tengo una variable de tipo int con el valor –1, internamente esta almacenada de la siguiente forma:
+	 * 1111_1111_1111_1111_1111_1111_1111_1111
+	 * <p>La representacion de este numeros es de complemento a 2.
+	 *
+	 * <p>Este operador desplaza el conjunto de bits a la derecha y agrega a la izquierda los bits que faltan segun el
+	 * bit de signo, o sea el mas significativo. Si se encuentra con un numero positivo, el bit de signo vale 0,
+	 * entonces agrega ceros, en cambio si son negativos el bit de signo vale 1, entonces agrega unos. Este proceso,
+	 * denominado extension de signo mantiene el signo del numero como si se tratara de una division. Por esto se lo
+	 * conoce como desplazamiento con signo. Por lo tanto, el resultado del desplazamiento (corriendo el numero tantas
+	 * veces como quiera) no se altera.
 	 */
-	private static void signedRightShiftNegative() {
-		int x = -1;
-		int y = x >> 1;
-		System.out.println("El resultado es: " + y);
-
-		/* Quedo exactamente igual. Prueben de correr el numero tantas posiciones como tengan ganas y obtendran el mismo
-		 * resultado. Esto ocurre porque en el desplazamiento, los "huecos" que quedan a la izquierda se rellenan con el bit uno
-		 * (1), quedando inalterable.
-		 *
-		 * Este operador desplaza el conjunto de bit a la derecha y agrega a la izquierda los bits que faltan segun el bit de
-		 * signo, o sea el mas significativo. Si se encuentra con un numero positivo, el bit de signo vale 0, entonces agrega
-		 * ceros, en cambio si son negativos el bit de signo vale 1, entonces agrega unos. Este proceso, denominado extension de
-		 * signo mantiene el signo del numero como si se tratara de una division. Por esto se lo conoce como desplazamiento con
-		 * signo. */
+	private static int signedRightShiftNegative(int x) {
+		return x >> 6;
 	}
 
-	/** Modifiquemos ligeramente el programa anterior agregandole al operador un simbolo >. Nos queda de esta manera: */
+	/**
+	 * Modifiquemos ligeramente el programa anterior agregandole al operador un simbolo >. Nos queda de esta manera:
+	 */
 	private static void unsignedRightShift() {
 		int x = -1;
 		int y = x >>> 2;
