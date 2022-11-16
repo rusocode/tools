@@ -12,17 +12,17 @@ package _lab;
  * operaciones se realizan a la misma velocidad.
  *
  * <p>El metodo mas sencillo de representacion son los numeros naturales. Por ejemplo, si tengo el numero 85 en decimal,
- * solo tengo que llevarlo a binario y obtengo una serie de unos y ceros: 1010101 = 85 en binario
+ * solo tengo que llevarlo a binario y obtengo una serie de unos y ceros: 1010101 = 85 en binario.
  *
  * <p>Java proporciona diferentes operadores para realizar operaciones a nivel de bits para todos los tipos integrales
  * (byte, char, short, int, long):
  *
  * <ul>
- * <li>{@code a&b (AND)} realiza la operacion binaria AND bit a bit.
- * <li>{@code a|b (OR)} realiza la operacion binaria OR bit a bit.
- * <li>{@code a^b (XOR)} realiza al operacion binaria XOR (o exclusivo) bit a bit.
+ * <li>{@code a&b} realiza la operacion binaria AND bit a bit.
+ * <li>{@code a|b} realiza la operacion binaria OR bit a bit.
+ * <li>{@code a^b} realiza al operacion binaria XOR (o exclusivo) bit a bit.
  * <li>{@code ~a (complemento)} transforma los 0s en 1s y los 1s en 0s en la representacion binaria. Por ejemplo, si el
- * byte b contiene 00000001 (0x01), ~b sera 11111110 (0xFE).
+ * byte a contiene 00000001 (0x01), ~a sera 11111110 (0xFE).
  * </ul>
  *
  * <p>Tambien tenemos operaciones para hacer desplazamientos:
@@ -41,6 +41,7 @@ package _lab;
  *
  * <p>Recursos:
  * <a href="https://es.wikibooks.org/wiki/Programaci%C3%B3n_en_Java/Operadores_de_bits">Operadores de bits</a>
+ * <a href="https://cual-es-mi-ip.online/herramientas/conversores-numericos/conversor-decimal-a-binario/">Conversor decimal a binario</a>
  *
  * @author Juan Debenedetti
  */
@@ -65,8 +66,8 @@ public class Bits {
 		int c = 1, d = 4, x = -1; // Operandos
 		// System.out.println(leftShift(c));
 		// System.out.println(signedRightShift(d));
-		System.out.println(signedRightShiftNegative(x));
-		// unsignedRightShift();
+		// System.out.println(signedRightShiftNegative(x));
+		System.out.println(unsignedRightShift(x));
 
 	}
 
@@ -111,7 +112,7 @@ public class Bits {
 	 * Solo invierte los bits, es decir, convierte los ceros en unos y viceversa. Es el unico de esta familia que tiene
 	 * un solo operando.
 	 * <p>_1 = 0001
-	 * <p>~1 = 0010 = 2 = -2
+	 * <p>~1 = 1110 = 2 = -2
 	 */
 	private static int not(int a) {
 		return ~a;
@@ -135,7 +136,7 @@ public class Bits {
 	}
 
 	/**
-	 * Desplaza los bits a la derecha.
+	 * Desplaza los bits a la derecha teniendo en cuenta el signo
 	 * <p>En este caso, cuando se desplaza 3 veces hacia la derecha un bit positivo, se pierde. Esto quiere decir que
 	 * los "huecos" que quedan a la izquierda se rellenan con ceros y los bits a la derecha se pierden. Esta operacion
 	 * divide el numero decimal tantas veces como posiciones se ha desplazado.
@@ -154,36 +155,29 @@ public class Bits {
 	 *
 	 * <p>Este operador desplaza el conjunto de bits a la derecha y agrega a la izquierda los bits que faltan segun el
 	 * bit de signo, o sea el mas significativo. Si se encuentra con un numero positivo, el bit de signo vale 0,
-	 * entonces agrega ceros, en cambio si son negativos el bit de signo vale 1, entonces agrega unos. Este proceso,
-	 * denominado extension de signo mantiene el signo del numero como si se tratara de una division. Por esto se lo
+	 * entonces agrega ceros, en cambio si es negativo, el bit de signo vale 1, entonces agrega unos. Este proceso
+	 * denominado extension de signo, mantiene el signo del numero como si se tratara de una division. Por esto se lo
 	 * conoce como desplazamiento con signo. Por lo tanto, el resultado del desplazamiento (corriendo el numero tantas
 	 * veces como quiera) no se altera.
 	 */
 	private static int signedRightShiftNegative(int x) {
-		return x >> 6;
+		return x >> 20;
 	}
 
 	/**
-	 * Modifiquemos ligeramente el programa anterior agregandole al operador un simbolo >. Nos queda de esta manera:
+	 * Desplaza los bits a la derecha sin tener en cuenta el signo
+	 * Ahora nos damos cuenta que se han agregado dos ceros a la izquierda. Este operador desplaza a la derecha, pero no
+	 * tiene en cuenta el signo. Siempre agrega bit con el valor cero, por lo que se llama desplazamiento sin signo.
+	 * Este operador suele ser mas adecuado que el >> cuando queremos manipular los bits mismos, no su representacion
+	 * numerica.
+	 *
+	 * <p>______-1 = 11111111111111111111111111111111
+	 * <p>-1 >>> 2 = 00111111111111111111111111111111 = 1073741823
 	 */
-	private static void unsignedRightShift() {
-		int x = -1;
-		int y = x >>> 2;
-		System.out.println("El resultado es: " + y);
-
-		// Si ejecutamos el programa nos dice lo siguiente:
-		// El resultado es: 1073741823
-
-		// Veamos de donde salio este numero raro. Si lo llevamos a binario tenemos:
-		// 00111111111111111111111111111111 = 1073741823 en binario
-
-		/* Ahora nos damos cuenta que se han agregado dos ceros a la izquierda. Este operador desplaza a la derecha, pero no
-		 * tiene en cuenta el signo. Siempre agrega bit con el valor cero, por lo que se llama desplazamiento sin signo. Este
-		 * operador suele ser mas adecuado que el >> cuando queremos manipular los bits mismos, no su representacion
-		 * numerica. */
+	private static int unsignedRightShift(int x) {
+		return x >>> 2;
 	}
 
-	// https://cual-es-mi-ip.online/herramientas/conversores-numericos/conversor-decimal-a-binario/
 	private static String decimalToBinary(int decimal) {
 		StringBuilder binary = new StringBuilder();
 		StringBuilder reverse = new StringBuilder();
