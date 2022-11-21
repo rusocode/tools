@@ -10,10 +10,10 @@ package _lab;
  * <p>Cada byte representa un componente del color:
  *
  * <ul>
- * <li>1er byte: valor alfa (00000001 en el ejemplo) que corresponde a la opacidad
- * <li>2do byte: valor rojo (00000010 en el ejemplo)
- * <li>3er byte: valor verde (00000011 en el ejemplo)
- * <li>4to byte: valor azul (00000100 en el ejemplo)
+ * <li>1er byte: valor alfa que corresponde a la opacidad
+ * <li>2do byte: valor rojo
+ * <li>3er byte: valor verde
+ * <li>4to byte: valor azul
  * </ul>
  *
  * <h3>Simbolos 0xff y 0xffffff</h3>

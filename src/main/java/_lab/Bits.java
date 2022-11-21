@@ -12,7 +12,7 @@ package _lab;
  * operaciones se realizan a la misma velocidad.
  *
  * <p>El metodo mas sencillo de representacion son los numeros naturales. Por ejemplo, si tengo el numero 85 en decimal,
- * solo tengo que llevarlo a binario y obtengo una serie de unos y ceros: 1010101 = 85 en binario.
+ * solo tengo que llevarlo a binario y obtengo una serie de unos y ceros: 1010101 = 85 en decimal.
  *
  * <p>Java proporciona diferentes operadores para realizar operaciones a nivel de bits para todos los tipos integrales
  * (byte, char, short, int, long):
@@ -148,17 +148,17 @@ public class Bits {
 	}
 
 	/**
-	 * Desplaza los bits a la derecha utilizando un numero negativo.
+	 * Desplaza los bits a la derecha utilizando un numero negativo
 	 * <p>Si tengo una variable de tipo int con el valor –1, internamente esta almacenada de la siguiente forma:
 	 * 1111_1111_1111_1111_1111_1111_1111_1111
 	 * <p>La representacion de este numeros es de complemento a 2.
 	 *
 	 * <p>Este operador desplaza el conjunto de bits a la derecha y agrega a la izquierda los bits que faltan segun el
 	 * bit de signo, o sea el mas significativo. Si se encuentra con un numero positivo, el bit de signo vale 0,
-	 * entonces agrega ceros, en cambio si es negativo, el bit de signo vale 1, entonces agrega unos. Este proceso
-	 * denominado extension de signo, mantiene el signo del numero como si se tratara de una division. Por esto se lo
-	 * conoce como desplazamiento con signo. Por lo tanto, el resultado del desplazamiento (corriendo el numero tantas
-	 * veces como quiera) no se altera.
+	 * entonces agrega ceros, en cambio si es negativo, el bit de signo vale 1. Este proceso denominado extension de
+	 * signo, mantiene el signo del numero como si se tratara de una division. Por esto se lo conoce como desplazamiento
+	 * con signo. Por lo tanto, el resultado del desplazamiento (corriendo el numero tantas veces como quiera) no se
+	 * altera.
 	 */
 	private static int signedRightShiftNegative(int x) {
 		return x >> 20;
