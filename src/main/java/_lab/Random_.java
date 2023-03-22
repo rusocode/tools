@@ -17,7 +17,7 @@ public class Random_ {
 
 		/* En muchas de nuestras aplicaciones no nos servira este rango de valores. Por ejemplo, si queremos simular una tirada
 		 * de dados, vamos a querer numeros entre 1 y 6 sin decimales.
-		 * 
+		 *
 		 * En el caso del dado, son 6 valores que van del 1 al 6, ambos incluidos, por lo tanto debemos multiplicar
 		 * Math.random() por 6, donde 6 (maximo) es hasta el numero que quieres que llegue, + 1 (minimo) para que nunca tengas
 		 * un 0 y cast a int por que Math#random arroja un valor de tipo double */
@@ -25,11 +25,12 @@ public class Random_ {
 
 		// Devuelve un numero entero aleatorio entre un minimo y un mayor especificado (ambos incluidos)
 		int min = 5, max = 10;
-		// System.out.println((int) ((Math.random() * (max - min + 1)) + min));
+		// System.out.println((int) ((Math.random() * (max - min + 1)) + min)); // Le suma 1 para que pueda llegar al valor 10
+		System.out.println((int) (Math.random() * max + min));
 
 		// Clase Random!
 		// La diferencia con la clase Math, es que Random es mas flexible
-		Random random = new Random();
+		/* Random random = new Random();
 
 		// Muestra un num aleatorio entre 1 y 3, ya que * 4 es de 0 a 3, y se le suma 1 para que nunca de 0
 		// System.out.println((int) (random.nextFloat() * 4 + 1));
@@ -42,7 +43,7 @@ public class Random_ {
 		System.out.println("f - 0.5 =  " + f);
 		f *= 100;
 		System.out.println("f * 100 =  " + f);
-		System.out.println("(int) f = " + (int) f);
+		System.out.println("(int) f = " + (int) f); */
 
 	}
 
