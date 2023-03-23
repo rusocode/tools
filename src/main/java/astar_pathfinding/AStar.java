@@ -117,7 +117,6 @@ public class AStar extends JPanel {
 
 	public void search() {
 		if (!goalReached) {
-
 			currentNode.setAsChecked();
 			openList.remove(currentNode);
 
@@ -128,7 +127,6 @@ public class AStar extends JPanel {
 			if (row + 1 < maxRow) openNode(node[row + 1][col]);
 			if (col + 1 < maxCol) openNode(node[row][col + 1]);
 
-			// Encuentra el mejor nodo
 			int bestNodeIndex = 0;
 			int bestNodefCost = 999;
 
@@ -146,7 +144,6 @@ public class AStar extends JPanel {
 				goalReached = true;
 				trackThePath();
 			}
-
 		}
 	}
 
@@ -167,6 +164,7 @@ public class AStar extends JPanel {
 			if (row + 1 < maxRow) openNode(node[row + 1][col]);
 			if (col + 1 < maxCol) openNode(node[row][col + 1]);
 
+			// Encuentra el mejor nodo
 			int bestNodeIndex = 0;
 			int bestNodefCost = 999;
 
@@ -177,7 +175,7 @@ public class AStar extends JPanel {
 					bestNodeIndex = i;
 					bestNodefCost = openList.get(i).fCost;
 				}
-				// Si el F Cost es igual al F Cost del mejor nodo actual, usa el G Cost como indice
+				// Si el F Cost es igual, verifica el G Cost
 				else if (openList.get(i).fCost == bestNodefCost)
 					if (openList.get(i).gCost < openList.get(bestNodeIndex).gCost) bestNodeIndex = i;
 			}
@@ -190,20 +188,19 @@ public class AStar extends JPanel {
 				trackThePath();
 			}
 
+			step++;
 		}
-
-		step++;
-
 	}
 
 	/**
-	 * Abre el nodo.
+	 * Abre el nodo para poder evaluarlo.
 	 */
 	private void openNode(Node node) {
 		if (!node.open && !node.checked && !node.solid) {
 			node.setAsOpen();
 			// Configura el nodo actual como su padre para verificar los proximos nodos adyacentes a este y poder marcar la ruta mas corta
 			node.parent = currentNode;
+			// Agrega el nodo a la lista de abiertos para poder compararlo
 			openList.add(node);
 		}
 	}
