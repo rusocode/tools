@@ -161,7 +161,7 @@ public class AStar extends JPanel {
 			/* Configura el nodo actual como marcado y lo elimina de la lista abierta. Esto significa que ya lo hemos
 			 * verificado como mejor candidato para la ruta, por lo tanto ya no es necesario evaluarlo. */
 			currentNode.setAsChecked();
-			openList.remove(currentNode);
+			openList.remove(currentNode); // TODO Para la primera iteracion la lista no tiene ningun nodo asignado, que elimina entonces?
 
 			// Abre los nodos adyacentes al actual siempre y cuando se eviten abrir los nodos ubicados a los extremos
 			if (row - 1 >= 0) openNode(node[row - 1][col]);
