@@ -27,7 +27,6 @@ public class Node extends JButton implements ActionListener {
 	public Node(int row, int col) {
 		this.row = row;
 		this.col = col;
-
 		setBackground(Color.white);
 		setForeground(Color.black);
 		addActionListener(this);
@@ -50,6 +49,26 @@ public class Node extends JButton implements ActionListener {
 	public void setAsSolid() {
 		setBackground(Color.black);
 		solid = true;
+	}
+
+	public void setAsOpen() {
+		open = true;
+	}
+
+	/**
+	 * Verifica los nodos que no sean el nodo inicio y el nodo objetivo.
+	 */
+	public void setAsChecked() {
+		if (!start && !goal) {
+			setBackground(Color.orange);
+			setForeground(Color.black);
+		}
+		checked = true;
+	}
+
+	public void setAsPath() {
+		setBackground(Color.green);
+		setForeground(Color.black);
 	}
 
 	@Override
