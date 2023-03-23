@@ -120,6 +120,8 @@ public class AStar extends JPanel {
 			int row = currentNode.row;
 			int col = currentNode.col;
 
+			System.out.println(openList.size());
+
 			currentNode.setAsChecked();
 			openList.remove(currentNode);
 
@@ -131,7 +133,6 @@ public class AStar extends JPanel {
 			// Encuentra el mejor nodo
 			int bestNodeIndex = 0;
 			int bestNodefCost = 999;
-
 
 			for (int i = 0; i < openList.size(); i++) {
 				if (openList.get(i).fCost < bestNodefCost) {

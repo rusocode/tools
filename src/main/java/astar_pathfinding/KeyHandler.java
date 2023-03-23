@@ -13,9 +13,10 @@ public class KeyHandler extends KeyAdapter {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) aStar.autoSearch();
 		/* Cada vez que se presiona enter, el algoritmo evalua los nodos adyacentes y encuentra el mejor candidato hasta
 		 * que alcance el objetivo. */
-		if (e.getKeyCode() == KeyEvent.VK_ENTER) aStar.autoSearch();
+		else if (e.getKeyCode() == KeyEvent.VK_SPACE) aStar.search();
 	}
 
 }
