@@ -5,15 +5,14 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * El algoritmo A* evalua los costos y encuentra la mejor ruta hacia el objetivo.
+ * El algoritmo A* evalua los costos y encuentra la ruta mas corta hacia el objetivo.
  *
- * <p>Desde el nodo de inicio, evalua los nodos adyacentes asumiendo que en este caso, el npc solo se mueve en 4
- * direcciones. Esto significa que tenemos cuatro opciones como nuestro primer paso. Entonces evalua de los 4 nodos
- * adyacentes el que tenga el costo mas bajo (F y G) y lo configura como verificado. Este proceso se repite verificando
- * los nodos adyacentes con menor costo a los nodos anteriormente verificados hasta llegar al objetivo.
+ * <p>Asumiendo que el npc solo se mueve en 4 direcciones, el algoritmo evalua desde el nodo inicial, los 4 nodos
+ * adyacentes y calcula el costo mas bajo (F y G) para establecerlo como verificado. Este proceso se repite verificando
+ * los nodos adyacentes con menor costo a los nodos padres (parent) hasta llegar al objetivo.
  *
- * <p>En caso de que la ruta se tope con nodos solidos, busca el proximo nodo con menor costo entre los nodos adyacentes
- * verificados.
+ * <p>En caso de que el algoritmo choque con nodos solidos, explorara rutas alternativas a traves de los nodos del
+ * conjunto abierto. Es decir que buscara el proximo nodo con menor costo entre los nodos adyacentes verificados.
  */
 
 public class AStar extends JPanel {
@@ -28,6 +27,7 @@ public class AStar extends JPanel {
 	// Node
 	Node[][] node = new Node[maxRow][maxCol];
 	Node startNode, goalNode, currentNode;
+	// Los nodos vacios representan los nodos de esta lista, es decir, aquellos que quedan por explorar
 	ArrayList<Node> openList = new ArrayList<>();
 
 	// Others
@@ -117,18 +117,17 @@ public class AStar extends JPanel {
 
 	public void search() {
 		if (!goalReached) {
-			int row = currentNode.row;
-			int col = currentNode.col;
-
-			System.out.println(openList.size());
 
 			currentNode.setAsChecked();
 			openList.remove(currentNode);
 
+			int row = currentNode.row;
+			int col = currentNode.col;
 			if (row - 1 >= 0) openNode(node[row - 1][col]);
 			if (col - 1 >= 0) openNode(node[row][col - 1]);
 			if (row + 1 < maxRow) openNode(node[row + 1][col]);
 			if (col + 1 < maxCol) openNode(node[row][col + 1]);
+			System.out.println(openList.size());
 
 			// Encuentra el mejor nodo
 			int bestNodeIndex = 0;
@@ -153,17 +152,17 @@ public class AStar extends JPanel {
 	}
 
 	public void autoSearch() {
-		// Mientras no haya llegado al objetivo y la cantidad de pasos no supere el limite
+		// Mientras el algoritmo no haya llegado al objetivo y la cantidad de pasos no supere el limite
 		while (!goalReached && step < 300) {
+
+			/* Establece el nodo actual como verificado y lo elimina de la lista de nodos abiertos. Esto significa que
+			 * ya lo hemos verificado como mejor candidato para la ruta, por lo tanto ya no es necesario evaluarlo. */
+			currentNode.setAsChecked();
+			openList.remove(currentNode);
+
 			int row = currentNode.row;
 			int col = currentNode.col;
-
-			/* Configura el nodo actual como marcado y lo elimina de la lista abierta. Esto significa que ya lo hemos
-			 * verificado como mejor candidato para la ruta, por lo tanto ya no es necesario evaluarlo. */
-			currentNode.setAsChecked();
-			openList.remove(currentNode); // TODO Para la primera iteracion la lista no tiene ningun nodo asignado, que elimina entonces?
-
-			// Abre los nodos adyacentes al actual siempre y cuando se eviten abrir los nodos ubicados a los extremos
+			// Abre los nodos adyacentes al actual siempre y cuando se eviten abrir los nodos ubicados a los extremos de la grilla
 			if (row - 1 >= 0) openNode(node[row - 1][col]);
 			if (col - 1 >= 0) openNode(node[row][col - 1]);
 			if (row + 1 < maxRow) openNode(node[row + 1][col]);
@@ -191,29 +190,33 @@ public class AStar extends JPanel {
 				goalReached = true;
 				trackThePath();
 			}
+
 		}
 
 		step++;
 
 	}
 
+	/**
+	 * Abre el nodo.
+	 */
 	private void openNode(Node node) {
 		if (!node.open && !node.checked && !node.solid) {
 			node.setAsOpen();
-			// Configura el nodo actual como su padre para verificar los proximos nodos adyacentes a este
+			// Configura el nodo actual como su padre para verificar los proximos nodos adyacentes a este y poder marcar la ruta mas corta
 			node.parent = currentNode;
 			openList.add(node);
 		}
 	}
 
 	/**
-	 * Retrocede hasta el nodo de inicio con el objetivo de marcar la mejor ruta.
+	 * Marca la ruta mas corta desde el nodo objetivo hasta el nodo inicial.
 	 */
 	private void trackThePath() {
 		Node current = goalNode;
 		while (current != startNode) {
 			current = current.parent;
-			if (current != startNode) current.setAsPath();
+			if (current != startNode) current.setBackground(Color.green);
 		}
 	}
 
