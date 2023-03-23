@@ -127,7 +127,6 @@ public class AStar extends JPanel {
 			if (col - 1 >= 0) openNode(node[row][col - 1]);
 			if (row + 1 < maxRow) openNode(node[row + 1][col]);
 			if (col + 1 < maxCol) openNode(node[row][col + 1]);
-			System.out.println(openList.size());
 
 			// Encuentra el mejor nodo
 			int bestNodeIndex = 0;
