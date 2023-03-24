@@ -12,7 +12,9 @@ import java.util.ArrayList;
  * los nodos adyacentes con menor costo a los nodos padres (parent) hasta llegar al objetivo.
  *
  * <p>En caso de que el algoritmo choque con nodos solidos, explorara rutas alternativas a traves de los nodos del
- * conjunto abierto. Es decir que buscara el proximo nodo con menor costo entre los nodos adyacentes verificados.
+ * conjunto abierto. Es decir que buscara el proximo nodo con menor costo entre los nodos adyacentes verificados. Si
+ * no encuentra una ruta alternativa, quiere decir que esta encerrado en nodos solidos, por lo tanto ya no hay nodos
+ * abiertos por explorar y es necesario romper el bucle para evitar un IndexOutOfBoundsException.
  */
 
 public class AStar extends JPanel {
@@ -32,7 +34,7 @@ public class AStar extends JPanel {
 
 	// Others
 	boolean goalReached;
-	// Cuenta los pasos en cada ciclo hasta un limite para evitar que se congele el juego en caso de que el npc este encerrado en nodos solidos
+	// Cuenta los pasos en cada ciclo hasta un limite para evitar que se congele el juego
 	int step;
 
 	public AStar() {
@@ -54,7 +56,34 @@ public class AStar extends JPanel {
 		setStartNode(6, 3);
 		setGoalNode(3, 11);
 
-		// Establece los nodos solidos
+		setPathOpened();
+		// setPathClosed();
+
+		// Establece los costos a cada nodo
+		setCostOnNodes();
+
+	}
+
+	private void setStartNode(int row, int col) {
+		node[row][col].setAsStart();
+		startNode = node[row][col];
+		currentNode = startNode;
+		openList.add(currentNode);
+	}
+
+	private void setGoalNode(int row, int col) {
+		node[row][col].setAsGoal();
+		goalNode = node[row][col];
+	}
+
+	private void setSolidNode(int row, int col) {
+		node[row][col].setAsSolid();
+	}
+
+	/**
+	 * Establece una ruta abierta.
+	 */
+	private void setPathOpened() {
 		setSolidNode(2, 10);
 		setSolidNode(3, 10);
 		setSolidNode(4, 10);
@@ -68,25 +97,28 @@ public class AStar extends JPanel {
 		setSolidNode(7, 11);
 		setSolidNode(7, 12);
 		setSolidNode(1, 6);
-
-		// Establece los costos a cada nodo
-		setCostOnNodes();
-
 	}
 
-	private void setStartNode(int row, int col) {
-		node[row][col].setAsStart();
-		startNode = node[row][col];
-		currentNode = startNode;
-	}
-
-	private void setGoalNode(int row, int col) {
-		node[row][col].setAsGoal();
-		goalNode = node[row][col];
-	}
-
-	private void setSolidNode(int row, int col) {
-		node[row][col].setAsSolid();
+	/**
+	 * Establece una ruta cerrada.
+	 */
+	private void setPathClosed() {
+		setSolidNode(4, 1);
+		setSolidNode(4, 2);
+		setSolidNode(4, 3);
+		setSolidNode(4, 4);
+		setSolidNode(5, 1);
+		setSolidNode(6, 1);
+		setSolidNode(7, 1);
+		setSolidNode(8, 1);
+		setSolidNode(8, 2);
+		setSolidNode(8, 3);
+		setSolidNode(8, 4);
+		setSolidNode(8, 5);
+		setSolidNode(7, 5);
+		setSolidNode(6, 5);
+		setSolidNode(5, 5);
+		setSolidNode(4, 5);
 	}
 
 	private void setCostOnNodes() {
@@ -115,8 +147,12 @@ public class AStar extends JPanel {
 
 	}
 
+	/**
+	 * Este metodo solo funciona con salida.
+	 */
 	public void search() {
 		if (!goalReached) {
+
 			currentNode.setAsChecked();
 			openList.remove(currentNode);
 
@@ -144,6 +180,7 @@ public class AStar extends JPanel {
 				goalReached = true;
 				trackThePath();
 			}
+
 		}
 	}
 
@@ -179,6 +216,8 @@ public class AStar extends JPanel {
 				else if (openList.get(i).fCost == bestNodefCost)
 					if (openList.get(i).gCost < openList.get(bestNodeIndex).gCost) bestNodeIndex = i;
 			}
+
+			if (openList.isEmpty()) break;
 
 			// Obtiene el siguiente mejor nodo
 			currentNode = openList.get(bestNodeIndex);
