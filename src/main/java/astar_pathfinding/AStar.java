@@ -7,9 +7,10 @@ import java.util.ArrayList;
 /**
  * El algoritmo A* evalua los costos y encuentra la ruta mas corta hacia el objetivo.
  *
- * <p>Asumiendo que el npc solo se mueve en 4 direcciones, el algoritmo evalua desde el nodo inicial, los 4 nodos
- * adyacentes y calcula el costo mas bajo (F y G) para establecerlo como verificado. Este proceso se repite verificando
- * los nodos adyacentes con menor costo a los nodos padres (parent) hasta llegar al objetivo.
+ * <p>Asumiendo que el npc solo se mueve en 4 direcciones, el algoritmo evalua desde el nodo inicial los 4 nodos
+ * adyacentes y calcula el costo mas bajo (F o G en caso de que F sea igual) para establecerlo como verificado. Este
+ * proceso se repite verificando los nodos adyacentes con menor costo a los nodos padres (parent) hasta llegar al
+ * objetivo.
  *
  * <p>En caso de que el algoritmo choque con nodos solidos, explorara rutas alternativas a traves de los nodos del
  * conjunto abierto. Es decir que buscara el proximo nodo con menor costo entre los nodos adyacentes verificados. Si
@@ -27,14 +28,15 @@ public class AStar extends JPanel {
 	final int screenHeight = nodeSize * maxRow;
 
 	// Node
-	Node[][] node = new Node[maxRow][maxCol];
+	Node[][] node;
 	Node startNode, goalNode, currentNode;
-	// Los nodos vacios representan los nodos de esta lista, es decir, aquellos que quedan por explorar
+	// Los nodos abiertos representan los nodos a comparar
 	ArrayList<Node> openList = new ArrayList<>();
 
 	// Others
 	boolean goalReached;
-	// Cuenta los pasos en cada ciclo hasta un limite para evitar que se congele el juego
+	/* Cuenta los pasos en cada ciclo hasta un limite para evitar que se congele el juego en caso de que no encuentre la
+	 * ruta por un determinado tiempo. */
 	int step;
 
 	public AStar() {
@@ -43,6 +45,8 @@ public class AStar extends JPanel {
 		setLayout(new GridLayout(maxRow, maxCol));
 		addKeyListener(new KeyHandler(this));
 		setFocusable(true);
+
+		node = new Node[maxRow][maxCol];
 
 		// Crea los nodos y los agrega al panel
 		for (int row = 0; row < maxRow; row++) {
@@ -56,8 +60,8 @@ public class AStar extends JPanel {
 		setStartNode(6, 3);
 		setGoalNode(3, 11);
 
-		setPathOpened();
-		// setPathClosed();
+		openPath();
+		// closePath();
 
 		// Establece los costos a cada nodo
 		setCostOnNodes();
@@ -81,9 +85,9 @@ public class AStar extends JPanel {
 	}
 
 	/**
-	 * Establece una ruta abierta.
+	 * Abre la ruta con nodos solidos.
 	 */
-	private void setPathOpened() {
+	private void openPath() {
 		setSolidNode(2, 10);
 		setSolidNode(3, 10);
 		setSolidNode(4, 10);
@@ -100,9 +104,9 @@ public class AStar extends JPanel {
 	}
 
 	/**
-	 * Establece una ruta cerrada.
+	 * Cierra la ruta con nodos solidos.
 	 */
-	private void setPathClosed() {
+	private void closePath() {
 		setSolidNode(4, 1);
 		setSolidNode(4, 2);
 		setSolidNode(4, 3);
@@ -148,7 +152,7 @@ public class AStar extends JPanel {
 	}
 
 	/**
-	 * Este metodo solo funciona con salida.
+	 * Este metodo solo funciona con una ruta abierta.
 	 */
 	public void search() {
 		if (!goalReached) {
@@ -189,10 +193,11 @@ public class AStar extends JPanel {
 		while (!goalReached && step < 300) {
 
 			/* Establece el nodo actual como verificado y lo elimina de la lista de nodos abiertos. Esto significa que
-			 * ya lo hemos verificado como mejor candidato para la ruta, por lo tanto ya no es necesario evaluarlo. */
+			 * ya fue verificado como mejor candidato para la ruta, por lo tanto ya no es necesario evaluarlo. */
 			currentNode.setAsChecked();
 			openList.remove(currentNode);
 
+			// Obtiene la fila y columna del nodo actual
 			int row = currentNode.row;
 			int col = currentNode.col;
 			// Abre los nodos adyacentes al actual siempre y cuando se eviten abrir los nodos ubicados a los extremos de la grilla
@@ -204,7 +209,6 @@ public class AStar extends JPanel {
 			// Encuentra el mejor nodo
 			int bestNodeIndex = 0;
 			int bestNodefCost = 999;
-
 			// Compara los nodos de la lista abierta y verifica que nodo tiene el mejor F Cost o G Cost
 			for (int i = 0; i < openList.size(); i++) {
 				// Verifica si el F Cost es mas bajo que el F Cost del mejor nodo actual
@@ -217,11 +221,13 @@ public class AStar extends JPanel {
 					if (openList.get(i).gCost < openList.get(bestNodeIndex).gCost) bestNodeIndex = i;
 			}
 
+			// Si ya no hay nodos abiertos por explorar, entonces rompe el bucle para evitar un IndexOutOfBoundsException
 			if (openList.isEmpty()) break;
 
 			// Obtiene el siguiente mejor nodo
 			currentNode = openList.get(bestNodeIndex);
 
+			// Si el mejor nodo es igual al objetivo
 			if (currentNode == goalNode) {
 				goalReached = true;
 				trackThePath();
@@ -232,10 +238,11 @@ public class AStar extends JPanel {
 	}
 
 	/**
-	 * Abre el nodo para poder evaluarlo.
+	 * Abre el nodo adyacente al mejor nodo para poder evaluarlo.
 	 */
 	private void openNode(Node node) {
 		if (!node.open && !node.checked && !node.solid) {
+			// Abre el nodo
 			node.setAsOpen();
 			// Configura el nodo actual como su padre para verificar los proximos nodos adyacentes a este y poder marcar la ruta mas corta
 			node.parent = currentNode;
