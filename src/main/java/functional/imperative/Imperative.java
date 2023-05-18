@@ -1,9 +1,9 @@
-package functional;
+package functional.imperative;
 
 import java.util.*;
 
 /**
- * Programacion imperativa en donde se especifican las instrucciones paso por paso.
+ * Ejemplo de programacion imperativa en donde se especifican las instrucciones de un programa simple paso por paso.
  */
 
 public class Imperative {
