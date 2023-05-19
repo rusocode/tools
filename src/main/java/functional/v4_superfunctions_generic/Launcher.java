@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Las interfaces genericas permiten recibir y retornar tipo genericos.
+ * Las interfaces genericas permiten recibir y retornar tipos genericos.
  */
 
 public class Launcher {
