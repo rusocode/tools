@@ -1,4 +1,4 @@
-package functional.superfunctions.interfaces;
+package functional.v2_superfunctions_classes.interfaces;
 
 /**
  * Transforma un valor.

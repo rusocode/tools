@@ -1,6 +1,6 @@
-package functional.superfunctions.classes;
+package functional.v2_superfunctions_classes.classes;
 
-import functional.superfunctions.interfaces.Predicate;
+import functional.v2_superfunctions_classes.interfaces.Predicate;
 
 /**
  * Testea si el valor es par.

@@ -1,6 +1,6 @@
-package functional.superfunctions.classes;
+package functional.v2_superfunctions_classes.classes;
 
-import functional.superfunctions.interfaces.Transformer;
+import functional.v2_superfunctions_classes.interfaces.Transformer;
 
 /**
  * Calcula el cuadrado del valor.

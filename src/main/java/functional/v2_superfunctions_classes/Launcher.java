@@ -1,6 +1,6 @@
-package functional.superfunctions;
+package functional.v2_superfunctions_classes;
 
-import functional.superfunctions.classes.*;
+import functional.v2_superfunctions_classes.classes.*;
 
 import java.util.List;
 
@@ -20,7 +20,8 @@ public class Launcher {
 
         /* Utilizando la superfuncion filter() que es capas de recibir codigo como argumento desde el segundo parametro,
          * se estaria aplicando la programacion funcional. La ventaja de esto es que sin tocar la funcion, puede obtener
-         * numeros pares o impares dependiendo del tipo de codigo que le pase como argumento a la funcion generica. */
+         * numeros pares o impares dependiendo del tipo de codigo que le pase como argumento a la funcion generica. Es
+         * decir que la funcion en este caso, acepta solo las clases que implementan la interfaz Predicate. */
         List<Integer> filtereds = Superfunctions.filter(numbers, new Even());
         System.out.println(filtereds);
 

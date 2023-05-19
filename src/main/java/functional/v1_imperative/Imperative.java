@@ -1,4 +1,4 @@
-package functional.imperative;
+package functional.v1_imperative;
 
 import java.util.*;
 

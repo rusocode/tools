@@ -1,6 +1,6 @@
-package functional.superfunctions.classes;
+package functional.v2_superfunctions_classes.classes;
 
-import functional.superfunctions.interfaces.Arithmetic;
+import functional.v2_superfunctions_classes.interfaces.Arithmetic;
 
 public class Multiplier implements Arithmetic {
 

@@ -1,6 +1,6 @@
-package functional.superfunctions.classes;
+package functional.v2_superfunctions_classes.classes;
 
-import functional.superfunctions.interfaces.Consumer;
+import functional.v2_superfunctions_classes.interfaces.Consumer;
 
 /**
  * Imprime el valor en consola.

@@ -1,6 +1,6 @@
-package functional.superfunctions;
+package functional.v2_superfunctions_classes;
 
-import functional.superfunctions.interfaces.*;
+import functional.v2_superfunctions_classes.interfaces.*;
 
 import java.util.ArrayList;
 import java.util.List;
