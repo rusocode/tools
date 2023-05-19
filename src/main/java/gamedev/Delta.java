@@ -4,10 +4,10 @@ package gamedev;
  * <h1>¿Por que necesitamos utilizar el Delta Time?</h1>
  * Los juegos <b>framerate independent</b> (independencia de fotogramas), son juegos que corren a la misma velocidad sin
  * importar la tasa de {@link FPS}. Por ejemplo, una entidad (jugador, zombie, etc.) puede moverse a 30 FPS en una
- * computadora lenta y 60 FPS en una rapida, pero ambos recorren la misma distancia a la misma velocidad. La diferencia
- * esta en que a 30 FPS, la entidad da como "saltos" para equilibrar (que ironico) la distancia que necesita alcanzar, y
- * a 60 FPS, el movimiento es mas fluido ya que se renderizan mas frames por segundo. Esa cantidad variable de FPS
- * depende del hardware del dispositivo en el que se este ejecutando el juego. Por otra parte, un juego <b>framerate
+ * computadora lenta y 60 FPS en una rapida, pero ambos recorren la misma distancia al mismo tiempo. La diferencia esta
+ * en que a 30 FPS, la entidad da como "saltos" para equilibrar (que ironico) la distancia que necesita alcanzar, y a 60
+ * FPS, el movimiento es mas fluido ya que se renderizan mas frames por segundo. Esa cantidad variable de FPS depende
+ * del hardware del dispositivo en el que se este ejecutando el juego. Por otra parte, un juego <b>framerate
  * dependent</b> (dependencia de fotogramas) se procesa a la mitad de la velocidad en una computadora lenta, dando el
  * horrible efecto del <a href="https://www.xataka.com/basics/lag-que-a-que-puede-deberse">lag</a>. Para hacer el juego
  * framerate independent se aplica el <b><i>Delta Time</i></b> (abreviado Δt, dt o delta).

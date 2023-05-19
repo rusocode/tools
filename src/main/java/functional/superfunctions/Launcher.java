@@ -15,7 +15,7 @@ import java.util.List;
 public class Launcher {
 
     public Launcher() {
-        List<Integer> numbers = Superfunctions.get(10, new Naturales());
+        List<Integer> numbers = Superfunctions.get(10, new Aleatorio());
         System.out.println(numbers);
 
         /* Utilizando la superfuncion filter() que es capas de recibir codigo como argumento desde el segundo parametro,
@@ -29,20 +29,7 @@ public class Launcher {
 
         Superfunctions.consume(transformed, new Printer());
 
-        System.out.println("Suma de cuadrados: " + addSquaring(transformed));
-    }
-
-    /**
-     * Calcula la suma de la lista de numeros.
-     *
-     * @param numbers lista de numeros.
-     * @return la suma de la lista de numeros.
-     */
-    private int addSquaring(List<Integer> numbers) {
-        int total = 0;
-        for (Integer number : numbers)
-            total += number;
-        return total;
+        System.out.println("Suma: " + Superfunctions.calculate(transformed, 0, new Adder()));
     }
 
     public static void main(String[] args) {

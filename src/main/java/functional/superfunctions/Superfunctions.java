@@ -12,7 +12,7 @@ import java.util.List;
 public class Superfunctions {
 
     /**
-     * Filtra una lista de valores.
+     * Filtra la lista de valores.
      *
      * @param values    lista de valores.
      * @param predicado codigo a ejecutar.
@@ -26,7 +26,7 @@ public class Superfunctions {
     }
 
     /**
-     * Obtiene una lista de valores.
+     * Obtiene la lista de valores.
      *
      * @param size   cantidad de valores.
      * @param getter codigo a ejecutar.
@@ -40,7 +40,7 @@ public class Superfunctions {
     }
 
     /**
-     * Transforma una lista de valores.
+     * Transforma la lista de valores.
      *
      * @param values      lista de valores.
      * @param transformer codigo a ejecutar.
@@ -54,7 +54,7 @@ public class Superfunctions {
     }
 
     /**
-     * Consume una lista de valores.
+     * Consume la lista de valores.
      *
      * @param values   lista de valores.
      * @param consumer codigo a ejecutar.
@@ -62,6 +62,23 @@ public class Superfunctions {
     public static void consume(List<Integer> values, Consumer consumer) {
         for (Integer value : values)
             consumer.consume(value);
+    }
+
+    /**
+     * Calcula la lista de valores.
+     * <p>
+     * El id del Multiplier debe que ser 1 para evitar la primera multiplicacion por 0. Y para el Adder debe ser 0.
+     *
+     * @param values     lista de valores.
+     * @param id         identificador de la operacion aritmetica.
+     * @param arithmetic codigo a ejecutar.
+     * @return el total calculado de la lista de valores.
+     */
+    public static Integer calculate(List<Integer> values, Integer id, Arithmetic arithmetic) {
+        int total = id;
+        for (Integer value : values)
+            total = arithmetic.calculate(total, value);
+        return total;
     }
 
 }

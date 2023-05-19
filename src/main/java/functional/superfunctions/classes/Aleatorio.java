@@ -14,6 +14,6 @@ public class Aleatorio implements Getter {
 
     @Override
     public Integer get() {
-        return random.nextInt(1000);
+        return random.nextInt(10);
     }
 }
