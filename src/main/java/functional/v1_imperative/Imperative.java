@@ -41,10 +41,10 @@ public class Imperative {
      * @return una lista de numeros pares.
      */
     private List<Integer> filterEvens(List<Integer> numbers) {
-        List<Integer> result = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
         for (Integer number : numbers)
-            if (number % 2 == 0) result.add(number);
-        return result;
+            if (number % 2 == 0) list.add(number);
+        return list;
     }
 
     /**
@@ -54,10 +54,10 @@ public class Imperative {
      * @return una lista con el cuadrado de cada numero.
      */
     private List<Integer> squaring(List<Integer> numbers) {
-        List<Integer> result = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
         for (Integer number : numbers)
-            result.add(number * number);
-        return result;
+            list.add(number * number);
+        return list;
     }
 
     /**

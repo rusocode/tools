@@ -2,12 +2,11 @@ package functional.v5_flujo;
 
 import functional.v5_flujo.interfaces.*;
 
-import java.util.Comparator;
 import java.util.Random;
 
 /**
- * Ahora los metodos pueden operar de manera encadenana ya que todos retornan un flujo, menos el ultimo metodo
- * calculate() que es una operacion terminal.
+ * Los metodos pueden operar de manera encadenana ya que todos retornan un flujo, menos el ultimo metodo calculate() que
+ * es una operacion terminal.
  */
 
 public class Launcher {

@@ -30,7 +30,7 @@ public class Launcher {
         });
         System.out.println(filtereds);
 
-        /* Ahora la funcion transform es generica ya que recibe por parametro una lista de un determinado tipo T y
+        /* Ahora la superfuncion transform es generica ya que recibe por parametro una lista de un determinado tipo T y
          * devuelve una lista transformada que recibe un determinado tipo T (por ejemplo un Integer) y retorna un
          * determinado tipo R (por ejemplo un String). */
         List<Integer> transformed = Superfunctions.transform(filtereds, new OperadorUnario<>() {

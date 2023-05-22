@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Funciones genericas utilizadas para aplicar el concepto de programacion funcional.
+ * Superfunciones utilizadas para aplicar el concepto de programacion funcional.
  */
 
 public class Superfunctions {
