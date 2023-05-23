@@ -1,9 +1,14 @@
-package functional.v6_lambdas;
-
-import functional.v6_lambdas.interfaces.*;
+package functional.v7_interfaces_funcionales_estandar.v6_lambdas;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.*;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
+/**
+ * Ahora el flujo utiliza interfaces funcionales estandar de la API de java (predefinidas).
+ */
 
 public class Flujo<T> {
 
@@ -13,10 +18,10 @@ public class Flujo<T> {
         this.values = values;
     }
 
-    public static <T> Flujo<T> get(int size, Getter<T> getter) {
+    public static <T> Flujo<T> get(int size, Supplier<T> supplier) {
         List<T> list = new ArrayList<>();
         for (int i = 0; i < size; i++)
-            list.add(getter.get());
+            list.add(supplier.get());
         return new Flujo<>(list);
     }
 
@@ -27,36 +32,28 @@ public class Flujo<T> {
         return new Flujo<>(list);
     }
 
-    public <R> Flujo<R> transform(Transformer<T, R> transformer) {
+    public <R> Flujo<R> transform(Function<T, R> function) {
         List<R> list = new ArrayList<>();
         for (T value : values)
-            list.add(transformer.transform(value));
+            list.add(function.apply(value));
         return new Flujo<>(list);
     }
 
     public Flujo<T> actuar(Consumer<T> consumer) {
         for (T value : values)
-            consumer.consume(value);
+            consumer.accept(value);
         return new Flujo<>(values);
     }
 
-    /**
-     * Este metodo al no retornar nada se le conoce como una operacion terminal. Se llama asi porque despues de llamar a
-     * este metodo, no se va a poder "enganchar" con ninguna otra llamada.
-     */
     public void consume(Consumer<T> consumer) {
         for (T value : values)
-            consumer.consume(value);
+            consumer.accept(value);
     }
 
-    /**
-     * Este metodo tampoco va a poder engarcharse con otras llamadas ya que no retorna ningun flujo. Por lo tanto se lo
-     * considera una operacion terminal.
-     */
-    public T calculate(T id, OperadorBianario<T> arithmetic) {
+    public T calculate(T id, BinaryOperator<T> binaryOperator) {
         T total = id;
         for (T value : values)
-            total = arithmetic.calculate(total, value);
+            total = binaryOperator.apply(total, value);
         return total;
     }
 

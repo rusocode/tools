@@ -1,21 +1,18 @@
 package functional.v6_lambdas;
 
-import functional.v6_lambdas.interfaces.*;
-
-import java.util.List;
 import java.util.Random;
 
 /**
  * Las expresiones lambdas se caracterizan por sus dos partes: la declaracion y el cuerpo separados por una flecha "->".
  * <p>
  * Estas expresiones son capaces de deducir el tipo de dato que se esta utilizando con la finalidad de ahorrar codigo.
- * Cuando la lambda recibe un unico argumento y el tipo se infiere, entonces se pueden eliminar los parentesis. Lo mismo
+ * Cuando la lambda recibe un unico argumento, el tipo se infiere, entonces se pueden eliminar los parentesis. Lo mismo
  * sucede con las llaves en el caso de que sea una unica expresion. Ahora al utilizar la sintaxis reducida {@code return
  * value -> value % 2 == 0;} el return y el ; no tienen sentido ya que la lambda va a retornar lo que devuelva la
  * expresion, por lo tanto tambien se eliminan. Si la lambda no recibe ningun parametro entonces solo se especifican los
  * dos parentesis ().
  * <p>
- * Las lambdas pueden capturar el entorno en el que se ejecuta, es decir que pueden utilizar variables en el entorno
+ * Las lambdas pueden capturar el entorno en el que se ejecutan, es decir que pueden utilizar variables en el entorno
  * en el que estan siendo ejecutadas.
  */
 

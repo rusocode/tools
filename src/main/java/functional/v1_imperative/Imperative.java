@@ -18,7 +18,7 @@ public class Imperative {
         // 3. Calcula el cuadrado de cada numero par
         List<Integer> squares = squaring(evens);
         System.out.println(squares);
-        // 4. Muestra cada cuadrado por pantalla
+        // 4. Muestra cada cuadrado en consola
         showList(squares);
         // 5. Calcula la suma de los cuadrados
         int total = addSquaring(squares);

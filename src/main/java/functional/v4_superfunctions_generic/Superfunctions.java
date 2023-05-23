@@ -7,17 +7,17 @@ import java.util.List;
 
 public class Superfunctions {
 
-    public static <T> List<T> filter(List<T> values, Predicate<T> predicado) {
-        List<T> list = new ArrayList<>();
-        for (T value : values)
-            if (predicado.test(value)) list.add(value);
-        return list;
-    }
-
     public static <T> List<T> get(int size, Getter<T> getter) {
         List<T> list = new ArrayList<>();
         for (int i = 0; i < size; i++)
             list.add(getter.get());
+        return list;
+    }
+
+    public static <T> List<T> filter(List<T> values, Predicate<T> predicado) {
+        List<T> list = new ArrayList<>();
+        for (T value : values)
+            if (predicado.test(value)) list.add(value);
         return list;
     }
 
