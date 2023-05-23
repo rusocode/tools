@@ -21,8 +21,8 @@ public class Launcher {
                  * pasa a la funcion que es llamada en el cuerpo de la lambda. Es decir que la lambda que se esta
                  * pasando, se pasa en forma de referencia de metodo. */
                 .filter(NumberUtils::isPrime) // Es equivalente a la expresion lambda: value -> NumberUtils.isPrime(value)
-                .transform(NumberUtils::squaring)
-                .actuar(System.out::println) // value -> System.out.println(value)
+                .transform(NumberUtils::squaring) // Referencia a metodo estatico
+                .actuar(System.out::println) // value -> System.out.println(value) / Referencia a metodo de instancia
                 .calculate(0, (Integer::sum)); // (value1, value2) -> Integer.sum(value1, value2)
         System.out.println("Suma: " + total);
     }

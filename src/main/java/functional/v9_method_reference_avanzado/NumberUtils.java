@@ -1,8 +1,4 @@
-package functional.v8_method_reference;
-
-/**
- * Clase de prueba para hacer referencia a los metodos estaticos con el method reference.
- */
+package functional.v9_method_reference_avanzado;
 
 public class NumberUtils {
 
