@@ -3,6 +3,9 @@ package functional.v11_streams;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Un <i>stream</i> (flujo) en Java es una secuencia de elementos que se pueden procesar (mapear, filtrar, transformar,
@@ -55,6 +58,26 @@ import java.util.Random;
  * }</pre>
  * El metodo estatico range() retorna un stream que es usado por el metodo filter() que retorna un nuevo stream que es
  * usado por el metodo forEach().
+ * <p>
+ * Otra caracteristica importantisima del pipeline es que es perezoso (lazy), lo que quiere decir que <b>las operaciones
+ * intermedias solo son ejecutadas cuando las requiere la operacion terminal que se este ejecutando</b>. Esto quiere
+ * decir que en el ejemplo anterior, al ejecutar el metodo forEach() este solicita los elementos del stream al metodo
+ * filter(), que a su vez solicita los elementos del stream al metodo estatico range().
+ *
+ * <br><br>
+ *
+ * <h2>Creacion de un stream a partir de una fuente de datos</h2>
+ * Java permite muchas maneras de crear un stream, depèndiendo de la fuente de datos origen deseada. Algunas de estas
+ * fuentes son:
+ * <ul>
+ * <li>Coleccion
+ * <li>Conjunto predeterminado de elementos
+ * <li>Funcion suministradora de objetos (interfaz funcional Supplier)
+ * <li>Un valor inicial y una funcion que obtiene el siguiente elemento a partir del anterior
+ * <li>Generador de numeros aleatorios
+ * <li>Metodos estaticos de la clase IntStream
+ * <li>Metodo chars() de String
+ * </ul>
  */
 
 public class Launcher {
@@ -64,24 +87,66 @@ public class Launcher {
     public Launcher() {
         // names.forEach(System.out::println); // Bucle implicito
 
-        List<String> names = new ArrayList<>(List.of("Manolo", "Pedro", "Rulo"));
+        // List<String> names = new ArrayList<>(List.of("Manolo", "Pedro", "Rulo"));
 
         // 1. Funcion generadora del stream (crea un nuevo stream que tiene como fuente de datos esa lista de nombres)
-        names.stream()
-                // 2. 0 o mas operaciones intermedias
-                .filter(name -> name.contains("P")) // filter es una operacion intermedia porque retorna un stream de String
-                // 3. Operacion terminal
-                .forEach(System.out::println); // La operacion terminal consiste en consumir (imprimir por consola) cada uno de los elementos producidos por el paso anterior del stream
-        /* Flujo.get(10, this::randomInt)
-                .filter(value -> value >= 0)
-                .sort(Integer::compareTo)
-                .transform(NumberUtils::squaring)
-                .transform(Descripcion::new)
-                .actuar(System.out::println)
-                .transform(Descripcion::getValue)
-                .max(Integer::compare)
-                .ifPresentOrElse(value -> System.out.println("Maximo: " + value.doubleValue()),
-                        () -> System.out.println("No hay maximo porque el flujo esta vacio!")); */
+        // List<String> result = names.stream()
+        // 2. 0 o mas operaciones intermedias
+        //  .limit(1) // Limita los elementos de esta secuencia, truncados para que no superen la longitud maxima
+        // .filter(name -> name.contains("P")) // filter es una operacion intermedia porque retorna un stream de String
+        // 3. Operacion terminal
+        // .forEach(System.out::println); // La operacion terminal consiste en consumir (imprimir por consola) cada uno de los elementos producidos por el paso anterior del stream
+
+        // Las operaciones terminales se caracterizan por que NO retornan un stream, pero hay algunas que si lo hacen...
+        //  .collect(Collectors.toList()); // Esta operacion terminal recolecta los datos intermedios del stream en una lista
+        /* Otra caracteristica importante de las operaciones terminales es que despues de ejecucion, el stream
+         * original NO puede ser usado de nuevo. */
+        // System.out.println(result);
+
+        // Conjunto predeterminado de elementos
+       /* List<String> result = Stream.of("Manolo", "Pedro", "Rulo") // Stream finito
+                .collect(Collectors.toList());
+        System.out.println(result); */
+
+        // Funcion suministradora de objetos (interfaz funcional Supplier)
+        /* List<Integer> result = Stream.generate(() -> {
+                    int next = random.nextInt(10);
+                    System.out.printf("Se ha generado el %d\n", next);
+                    return next;
+                })
+                .limit(3) /* Ahora limita el numero de elementos con el que esta trabajando. Esta es la demostracion de
+                 * que el stream funciona de manera perezosa por que se limita a 3 veces por que el limit llama a la
+                 * funcion del Supplier solo tres veces.
+                .collect(Collectors.toList());
+        System.out.println(result); */
+
+        // Un valor inicial y una funcion que obtiene el siguiente elemento a partir del anterior
+        /* List<Integer> result = Stream.iterate(1, value -> value * 5)
+                .limit(3)
+                .collect(Collectors.toList());
+        System.out.println(result); */
+
+        // Ahora en Java 9 le agregaron al metodo iterate un Predicado
+        /* List<Integer> result = Stream.iterate(1, value -> value < 1000, value -> value * 5) // La condicion del segundo parametro actua como limit
+                .collect(Collectors.toList());
+        System.out.println(result); */
+
+        // Generador de numeros aleatorios
+        /* List<Integer> result = random.ints(5, 0, 10)
+                .boxed() // Devuelve un Stream que consta de los elementos de este flujo, cada uno encuadrado en un Integer
+                .collect(Collectors.toList());
+        System.out.println(result); */
+
+        // Metodos estaticos de la clase IntStream
+       /*  List<Integer> result = IntStream.range(0, 10)
+                .boxed().collect(Collectors.toList());
+        System.out.println(result); */
+
+        // Metodo chars() de String
+        List<Integer> result = "Rulo".chars()
+                .boxed().collect(Collectors.toList());
+        System.out.println(result);
+
     }
 
     private int randomInt() {
