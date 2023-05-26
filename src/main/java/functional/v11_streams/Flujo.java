@@ -1,4 +1,4 @@
-package functional.v10_optional;
+package functional.v11_streams;
 
 import java.util.*;
 import java.util.function.*;
@@ -53,19 +53,10 @@ public class Flujo<T> {
         return new Flujo<>(list);
     }
 
-    /**
-     * Obtiene el maximo de la lista de valores en base al comparador.
-     * <p>
-     * Como la lista es generica, entonces debe pasar la interfaz funcional Comparator.
-     *
-     * @param comparator comparador.
-     * @return el maximo de tipo T usando la clase Optional para manejar una posible referencia null.
-     */
     public Optional<T> max(Comparator<T> comparator) {
         try {
             return Optional.of(Collections.max(values, comparator));
         } catch (Exception e) {
-            // Devuelve una instancia Optional vacia sin ningun valor
             return Optional.empty();
         }
     }
