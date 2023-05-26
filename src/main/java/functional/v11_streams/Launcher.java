@@ -1,11 +1,8 @@
 package functional.v11_streams;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 /**
  * Un <i>stream</i> (flujo) en Java es una secuencia de elementos que se pueden procesar (mapear, filtrar, transformar,
@@ -42,15 +39,15 @@ import java.util.stream.Stream;
  *
  * <h2>Pipeline</h2>
  * Resulta que los stream funcionan con un encadenado de operaciones. Ese encadenado es lo que se llama Pipeline
- * (tuberia). Es decir que es una tuberia por la que van pasando los datos. Por tanto un pipeline tiene los siguientes
- * elementos en el siguiente orden:
+ * (tuberia). Es decir que es como una tuberia por la que van pasando los datos. Por lo tanto un pipeline tiene los
+ * siguientes elementos en el siguiente orden:
  * <ol>
  * <li>Una funcion generadora del stream.
  * <li>Cero o mas operaciones intermedias.
  * <li>Una operacion terminal.
  * </ol>
  * Debemos tener en cuenta que cada operacion intermedia del pipeline genera un nuevo stream resultante de aplicar la
- * operacion indicada al stream anterior a la cadena. Por ejemplo, si tenemos el siguiente pipelina:
+ * operacion indicada al stream anterior a la cadena. Por ejemplo, si tenemos el siguiente pipeline:
  * <pre>{@code
  * IntStream.range(1, 8)
  *      .filter(n -> n % 2 == 0)
@@ -77,7 +74,80 @@ import java.util.stream.Stream;
  * <li>Generador de numeros aleatorios
  * <li>Metodos estaticos de la clase IntStream
  * <li>Metodo chars() de String
+ * <li>etc
  * </ul>
+ *
+ * <h2>Filtrado</h2>
+ * Otra de las operaciones intermedias que se pueden realizar sobre un stream es el filtrado de sus elementos, es decir,
+ * la generacion de un nuevo stream que solo contega algunos de los elementos del stream original. Para eso, Java nos
+ * proporciona distintos metodos como distinct(), que retorna un nuevo stream con los elementos del stream original,
+ * excepto aquellos que estuvieran repetidos. Por ejemplo:
+ * <pre>{@code
+ * Stream.of(1, 3, 2, 3, 1)
+ *      .distinct()
+ *      .forEach(System.out::println);
+ * }</pre>
+ * muestra los valores 1, 3 y 2, en este orden.
+ * <p>
+ * Otro de los elementos de filtrado es el metodo limit(), que retorna un nuevo stream con tan solo n elementos de stream
+ * original, atendiendo al orden intrinseco del mismo.
+ * <pre>{@code
+ * Stream.of(1, 3, 2, 3, 1)
+ *      .limit(2)
+ *      .forEach(System.out::println);
+ * }</pre>
+ * muestra los valores 1 y 3, en este orden.
+ * <p>
+ * El metodo de filtrado mas generico es el metodo filter(predicate), que retorna un nuevo stream que solo incorpora los
+ * elementos del stream original que cumplan el predicado recibido (aquellos para los que la funcion suministrada retorne
+ * true). Por ejemplo:
+ * <pre>{@code
+ * Stream.of(1, 3, 8, 5, 2)
+ *      .filter(n -> n < 4)
+ *      .forEach(System.out::println);
+ * }</pre>
+ * muestra los valores 1, 3 y 2, en este orden.
+ * <p>
+ * Java 9 introdujo dos nuevos metodos para saltarse metodos de un stream. El primero de ellos es dropWhile(predicate)
+ * que retorna un nuevo stream obtenido a partir de recorrer desde el principio el stream original, comprobando para
+ * cada uno de ellos si cumple el predicado o no. El primer elemento incluido en el stream es aquel que no cumpla el
+ * predicado y a partir de ese momento se incluye el resto de elementos, independientemente de si cumplen el predicado
+ * o no. Por ejemplo:
+ * <pre>{@code
+ * Stream.of(2, 4, 6, 8, 9, 10, 12)
+ * .dropWhile(n -> n % 2 == 0)
+ * .forEach(System.out::println);
+ * }</pre>
+ * muestra 9, 10 y 12, en este orden. Hasta que alguno no cumple con el predicado, entonces incorpora los demas elementos.
+ * El metodo takeWhile() hace lo mismo pero al reves.
+ *
+ * <br><br>
+ *
+ * <h2>Map (transformacion)</h2>
+ * En primer lugar tenemos una serie de metodos que permiten obtener un stream de un tipo primitivo a partir de uno que
+ * no lo sea. Entre ellos tenemos mapToDouble(toDoubleFunction), que retorna un DoubleStream correspondiente de aplicar
+ * cada elemento del stream original la funcion de conversion a double recibida.
+ * <p>
+ * Si queremos realizar la conversion inversa, es decir, pasar por ejemplo un IntStream a un Stream<Integer> podemos
+ * aplicar sobre el IntStream el metodo boxed() que retorna un stream similar al anterior pero en el que el tipo de los
+ * elementos correspondientes al tipo boxed del tipo primitivo correspondiente al stream original.
+ * <p>
+ * El metodo principal de transformacion es el metodo map(mapFunction), que retorna un nuevo stream obtenido a partir
+ * de aplicar la funcion de transformacion mapFunction indicada a cada uno de los elementos del stream original. El
+ * tipo del stream resultante correspondera al tipo de retorno de la funcion de transformacion, que puede ser distinto
+ * al tipo del stream original. El stream resultante contendra tantos elementos como el stream original. Por ejemplo:
+ * <pre>{@code
+ * Stream.of(1, 2, 3)
+ *      .map(n -> "Valor " + n)
+ *      .forEach(System.out::println);
+ * }</pre>
+ * muestra Valor 1, Valor 2 y Valor 3, en este orden.
+ * <p>
+ * En algunas ocasiones, tenemos una funcion de transformacion que retorna un Stream. El problema de aplicar esta funcion
+ * de transformacion con el metodo map(mapFunction) es que el stream resultante seria un Stream<Stream<Tipo>>. En estos
+ * casos seria mas optimo obtener un unico Stream<Tipo> que contuviera concatenados todos los elementos de todos los
+ * substreams. A este proceso se lo conoce como aplanado (flat). Si queremos que se realice el aplanado de substreams
+ * deberemos usar el metodo flatMap(funcion_transformacion). Por ejemplo:
  */
 
 public class Launcher {
@@ -89,7 +159,7 @@ public class Launcher {
 
         // List<String> names = new ArrayList<>(List.of("Manolo", "Pedro", "Rulo"));
 
-        // 1. Funcion generadora del stream (crea un nuevo stream que tiene como fuente de datos esa lista de nombres)
+        // 1. Funcion generadora del stream (crea un nuevo stream que tiene como fuente de datos la lista de nombres)
         // List<String> result = names.stream()
         // 2. 0 o mas operaciones intermedias
         //  .limit(1) // Limita los elementos de esta secuencia, truncados para que no superen la longitud maxima
@@ -98,11 +168,12 @@ public class Launcher {
         // .forEach(System.out::println); // La operacion terminal consiste en consumir (imprimir por consola) cada uno de los elementos producidos por el paso anterior del stream
 
         // Las operaciones terminales se caracterizan por que NO retornan un stream, pero hay algunas que si lo hacen...
-        //  .collect(Collectors.toList()); // Esta operacion terminal recolecta los datos intermedios del stream en una lista
-        /* Otra caracteristica importante de las operaciones terminales es que despues de ejecucion, el stream
-         * original NO puede ser usado de nuevo. */
+        // .collect(Collectors.toList()); // Esta operacion terminal recolecta los datos intermedios del stream en una lista
+        /* Otra caracteristica importante de las operaciones terminales es que despues de ejecucion, el stream original
+         * NO puede ser usado de nuevo. */
         // System.out.println(result);
 
+        // Creacion de un stream a partir de una fuente de datos...
         // Conjunto predeterminado de elementos
        /* List<String> result = Stream.of("Manolo", "Pedro", "Rulo") // Stream finito
                 .collect(Collectors.toList());
@@ -115,8 +186,8 @@ public class Launcher {
                     return next;
                 })
                 .limit(3) /* Ahora limita el numero de elementos con el que esta trabajando. Esta es la demostracion de
-                 * que el stream funciona de manera perezosa por que se limita a 3 veces por que el limit llama a la
-                 * funcion del Supplier solo tres veces.
+                 * que el stream funciona de manera perezosa por que se limita a 3 llamadas de la funcion de la interfaz
+                 Supplier.
                 .collect(Collectors.toList());
         System.out.println(result); */
 
@@ -143,14 +214,31 @@ public class Launcher {
         System.out.println(result); */
 
         // Metodo chars() de String
-        List<Integer> result = "Rulo".chars()
+       /* List<Integer> result = "Rulo".chars()
                 .boxed().collect(Collectors.toList());
-        System.out.println(result);
+        System.out.println(result); */
+
+        // Map (transformacion)
+        /* List<Integer> result = IntStream.range(0, 10)
+                .boxed()
+                .map(integer -> integer * 2)
+                // .map(integer -> "Valor: " + integer * 2)
+                .collect(Collectors.toList());
+        System.out.println(result); */
+
+        /* El flatMap solo se va a utilizar cuando el retorno de la lambda no sea de un tipo normal sino que sea un
+         * Stream de un tipo. Esta funcion aplana ("recolecta") todo los streams que se han producido para cada uno de
+         * los valores del stream original y los aplana en un unico elemento stream. Ese unico stream es el que retorna
+         * el flatMap. */
+        Stream.of(2, 4, 6)
+                .flatMap(this::getRandomNumbers) // Ya no retorna un Stream<Stream<Tipo>>
+                .forEach(System.out::println);
+        // .forEach(integerStream -> integerStream.forEach(System.out::println));
 
     }
 
-    private int randomInt() {
-        return random.nextInt(10);
+    public Stream<Integer> getRandomNumbers(Integer size) {
+        return random.ints(size, 0, 10).boxed(); // Conversion inversa de IntStream a un Stream<Integer>
     }
 
     public static void main(String[] args) {
