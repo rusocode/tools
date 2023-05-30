@@ -1,6 +1,5 @@
 package functional.v11_streams;
 
-import java.util.List;
 import java.util.Random;
 import java.util.stream.*;
 
@@ -23,7 +22,7 @@ import java.util.stream.*;
  * operaciones que se deben aplicar sobre sus elementos, especificadas de forma funcional mediante expresiones lambda.
  * <p>
  * Mas aun, la fuente de datos origen del stream NO se ve efectada por las operaciones realizadas a partir de el dentro
- * del stream. Por ejemplo, si se filtran algunos elementos de datos del stream, NO se aliminan realmente de la fuente
+ * del stream. Por ejemplo, si se filtran algunos elementos de datos del stream, NO se eliminan realmente de la fuente
  * de datos origen, simplemente se omiten a partir de ese momento y ya no se tienen en cuenta en la siguiente operacion
  * incluida en la secuencia de operaciones del stream. Por tanto, los datos con los que trabajamos no se ven afectados
  * por el stream.
@@ -144,10 +143,10 @@ import java.util.stream.*;
  * muestra Valor 1, Valor 2 y Valor 3, en este orden.
  * <p>
  * En algunas ocasiones, tenemos una funcion de transformacion que retorna un Stream. El problema de aplicar esta funcion
- * de transformacion con el metodo map(mapFunction) es que el stream resultante seria un Stream<Stream<Tipo>>. En estos
- * casos seria mas optimo obtener un unico Stream<Tipo> que contuviera concatenados todos los elementos de todos los
- * substreams. A este proceso se lo conoce como aplanado (flat). Si queremos que se realice el aplanado de substreams
- * deberemos usar el metodo flatMap(funcion_transformacion). Por ejemplo:
+ * de transformacion con el metodo map(mapFunction) es que el stream resultante seria un {@code Stream<Stream<Tipo>>}.
+ * En estos casos seria mas optimo obtener un unico Stream<Tipo> que contuviera concatenados todos los elementos de
+ * todos los substreams. A este proceso se lo conoce como aplanado (flat). Si queremos que se realice el aplanado de
+ * substreams deberemos usar el metodo flatMap(funcion_transformacion).
  */
 
 public class Launcher {
@@ -162,7 +161,7 @@ public class Launcher {
         // 1. Funcion generadora del stream (crea un nuevo stream que tiene como fuente de datos la lista de nombres)
         // List<String> result = names.stream()
         // 2. 0 o mas operaciones intermedias
-        //  .limit(1) // Limita los elementos de esta secuencia, truncados para que no superen la longitud maxima
+        // .limit(1) // Limita los elementos de esta secuencia, truncados para que no superen la longitud maxima
         // .filter(name -> name.contains("P")) // filter es una operacion intermedia porque retorna un stream de String
         // 3. Operacion terminal
         // .forEach(System.out::println); // La operacion terminal consiste en consumir (imprimir por consola) cada uno de los elementos producidos por el paso anterior del stream
@@ -175,9 +174,9 @@ public class Launcher {
 
         // Creacion de un stream a partir de una fuente de datos...
         // Conjunto predeterminado de elementos
-       /* List<String> result = Stream.of("Manolo", "Pedro", "Rulo") // Stream finito
-                .collect(Collectors.toList());
-        System.out.println(result); */
+        // List<String> result = Stream.of("Manolo", "Pedro", "Rulo") // Stream finito
+        // .collect(Collectors.toList());
+        // System.out.println(result);
 
         // Funcion suministradora de objetos (interfaz funcional Supplier)
         /* List<Integer> result = Stream.generate(() -> {
@@ -187,7 +186,7 @@ public class Launcher {
                 })
                 .limit(3) /* Ahora limita el numero de elementos con el que esta trabajando. Esta es la demostracion de
                  * que el stream funciona de manera perezosa por que se limita a 3 llamadas de la funcion de la interfaz
-                 Supplier.
+                 * Supplier.
                 .collect(Collectors.toList());
         System.out.println(result); */
 
@@ -203,18 +202,18 @@ public class Launcher {
         System.out.println(result); */
 
         // Generador de numeros aleatorios
-        /* List<Integer> result = random.ints(5, 0, 10)
+        /* List<Integer> result = random.ints(5, 0, 10) // Obtiene 5 nums aleatorios de 0 a 9
                 .boxed() // Devuelve un Stream que consta de los elementos de este flujo, cada uno encuadrado en un Integer
                 .collect(Collectors.toList());
         System.out.println(result); */
 
         // Metodos estaticos de la clase IntStream
-       /*  List<Integer> result = IntStream.range(0, 10)
+        /* List<Integer> result = IntStream.range(0, 10)
                 .boxed().collect(Collectors.toList());
         System.out.println(result); */
 
         // Metodo chars() de String
-       /* List<Integer> result = "Rulo".chars()
+        /* List<Integer> result = "Rulo".chars()
                 .boxed().collect(Collectors.toList());
         System.out.println(result); */
 
