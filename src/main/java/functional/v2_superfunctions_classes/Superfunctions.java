@@ -12,20 +12,6 @@ import java.util.List;
 public class Superfunctions {
 
     /**
-     * Filtra la lista de valores.
-     *
-     * @param values    lista de valores.
-     * @param predicado codigo a ejecutar.
-     * @return la lista de valores filtrados.
-     */
-    public static List<Integer> filter(List<Integer> values, Predicate predicado) {
-        List<Integer> list = new ArrayList<>();
-        for (Integer value : values)
-            if (predicado.test(value)) list.add(value);
-        return list;
-    }
-
-    /**
      * Obtiene la lista de valores.
      *
      * @param size   cantidad de valores.
@@ -36,6 +22,20 @@ public class Superfunctions {
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < size; i++)
             list.add(getter.get());
+        return list;
+    }
+
+    /**
+     * Filtra la lista de valores.
+     *
+     * @param values    lista de valores.
+     * @param predicado codigo a ejecutar.
+     * @return la lista de valores filtrados.
+     */
+    public static List<Integer> filter(List<Integer> values, Predicate predicado) {
+        List<Integer> list = new ArrayList<>();
+        for (Integer value : values)
+            if (predicado.test(value)) list.add(value);
         return list;
     }
 

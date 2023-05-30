@@ -80,8 +80,6 @@ import java.util.stream.Stream;
 
 public class Launcher {
 
-    Random random = new Random();
-
     public Launcher() {
         /* List<Integer> result = Stream.of(2, 4, 6)
                 .peek(System.out::println) // Al ser una operacion intermedia me permite seguir encadenando operaciones sobre los streams, esto se conoce como accion colateral
@@ -103,10 +101,6 @@ public class Launcher {
                 .sorted(Comparator.reverseOrder())
                 .forEach(System.out::println);
 
-    }
-
-    public Stream<Integer> getRandomNumbers(Integer size) {
-        return random.ints(size, 0, 10).boxed();
     }
 
     public static void main(String[] args) {

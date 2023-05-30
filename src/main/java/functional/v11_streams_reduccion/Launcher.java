@@ -1,7 +1,5 @@
 package functional.v11_streams_reduccion;
 
-import java.util.Random;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -44,22 +42,37 @@ import java.util.stream.Stream;
 
 public class Launcher {
 
-    Random random = new Random();
-
     public Launcher() {
         // IntStream.range(1, 10).sum();
 
         /* En el caso de sumar una lista de enteros obtenida a partir del metodo of, entonces se debe transformar esa
-         * lista con un metodo de transformacion. */
+         * lista con un metodo de transformacion para convertir el strem en enteros. */
         // int result = Stream.of(1, 2, 3).mapToInt(Integer::intValue).sum();
         // System.out.println(result);
 
-        long result = Stream.of(1, 2, 3).mapToInt(Integer::intValue).count();
-        System.out.println(result);
-    }
+        // long result = Stream.of(1, 2, 3).mapToInt(Integer::intValue).count();
+        // System.out.println(result);
 
-    public Stream<Integer> getRandomNumbers(Integer size) {
-        return random.ints(size, 0, 10).boxed();
+        // Metodo reduce
+        // El tipo de retorno es Optional ya que el metodo reduce devuelve eso
+        // Stream.of(1, 2, 3)
+        // .filter(valor -> valor > 5)
+        // .reduce((acumulador, valor) -> acumulador * valor)
+        // .ifPresentOrElse(System.out::println, () -> System.out.println("El stream se ha quedado vacio y no hay reduccion!"));
+
+        // En este caso no hace falta utilizar un Optional ya que el metodo reduce recibe un valor inicial que sirve en caso de que el strem se quede vacio
+        // Integer result = Stream.of(2, 3, 4)
+        // .filter(valor -> valor > 5)
+        // .reduce(1, (acumulador, valor) -> acumulador * valor);
+        // System.out.println(result);
+
+        // Utiliza el metodo reduce con el tercer argumento como combinador de distintas combinaciones parciales
+        Integer result = Stream.of(
+                new Student("Rulo", 22),
+                new Student("Ruso", 23)
+        ).reduce(0, (acumulador, student) -> acumulador + student.getAge(), Integer::sum);
+        System.out.println(result);
+
     }
 
     public static void main(String[] args) {

@@ -1,5 +1,8 @@
 package functional.v9_method_reference_avanzado;
 
+import functional.Descripcion;
+import functional.NumberUtils;
+
 import java.util.Random;
 
 public class Launcher {

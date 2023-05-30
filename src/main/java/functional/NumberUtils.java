@@ -1,4 +1,4 @@
-package functional.v8_method_reference;
+package functional;
 
 /**
  * Clase de prueba para hacer referencia a los metodos estaticos con el method reference.

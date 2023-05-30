@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * La clases inline permiten crear objetos a traves de una clase anonima. La ventaja de esto es que no es necesario
+ * Las clases inline permiten crear objetos a traves de una clase anonima. La ventaja de esto es que no es necesario
  * crear clases para cada funcion.
  */
 

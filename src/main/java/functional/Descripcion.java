@@ -1,4 +1,4 @@
-package functional.v9_method_reference_avanzado;
+package functional;
 
 /**
  * Clase de prueba para crear un objeto utilizando el method reference.

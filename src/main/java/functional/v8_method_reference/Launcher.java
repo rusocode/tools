@@ -1,5 +1,7 @@
 package functional.v8_method_reference;
 
+import functional.NumberUtils;
+
 import java.util.Random;
 
 /**
