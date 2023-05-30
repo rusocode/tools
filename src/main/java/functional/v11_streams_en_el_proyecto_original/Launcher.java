@@ -12,7 +12,7 @@ public class Launcher {
 
     public Launcher() {
         // Realiza las operaciones a traves de la clase Stream de la API de Java
-        /* int result = */
+        // int result =
         random.ints(10, 1, 11)
                 .boxed()
                 .filter(valor -> valor >= 5)
@@ -22,9 +22,7 @@ public class Launcher {
                 // .peek(System.out::println)
                 .map(Descripcion::getValue)
                 .forEach(valor -> System.out.print(valor + " "));
-        // .reduce(0, Integer::sum);
-        // .mapToInt(Integer::intValue)
-        // .sum();
+        // .reduce(0, Integer::sum); // .mapToInt(Integer::intValue).sum();
         // System.out.println(result);
         // .max(Comparator.naturalOrder())
         // .ifPresentOrElse(

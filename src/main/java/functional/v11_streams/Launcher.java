@@ -154,9 +154,9 @@ public class Launcher {
     Random random = new Random();
 
     public Launcher() {
-        // names.forEach(System.out::println); // Bucle implicito
 
         // List<String> names = new ArrayList<>(List.of("Manolo", "Pedro", "Rulo"));
+        // names.forEach(System.out::println); // Bucle implicito
 
         // 1. Funcion generadora del stream (crea un nuevo stream que tiene como fuente de datos la lista de nombres)
         // List<String> result = names.stream()
