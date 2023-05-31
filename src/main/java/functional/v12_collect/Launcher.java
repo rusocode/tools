@@ -9,12 +9,12 @@ import java.util.stream.Collectors;
  * La operacion de recoleccion (collect) es una operacion terminal que permite crear una estructura de
  * datos con los resultados del procesamiento de datos asociado a un stream. La operacion de
  * recoleccion tambien recibe el nombre de operacion de reduccion mutable. Para llevarla a cabo
- * usaremos el metodo [collect()| de (Stream) al que deberemos pasarle un objeto de una clase que
+ * usaremos el metodo collect() de Stream al que deberemos pasarle un objeto de una clase que
  * implemente la interfaz Collector.
  * <p>
- * Aunque podemos crear nuestras propias clases que implementen dicha interfaz, en la mayoría de las
+ * Aunque podemos crear nuestras propias clases que implementen dicha interfaz, en la mayoria de las
  * ocasiones podremos utilizar alguno de los recolectores estandar proporcionados por Java a traves de
- * la clase auxiliar (Collectors], que contiene metodos estaticos que retornan objetos [Collector
+ * la clase auxiliar Collectors, que contiene metodos estaticos que retornan objetos Collector
  * correspondientes a los recolectores mas habituales. Todos estos metodos estan diseñados para
  * funcionar de manera optima incluso con streams paralelos. Estudiemos los mas habituales.
  * <p>
@@ -105,11 +105,64 @@ public class Launcher {
         // System.out.println(result);
 
         // Crea un array de Book utilizando el metodo toArray()
-        Book[] result = books.stream()
+        /* Book[] result = books.stream()
                 .filter(book -> book.getYearOfPublication() > 2000)
                 .distinct()
                 .toArray(Book[]::new);
-        Arrays.stream(result).forEach(System.out::println);
+        Arrays.stream(result).forEach(System.out::println); */
+
+        // String result = books.stream()
+        //  .distinct()
+        // Transforma el stream de Book en un stream de String
+        // .map(Book::getTitle)
+        // Recolecta hacia una cadena con el metodo joining()
+        // .collect(Collectors.joining(", ", "[", "]"));
+        // System.out.println(result);
+
+        /* String result = books.stream()
+                .distinct()
+                // La funcion mapping une las dos instrucciones .map y .collect en una linea
+                .collect(Collectors.mapping(Book::getTitle, Collectors.joining(", ", "[", "]")));
+        System.out.println(result); */
+
+        // Este recolector agrupa los elementos dependiendo de la clave especificada (año de publicacion) en una lista de Book
+        /* Map<Integer, List<Book>> result = books.stream()
+                .collect(Collectors.groupingBy(book -> book.getYearOfPublication()));
+        System.out.println(result); */
+
+        // Crea los grupos en base al año de publicacion y luego a cada elemento del grupo hace un mapeo obteniendo solo el titulo
+        /* Map<Integer, String> result = books.stream()
+                .collect(Collectors.groupingBy(Book::getYearOfPublication, TreeMap::new, Collectors.mapping(Book::getTitle, Collectors.joining(", "))));
+        System.out.println(result); */
+
+        // Recolector de reduccion con la funcion de conteo para la cantidad de libros agrupados en cada año
+        /* Map<Integer, Long> result = books.stream()
+                .collect(Collectors.groupingBy(Book::getYearOfPublication, Collectors.counting()));
+        System.out.println(result); */
+
+        // El metodo counting() se puede utilizar como un metodo de recoleccion simple que devuelve sola la cantidad
+        /* Long result = books.stream()
+                .filter(book -> book.getYearOfPublication() > 2000)
+                .count(); // collect(Collectors.counting())
+        System.out.println(result); */
+
+        // Suma los años para cada genero (agrupacion)
+        /* Map<Genre, Integer> result = books.stream()
+                .collect(Collectors.groupingBy(Book::getGenre, Collectors.summingInt(Book::getYearOfPublication)));
+        System.out.println(result); */
+
+        // Devuelve un Optional como valor ya que el metodo minBy puede llegar a devolver una lista vacia
+        /* Map<Genre, Optional<Book>> result = books.stream()
+                .collect(Collectors.groupingBy(Book::getGenre,
+                        Collectors.minBy(Comparator.comparing(Book::getYearOfPublication))));
+        System.out.println(result); */
+
+        // Obtiene un resumen de los libros (min, max, suma, count)
+        Map<Genre, IntSummaryStatistics> result = books.stream()
+                .collect(Collectors.groupingBy(Book::getGenre,
+                        Collectors.summarizingInt(Book::getYearOfPublication)));
+        System.out.println(result);
+
     }
 
     public static void main(String[] args) {
