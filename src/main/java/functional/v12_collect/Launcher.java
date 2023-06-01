@@ -3,6 +3,7 @@ package functional.v12_collect;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * <h2>Collect (reduccion mutable)</h2>
@@ -87,22 +88,27 @@ public class Launcher {
          * caso de tipo Book. El metodo collect recibe por parametro la lista de libros utilizando el metodo estatico de
          * la clase de utilidad Collectors toList() que retorna una lista con los elementos del stream. Set no permite
          * elementos repetidos. */
-        // Set<Book> result = books.stream() // Convierte la lista de libros en un Stream
-        // .filter(book -> book.getYearOfPublication() < 2000)
-        // .collect(Collectors.toUnmodifiableList()); // o toList(), cambiar el tipo de Book a List
-        // .collect(Collectors.toUnmodifiableSet()); // toSet()
-        // .collect(Collectors.toCollection(TreeSet::new)); // Recolecta hacia un TreeSet
-        // System.out.println(result);
+        /* Set<Book> result = books.stream() // Convierte la lista de libros en un Stream
+                .filter(book -> book.getYearOfPublication() < 2000)
+
+                // .collect(Collectors.toUnmodifiableList()); // o toList(), cambiar el tipo de Book a List
+
+                // .collect(Collectors.toUnmodifiableSet()); // toSet()
+
+                .collect(Collectors.toCollection(TreeSet::new)); // Recolecta hacia un TreeSet
+        System.out.println(result); */
 
         // Untiliza un Map para recolectar los libros utilizando el ISBN como clave y el propio libro como valor
-        // Map<String, Book> result = books.stream() // Convierte la lista de libros en un Stream
-        // .filter(book -> book.getYearOfPublication() < 2000)
-        // .distinct() // Ignora los libros con el ISBN duplicado parae evitar un IllegalStateException en la coleccion de tipo Map
-        // .collect(Collectors.toMap(Book::getISBN, Function.identity())); // El metodo identity reemplaza la lambda que recibe y retorna una funcion que siempre devuelve su argumento de entrada: book -> book
-        // Como segunda alternativa al metodo distinct() es utilizar un operador binario como tercer argumento para el metodo toMap()
-        // .collect(Collectors.toMap(Book::getISBN, Function.identity(),
-        // (book1, book2) -> new Book(book1.getISBN(), book1.getTitle() + " + " + book2.getTitle(), book1.getYearOfPublication(), book1.getGenre()), TreeMap::new));
-        // System.out.println(result);
+        /* Map<String, Book> result = books.stream() // Convierte la lista de libros en un Stream
+                .filter(book -> book.getYearOfPublication() < 2000)
+                .distinct() // Ignora los libros con el ISBN duplicado parae evitar un IllegalStateException en la coleccion de tipo Map
+
+                //.collect(Collectors.toMap(Book::getISBN, Function.identity())); // El metodo identity reemplaza la lambda que recibe y retorna una funcion que siempre devuelve su argumento de entrada: book -> book
+
+                // Como segunda alternativa al metodo distinct() es utilizar un operador binario como tercer argumento para el metodo toMap()
+                .collect(Collectors.toMap(Book::getISBN, Function.identity(),
+                        (book1, book2) -> new Book(book1.getISBN(), book1.getTitle() + " + " + book2.getTitle(), book1.getYearOfPublication(), book1.getGenre()), TreeMap::new));
+        System.out.println(result); */
 
         // Crea un array de Book utilizando el metodo toArray()
         /* Book[] result = books.stream()
@@ -111,13 +117,13 @@ public class Launcher {
                 .toArray(Book[]::new);
         Arrays.stream(result).forEach(System.out::println); */
 
-        // String result = books.stream()
-        //  .distinct()
-        // Transforma el stream de Book en un stream de String
-        // .map(Book::getTitle)
-        // Recolecta hacia una cadena con el metodo joining()
-        // .collect(Collectors.joining(", ", "[", "]"));
-        // System.out.println(result);
+        /* String result = books.stream()
+                .distinct()
+                // Transforma el stream de Book en un stream de String
+                .map(Book::getTitle)
+                // Recolecta hacia una cadena con el metodo joining()
+                .collect(Collectors.joining(", ", "[", "]"));
+        System.out.println(result); */
 
         /* String result = books.stream()
                 .distinct()
@@ -158,9 +164,34 @@ public class Launcher {
         System.out.println(result); */
 
         // Obtiene un resumen de los libros (min, max, suma, count)
-        Map<Genre, IntSummaryStatistics> result = books.stream()
+        /* Map<Genre, IntSummaryStatistics> result = books.stream()
                 .collect(Collectors.groupingBy(Book::getGenre,
                         Collectors.summarizingInt(Book::getYearOfPublication)));
+        System.out.println(result); */
+
+        /* Divide el stream en grupos dependiendo de la condicion especificada en el predicate. El metodo partitioningBy()
+         * tiene una segunda firma que recibe un downstreamCollector de reduccion. */
+        /* Map<Boolean, Long> result = books.stream()
+                // .collect(Collectors.partitioningBy(book -> book.getYearOfPublication() < 2000));
+
+                .collect(Collectors.partitioningBy(book -> book.getYearOfPublication() < 2000, Collectors.counting()));
+        System.out.println(result); */
+
+        // Recoleccion de un stream con filtrado
+        // Map<Genre, Long> result = books.stream()
+        // Agrupa los libros dependiendo del genero que son mayores al año de publicacion 2000
+        // .filter(book -> book.getYearOfPublication() >= 2000)
+        // .collect(Collectors.groupingBy(Book::getGenre, Collectors.counting()));
+        /* Para ahorrar el metodo filter(), la funcion groupingBy() acepta como segundo parametro un Predicado
+         * para filtrar los libros usando el metodo filtering(). Ademas esta segunda opcion de la agrupacion
+         * filtrada, incluye los libros que no cumplen con la condicion (le asigna 0). Esto se debe porque
+         * primero se agrupa y despues se filtran. */
+        //  .collect(Collectors.groupingBy(Book::getGenre,
+        // Collectors.filtering(book -> book.getYearOfPublication() >= 2000, Collectors.counting())));
+        // System.out.println(result);
+
+        // Esta forma reemplaza el metodo filter() y count() separados de la clase Stream
+        Long result = books.stream().collect(Collectors.filtering(book -> book.getYearOfPublication() >= 2000, Collectors.counting()));
         System.out.println(result);
 
     }
