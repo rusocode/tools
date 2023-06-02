@@ -1,12 +1,11 @@
 package functional.v12_ordenacion_con_comparadores_avanzados;
 
-import functional.v12_collect.Book;
-import functional.v12_collect.Genre;
+import functional.Book;
+import functional.Genre;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Launcher {
 

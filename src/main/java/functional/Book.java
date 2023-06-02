@@ -1,4 +1,4 @@
-package functional.v12_ordenacion_con_comparadores_avanzados;
+package functional;
 
 import java.util.Objects;
 

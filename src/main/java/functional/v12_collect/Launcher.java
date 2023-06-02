@@ -1,9 +1,10 @@
 package functional.v12_collect;
 
+import functional.Book;
+import functional.Genre;
+
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * <h2>Collect (reduccion mutable)</h2>
