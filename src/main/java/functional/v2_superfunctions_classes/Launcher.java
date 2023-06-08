@@ -22,7 +22,7 @@ public class Launcher {
          * se estaria aplicando la programacion funcional. La ventaja de esto es que sin tocar la funcion, puede obtener
          * numeros pares o impares dependiendo del tipo de codigo que le pase como argumento a la superfuncion. Es decir
          * que la funcion en este caso, acepta solo las clases que implementan la interfaz Predicate. */
-        List<Integer> filtereds = Superfunctions.filter(numbers, new Even());
+        List<Integer> filtereds = Superfunctions.filter(numbers, new Odd());
         System.out.println(filtereds);
 
         List<Integer> transformed = Superfunctions.transform(filtereds, new Squared());

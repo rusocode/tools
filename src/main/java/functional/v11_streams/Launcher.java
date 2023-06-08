@@ -1,5 +1,7 @@
 package functional.v11_streams;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.*;
 
@@ -155,16 +157,16 @@ public class Launcher {
 
     public Launcher() {
 
-        // List<String> names = new ArrayList<>(List.of("Manolo", "Pedro", "Rulo"));
+        List<String> names = new ArrayList<>(List.of("Manolo", "Pedro", "Rulo"));
         // names.forEach(System.out::println); // Bucle implicito
 
         // 1. Funcion generadora del stream (crea un nuevo stream que tiene como fuente de datos la lista de nombres)
-        // List<String> result = names.stream()
+        //  names.stream()
         // 2. 0 o mas operaciones intermedias
         // .limit(1) // Limita los elementos de esta secuencia, truncados para que no superen la longitud maxima
-        // .filter(name -> name.contains("P")) // filter es una operacion intermedia porque retorna un stream de String
+        //   .filter(name -> name.contains("P")) // filter es una operacion intermedia porque retorna un stream de String
         // 3. Operacion terminal
-        // .forEach(System.out::println); // La operacion terminal consiste en consumir (imprimir por consola) cada uno de los elementos producidos por el paso anterior del stream
+        //  .forEach(System.out::println); // La operacion terminal consiste en consumir (imprimir por consola) cada uno de los elementos producidos por el paso anterior del stream
 
         // Las operaciones terminales se caracterizan por que NO retornan un stream, pero hay algunas que si lo hacen...
         // .collect(Collectors.toList()); // Esta operacion terminal recolecta los datos intermedios del stream en una lista
@@ -208,9 +210,9 @@ public class Launcher {
         System.out.println(result); */
 
         // Metodos estaticos de la clase IntStream
-        /* List<Integer> result = IntStream.range(0, 10)
+        List<Integer> result = IntStream.range(0, 10)
                 .boxed().collect(Collectors.toList());
-        System.out.println(result); */
+        System.out.println(result);
 
         // Metodo chars() de String
         /* List<Integer> result = "Rulo".chars()
@@ -229,9 +231,9 @@ public class Launcher {
          * Stream de un tipo. Esta funcion aplana ("recolecta") todo los streams que se han producido para cada uno de
          * los valores del stream original y los aplana en un unico elemento stream. Ese unico stream es el que retorna
          * el flatMap. */
-        Stream.of(2, 4, 6)
-                .flatMap(this::getRandomNumbers) // Ya no retorna un Stream<Stream<Tipo>>
-                .forEach(System.out::println);
+        // Stream.of(2, 4, 6)
+        //       .flatMap(this::getRandomNumbers) // Ya no retorna un Stream<Stream<Tipo>>
+        //     .forEach(System.out::println);
         // .forEach(integerStream -> integerStream.forEach(System.out::println));
 
     }

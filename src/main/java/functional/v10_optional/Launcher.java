@@ -18,7 +18,7 @@ public class Launcher {
                  * superfuncion filter es filtrar solo los valores mayores a 10, entonces retorna una lista vacia. Esto
                  * genera un NoSuchElementException al querer calcular el valor maximo desde la funcion max() de la
                  * clase Collections. Por lo tanto es necesario manejar esa posible excepcion. */
-                .filter(value -> value >= 0)
+                .filter(value -> value >= 10)
                 .sort(Integer::compareTo)
                 .transform(NumberUtils::squaring)
                 .transform(Descripcion::new)
