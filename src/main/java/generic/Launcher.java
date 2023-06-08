@@ -21,7 +21,7 @@ import java.util.*;
  * Fuente: <a href="https://www.youtube.com/watch?v=K1iu1kXkVoA">https://www.youtube.com/watch?v=K1iu1kXkVoA</a>
  */
 
-public class Launcher<T> {
+public class Launcher {
 
     public static void main(String[] args) {
 
@@ -38,10 +38,11 @@ public class Launcher<T> {
 
         // Almacena el tipo de retorno generico
         String result = genericMethod("Juan", 28);
-        Integer result2 = genericMethod(28, "Juan");
+        // Integer result2 = genericMethod(28, "Juan");
 
-        List<Integer> intList = new ArrayList<>();
-        intList.add(4);
+        List<Double> intList = new ArrayList<>();
+        intList.add(4.43);
+        intList.add(3.4);
         printList(intList);
 
     }
@@ -82,8 +83,7 @@ public class Launcher<T> {
      * En caso de querer obviar la especificacion del metodo generico tanto para retorno como para parametro, es
      * necesario declarar la clase como generica y que el metodo no sea estatico.
      */
-    private void otherGenericMethod3(T thing) {
-    }
+    // private void otherGenericMethod3(T thing) {}
 
     /**
      * Metodo comodin que obtiene una lista de cualquier tipo de objeto y la imprime.
@@ -93,7 +93,7 @@ public class Launcher<T> {
      * especificas.
      */
     private static void printList(List<?> myList) {
-
+        myList.forEach(System.out::println);
     }
 
 }

@@ -334,14 +334,14 @@ public class Software extends JFrame {
 			} // fin de for
 
 			// si el item seleccionado no existe en la tabla, entonces agrego una nueva fila y calculo el total
-			if (existe == false) {
+			if (!existe) {
 				modelo.addRow(datos);
 				total += subTotal;
 				actualizarTotal();
 			} // fin de if anidado
 
 			// si el item seleccionado existe en la tabla, entonces le paso la nueva cantidad y subTotal al producto existente
-			if (existe == true) {
+			if (existe) {
 				// calculo la nueva cantidad y subTotal
 				int nuevaCantidad = (int) modelo.getValueAt(fila, COLUMNA_CANTIDAD) + cantidad;
 				int nuevoSubTotal = nuevaCantidad * precioUnitario;
