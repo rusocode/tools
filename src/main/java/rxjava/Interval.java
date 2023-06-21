@@ -1,12 +1,12 @@
-package rx;
+package rxjava;
 
 import io.reactivex.rxjava3.core.Observable;
 
 import java.util.concurrent.TimeUnit;
 
 /**
- * Crea un Observable usando interval(). Este metodo de fabrica es muy diferente en comparacion con nuestras fabricas
- * anteriores. Como funciona en un hilo de calculo y emite en funcion de un intervalo especifico.
+ * Crea un Observable usando interval(). Este metodo de fabrica es muy diferente en comparacion con los anteriores. Como
+ * funciona en un hilo de calculo y emite en funcion de un intervalo especifico.
  */
 
 public class Interval {
