@@ -6,7 +6,7 @@ import io.reactivex.rxjava3.core.Observable;
  * ¿Cual es la diferencia entre doFinally y doOnDipose? ¿Y por que doOnDispose no funciona en algunos casos?
  */
 
-public class doFinallydoOnDispose {
+public class DoFinallydoOnDispose {
 
     public static void main(String[] args) {
         // exDoFinally();
