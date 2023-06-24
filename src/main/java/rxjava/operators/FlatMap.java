@@ -4,13 +4,19 @@ import io.reactivex.rxjava3.core.Observable;
 
 /**
  * Aqui estamos usando flatMap y flatMap con biFunction.
+ * <p>
+ * El operador flatMap aplica una funcion a cada elemento del flujo de entrada y luego combina los resultados en un solo 
+ * flujo de salida. La funcion que se aplica a cada elemento puede retornar cualquier numero de elementos (incluso cero
+ * o mas), y estos elementos se emiten en cualquier orden. Esto significa que los elementos resultantes pueden
+ * intercalarse en el flujo de salida en funcion del tiempo que toma procesar cada elemento. En otras palabras, no se 
+ * mantiene el orden relativo de los elementos originales.
  */
 
 public class FlatMap {
 
     public static void main(String[] args) {
-        // exFlatMap();
-        exFlatMapBiFunction();
+        exFlatMap();
+        // exFlatMapBiFunction();
     }
 
     /**

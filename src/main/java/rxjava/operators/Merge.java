@@ -14,10 +14,10 @@ import java.util.concurrent.TimeUnit;
 public class Merge {
 
     public static void main(String[] args) {
-        exMerge();
-        exMergeArray();
-        exMergeIterable();
-        exMergeWith();
+        // exMerge();
+        // exMergeArray();
+        // exMergeIterable();
+        // exMergeWith();
         exMergeInfinite();
     }
 
@@ -79,14 +79,12 @@ public class Merge {
      */
     private static void exMergeInfinite() {
         Observable<String> infinite1 = Observable.interval(1, TimeUnit.SECONDS)
+                .take(5)
                 .map(item -> "From infinite1: " + item);
-        Observable<String> infinite2 = Observable.interval(2, TimeUnit.SECONDS)
+        Observable<String> infinite2 = Observable.interval(300, TimeUnit.MILLISECONDS)
                 .map(item -> "From infinite2: " + item);
-
-
         infinite1.mergeWith(infinite2).subscribe(System.out::println);
-
-        pause(6050);
+        pause(10000);
     }
 
     private static void pause(int duration) {
