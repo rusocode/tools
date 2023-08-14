@@ -2,27 +2,38 @@ package gamedev;
 
 /**
  * <h1>¿Por que necesitamos utilizar el tiempo Delta?</h1>
- * Los juegos "framerate independent" (independientes de la tasa de fotogramas) mantienen la misma velocidad sin
- * importar los {@link FPS}. Por ejemplo, una entidad se mueve igualmente a 30 FPS en una computadora lenta y 60 FPS en
- * una rapida. La diferencia radica en que a 30 FPS, la entidad salta para ajustar la distancia, mientras que a 60 FPS,
- * el movimiento es mas fluido. Esto se debe a la variabilidad de FPS segun el hardware. Por otro lado, en un juego
- * "framerate dependent" (dependiente de los fotogramas), es mas lento en computadoras lentas. Para lograr independencia
- * de fotogramas, se usa el <b><i>Delta Time</i></b> (Δt, dt o delta) que es el <b>tiempo transcurrido entre cada tick
- * de actualizacion</b>.
+ * El <b><i>Delta Time</i></b> (Δt, dt o delta) se refiere al intervalo de tiempo entre dos actualizaciones consecutivas del motor de juego o
+ * del bucle de renderizacion. En esencia, <i>es el tiempo que ha transcurrido desde el ultimo {@link FPS fotograma} o ciclo de
+ * actualizacion hasta el fotograma o ciclo de actualizacion actual</i>. El concepto de tiempo delta es esencial para
+ * garantizar un rendimiento uniforme y consistente en los videojuegos.
  * <p>
- * En el caso de un juego con 10 FPS en una computadora lenta, el delta seria de 0,1 segundos. El juego procesa todo en
- * ese tiempo antes de volver a procesar en el siguiente frame. La acumulacion de estos delta times alcanza 1 segundo,
- * ejecutando asi los 10 FPS. Dado que es una tasa de fotogramas baja, es posible que la entidad muestre un efecto de
+ * El tiempo delta se utiliza para ajustar la velocidad de los elementos en el juego en funcion del rendimiento del
+ * sistema. Esto es especialmente importante porque diferentes sistemas pueden tener diferentes capacidades de
+ * procesamiento y rendimiento. Si un juego no tuviera en cuenta el tiempo delta, los elementos del juego (como la
+ * velocidad de movimiento de un personaje) podrian verse afectados por la velocidad del hardware y variarian en
+ * diferentes sistemas.
+ * <p>
+ * En el caso de un juego con 24 FPS en una computadora lenta, el delta seria de 0,041 segundos. El juego procesa todo
+ * en ese tiempo antes de volver a procesar en el siguiente frame. La acumulacion de estos delta alcanza 1 segundo,
+ * ejecutando asi los 24 FPS. Dado que es una tasa de fotogramas baja, es posible que la entidad muestre un efecto de
  * "teletransportacion".
  * <p>
- * En una PC un poco mejor, con 30 FPS, el delta time es de 0,033 segundos. Con mas frames por segundo, los frames se
+ * En una PC un poco mejor, con 60 FPS, el delta time es de 0,016 segundos. Con mas frames por segundo, los frames se
  * ejecutan con mayor frecuencia, resultando en un tiempo mas corto entre cada uno. Esto crea un movimiento mas fluido
- * para las entidades en el juego. Comparado con los 10 FPS anteriores, donde el delta era de 0,1 segundos, este delta
- * mas pequeño de 0,033 segundos genera un movimiento mas suave. Ver "Diferencia en la cantidad de FPS.png".
+ * para las entidades en el juego. Comparado con los 24 FPS anteriores, donde el delta era de 0,041 segundos, este delta
+ * mas pequeño de 0,016 segundos genera un movimiento mas suave. Ver "Diferencia en la cantidad de FPS.png".
+ * <p>
+ * Los juegos "framerate independent" (independientes de la tasa de fotogramas) mantienen la misma velocidad sin
+ * importar los FPS. Por ejemplo, una entidad se mueve igualmente a 30 FPS en una computadora lenta y 60 FPS en una
+ * rapida. La diferencia radica en que a 30 FPS, la entidad salta para ajustar la distancia, mientras que a 60 FPS, el
+ * movimiento es mas fluido. Esto se debe a la variabilidad de FPS segun el hardware. Por otro lado, en un juego
+ * "framerate dependent" (dependiente de los fotogramas), es mas lento en computadoras lentas. Para lograr independencia
+ * de fotogramas, se aplica un delta constante, que se refiere al <b>tiempo fijo transcurrido entre cada tick de
+ * actualizacion</b>.
  * <br><br>
- * <h2>Escalonar la fisica con deltas constantes (<i>Fixed Timestep</i>)</h2>
+ * <h2>Escalonar la fisica con deltas constantes</h2>
  * Escalonar la fisica con deltas constantes implica establecer una cantidad fija de actualizaciones de fisica por
- * segundo, declarado como ticksPerSec. La cantidad estandar suele ser 60 ticks por segundo, aunque puede variar.
+ * segundo, declarado como {@code ticksPerSec}. La cantidad estandar suele ser 60 ticks por segundo, aunque puede variar.
  * Algunos juegos como Minecraft y Quake3 optan por 20 ticks posiblemente para evitar sobrecargar la CPU. La
  * actualizacion de la fisica no esta directamente relacionada con la cantidad de veces que se dibuja en pantalla,
  * aunque estan conectados. Al definir la cantidad de ticks, se establece un intervalo fijo para las actualizaciones de
@@ -61,11 +72,6 @@ package gamedev;
  * Una mayor diferencia entre el tiempo actual y el tiempo desde el ultimo ciclo, significa pocos pasos largos, es decir
  * menos frames. Y una diferencia menor indica muchos pasos cortos, osea mas frames (fluidez). <b>Esto hace posible que
  * el juego se ejecute en cualquier dispositivo a la misma velocidad independientemente de los FPS</b>.
- * <p>
- * La varible {@code timer} sirve como temporizador para mostrar la cantidad de ticks y frames cada un segundo.
- * <p>
- * <i>Nota: Esta clase esta relacionada con la clase {@link GameLoop}, pero las separe para explicar diferentes
- * conceptos y quede mas legible.</i>
  * <br><br>
  * Recursos:
  * <a href="https://www.parallelcube.com/es/2017/10/25/por-que-necesitamos-utilizar-delta-time/">¿Por que necesitamos utilizar Delta Time?</a>
@@ -85,7 +91,7 @@ public class Delta {
     private double unprocessed;
 
     public Delta(int ticksPerSec) {
-        // Obtiene el tiempo actual
+        // Obtiene el tiempo inicial
         startTime = System.nanoTime();
         // Calcula el tiempo en nanosegundos que deberia pasar entre cada tick para alcanzar la frecuencia deseada
         delta = 1e9 / ticksPerSec;
@@ -97,9 +103,11 @@ public class Delta {
      * @return true si el tiempo transcurrido alcanzo el tiempo delta, o false.
      */
     public boolean checkDelta() {
+        // Obtiene el tiempo actual
         long currentTime = System.nanoTime();
         // Calcula el tiempo que ha pasado desde el ultimo ciclo y lo agrega al tiempo no procesado
         unprocessed += currentTime - startTime;
+        // La varible sirve como temporizador para mostrar la cantidad de ticks y frames cada un segundo
         timer += (int) (currentTime - startTime);
         // Actualiza el tiempo de inicio para el siguiente ciclo
         startTime = currentTime;
