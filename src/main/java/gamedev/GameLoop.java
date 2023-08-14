@@ -15,7 +15,7 @@ package gamedev;
  * <p>Con el bucle crudo que tenemos ahora, donde simplemente se cicla tan rapido como puede, dos factores determinan la
  * velocidad de fotogramas. El primero es <i>cuanto trabajo tiene que hacer cada frame</i>. La fisica compleja, un
  * monton de objetos de juego y muchos detalles graficos mantendran ocupados a la CPU y GPU, y llevara mas tiempo
- * completar un frame. Esto tambien se explica en {@link WhileLoop}.
+ * completar un frame. Esto tambien se explica en {@link Tick}.
  *
  * <p>El segundo es <i>la velocidad de la plataforma subyacente</i>. Los chips mas rapidos procesan mas codigo en la
  * misma cantidad de tiempo. Multiples nucleos, GPU, hardware de audio dedicado y el programador del sistema operativo
@@ -253,42 +253,48 @@ package gamedev;
 
 public class GameLoop implements Runnable {
 
-	private Thread thread;
-	private boolean running, stopped;
+    private Thread thread;
+    private boolean running, stopped;
 
-	/* Otra forma de detener el loop es declarando running como una variable volatil. La palabra clave volatil prohibe
-	 * que una variable se copie a la memoria local; la variable permanece en la memoria principal. Por lo tanto, el
-	 * cambio en esa variable por parte de un subproceso sera visto por todos los otros. */
-	// private volatile boolean running;
+    /* Otra forma de detener el loop es declarando running como una variable volatil. La palabra clave volatil prohibe
+     * que una variable se copie a la memoria local; la variable permanece en la memoria principal. Por lo tanto, el
+     * cambio en esa variable por parte de un subproceso sera visto por todos los otros. */
+    // private volatile boolean running;
 
-	@Override
-	public void run() {
+    /**
+     * La idea detras de este codigo es mantener un bucle de juego que actualice la logica del juego a una velocidad
+     * constante (60 ticks por segundo en este caso), independientemente de la velocidad de la maquina en la que se este
+     * ejecutando el juego. El tiempo no procesado se acumula entre actualizaciones y se utiliza para asegurarse de que
+     * el juego mantenga una velocidad constante incluso si el bucle se ejecuta mas rapido o mas lento en diferentes
+     * sistemas.
+     */
+    @Override
+    public void run() {
 
-		// Fixed Timestep (cantidad fija de actualizaciones)
-		final int TICKS = 60; // o UPS (updates per second)
-		// Delta constante
-		Delta delta = new Delta(TICKS);
-		int ticks = 0, frames = 0;
-		boolean shouldRender = false;
+        // Define el numero deseado de actualizaciones (ticks) por segundo (tiempo fijo entre cada tick)
+        final int ticksPerSec = 60;
+        Delta delta = new Delta(ticksPerSec);
+        int ticks = 0, frames = 0;
+        boolean shouldRender = false;
 
-		while (isRunning()) {
-			/* Interpola la fisica usando el delta. Ademas, la ventaja de comprobar el delta dentro del Game Loop, es
-			 * que no necesita multiplicar todo lo relacionado con la fisica por el delta. Esto hace que se actualice
-			 * la fisica independientemente de los FPS. */
-			if (delta.checkDelta()) {
-				ticks++;
-				tick();
-				shouldRender = true; // Actualiza primero para tener algo que renderizar en la primera iteracion
-			}
+        while (isRunning()) {
+            /* Interpola la fisica usando el delta. Ademas, la ventaja de comprobar el delta dentro del Game Loop, es
+             * que no necesita multiplicar todo lo relacionado con la fisica por el delta. Esto hace que se actualice
+             * la fisica independientemente de los FPS. */
+            if (delta.checkDelta()) {
+                ticks++;
+                tick();
+                shouldRender = true; // Actualiza primero para tener algo que renderizar en la primera iteracion
+            }
 
-			/* Suspender el Game Loop antes de renderizar, reduce el tiempo del CPU. La desventaja de esto, es que no se
-			 * aprovecha el pontencial de una maquina rapida, y en los dispositivos de bajos recursos, genera un pequeño
-			 * lag.
-			 * https://www.gamedev.net/forums/topic/445787-game-loop---free-cpu/
-			 * https://gamedev.stackexchange.com/questions/651/what-should-a-main-game-loop-do/656#656
-			 * https://stackoverflow.com/questions/10740187/game-loop-frame-independent
-			 * https://gamedev.stackexchange.com/questions/160329/java-game-loop-efficiency
-			 * https://stackoverflow.com/questions/18283199/java-main-game-loop */
+            /* Suspender el Game Loop antes de renderizar, reduce el tiempo del CPU. La desventaja de esto, es que no se
+             * aprovecha el pontencial de una maquina rapida, y en los dispositivos de bajos recursos, genera un pequeño
+             * lag.
+             * https://www.gamedev.net/forums/topic/445787-game-loop---free-cpu/
+             * https://gamedev.stackexchange.com/questions/651/what-should-a-main-game-loop-do/656#656
+             * https://stackoverflow.com/questions/10740187/game-loop-frame-independent
+             * https://gamedev.stackexchange.com/questions/160329/java-game-loop-efficiency
+             * https://stackoverflow.com/questions/18283199/java-main-game-loop */
 
 			/* try {
 				Thread.sleep(1);
@@ -296,69 +302,69 @@ public class GameLoop implements Runnable {
 				e.printStackTrace();
 			}*/
 
-			/* La interpolacion del renderizado (desacopla la tasa de frames del timestep fijo) ejecuta el juego a
-			 * una velocidad de frames variable aprovechando la variabilidad del rendimiento de distintos hardwares,
-			 * pero la fisica (colisiones, IA, etc.) se actualiza 60 veces por segundo. */
-			if (shouldRender) {
-				frames++;
-				render();
-			}
+            /* La interpolacion del renderizado (desacopla la tasa de frames del timestep fijo) ejecuta el juego a
+             * una velocidad de frames variable aprovechando la variabilidad del rendimiento de distintos hardwares,
+             * pero la fisica (colisiones, IA, etc.) se mantiene constante. */
+            if (shouldRender) {
+                frames++;
+                render();
+            }
 
-			if (delta.checkTimer()) {
-				System.out.println(ticks + " ticks, " + frames + " fps");
-				ticks = 0;
-				frames = 0;
-				delta.resetTimer();
-			}
+            if (delta.checkTimer()) {
+                System.out.println(ticks + " ticks, " + frames + " fps");
+                ticks = 0;
+                frames = 0;
+                delta.resetTimer();
+            }
 
-		}
+        }
 
-	}
+    }
 
-	private void tick() {
-	}
+    private void tick() {
+    }
 
-	private void render() {
+    private void render() {
 
-	}
+    }
 
-	private synchronized void start() {
-		if (running) return;
-		running = true;
-		thread = new Thread(this, "Game Thread");
-		thread.start();
-	}
+    private synchronized void start() {
+        if (running) return;
+        running = true;
+        thread = new Thread(this, "Game Thread");
+        thread.start();
+    }
 
-	private synchronized void stop() {
-		if (!running) return;
-		running = false;
-		// FIXME Usar join() desde esta funcion no finaliza el subproceso y por lo tanto la aplicacion queda en ejecucion
+    private synchronized void stop() {
+        if (!running) return;
+        running = false;
+        // FIXME Usar join() desde esta funcion no finaliza el subproceso y por lo tanto la aplicacion queda en ejecucion
 		/*try {
 			thread.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}*/
-	}
+    }
 
-	private synchronized boolean isRunning() {
-		return running;
-	}
+    private synchronized boolean isRunning() {
+        return running;
+    }
 
-	private void sleep(long millis) {
-		try {
-			Thread.sleep(millis);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+    private void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public static void main(String[] args) {
-		GameLoop game = new GameLoop();
-		game.start();
-		game.sleep(10 * 1000);
-		game.stop();
-		// FIXME El subproceso del juego sigue vivo despues de salir del Game Loop
-		if (!game.thread.isAlive()) System.out.println(game.thread.getName() + " muerto!");
-	}
+    public static void main(String[] args) {
+        GameLoop game = new GameLoop();
+        game.start();
+        game.sleep(10 * 1000);
+        game.stop();
+        // FIXME El subproceso del juego sigue vivo despues de salir del Game Loop
+        if (!game.thread.isAlive()) System.out.println(game.thread.getName() + " muerto!");
+    }
 
 }

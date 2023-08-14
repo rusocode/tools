@@ -1,66 +1,73 @@
 package gamedev;
 
 /**
- * <h1>¿Por que necesitamos utilizar el Delta Time?</h1>
- * Los juegos <b>framerate independent</b> (independencia de fotogramas), son juegos que corren a la misma velocidad sin
- * importar la tasa de {@link FPS}. Por ejemplo, una entidad (jugador, zombie, etc.) puede moverse a 30 FPS en una
- * computadora lenta y 60 FPS en una rapida, pero ambos recorren la misma distancia al mismo tiempo. La diferencia esta
- * en que a 30 FPS, la entidad da como "saltos" para equilibrar (que ironico) la distancia que necesita alcanzar, y a 60
- * FPS, el movimiento es mas fluido ya que se renderizan mas frames por segundo. Esa cantidad variable de FPS depende
- * del hardware del dispositivo en el que se este ejecutando el juego. Por otra parte, un juego <b>framerate
- * dependent</b> (dependencia de fotogramas) se procesa a la mitad de la velocidad en una computadora lenta, dando el
- * horrible efecto del <a href="https://www.xataka.com/basics/lag-que-a-que-puede-deberse">lag</a>. Para hacer el juego
- * framerate independent se aplica el <b><i>Delta Time</i></b> (abreviado Δt, dt o delta).
- *
- * <p>Delta Time es el <b>tiempo transcurrido entre cada frame renderizado</b>.
- *
- * <p>Por ejemplo si el juego en tu PC va a 10 FPS (por que es un microondas), el delta seria de 0,1 seg. Cuando el
- * juego procesa todo lo relacionado con el juego una vez, tarda 0,1 seg hasta volver a procesarlo en el siguiente frame
- * y van transcurriendo todos los delta hasta que suman 1 segundo. Ahi ya se han ejecutado esos 10 FPS. Al ser una tasa
- * de fotogramas muy baja, puede causar que la entidad se "teletransporte".
- *
- * <p>Por otro lado si tu PC es un poco mejor y corre el juego a 30 FPS, el delta en este caso sera de 0,033 seg. Como
- * hay muchos mas frames por segundo, se estan ejecutando frames con mucha mas frecuencia. Eso significa que el tiempo
- * entre dos frames sera mucho mas pequeño, y como hay tantos frames, en cuanto termina uno, enseguida ya llega el
- * siguiente. De ahi que ahora el delta sea de 0,033 seg, mucho mas pequeño que antes que era de 0,1 seg. Esto genera
- * un "movimiento" de la entidad mas fluido. Ver "Diferencia en la cantidad de FPS.png".
- *
+ * <h1>¿Por que necesitamos utilizar el tiempo Delta?</h1>
+ * Los juegos "framerate independent" (independientes de la tasa de fotogramas) mantienen la misma velocidad sin
+ * importar los {@link FPS}. Por ejemplo, una entidad se mueve igualmente a 30 FPS en una computadora lenta y 60 FPS en
+ * una rapida. La diferencia radica en que a 30 FPS, la entidad salta para ajustar la distancia, mientras que a 60 FPS,
+ * el movimiento es mas fluido. Esto se debe a la variabilidad de FPS segun el hardware. Por otro lado, en un juego
+ * "framerate dependent" (dependiente de los fotogramas), es mas lento en computadoras lentas. Para lograr independencia
+ * de fotogramas, se usa el <b><i>Delta Time</i></b> (Δt, dt o delta) que es el <b>tiempo transcurrido entre cada tick
+ * de actualizacion</b>.
+ * <p>
+ * En el caso de un juego con 10 FPS en una computadora lenta, el delta seria de 0,1 segundos. El juego procesa todo en
+ * ese tiempo antes de volver a procesar en el siguiente frame. La acumulacion de estos delta times alcanza 1 segundo,
+ * ejecutando asi los 10 FPS. Dado que es una tasa de fotogramas baja, es posible que la entidad muestre un efecto de
+ * "teletransportacion".
+ * <p>
+ * En una PC un poco mejor, con 30 FPS, el delta time es de 0,033 segundos. Con mas frames por segundo, los frames se
+ * ejecutan con mayor frecuencia, resultando en un tiempo mas corto entre cada uno. Esto crea un movimiento mas fluido
+ * para las entidades en el juego. Comparado con los 10 FPS anteriores, donde el delta era de 0,1 segundos, este delta
+ * mas pequeño de 0,033 segundos genera un movimiento mas suave. Ver "Diferencia en la cantidad de FPS.png".
  * <br><br>
- *
  * <h2>Escalonar la fisica con deltas constantes (<i>Fixed Timestep</i>)</h2>
- * Antes que nada, necesitamos saber cuantos {@link Tick ticks} por segundo se van a aplicar a la fisica del juego. Para
- * este caso se toman 60 ticks, osea, 60 actualizaciones por segundo. La fisica del juego se puede actualizar a 30, 60 o
- * 80 veces por segundo, pero la cantidad estandar suele ser de 60. Algunos juegos como Minecraft y Quake3 usan 20 ticks
- * (¿Para no acaparar demasiado la CPU quiza?). La fisica no tiene nada que ver con la cantidad de veces que se dibuja
- * en pantalla, aunque esten estrechamente relacionados. Definiendo la cantidad de ticks, estamos diciendo que la
- * actualizacion de la fisica es un timestep fijo, ya que no depende de la tasa de fotogramas en la que se ejecuta el
- * juego, como seria el caso de un timestep variable. Sabiendo esto, aunque los FPS bajen (tirones) o suban (fluido),
- * la velocidad se mantiene.
- *
- * <p>Lo ideal es {@link Measure medir} el tiempo para el delta en nanosegundos ya que es una unidad mucho mas
- * especifica para la CPU que los milisegundos. Los nanosegundos no dependen del sistema operativo, sino del procesador
- * y se miden tomando como referencia los ciclos de reloj del procesador. Un segundo equivale a 1.000.000.000 de
- * nanosegundos o 1e9. Entonces, para saber la cantidad de tiempo en nanosegundos que hay entre cada frame aplicando 60
- * ticks, se calcula 60/1.000.000.000, que es aproximadamente 16.666.666 de nandosegundos, valor conocido como {@link Delta#delta}
- * (fixed timestep o paso del tiempo fijo para este caso, ya que la otra alternativa es usar un paso del tiempo
- * variable, aunque no es recomendable). Esto significa que cada vez que se actuliza la fisica del juego, el Game Loop
- * espera 16.666.666 de nanosegundos antes de volver a hacerlo.
- *
- * <p>Ahora para comprobar si el tiempo transcurrido alcanzo el tiempo delta, es necesario calcular la diferencia de
- * tiempo en nanosegundos del sistema actual e inicial con {@code System.nanoTime()} acumulando el resultado en la
- * variable {@link Delta#lag}. La variable {@code lag} refleja el <i>retraso</i> que hay en cada maquina. Un retraso
- * mayor indica pocos pasos grandes, es decir, menos frames. Y un restraso menor indica muchos pasos cortos, osea, mas
- * frames (fluidez). Cuando el tiempo transcurrido sea igual o mayor al tiempo delta, entonces actualiza la fisica. Es
- * importante eliminar el tiempo del delta al tiempo transcurrido despues de actualizar, para que comience a contar
- * desde el "desbordamiento" hasta que alcance el delta nuevamente. <b>Esto hace posible que el juego se ejecute en
- * cualquier dispositivo a la misma velocidad independientemente de los FPS</b>.
- *
- * <p>La varible {@code timer} sirve como temporizador para mostrar la cantidad de ticks y frames cada un segundo.
- *
- * <p><i>Nota: Esta clase esta relacionada con la clase {@link GameLoop}, pero las separe para explicar diferentes
+ * Escalonar la fisica con deltas constantes implica establecer una cantidad fija de actualizaciones de fisica por
+ * segundo, declarado como ticksPerSec. La cantidad estandar suele ser 60 ticks por segundo, aunque puede variar.
+ * Algunos juegos como Minecraft y Quake3 optan por 20 ticks posiblemente para evitar sobrecargar la CPU. La
+ * actualizacion de la fisica no esta directamente relacionada con la cantidad de veces que se dibuja en pantalla,
+ * aunque estan conectados. Al definir la cantidad de ticks, se establece un intervalo fijo para las actualizaciones de
+ * la fisica, independiente de la tasa de fotogramas. Esto asegura que, aunque los FPS varien (causando tirones o
+ * fluidez), la velocidad del juego se mantendra constante.
+ * <p>
+ * Lo optimo es {@link Measure medir} el tiempo en nanosegundos para el delta, ya que es mas preciso para la CPU que los
+ * milisegundos. Los nanosegundos no dependen del sistema operativo, sino del procesador, y se miden segun los ciclos de
+ * reloj. Un segundo equivale a 1.000.000.000 de nanosegundos o 1e9. Para calcular el tiempo entre cada frame con 60
+ * ticks, se divide 60 por 1.000.000.000, que es aproximadamente 16.666.666 nanosegundos, valor conocido como {@link Delta#delta},
+ * que implica que el Game Loop espera ese tiempo antes de actualizar la fisica nuevamente.
+ * <p>
+ * El termino "unprocessed" (tiempo no procesado) se refiere al tiempo que ha transcurrido entre dos actualizaciones
+ * consecutivas del bucle de juego, pero que aun no se ha utilizado para realizar una actualizacion. En un Game Loop, se
+ * utiliza para asegurarse de que las actualizaciones del juego se realicen a una velocidad constante, incluso si el
+ * bucle se ejecuta a una tasa de fotogramas variable.
+ * <p>
+ * El concepto es el siguiente:
+ * <ol>
+ * <li>Cuando el bucle de juego comienza un nuevo ciclo, se captura el tiempo actual (tiempo de inicio) y se calcula la
+ * diferencia de tiempo desde el ultimo ciclo.
+ * <li>Esta diferencia de tiempo se acumula al "tiempo no procesado". Esto significa que si el bucle de juego se ejecuta
+ * mas rapido que el tiempo delta deseado (por ejemplo, si el hardware es rapido), habra un exceso de tiempo no
+ * procesado.
+ * <li>Luego, se verifica si el tiempo no procesado ha acumulado suficiente para realizar una actualizacion completa
+ * (por ejemplo, si es igual o mayor al tiempo delta deseado). Si es asi, se realiza la actualizacion del juego (como
+ * avanzar la simulacion de la fisica, actualizar la logica del juego, etc.).
+ * <li>Despues de la actualizacion, se resta el tiempo delta del tiempo no procesado, lo que significa que el exceso de
+ * tiempo acumulado se mantiene para el siguiente ciclo.
+ * </ol>
+ * El objetivo de este enfoque es asegurar que, incluso si la velocidad del bucle de juego varia debido a diferencias en
+ * la velocidad de la CPU o el rendimiento del sistema, las actualizaciones del juego sigan ocurriendo a una tasa
+ * constante. Esto es especialmente importante para mantener una experiencia de juego coherente y equilibrada en
+ * diferentes dispositivos y condiciones de rendimiento.
+ * <p>
+ * Una mayor diferencia entre el tiempo actual y el tiempo desde el ultimo ciclo, significa pocos pasos largos, es decir
+ * menos frames. Y una diferencia menor indica muchos pasos cortos, osea mas frames (fluidez). <b>Esto hace posible que
+ * el juego se ejecute en cualquier dispositivo a la misma velocidad independientemente de los FPS</b>.
+ * <p>
+ * La varible {@code timer} sirve como temporizador para mostrar la cantidad de ticks y frames cada un segundo.
+ * <p>
+ * <i>Nota: Esta clase esta relacionada con la clase {@link GameLoop}, pero las separe para explicar diferentes
  * conceptos y quede mas legible.</i>
- *
- * <p>Recursos:
+ * <br><br>
+ * Recursos:
  * <a href="https://www.parallelcube.com/es/2017/10/25/por-que-necesitamos-utilizar-delta-time/">¿Por que necesitamos utilizar Delta Time?</a>
  * <a href="https://www.youtube.com/watch?v=ix6FAPEF_HA">Sin ESTO los juegos se descontrolan</a>
  * <a href="https://stackoverflow.com/questions/26838286/delta-time-getting-60-updates-a-second-in-java">¿Como obtener 60 actualizaciones por segundo?</a>
@@ -71,48 +78,54 @@ package gamedev;
 
 public class Delta {
 
-	private int timer;
-	private long startTime;
-	private final double delta;
-	private double elapsed, lag; // lag = retraso
+    private int timer;
+    private long startTime;
+    private final double delta;
+    // Mantiene un registro del tiempo no procesado (sin usar) para controlar cuando se debe realizar una actualizacion
+    private double unprocessed;
 
-	public Delta(final int ticks) {
-		startTime = System.nanoTime();
-		delta = 1e9 / ticks;
-	}
+    public Delta(int ticksPerSec) {
+        // Obtiene el tiempo actual
+        startTime = System.nanoTime();
+        // Calcula el tiempo en nanosegundos que deberia pasar entre cada tick para alcanzar la frecuencia deseada
+        delta = 1e9 / ticksPerSec;
+    }
 
-	/**
-	 * Comprueba si el tiempo transcurrido alcanzo el tiempo delta.
-	 *
-	 * @return true si el tiempo transcurrido alcanzo el tiempo delta, o false.
-	 */
-	public boolean checkDelta() {
-		long currentTime = System.nanoTime();
-		elapsed = currentTime - startTime;
-		lag += elapsed;
-		timer += currentTime - startTime;
-		startTime = currentTime;
-		if (lag >= delta) {
-			lag -= delta;
-			return true;
-		} else return false;
-	}
+    /**
+     * Comprueba si el tiempo transcurrido alcanzo el tiempo delta.
+     *
+     * @return true si el tiempo transcurrido alcanzo el tiempo delta, o false.
+     */
+    public boolean checkDelta() {
+        long currentTime = System.nanoTime();
+        // Calcula el tiempo que ha pasado desde el ultimo ciclo y lo agrega al tiempo no procesado
+        unprocessed += currentTime - startTime;
+        timer += (int) (currentTime - startTime);
+        // Actualiza el tiempo de inicio para el siguiente ciclo
+        startTime = currentTime;
+        // Verifica si ha pasado suficiente tiempo no procesado para realizar una actualizacion
+        if (unprocessed >= delta) {
+            // Resta el tiempo delta del tiempo no procesado, para que el exceso de tiempo se acumule para el siguiente ciclo
+            unprocessed -= delta;
+            return true;
+        } else return false;
+    }
 
-	/**
-	 * Comprueba si el timer alcanzo 1 segundo.
-	 *
-	 * @return true si el timer alcanzo 1 segundo, o false.
-	 */
-	public boolean checkTimer() {
-		return timer >= 1e9;
-	}
+    /**
+     * Comprueba si el timer alcanzo 1 segundo.
+     *
+     * @return true si el timer alcanzo 1 segundo, o false.
+     */
+    public boolean checkTimer() {
+        return timer >= 1e9;
+    }
 
-	/**
-	 * Resetea el timer a 0.
-	 */
-	public void resetTimer() {
-		timer = 0;
-	}
+    /**
+     * Resetea el timer a 0.
+     */
+    public void resetTimer() {
+        timer = 0;
+    }
 
 
 }
