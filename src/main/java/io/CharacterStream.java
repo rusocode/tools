@@ -8,7 +8,7 @@ import static utils.Constants.*;
  * Clase para leer y escribir archivos de caracteres usando la codificacion predeterminada.
  * Para especificar la codificacion utilize un InputStreamReader o OutputStreamWriter dependiendo del caso.
  * 
- * @author Juan Debenedetti aka Ru$o
+ * @author Juan Debenedetti
  * 
  */
 
@@ -30,7 +30,7 @@ public class CharacterStream {
 	 * Crea un flujo de entrada para el archivo de texto y lee desde el buffer, en donde decodifica el "code point"
 	 * utilizando el formato predetermiando de la plataforma.
 	 *
-	 * Para leer flujos de bytes sin procesar use un FileInputStream (ver {@link ByteStream#readText}).
+	 * Para leer flujos de bytes sin procesar use un FileInputStream (ver ).
 	 */
 	private void read() {
 
@@ -69,7 +69,7 @@ public class CharacterStream {
 	 * Crea un flujo de salida hacia el archivo de texto y escribe una cadena utilizando la codificacion del formato
 	 * predeterminado.
 	 * 
-	 * Para escribir flujos de bytes sin procesar use un FileOutputStream (ver {@link ByteStream#writeText}).
+	 * Para escribir flujos de bytes sin procesar use un FileOutputStream (ver ).
 	 * 
 	 * @param text   - El texto que se va a escribir.
 	 * @param append - Si es verdadero, los datos se escribiran al final del archivo en lugar de sobreescribirlos.
