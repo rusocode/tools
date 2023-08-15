@@ -271,11 +271,10 @@ public class GameLoop implements Runnable {
     @Override
     public void run() {
 
-        // Define el numero deseado de actualizaciones (ticks) por segundo (tiempo fijo entre cada tick)
-        final int ticksPerSec = 60;
-        Delta delta = new Delta(ticksPerSec);
+        Delta delta = new Delta();
         int ticks = 0, frames = 0;
         boolean shouldRender = false;
+        long timer = System.currentTimeMillis();
 
         while (isRunning()) {
             /* Interpola la fisica usando el delta. Ademas, la ventaja de comprobar el delta dentro del Game Loop, es
@@ -310,11 +309,12 @@ public class GameLoop implements Runnable {
                 render();
             }
 
-            if (delta.checkTimer()) {
+            // Temporiza la cantidad de ticks y frames cada un segundo
+            if (System.currentTimeMillis() - timer >= 1000) {
                 System.out.println(ticks + " ticks, " + frames + " fps");
+                timer = System.currentTimeMillis();
                 ticks = 0;
                 frames = 0;
-                delta.resetTimer();
             }
 
         }

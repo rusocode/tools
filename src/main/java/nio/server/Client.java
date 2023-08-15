@@ -5,7 +5,7 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
-import static utils.Constants.*;
+import static utils.Global.*;
 
 /**
  * Canal de cliente para crear conexiones con el servidor.

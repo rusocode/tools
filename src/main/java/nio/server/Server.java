@@ -18,7 +18,7 @@ import javax.swing.UIManager;
 
 import net.miginfocom.swing.MigLayout;
 
-import static utils.Constants.*;
+import static utils.Global.*;
 
 /**
  * El Selector es un *multiplexor de objetos SelectableChannel encargado de seleccionar canales sin bloqueo y determinar

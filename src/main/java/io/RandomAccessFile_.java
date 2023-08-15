@@ -3,7 +3,7 @@ package io;
 import java.io.*;
 import java.util.ArrayList;
 
-import static utils.Constants.*;
+import static utils.Global.*;
 
 /**
  * Esta clase se utiliza para leer y escribir en archivos de acceso aleatorio. Un archivo de acceso aleatorio se

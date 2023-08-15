@@ -5,7 +5,7 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
-import static utils.Constants.*;
+import static utils.Global.*;
 
 /**
  * Antes de explicar lo que es un canal, es importante aclarar que NIO (introducido en el JDK 1.4) proporciona un nuevo

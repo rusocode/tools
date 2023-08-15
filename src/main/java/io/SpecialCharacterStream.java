@@ -3,7 +3,7 @@ package io;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-import static utils.Constants.*;
+import static utils.Global.*;
 
 /**
  * Clase puente entre flujos de bytes y flujos de caracteres, en donde lee bytes y los decodifica en caracteres
