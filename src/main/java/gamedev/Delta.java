@@ -3,8 +3,8 @@ package gamedev;
 import static utils.Global.*;
 
 /**
- * <h1>¿Por que necesitamos utilizar el tiempo Delta?</h1>
- * El <b><i>Delta Time</i></b> (Δt, dt o delta) se refiere al intervalo de tiempo entre dos {@link Tick actualizaciones}
+ * <h1>Delta</h1>
+ * El <b><i>Delta</i></b> (Δt, dt o delta time) se refiere al intervalo de tiempo entre dos {@link Tick actualizaciones}
  * consecutivas del motor de juego o del bucle de {@link FPS renderizacion}. En esencia, <i>es el tiempo que ha
  * transcurrido desde el ultimo fotograma o ciclo de actualizacion hasta el fotograma o ciclo de actualizacion actual</i>.
  * El concepto de tiempo delta es esencial para garantizar un rendimiento uniforme y consistente en los videojuegos.
@@ -16,11 +16,12 @@ import static utils.Global.*;
  * diferentes sistemas.
  * <p>
  * En un juego con 24 FPS en una computadora lenta, el delta es de 0,041 segundos. Esto lleva a una acumulacion de
- * deltas que alcanza 1 segundo, ejecutando 24 FPS. A menudo, esto provoca que la entidad salte (teletransporte) para
+ * deltas que alcanzan 1 segundo, ejecutando 24 FPS. A menudo, esto provoca que la entidad salte (teletransporte) para
  * ajustar la distancia y completar la cantidad de FPS. En un hardware mas potente que ejecuta el juego a 60 FPS, el
  * delta es de 0,016 segundos, lo que permite movimientos mas fluidos. Por lo tanto, este enfoque se refiere a juegos
  * con independencia de fotogramas, en donde mantienen la misma velocidad en diferentes FPS. Para lograr esa
- * independencia de FPS, se aplica un <b>delta fijo</b> (timestep).
+ * independencia de FPS, se emplea un <b>delta fijo</b> (timestep), que se aplica tanto para los ciclos de
+ * actualizaciones como para los de renderizado (AVERIGUAR BIEN!).
  * <br><br>
  * <h2>Escalonar la fisica con deltas fijos</h2>
  * Escalonar la fisica con deltas fijos implica establecer una cantidad fija de actualizaciones (ticks) por segundo.
@@ -30,9 +31,9 @@ import static utils.Global.*;
  * <p>
  * Lo optimo es {@link Measure medir} el tiempo en nanosegundos para el delta, ya que es mas preciso para la CPU que los
  * milisegundos. Los nanosegundos no dependen del sistema operativo, sino del procesador, y se miden segun los ciclos de
- * reloj. Para calcular el tiempo entre cada actualizacion, se divide 60 (ticks por segundo) entre 1E9 (1.000.000.000 de
- * nanosegundos), que es aproximadamente 16.666.666 de nanosegundos, valor conocido como {@code nsPerTick}, que implica
- * que el Game Loop espera ese tiempo antes de actualizar la fisica nuevamente.
+ * reloj. Para calcular el tiempo entre cada actualizacion, se divide la cantidad de ticks por segundo entre 1E9
+ * (1.000.000.000 de nanosegundos), que es aproximadamente 16.666.666 de nanosegundos, valor conocido como {@code nsPerTick},
+ * que implica que el Game Loop espera ese tiempo antes de actualizar la fisica nuevamente.
  * <p>
  * La variable {@code unprocessed} cumple la funcion de llevar un seguimiento del tiempo no procesado o no utilizado
  * entre los ciclos de actualizacion del juego. Esta variable se utiliza para garantizar que las actualizaciones del
@@ -73,7 +74,7 @@ import static utils.Global.*;
 public class Delta {
 
     private long startTime;
-    private final double nsPerTick; // timestep, interval, fixed delta
+    private final double nsPerTick;
     /* Mantiene un registro del tiempo no procesado (sin usar) para controlar cuando se debe realizar una actualizacion.
      * Se podria decir que el nombre de esta variable es sinonimo de delta (no confundir con el delta fijo). */
     private double unprocessed;
@@ -82,7 +83,7 @@ public class Delta {
         // Obtiene el tiempo inicial en nanosegundos
         startTime = System.nanoTime();
         // Calcula el tiempo en nanosegundos que deberia pasar entre cada tick para alcanzar la frecuencia deseada
-        nsPerTick = 1e9 / TICKS_PER_SEC;
+        nsPerTick = 1E9 / TICKS_PER_SEC; // timestep, interval, fixed delta
     }
 
     /**
@@ -90,7 +91,7 @@ public class Delta {
      *
      * @return true si el tiempo transcurrido alcanzo el tiempo delta fijo, o false.
      */
-    public boolean checkDelta() { // TODO o checkTimestep
+    public boolean checkDelta() { // TODO o checkTimestep?
         // Obtiene el tiempo actual en nanosegundos
         long currentTime = System.nanoTime();
         /* Se mide el tiempo desde el ciclo previo, se calcula un porcentaje en funcion de un valor constante

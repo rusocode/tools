@@ -6,80 +6,71 @@ package gamedev;
  * realizando una serie de acciones una y otra vez hasta que el usuario sale. Las partes basicas del Game Loop son las
  * siguientes y van por orden: la entrada del usuario (que se procesa sin bloquear), la simulacion de la fisica y el
  * renderizado.
- *
  * <br><br>
- *
  * <h2>¿Que tan rapido gira el bucle del juego? (Un mundo fuera de tiempo)</h2>
  * Si medimos la rapidez con la que se repite el Game Loop en terminos de tiempo real, obtenemos los {@link FPS}.
- *
- * <p>Con el bucle crudo que tenemos ahora, donde simplemente se cicla tan rapido como puede, dos factores determinan la
+ * <p>
+ * Con el bucle crudo que tenemos ahora, donde simplemente se cicla tan rapido como puede, dos factores determinan la
  * velocidad de fotogramas. El primero es <i>cuanto trabajo tiene que hacer cada frame</i>. La fisica compleja, un
  * monton de objetos de juego y muchos detalles graficos mantendran ocupados a la CPU y GPU, y llevara mas tiempo
  * completar un frame. Esto tambien se explica en {@link Tick}.
- *
- * <p>El segundo es <i>la velocidad de la plataforma subyacente</i>. Los chips mas rapidos procesan mas codigo en la
+ * <p>
+ * El segundo es <i>la velocidad de la plataforma subyacente</i>. Los chips mas rapidos procesan mas codigo en la
  * misma cantidad de tiempo. Multiples nucleos, GPU, hardware de audio dedicado y el programador del sistema operativo
  * afectan cuanto se hace en un solo paso.
- *
  * <br><br>
- *
  * <h2>Segundo por segundo</h2>
  * Los juegos mas antiguos fueron cuidadosamente codificados para hacer el trabajo suficiente en cada frame para que el
  * juego se ejecutara a la velocidad que querian los desarrolladores. Pero si intentara jugar ese mismo juego en una
  * maquina mas rapida o mas lenta, entonces el juego en si se aceleraria o se ralentizaria.
- *
- * <p>En estos dias, sin embargo, pocos desarrolladores tienen el lujo de saber exactamente en que hardware se ejecutara
+ * <p>
+ * En estos dias, sin embargo, pocos desarrolladores tienen el lujo de saber exactamente en que hardware se ejecutara
  * su juego. En cambio, nuestros juegos deben adaptarse de manera inteligente a una variedad de dispositivos.
- *
- * <p>Este es el otro trabajo clave de un bucle de juego: <i>ejecuta el juego a una velocidad constante a pesar de las
+ * <p>
+ * Este es el otro trabajo clave de un bucle de juego: <i>ejecuta el juego a una velocidad constante a pesar de las
  * diferencias en el hardware subyacente</i>.
- *
  * <br><br>
- *
  * <h2>La primera solucion (Tomando una pequeña siesta)</h2>
  * La primera variacion que veremos agrega una solucion simple. Digamos que quieres que tu juego se ejecute a 60 FPS.
  * Eso le da alrededor de 16 milisegundos por frame. Siempre que pueda realizar todo el procesamiento y renderizado de
  * su juego de manera confiable en menos de ese tiempo, puede ejecutar a una velocidad de fotogramas constante. Todo lo
  * que hace es procesar el frame y luego <i>esperar</i> hasta que sea el momento para el siguiente. Esta solucion se
  * aplica utilizando el metodo {@code sleep()}. Ver la imagen <i>"Game Loop simple usando sleep().png"</i>.
- *
- * <p>Aqui se asegura de que usando {@code sleep()}, el juego no se ejecute demasiado rapido si procesa un frame
+ * <p>
+ * Aqui se asegura de que usando {@code sleep()}, el juego no se ejecute demasiado rapido si procesa un frame
  * rapidamente. Aunque esto no ayuda si su juego se ejecuta demasiado lento. Si se tarda mas de 16 ms en actualizar y
  * renderizar el frame, el tiempo de suspension se vuelve negativo.
- *
- * <p>Puede solucionar esto haciendo menos trabajo en cada frame: reduzca los graficos y simplifique la IA. Pero eso
+ * <p>
+ * Puede solucionar esto haciendo menos trabajo en cada frame: reduzca los graficos y simplifique la IA. Pero eso
  * afecta la calidad del juego para todos los usuarios, incluso los de maquinas rapidas.
- *
  * <br><br>
- *
  * <h2>La segunda solucion (Un pequeño paso, un paso gigante)</h2>
  * Entonces... para que el juego se ejecute a una velocidad constante sin reducir los graficos y simplificar la IA, se
  * aplica el <b>{@link Delta Delta Time}</b>.
- *
- * <p>La logica que usa el Delta Time es elegir un <a href="https://www.gamedev.net/forums/topic/673798-what-is-a-timestep/">timestep</a>
+ * <p>
+ * La logica que usa el Delta Time es elegir un <a href="https://www.gamedev.net/forums/topic/673798-what-is-a-timestep/">timestep</a>
  * para avanzar en funcion de cuanto tiempo <i>real</i> paso desde el ultimo frame. Cuanto mas tiempo toma el frame, mas
  * pasos toma el juego. Siempre se mantiene en tiempo real porque se necesitaran pasos cada vez mas grandes para llegar
  * alli. Llaman a esto timestep <i>variable</i> o <i>fijo</i>.
- *
- * <p>En cada frame, determinamos cuanto tiempo <i>real</i> paso desde la ultima actualizacion del juego ({@code elapsed}).
+ * <p>
+ * En cada frame, determinamos cuanto tiempo <i>real</i> paso desde la ultima actualizacion del juego ({@code elapsed}).
  * Cuando actualizamos el estado del juego, lo pasamos. El motor es entonces responsable de hacer avanzar el mundo del
  * juego por esa cantidad de tiempo.
- *
- * <p>Digamos que tienes una bala disparando a traves de la pantalla. Con un timestep fijo, en cada frame, la movera de
+ * <p>
+ * Digamos que tienes una bala disparando a traves de la pantalla. Con un timestep fijo, en cada frame, la movera de
  * acuerdo con su velocidad. Con un timestep variable, <i>escala esa velocidad por el tiempo transcurrido</i>. A medida
  * que aumenta el timestep, la bala se mueve mas lejos en cada frame. Esa bala atravesara la pantalla en la misma
  * cantidad de tiempo real, ya sean en veinte pequeños pasos rapidos o en cuatro grandes pasos lentos. Esto se ve muy
  * bien:
- *
  * <ul>
  * <li>El juego se juega a un ritmo constante en diferentes hardware.
  * <li>Los jugadores con maquinas mas rapidas son recompensados con un juego mas fluido.
  * </ul>
- *
- * <p>Pero, por desgracia, hay un grave problema al acecho: hemos hecho que el juego sea inestable y no determinista. He
+ * <p>
+ * Pero, por desgracia, hay un grave problema al acecho: hemos hecho que el juego sea inestable y no determinista. He
  * aqui un ejemplo de la trampa que nos hemos tendido a nosotros mismos:
- *
- * <p>Digamos que tenemos un juego en red para dos jugadores y Ruso tiene una maquina de juego increible mientras que
+ * <p>
+ * Digamos que tenemos un juego en red para dos jugadores y Ruso tiene una maquina de juego increible mientras que
  * Rulo esta usando la PC antigua de su abuela. Esa bala antes mencionada esta volando a traves de sus dos pantallas.
  * En la maquina de Ruso, el juego se ejecuta super rapido, por lo que cada timestep es pequeño. Metemos como 50
  * fotogramas en el segundo que tarda la bala en atravesar la pantalla. La maquina del pobre Rulo solo puede caber en
@@ -238,6 +229,9 @@ package gamedev;
  *
  * <p><i>¿Debe la fisica ser escalonada con deltas constantes?</i> Si.
  * <hr>
+ * <p>
+ * Doom dibujara marcos lo más rápido posible. Pero no ejecuta la lógica del juego en cada cuadro que dibuja, solo
+ * interpola el estado mundial entre las actualizaciones del juego anteriores y actuales.
  *
  * <p>La mayor parte de la documentacion la tome de <a href="http://gameprogrammingpatterns.com/game-loop.html">Game Loop</a>.
  *
