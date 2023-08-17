@@ -5,9 +5,9 @@ import static utils.Global.*;
 /**
  * <h1>Delta</h1>
  * El <b><i>Delta</i></b> (Δt, dt o delta time) se refiere al intervalo de tiempo entre dos {@link Tick actualizaciones}
- * consecutivas del motor de juego o del bucle de {@link FPS renderizacion}. En esencia, <i>es el tiempo que ha
- * transcurrido desde el ultimo fotograma o ciclo de actualizacion hasta el fotograma o ciclo de actualizacion actual</i>.
- * El concepto de tiempo delta es esencial para garantizar un rendimiento uniforme y consistente en los videojuegos.
+ * consecutivas del motor de juego o del bucle de renderizacion. En esencia, <i>es el tiempo que ha transcurrido desde
+ * el ultimo fotograma o ciclo de actualizacion hasta el fotograma o ciclo de actualizacion actual</i>. El concepto de
+ * tiempo delta es esencial para garantizar un rendimiento uniforme y consistente en los videojuegos.
  * <p>
  * El tiempo delta se utiliza para ajustar la velocidad de los elementos en el juego en funcion del rendimiento del
  * sistema. Esto es especialmente importante porque diferentes sistemas pueden tener diferentes capacidades de
@@ -20,16 +20,15 @@ import static utils.Global.*;
  * ajustar la distancia y completar la cantidad de FPS. En un hardware mas potente que ejecuta el juego a 60 FPS, el
  * delta es de 0,016 segundos, lo que permite movimientos mas fluidos. Por lo tanto, este enfoque se refiere a juegos
  * con independencia de fotogramas, en donde mantienen la misma velocidad en diferentes FPS. Para lograr esa
- * independencia de FPS, se emplea un <b>delta fijo</b> (timestep), que se aplica tanto para los ciclos de
+ * independencia de FPS, se emplea un <i>delta fijo</i> o <i>timestep fijo</i>, que se aplica tanto para los ciclos de
  * actualizaciones como para los de renderizado (AVERIGUAR BIEN!).
  * <br><br>
  * <h2>Escalonar la fisica con deltas fijos</h2>
  * Escalonar la fisica con deltas fijos implica establecer una cantidad fija de actualizaciones (ticks) por segundo.
  * La cantidad estandar suele ser 60 ticks por segundo, aunque puede variar. Algunos juegos como Minecraft y Quake3
- * optan por 20 ticks posiblemente para evitar sobrecargar la CPU. La actualizacion de la fisica no esta relacionada con
- * la cantidad de veces que se renderiza en pantalla (AVERIGUAR BIEN!).
+ * optan por 20 ticks posiblemente para evitar sobrecargar la CPU.
  * <p>
- * Lo optimo es {@link Measure medir} el tiempo en nanosegundos para el delta, ya que es mas preciso para la CPU que los
+ * Lo optimo es {@link Measure medir} el tiempo para el delta en nanosegundos, ya que es mas preciso para la CPU que los
  * milisegundos. Los nanosegundos no dependen del sistema operativo, sino del procesador, y se miden segun los ciclos de
  * reloj. Para calcular el tiempo entre cada actualizacion, se divide la cantidad de ticks por segundo entre 1E9
  * (1.000.000.000 de nanosegundos), que es aproximadamente 16.666.666 de nanosegundos, valor conocido como {@code nsPerTick},
@@ -38,7 +37,9 @@ import static utils.Global.*;
  * La variable {@code unprocessed} cumple la funcion de llevar un seguimiento del tiempo no procesado o no utilizado
  * entre los ciclos de actualizacion del juego. Esta variable se utiliza para garantizar que las actualizaciones del
  * juego, especialmente las relacionadas con la logica y la simulacion, se realicen de manera coherente y controlada,
- * <i>independientemente de las variaciones en la velocidad de ejecucion del bucle de juego</i>.
+ * <i>independientemente de las variaciones en la velocidad de ejecucion del bucle de juego</i>. Esta variable hace
+ * referencia al lag (retraso) entre dos ciclos, por lo que podria renombrarse como {@code lag}, pero eso ya es una
+ * decision personal.
  * <p>
  * Aqui esta como funciona:
  * <ol>
@@ -75,37 +76,40 @@ public class Delta {
 
     private long startTime;
     private final double nsPerTick;
-    /* Mantiene un registro del tiempo no procesado (sin usar) para controlar cuando se debe realizar una actualizacion.
-     * Se podria decir que el nombre de esta variable es sinonimo de delta (no confundir con el delta fijo). */
+    // Mantiene un registro del tiempo no procesado (sin usar) para controlar cuando se debe realizar una actualizacion
     private double unprocessed;
 
     public Delta() {
         // Obtiene el tiempo inicial en nanosegundos
         startTime = System.nanoTime();
         // Calcula el tiempo en nanosegundos que deberia pasar entre cada tick para alcanzar la frecuencia deseada
-        nsPerTick = 1E9 / TICKS_PER_SEC; // timestep, interval, fixed delta
+        nsPerTick = 1E9 / TICKS_PER_SEC; // timestep fijo
     }
 
     /**
-     * Comprueba si el tiempo transcurrido alcanzo el tiempo delta fijo.
+     * Comprueba si el tiempo real alcanzo el timestep fijo.
      *
-     * @return true si el tiempo transcurrido alcanzo el tiempo delta fijo, o false.
+     * @return true si el tiempo real alcanzo el timestep fijo, o false.
      */
-    public boolean checkDelta() { // TODO o checkTimestep?
+    public boolean checkTimestep() {
+        // Verifica si se proceso el ciclo
+        boolean processed = false;
         // Obtiene el tiempo actual en nanosegundos
         long currentTime = System.nanoTime();
         /* Se mide el tiempo desde el ciclo previo, se calcula un porcentaje en funcion de un valor constante
          * (nsPerTick) y se acumula en "unprocessed". Cuando este acumulado llega a 1/TICKS_PER_SEC (16.666.666 ns para
-         * el caso de 60 ticks por segundo), se procede a actualizar la fisica del juego. */
+         * el caso de 60 ticks por segundo), se procede a actualizar la fisica del juego. Esto mide que tan atrasado
+         * esta el reloj del juego en comparacion con el mundo real. */
         unprocessed += (currentTime - startTime) / nsPerTick;
         // Actualiza el tiempo de inicio para el siguiente ciclo
         startTime = currentTime;
         // Verifica si ha pasado suficiente tiempo no procesado para realizar una actualizacion
-        if (unprocessed >= 1) {
+        while (unprocessed >= 1) {
             // El metodo ahora esta procesado por lo que se decrementa en 1
             unprocessed--;
-            return true;
-        } else return false;
+            processed = true;
+        }
+        return processed;
     }
 
 }
