@@ -83,7 +83,7 @@ public class Delta {
         // Obtiene el tiempo inicial en nanosegundos
         startTime = System.nanoTime();
         // Calcula el tiempo en nanosegundos que deberia pasar entre cada tick para alcanzar la frecuencia deseada
-        nsPerTick = 1E9 / TICKS_PER_SEC; // timestep fijo
+        nsPerTick = 1E9 / TICKS_PER_SEC; // timestep fijo o delta
     }
 
     /**
