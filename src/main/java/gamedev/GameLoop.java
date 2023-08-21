@@ -236,18 +236,16 @@ public class GameLoop implements Runnable {
     @Override
     public void run() {
 
-        Delta delta = new Delta();
+        GameTimer gameTimer = new GameTimer();
         int ticks = 0, frames = 0;
         boolean shouldRender = false;
         long timer = System.currentTimeMillis();
 
         while (isRunning()) {
-            /* La ventaja de comprobar el delta dentro del Game Loop, es que no necesita multiplicar todo lo relacionado
-             * con la fisica por el delta. */
-            if (delta.checkTimestep()) {
+            if (gameTimer.shouldUpdate()) {
                 ticks++;
                 tick();
-                shouldRender = true; // Actualiza primero para tener algo que renderizar en la primera iteracion
+                shouldRender = true;
             }
 
             /* Suspender el Game Loop antes de renderizar, reduce el tiempo del CPU. La desventaja de esto, es que no se
