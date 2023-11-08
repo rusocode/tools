@@ -20,26 +20,26 @@ import java.util.ArrayList;
 
 public class AStar extends JPanel {
 
-    // Screen settings
-    final int maxRow = 10;
-    final int maxCol = 15;
-    final int nodeSize = 70;
-    final int screenWidth = nodeSize * maxCol;
-    final int screenHeight = nodeSize * maxRow;
+    // Configuracion de mapa
+    private final int maxRow = 10;
+    private final int maxCol = 15;
 
-    // Node
-    Node[][] node;
-    Node startNode, goalNode, currentNode;
+    // Nodos
+    private final Node[][] node;
+    private Node startNode, goalNode, currentNode;
     // Los nodos abiertos representan los nodos a comparar
-    ArrayList<Node> openList = new ArrayList<>();
+    private final ArrayList<Node> openList = new ArrayList<>();
 
-    // Others
-    boolean goalReached;
+    // Otros
+    private boolean goalReached;
     /* Cuenta los pasos en cada ciclo hasta un limite para evitar que se congele el juego en caso de que no encuentre la
      * ruta por un determinado tiempo. */
-    int step;
+    private int step;
 
     public AStar() {
+        int nodeSize = 70;
+        int screenWidth = nodeSize * maxCol;
+        int screenHeight = nodeSize * maxRow;
         setPreferredSize(new Dimension(screenWidth, screenHeight));
         setBackground(Color.black);
         setLayout(new GridLayout(maxRow, maxCol));
@@ -169,6 +169,8 @@ public class AStar extends JPanel {
 
             int bestNodeIndex = 0;
             int bestNodefCost = 999;
+
+            // System.out.println(openList.size());
 
             for (int i = 0; i < openList.size(); i++) {
                 if (openList.get(i).fCost < bestNodefCost) {

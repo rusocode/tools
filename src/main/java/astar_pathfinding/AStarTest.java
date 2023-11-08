@@ -17,5 +17,4 @@ public class AStarTest extends JFrame {
 		new AStarTest().setVisible(true);
 	}
 
-
 }
