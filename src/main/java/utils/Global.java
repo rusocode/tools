@@ -28,6 +28,7 @@ public final class Global {
 	public static final String TEXT_GRANDE = getTextDir() + "Conceptos generales de protocolos.txt";
 	public static final String BOLA = getTextureDir() + "bola.png";
 	public static final String BOLA_AMARILLA2 = getTextureDir() + "bola_amarilla2.png";
+	public static final String DRAGON = getTextureDir() + "dragon.png";
 	public static final String CONFIG = getResourcesDir() + "config.properties";
 
 	public static String getResourcesDir() {

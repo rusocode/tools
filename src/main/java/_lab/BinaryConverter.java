@@ -1,6 +1,7 @@
 package _lab;
 
 /**
+ * <p>
  * Conversor de binarios a decimales y de decimales a binarios.
  * <p>
  * Un byte es comparable a una pequeña caja que almacena un numero entre 0 y 255, equivalente a 8 bits. La memoria RAM está
