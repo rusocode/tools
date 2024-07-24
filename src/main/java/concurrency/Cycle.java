@@ -108,7 +108,7 @@ public class Cycle {
 
 		private void sleep(long millis) {
 			try {
-				Thread.sleep(millis);
+				MyThread.sleep(millis);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -147,7 +147,7 @@ public class Cycle {
 	 */
 	private static void sleep(long millis) {
 		try {
-			Thread.sleep(millis);
+			MyThread.sleep(millis);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -159,7 +159,7 @@ public class Cycle {
 	public static void main(String[] args) {
 
 		// Es posible obtener una referencia del subproceso actual con currentThread()
-		System.out.println("Subproceso " + Thread.currentThread().getName() + " ejecutado");
+		System.out.println("Subproceso " + MyThread.currentThread().getName() + " ejecutado");
 
 		// 1. Nuevo
 		Subproceso A = new Subproceso("A");
@@ -185,7 +185,7 @@ public class Cycle {
 		B.stop();
 		B.kill();
 
-		System.out.println("Subproceso " + Thread.currentThread().getName() + " terminado");
+		System.out.println("Subproceso " + MyThread.currentThread().getName() + " terminado");
 	}
 
 }

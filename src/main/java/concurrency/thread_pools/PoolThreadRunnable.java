@@ -4,52 +4,58 @@ package concurrency.thread_pools;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * Implementa los subprocesos que ejecutan las tareas.
+ * Esta clase representa un hilo de trabajo en el pool de hilos. Cada instancia de esta clase se ejecuta en su propio hilo,
+ * tomando tareas de la cola compartida y ejecutandolas. El hilo puede ser detenido de manera segura usando el metodo doStop(). El
+ * uso de BlockingQueue permite que los hilos esperen eficientemente cuando no hay tareas disponibles. Los metodos doStop() e
+ * isStopped() son sincronizados para garantizar la seguridad en entornos multihilo.
+ * <p>
+ * Esta implementacion permite que multiples hilos trabajen en paralelo, tomando tareas de una cola compartida, lo que es la base
+ * del funcionamiento del pool de hilos.
  */
 
 public class PoolThreadRunnable implements Runnable {
 
-	private Thread thread;
-	private BlockingQueue taskQueue;
-	private boolean isStopped;
+    // Almacena una referencia al hilo actual que esta ejecutando esta instancia
+    private Thread thread;
+    // Cola bloqueante compartida de donde se toman las tareas a ejecutar
+    private final BlockingQueue taskQueue;
+    private boolean stopped;
 
-	public PoolThreadRunnable(BlockingQueue taskQueue) {
-		this.taskQueue = taskQueue;
-	}
+    /**
+     * Inicializa la instancia con la cola de tareas compartida.
+     *
+     * @param taskQueue cola de tareas.
+     */
+    public PoolThreadRunnable(BlockingQueue taskQueue) {
+        this.taskQueue = taskQueue;
+    }
 
-	@Override
-	public void run() {
+    @Override
+    public void run() {
+        thread = Thread.currentThread();
+        // Mientras el hilo no este detenido
+        while (!isStopped()) {
+            try {
+                /* Intenta tomar una tarea de la cola (taskQueue.take()). Este metodo es bloqueante, es decir, si la cola esta
+                 * vacia, el hilo esperara hasta que haya una tarea disponible. */
+                Runnable runnable = (Runnable) taskQueue.take();
+                // Ejecuta la tarea
+                runnable.run();
+            } catch (Exception e) {
+                // Registre o informe de alguna otra manera la excepcion, pero mantenga vivo el subproceso del grupo
+                System.out.println("Error:" + e.getMessage());
+            }
+        }
+    }
 
-		thread = Thread.currentThread(); // ?
+    public synchronized void doStop() {
+        stopped = true;
+        // Interrumpe el hilo, lo que puede hacer que salga del metodo take() si estaba esperando por una tarea
+        thread.interrupt();
+    }
 
-		// Si el hilo no esta detenido
-		while (!isStopped()) {
-
-			try {
-
-				/* Recupera y elimina el encabezado de esta cola (primer tarea). Si la cola no contiene ningun elemento, el metodo
-				 * take() bloqueara el hilo que llama a take() hasta que se inserte un elemento en la cola. En caso que de que haya
-				 * un elemento o mas, entonces la tarea se asigna a un subproceso (inactivo) dentro del grupo de subprocesos y lo
-				 * ejecuta. */
-				Runnable runnable = (Runnable) taskQueue.take();
-				// Ejecuta la tarea
-				runnable.run();
-
-			} catch (Exception e) {
-				// Registre o informe de alguna otra manera la excepcion, pero mantenga vivo el subproceso del grupo
-			}
-		}
-
-	}
-
-	public synchronized void doStop() {
-		isStopped = true;
-		// Rompe el hilo del grupo fuera de la llamada de la cola
-		thread.interrupt();
-	}
-
-	public synchronized boolean isStopped() {
-		return isStopped;
-	}
+    public synchronized boolean isStopped() {
+        return stopped;
+    }
 
 }

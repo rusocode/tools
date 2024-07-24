@@ -68,7 +68,7 @@ class MyRunnable implements Runnable {
 		threadLocal.set((int) (Math.random() * 100D));
 
 		try {
-			Thread.sleep(2000);
+			MyThread.sleep(2000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

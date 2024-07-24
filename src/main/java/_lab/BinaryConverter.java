@@ -29,7 +29,7 @@ public class BinaryConverter {
         byte[] binary = new byte[BINARY_LENGTH];
         for (int i = 0; i < BINARY_LENGTH; i++)
             binary[i] = (byte) (Math.random() * 2); // Genera un bit aleatorio entre 0 y 1
-        System.out.print("Binario > ");
+        System.out.print("Binary > ");
         for (byte bit : binary)
             System.out.print(bit);
         return binary;

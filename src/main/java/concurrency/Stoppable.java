@@ -60,7 +60,7 @@ public class Stoppable {
 
 		private void sleep(long millis) {
 			try {
-				Thread.sleep(millis);
+				MyThread.sleep(millis);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -70,19 +70,19 @@ public class Stoppable {
 
 	public static void main(String[] args) {
 
-		System.out.println("Subproceso " + Thread.currentThread().getName() + " ejecutado");
+		System.out.println("Subproceso " + MyThread.currentThread().getName() + " ejecutado");
 
 		Subproceso A = new Subproceso("A");
 
 		A.start();
 
 		try {
-			Thread.sleep(5 * TIEMPO_BLOQUEADO);
+			MyThread.sleep(5 * TIEMPO_BLOQUEADO);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 
-		System.out.println("Deteniendo subproceso desde " + Thread.currentThread().getName());
+		System.out.println("Deteniendo subproceso desde " + MyThread.currentThread().getName());
 		A.stop();
 
 	}

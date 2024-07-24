@@ -69,7 +69,7 @@ class Hilo implements Runnable {
 	@Override
 	public void run() {
 
-		System.out.println(Thread.currentThread().getName() + " >> en ejecucion!");
+		System.out.println(MyThread.currentThread().getName() + " >> en ejecucion!");
 
 		/* Mientras el hilo del objeto no se haya interrumpido.
 		 * Diferencia entre isInterrupted() y interrupted():
@@ -78,7 +78,7 @@ class Hilo implements Runnable {
 		 * 
 		 * Diferencia entre interrupt, interrupted y isInterrupted
 		 * https://www.programmersought.com/article/7473981424/#:~:text=3.,true%20for%20the%20first%20time. */
-		while (!Thread.currentThread().isInterrupted()) { // No borra su estado, pero con la llamada estatica si (Thread.interrupted)
+		while (!MyThread.currentThread().isInterrupted()) { // No borra su estado, pero con la llamada estatica si (Thread.interrupted)
 			// Dibuja el cuadrado llamando al metodo paintComponent() de la clase Lamina
 			// component.paint(component.getGraphics());
 			/* La desaparacion de los botones ocurre porque los componentes swing se estan ejecutando en el mismo hilo que el run de
@@ -93,11 +93,11 @@ class Hilo implements Runnable {
 			try {
 				/* Bloquea el hilo durante una cantidad determinada de tiempo.
 				 * Cuando se intenta interrumpir un hilo bloqueado, lanza una excepcion de tipo InterruptedException. */
-				Thread.sleep(Rectangle.tiempo_bloqueado);
+				MyThread.sleep(Rectangle.tiempo_bloqueado);
 			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
+				MyThread.currentThread().interrupt();
 				System.out.println(
-						Thread.currentThread().getName() + " >> " + (Thread.currentThread().isInterrupted() ? "terminado!" : "en ejecucion!"));
+						MyThread.currentThread().getName() + " >> " + (MyThread.currentThread().isInterrupted() ? "terminado!" : "en ejecucion!"));
 			}
 
 			// Cambia los valores de x e y, en otras palabras... mueve el cuadrado

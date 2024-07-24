@@ -1,132 +1,154 @@
 package io;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
+import java.io.*;
+
+/**
+ * <p>
+ * La serializacion consiste en convertir un objeto en bytes con el objetivo de distribuirlo a travez de la red a ordenadores
+ * remotos y que en ese ordenador el objeto serializado sea restablecido al estado en el que se serializo.
+ * <p>
+ * El <b>serialVersionUID</b> es un identificador unico asociado con las clases serializables en Java. Aqui te explico sus
+ * principales caracteristicas y propositos:
+ * <ol>
+ * <li>Definicion: Es un campo {@code static final long} que se utiliza durante la deserializacion para verificar que el remitente
+ * y el receptor de un objeto serializado tienen clases compatibles para ese objeto.
+ * <li>Proposito principal: Asegura la consistencia entre las versiones serializadas y deserializadas de una clase.
+ * <li>Funcionamiento:
+ * <ul>
+ * <li>Cuando se serializa un objeto, Java incluye el serialVersionUID de la clase en los datos serializados.
+ * <li>Durante la deserializacion, Java compara el serialVersionUID almacenado con el de la clase actual.
+ * <li>Si no coinciden, se lanza una InvalidClassException.
+ * </ul>
+ * <li>Generacion:
+ * <ul>
+ * <li>Si no se declara explicitamente, Java genera uno automaticamente basado en varios aspectos de la clase.
+ * <li>Sin embargo, se recomienda declararlo explicitamente para evitar problemas de compatibilidad.
+ * </ul>
+ * <li>Declaracion:
+ * {@code private static final long serialVersionUID = 1L;}
+ * <li>Cuando cambiarlo:
+ * <ul>
+ * <li>Se debe incrementar cuando se realizan cambios incompatibles en la estructura de la clase.
+ * <li>Cambios menores o compatibles no requieren modificar el serialVersionUID.
+ * </ul>
+ * <li>Ventajas de declararlo explicitamente:
+ * <ul>
+ * <li>Control sobre la compatibilidad de versiones.
+ * <li>Evita que cambios menores en la clase (que no afectan la serializacion) generen un nuevo UID automatico.
+ * </ul>
+ * <li>Consideraciones de seguridad:
+ * <ul>
+ * <li>Ayuda a prevenir ataques de deserializacion maliciosa al proporcionar un nivel adicional de verificacion.
+ * </ul>
+ * <li>Herramientas: IDEs como IntelliJ IDEA o Eclipse pueden generar automaticamente un serialVersionUID para clases
+ * serializables.
+ * </ol>
+ * <p>
+ * En resumen, el serialVersionUID es una herramienta crucial para gestionar la compatibilidad y seguridad en la serializacion de
+ * objetos en Java. Su uso adecuado ayuda a mantener la integridad de los datos serializados a lo largo del tiempo y entre
+ * diferentes versiones de una aplicacion.
+ */
 
 public class Serializable_ {
 
-	/* La serializacion consiste en convertir un objeto en bytes con el objetivo de distribuirlo a travez de la red a
-	 * ordenadores remotos y que en ese ordenador el objeto serializado sea restablecido al estado en el que se
-	 * serializo. */
+    public static void main(String[] args) {
 
-	public static void main(String[] args) {
+        Admin jose = new Admin("Jose", 50000, 56);
+        jose.setIncentive(5000);
 
-		Administrador jefe = new Administrador("Jose", 50000, 56);
+        Employee[] employees = new Employee[3];
+        employees[0] = jose; // Polimorfismo = es un = principio de sustitucion
+        employees[1] = new Employee("Rulo", 26, 25000);
+        employees[2] = new Employee("Miguel", 44, 10000);
 
-		jefe.setIncentivo(5000);
+        Employee ale = new Employee("Ale", 25000, 26);
+        System.out.println(ale);
+        System.out.println("Aumento del 20% para el empleado " + ale.getName());
+        ale.increaseSalary(20);
+        System.out.println(ale);
 
-		Empleado[] empleados = new Empleado[3];
+        try {
 
-		empleados[0] = jefe; // Polimorfismo = es un = principio de sustitucion
+            ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("C:/users/juand/Desktop/employee.dat"));
+            output.writeObject(employees);
+            output.close();
 
-		empleados[1] = new Empleado("Jose", 25000, 26);
+            ObjectInputStream input = new ObjectInputStream(new FileInputStream("C:/users/juand/Desktop/employee.dat"));
+            Employee[] copyInput = (Employee[]) input.readObject();
+            input.close();
 
-		empleados[2] = new Empleado("Miguel", 10000, 44);
+            for (Employee e : copyInput)
+                System.out.println(e);
 
-//		Empleado juan = new Empleado("Juan", 25000, 26);
-//
-//		System.out.println(juan.toString());
-//
-//		System.out.println("Aumento del 20% para el empleado " + juan.getNombre());
-//
-//		juan.aumentarSueldo(20);
-//
-//		System.out.println(juan.toString());
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("I/O error: " + e.getMessage());
+        }
 
-		try {
-
-//			ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream("C:/users/juand/Desktop/empleado.dat"));
-//
-//			salida.writeObject(empleados);
-//
-//			salida.close();
-
-			ObjectInputStream entrada = new ObjectInputStream(new FileInputStream("C:/users/juand/Desktop/empleado.dat"));
-
-			Empleado[] copia_entrada = (Empleado[]) entrada.readObject();
-
-			entrada.close();
-
-			for (Empleado e : copia_entrada)
-				System.out.println(e);
-
-		} catch (IOException | ClassNotFoundException e) {
-			System.err.println("Error de I/O: " + e.getMessage());
-		}
-
-	}
+    }
 
 }
 
-// Clase lista para convertirla en bytes
-class Empleado implements Serializable {
+class Employee implements Serializable { // Clase lista para convertirla a bytes
 
-	// Serial generado automaticamente en donde sera diferente cada vez que se modifique el programa: 6718602386940085512L
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-	/* Con la huella se puede leer el objeto serializado a pesar de que se haya modificado el programa, por que la huella es
-	 * tomada del serialVersionUID y ese serial no se cambio, es decir que se hicieron cambios en el programa pero no en la
-	 * huella, por lo tanto el programa va a correr sin ningun problema aunque se hayan echo cambios en el. */
+    protected final String name;
+    private final int age;
+    private double salary;
 
-	private static final long serialVersionUID = 1L; // Huella de 20 bytes
+    public Employee(String name, int age, double salary) {
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+    }
 
-	private String nombre;
-	private double sueldo;
-	private int edad;
+    public String getName() {
+        return name;
+    }
 
-	public Empleado(String nombre, double sueldo, int edad) {
-		this.nombre = nombre;
-		this.sueldo = sueldo;
-		this.edad = edad;
-	}
+    public int getAge() {
+        return age;
+    }
 
-	public String getNombre() {
-		return nombre;
-	}
+    public double getSalary() {
+        return salary;
+    }
 
-	public double getSueldo() {
-		return sueldo;
-	}
+    public void increaseSalary(double percentage) {
+        salary += salary * percentage / 100;
+    }
 
-	public int getEdad() {
-		return edad;
-	}
-
-	public void aumentarSueldo(double porcentaje) {
-		sueldo += sueldo * porcentaje / 100;
-	}
-
-	// Este metodo se utiliza para especificar una descripcion de la clase
-	@Override
-	public String toString() {
-		return "Empleado [nombre=" + nombre + ", sueldo=" + sueldo + ", edad=" + edad + "]";
-	}
+    @Override
+    public String toString() {
+        return "Employee [name=" + name + ", age=" + age + ", salary=" + salary + "]";
+    }
 
 }
 
-class Administrador extends Empleado {
+class Admin extends Employee {
 
-	private static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-	private double incentivo;
+    private double incentive;
 
-	public Administrador(String nombre, double sueldo, int edad) {
-		super(nombre, sueldo, edad); // Llama al constructor de la clase padre con la instruccion super
-		incentivo = 0;
-	}
+    public Admin(String name, int age, double salary) {
+        super(name, age, salary);
+        incentive = 0;
+    }
 
-	public double getSueldo() {
-		return super.getSueldo() + incentivo;
-	}
+    public double getSalary() {
+        return super.getSalary() + incentive;
+    }
 
-	public void setIncentivo(double incentivo) {
-		this.incentivo = incentivo;
-	}
+    public void setIncentive(double incentive) {
+        this.incentive = incentive;
+    }
 
-	@Override
-	public String toString() {
-		return "Administrador [incentivo=" + incentivo + "]";
-	}
+    @Override
+    public String toString() {
+        return "Admin [name=" + name + ", incentive=" + incentive + "]";
+    }
 
 }

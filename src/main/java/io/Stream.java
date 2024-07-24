@@ -60,12 +60,14 @@ import static utils.Global.*;
  * Si se necesita un rendimiento mejorado para la lectura de archivos, especialmente para archivos grandes o cuando se realizan
  * muchas operaciones de lectura pequeñas, se recomienda envolver FileInputStream en un BufferedInputStream. Esto añade la
  * funcionalidad de buffer, lo que puede mejorar significativamente el rendimiento al reducir el numero de accesos al disco.
- * Tambien es posible crear un array de bytes (buffer) y utilizarlo para leer desde el flujo.
+ * Aunque menos eficiente pero no por eso peor, tambien es posible crear un array de bytes (buffer) y utilizarlo para leer desde
+ * el flujo.
  * <p>
  * Links:
  * <a href="https://www.youtube.com/watch?v=baHz_RmMt5I">Java IO - Buffered Streams</a>
  * <a href="https://www.youtube.com/watch?v=lE7HXIJOpDU">The Hard Drive Buffer</a>
  * <a href="https://www.youtube.com/watch?v=x2vegjeJICk">Buffer Cache</a>
+ * <a href="https://www.quora.com/Why-are-there-1024-bytes-in-a-kilobyte">Why are there 1024 bytes in a kilobyte?</a>
  *
  * @author Juan Debenedetti
  */
@@ -126,27 +128,6 @@ public class Stream {
     }
 
     /**
-     * Lee el archivo del flujo usando un BufferedReader.
-     */
-    private void readFromBufferedReader() {
-        /* Envuelve el FileInputStream en un InputStreamReader, que convierte bytes a caracteres. Finalmente, envuelve el
-         * InputStreamReader en un BufferedReader para una lectura mas eficiente. */
-        try (BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
-
-            System.out.println("Reading...");
-
-            // Lee el archivo de texto linea por linea. Esto ocurre hasta que readLine() devuelve null, que indica el final (EOF).
-            long startTime = System.nanoTime();
-            while (buffer.readLine() != null)
-                System.out.println("Reading from BufferedReader");
-            System.out.print("Reading finished in " + (System.nanoTime() - startTime) / 1e6 + " ms\n");
-
-        } catch (IOException e) {
-            System.err.println("I/O error: " + e.getMessage());
-        }
-    }
-
-    /**
      * Decodifica los bytes del archivo del flujo.
      */
     private void decode() {
@@ -187,8 +168,7 @@ public class Stream {
     public static void main(String[] args) {
         Stream stream = new Stream(new File(TEXT));
         // stream.nativeRead();
-        // stream.readFromBufferedReader();
-        stream.read();
+        // stream.read();
         // stream.decode();
     }
 

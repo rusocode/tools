@@ -59,13 +59,13 @@ public class Banco {
 			 * haya despertado a los que estaban en espera. Es decir, que vuelve a comprobar si la condicion es verdadera o no para
 			 * evitar problemas. */
 			while (CUENTAS[origen] < cantidad) {
-				System.err.printf("%s bloqueado por que tiene un saldo de %.2f$ y se necesitan %.2f$!%n", Thread.currentThread().getName(),
+				System.err.printf("%s bloqueado por que tiene un saldo de %.2f$ y se necesitan %.2f$!%n", MyThread.currentThread().getName(),
 						CUENTAS[origen], cantidad);
 				saldoSuficiente.await(); // Hace que el hilo actual espere hasta que sea señalado por otro
 			}
 
 			// Muestra el hilo actual
-			System.out.println("[" + Thread.currentThread().getName() + "]");
+			System.out.println("[" + MyThread.currentThread().getName() + "]");
 
 			CUENTAS[origen] -= cantidad;
 			CUENTAS[destino] += cantidad;
@@ -93,12 +93,12 @@ public class Banco {
 		}
 
 		while (CUENTAS[origen] < cantidad) {
-			System.err.printf("%s bloqueado por que tiene un saldo de %.2f$ y se necesitan %.2f$!%n", Thread.currentThread().getName(),
+			System.err.printf("%s bloqueado por que tiene un saldo de %.2f$ y se necesitan %.2f$!%n", MyThread.currentThread().getName(),
 					CUENTAS[origen], cantidad);
 			wait();
 		}
 
-		System.out.println("[" + Thread.currentThread().getName() + "]");
+		System.out.println("[" + MyThread.currentThread().getName() + "]");
 
 		CUENTAS[origen] -= cantidad;
 		CUENTAS[destino] += cantidad;
@@ -138,7 +138,7 @@ public class Banco {
 				double cantidad = cantidadMax * Math.random();
 				try {
 					banco.transferir2(origen, destino, cantidad);
-					Thread.sleep(250);
+					MyThread.sleep(250);
 				} catch (InterruptedException e) {
 				}
 			}

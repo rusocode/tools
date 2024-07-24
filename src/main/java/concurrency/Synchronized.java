@@ -68,7 +68,7 @@ package concurrency;
  * @author Ruso
  */
 
-public class Synchronized extends Thread {
+public class Synchronized extends MyThread {
 
 	private int n1, n3;
 	private static int n2, n4;

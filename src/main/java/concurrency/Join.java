@@ -12,7 +12,7 @@ public class Join {
 
 	private static void sleep(long millis) {
 		try {
-			Thread.sleep(millis);
+			MyThread.sleep(millis);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

@@ -52,17 +52,6 @@ package _lab;
 
 public class BitOperators {
 
-    public static void main(String[] args) {
-        int a = 1, b = 3, c = -8; // Operandos
-        // System.out.println(and(a, b));
-        // System.out.println(or(a, b));
-        // System.out.println(xor(a, b));
-        // System.out.println(not(a));
-        // System.out.println(leftShift(a));
-        // System.out.println(signedRightShift(c));
-        System.out.println(unsignedRightShift(c));
-    }
-
     /**
      * Compara cada bit y devuelve 1 si ambos bits son 1, de lo contrario 0.
      * <pre>
@@ -174,6 +163,17 @@ public class BitOperators {
      */
     private static int unsignedRightShift(int c) {
         return c >>> 1;
+    }
+
+    public static void main(String[] args) {
+        int a = 1, b = 3, c = -8; // Operandos
+        // System.out.println(and(a, b));
+        // System.out.println(or(a, b));
+        // System.out.println(xor(a, b));
+        // System.out.println(not(a));
+        // System.out.println(leftShift(a));
+        // System.out.println(signedRightShift(c));
+        System.out.println(unsignedRightShift(c));
     }
 
 }
