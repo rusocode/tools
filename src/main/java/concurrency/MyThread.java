@@ -228,7 +228,7 @@ public class MyThread extends Thread {
                 try {
                     Thread.sleep(3L * 1000L);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    System.err.println("Error: " + e.getMessage());
                 }
             }
         }

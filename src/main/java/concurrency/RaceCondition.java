@@ -159,7 +159,7 @@ package concurrency;
 
 public class RaceCondition implements Runnable {
 
-    // Recurso compartido
+    // Variables miembro del objeto (recurso compartido)
     private int count = 0;
 
     @Override
