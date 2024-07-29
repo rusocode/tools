@@ -72,7 +72,7 @@ package concurrency;
  *
  *     // Llamado por el frame drawing thread
  *     public Frame takeFrame() {
- *         while(!hasNewFrame) {
+ *         while (!hasNewFrame) {
  *             // Espera hasta que llegue el nuevo frame
  *         }
  *
@@ -258,14 +258,13 @@ package concurrency;
  *     public void set(Values v) {
  *         this.valA = v.valA;
  *         this.valB = v.valB;
- *
- *         synchronized(this) {
+ *         synchronized (this) {
  *             this.valC = v.valC;
  *         }
  *     }
  *
  *     public void get(Values v) {
- *         synchronized(this) {
+ *         synchronized (this) {
  *             v.valC = this.valC;
  *         }
  *         v.valB = this.valB;
@@ -299,7 +298,7 @@ package concurrency;
  * por que, usare el metodo get() del ValueExchanger que se mostro anteriormente:
  * <pre>{@code
  *     public void get(Values v) {
- *         synchronized(this) {
+ *         synchronized (this) {
  *             v.valC = this.valC;
  *         }
  *         v.valB = this.valB;
@@ -317,7 +316,7 @@ package concurrency;
  *     public void get(Values v) {
  *         v.valB = this.valB;
  *         v.valA = this.valA;
- *         synchronized(this) {
+ *         synchronized (this) {
  *             v.valC = this.valC;
  *         }
  *     }
@@ -333,8 +332,7 @@ package concurrency;
  *     public void set(Values v) {
  *         this.valA = v.valA;
  *         this.valB = v.valB;
- *
- *         synchronized(this) {
+ *         synchronized (this) {
  *             this.valC = v.valC;
  *         }
  *     }
@@ -349,7 +347,7 @@ package concurrency;
  * seria el caso en la siguiente reordenacion no permitida de las instrucciones:
  * <pre>{@code
  *     public void set(Values v) {
- *         synchronized(this) {
+ *         synchronized (this) {
  *             this.valC = v.valC;
  *         }
  *         this.valA = v.valA;
@@ -363,5 +361,5 @@ package concurrency;
 
 public class HappensBeforeGuarantee {
 
-
 }
+
