@@ -33,7 +33,7 @@ import java.util.concurrent.BlockingQueue;
  * se inserta una nueva tarea en la cola, uno de los subprocesos inactivos la sacara de la cola con exito y la ejecutara. El resto
  * de los subprocesos inactivos del grupo se bloquearan a la espera de retirar las tareas de la cola.
  * <p>
- * <img src="Funcionamiento del Thread Pool.PNG">
+ * <img src="funcionamiento del thread pool.PNG">
  * <h3>Casos de uso del grupo de subprocesos</h3>
  * <p>
  * Los grupos de subprocesos se utilizan a menudo en servidores de subprocesos multiples. Cada conexion que llega al servidor a

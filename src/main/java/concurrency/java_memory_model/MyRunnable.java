@@ -18,7 +18,7 @@ package concurrency.java_memory_model;
  * El modelo de memoria Java utilizado internamente en la JVM divide la memoria entre thread stacks (pilas de subprocesos) y el
  * heap (monton). Este diagrama ilustra el modelo de memoria Java desde una perspectiva logica:
  * <p>
- * <img src="JMM.PNG">
+ * <img src="jmm.PNG">
  * <p>
  * Cada subproceso que se ejecuta en la maquina virtual Java tiene su propia pila de subprocesos. La pila de subprocesos contiene
  * informacion sobre que metodos ha llamado el subproceso para llegar al punto de ejecucion actual. Me referire a esto como "call
@@ -42,7 +42,7 @@ package concurrency.java_memory_model;
  * A continuacion se muestra un diagrama que ilustra la pila de llamadas y las variables locales almacenadas en las pilas de
  * subprocesos y los objetos almacenados en el heap:
  * <p>
- * <img src="Call stack y variables locales almacenadas en el thread stack y objetos en el heap.PNG">
+ * <img src="call stack y variables locales almacenadas en el thread stack y objetos en el heap.PNG">
  * <p>
  * Una variable local puede ser de tipo primitivo, en cuyo caso se mantiene totalmente en la pila de subprocesos.
  * <p>
@@ -64,7 +64,7 @@ package concurrency.java_memory_model;
  * <p>
  * Aqui hay un diagrama que ilustra los puntos anteriores:
  * <p>
- * <img src="Diagrama.PNG">
+ * <img src="diagrama.PNG">
  * <p>
  * Dos subprocesos tienen un conjunto de variables locales. Una de las variables locales ({@code Local variable 2}) apunta a un
  * objeto compartido en el heap (Objeto 3). Cada uno de los dos hilos tiene una referencia diferente al mismo objeto. Sus
@@ -156,7 +156,7 @@ package concurrency.java_memory_model;
  * en la pila de subprocesos.
  * <h3>Arquitectura de memoria de hardware</h3>
  * <p>
- * <img src="Arquitectura de memoria de hardware.PNG">
+ * <img src="arquitectura de memoria de hardware.PNG">
  * <p>
  * La arquitectura de memoria de hardware moderna difiere del modelo de memoria interna de Java y es crucial entenderla para
  * comprender como funciona el modelo de memoria Java. Los puntos clave son:
@@ -181,7 +181,7 @@ package concurrency.java_memory_model;
  * de la CPU. Esta diferencia entre el modelo logico de Java y la implementacion real del hardware es fundamental para entender el
  * funcionamiento de la memoria en aplicaciones Java. Esto se ilustra en este diagrama:
  * <p>
- * <img src="Diferencia entre la arquitectura de JMM y la memoria del hardware.PNG">
+ * <img src="diferencia entre la arquitectura de jmm y la memoria del hardware.PNG">
  * <p>
  * Cuando los objetos y variables se pueden almacenar en varias areas de memoria diferentes de la computadora, pueden ocurrir
  * ciertos problemas. Los dos problemas principales son:
@@ -201,7 +201,7 @@ package concurrency.java_memory_model;
  * en la cache de su CPU y cambia su variable {@code count} a 2. Este cambio no es visible para otros subprocesos que se ejecutan
  * en la CPU derecha, porque la actualizacion de count no se ha devuelto a principal memoria todavia.
  * <p>
- * <img src="Visibilidad de objetos compartidos.PNG">
+ * <img src="visibilidad de objetos compartidos.PNG">
  * <p>
  * Para resolver este problema, puede utilizar la palabra clave <b>volatile</b>. La palabra clave volatile puede garantizar que una
  * variable determinada se lea directamente desde la memoria principal y siempre se vuelva a escribir en la memoria principal
@@ -218,7 +218,7 @@ package concurrency.java_memory_model;
  * <p>
  * Este diagrama ilustra una ocurrencia del problema con las condiciones de carrera como se describe anteriormente:
  * <p>
- * <img src="Condicion de carrera.PNG">
+ * <img src="condicion de carrera.PNG">
  * <p>
  * Para resolver las condiciones de carrera, Java ofrece <b>synchronized block</b>. Estos garantizan que solo un hilo a la vez
  * pueda ejecutar una seccion critica del codigo. Ademas, aseguran que todas las variables dentro del bloque se lean de la memoria
