@@ -6,17 +6,15 @@ package generic;
  * Ademas de extender clases, tambien puede extender interfaces usando {@code extends} y no {@code implements}.
  * <p>
  * Para agregar una o varias interfaces despues de especificar la clase, se utiliza &.
- * <br>
- * {@code <T extends Serializable> // No error}
- * <br>
- * {@code <T extends Animal & Serializable> // No error}
- * <br>
- * {@code <T extends Animal & Serializable & Set> // No error}
- * <br>
- * {@code <T extends Serializable & Animal> // Error}
+ * <pre>{@code
+ * <T extends Serializable> // No error
+ * <T extends Animal & Serializable> // No error
+ * <T extends Animal & Serializable & Set> // No error
+ * <T extends Serializable & Animal> // Error
+ * }</pre>
  * <p>
  * No se puede extender mas de una clase, ya que java no admite la herencia multiple.
- * <br>
+ * <p>
  * {@code <T extends Animal, Human> // No se acepta}
  */
 

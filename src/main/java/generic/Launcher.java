@@ -7,18 +7,19 @@ import java.util.*;
  * <p>
  * Se especifican con operadores diamantes <> y un nombre (convecional T, U, o K) dentro.
  * <p>
- * Este ejemplo crea dos objetos de diferentes tipos desde {@code GenericPrinter}. Tambien se utiliza
- * {@code GenericAnimal} para poder crear objetos que solo extiendan de la clase {@code Animal}.
+ * Este ejemplo crea dos objetos de diferentes tipos desde {@code GenericPrinter}. Tambien se utiliza {@code GenericAnimal} para
+ * poder crear objetos que solo extiendan de la clase {@code Animal}.
  * <p>
- * Es conveniente evitar usar Object como tipo, ya que causa problemas de seguridad y ejecucion, ademas de tener que
- * castear cada uno.
+ * Es conveniente evitar usar Object como tipo, ya que causa problemas de seguridad y ejecucion, ademas de tener que castear cada
+ * uno.
  * <pre>{@code
  * ArrayList<Object> cats = new ArrayList<>();
  * cats.add(new Cat());
  * Cat michi = cats.get(0); // Error de tipo ya que es una lista de Object
  * Cat michi = (Cat) cats.get(0); // Castea al objeto Cat
  * }</pre>
- * Fuente: <a href="https://www.youtube.com/watch?v=K1iu1kXkVoA">https://www.youtube.com/watch?v=K1iu1kXkVoA</a>
+ * <p>
+ * Links: <a href="https://www.youtube.com/watch?v=K1iu1kXkVoA">Generics In Java</a>
  */
 
 public class Launcher {
@@ -39,19 +40,21 @@ public class Launcher {
         // Almacena el tipo de retorno generico
         String result = genericMethod("Juan", 28);
         // Integer result2 = genericMethod(28, "Juan");
+        System.out.println(result);
 
         List<Double> intList = new ArrayList<>();
         intList.add(4.43);
         intList.add(3.4);
-        printList(intList);
+        // printList(intList);
 
     }
 
     /**
-     * Al igual que las clases, los metodos que retornan un generico se especifican con la letra de conveniencia T sin
-     * los <>. Para indicar mas de un parametro, se utilizan las letras convecionales separados por comas dentro los <>
-     * antes del tipo de retorno siempre que la clase no se declare como generica, ademas de especificar con la letra de
-     * conveniencia T, V o K la lista de parametros.
+     * <p>
+     * Al igual que las clases, los metodos que retornan un generico se especifican con la letra de conveniencia T sin los <>.
+     * Para indicar mas de un parametro, se utilizan las letras convecionales separados por comas dentro los <> antes del tipo de
+     * retorno siempre que la clase no se declare como generica, ademas de especificar con la letra de conveniencia T, V o K la
+     * lista de parametros.
      * <p>
      * Este metodo se adapta a cualquier tipo de dato, cumpliendo con las reglas anteriores.
      *
@@ -88,9 +91,8 @@ public class Launcher {
     /**
      * Metodo comodin que obtiene una lista de cualquier tipo de objeto y la imprime.
      * <p>
-     * El comodin en los genericos se utiliza para poder aceptar cualquier tipo de objeto, ya que es algo desconocido.
-     * Tambien se puede utilizar ese "limite" ({@code List<? extends Animal>}) en los comodines para aceptar clases
-     * especificas.
+     * El comodin en los genericos se utiliza para poder aceptar cualquier tipo de objeto, ya que es algo desconocido. Tambien se
+     * puede utilizar ese "limite" ({@code List<? extends Animal>}) en los comodines para aceptar clases especificas.
      */
     private static void printList(List<?> myList) {
         myList.forEach(System.out::println);
