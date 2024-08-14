@@ -20,6 +20,12 @@ public class BinaryConverter {
 
     private static final int BINARY_LENGTH = 8, BASE = 2, LAST_BIT_POSITION = 7;
 
+    public static void main(String[] args) {
+        // System.out.println("\nDecimal > " + convertBinaryToDecimal(generateRandomBinary()));
+        // System.out.println("Decimal > " + convertBinaryToDecimal(new byte[]{0, 0, 0, 0, 0, 1, 0, 0}));
+        // System.out.println(convertDecimalToBinary(2));
+    }
+
     /**
      * Genera un binario aleatorio.
      *
@@ -74,12 +80,6 @@ public class BinaryConverter {
      */
     private static int calculateExp(int i) {
         return LAST_BIT_POSITION - i;
-    }
-
-    public static void main(String[] args) {
-        // System.out.println("\nDecimal > " + convertBinaryToDecimal(generateRandomBinary()));
-        // System.out.println("Decimal > " + convertBinaryToDecimal(new byte[]{0, 0, 0, 0, 0, 1, 0, 0}));
-        // System.out.println(convertDecimalToBinary(2));
     }
 
 }

@@ -4,7 +4,7 @@ package concurrency.deadlock;
  * <p>
  * Un punto muerto es cuando dos o mas subprocesos estan bloqueados esperando obtener bloqueos que algunos de los otros
  * subprocesos en el punto muerto estan manteniendo. El punto muerto puede ocurrir cuando varios subprocesos necesitan los mismos
- * bloqueos al mismo tiempo, pero los obtienen en diferente orden.
+ * bloqueos al mismo tiempo, pero los obtienen en diferentes orden.
  * <p>
  * A continuacion se muestra un ejemplo de una situacion de punto muerto:
  * <p>
@@ -23,19 +23,17 @@ package concurrency.deadlock;
  * public class TreeNode {
  *
  *     TreeNode parent;
- *     List children = new ArrayList();
+ *     List childs = new ArrayList();
  *
  *     public synchronized void addChild(TreeNode child) {
- *         if (!this.children.contains(child)) {
- *             this.children.add(child);
+ *         if (!childs.contains(child)) {
+ *             childs.add(child);
  *             child.setParentOnly(this);
  *         }
  *     }
  *
  *     public synchronized void addChildOnly(TreeNode child) {
- *         if(!this.children.contains(child) {
- *             this.children.add(child);
- *         }
+ *         if (!childs.contains(child) childs.add(child);
  *     }
  *
  *     public synchronized void setParent(TreeNode parent) {
@@ -60,23 +58,24 @@ package concurrency.deadlock;
  *           --> parent.addChildOnly()
  * }</pre>
  * <p>
- * El escenario describe un caso clasico de interbloqueo entre dos hilos. El hilo 1 bloquea el objeto padre al llamar a
- * {@code addChild()}, mientras el hilo 2 bloquea el objeto hijo al llamar a {@code setParent()}. Esto resulta en que ambos
- * objetos quedan bloqueados por hilos diferentes. Cuando el hilo 1 intenta acceder al objeto hijo y el hilo 2 al objeto padre,
+ * El escenario describe un caso clasico de interbloqueo entre dos hilos. El hilo 1 bloquea el objeto parent al llamar a
+ * {@code addChild()}, mientras el hilo 2 bloquea el objeto child al llamar a {@code setParent()}. Esto resulta en que ambos
+ * objetos quedan bloqueados por hilos diferentes. Cuando el hilo 1 intenta acceder al objeto child y el hilo 2 al objeto parent,
  * ambos se bloquean mutuamente, creando un estancamiento. Este interbloqueo solo ocurre cuando los hilos ejecutan sus llamadas
- * simultaneamente sobre las mismas instancias de padre e hijo. Es importante notar que el codigo puede funcionar correctamente
+ * simultaneamente sobre las mismas instancias de parent e child. Es importante notar que el codigo puede funcionar correctamente
  * durante mucho tiempo antes de que se produzca un interbloqueo. Para que ocurra, los hilos deben tomar los candados exactamente
  * al mismo tiempo; si un hilo se adelanta ligeramente, el interbloqueo no se produce. Debido a la naturaleza impredecible de la
- * programacion de hilos, es imposible predecir cuando ocurrira un interbloqueo, solo que existe la posibilidad de que suceda.
+ * programacion de hilos, es imposible predecir *cuando* ocurrira un interbloqueo, solo que existe la posibilidad de que *puede*
+ * ocurrir.
  * <h3>Puntos muertos mas complicados</h3>
  * <p>
  * El punto muerto tambien puede incluir mas de dos subprocesos. Esto hace que sea mas dificil de detectar. A continuacion se
  * muestra un ejemplo en el que cuatro subprocesos se han estancado:
  * <pre>{@code
- * Thread 1  locks A, waits for B
- * Thread 2  locks B, waits for C
- * Thread 3  locks C, waits for D
- * Thread 4  locks D, waits for A
+ * Thread 1 locks A, waits for B
+ * Thread 2 locks B, waits for C
+ * Thread 3 locks C, waits for D
+ * Thread 4 locks D, waits for A
  * }</pre>
  * <p>
  * El hilo 1 espera al hilo 2, el hilo 2 espera al hilo 3, el hilo 3 espera al hilo 4 y el hilo 4 espera al hilo 1.
@@ -91,7 +90,7 @@ package concurrency.deadlock;
  * Si se ejecutan varias transacciones al mismo tiempo que necesitan actualizar los mismos registros, existe el riesgo de que
  * terminen en un punto muerto.
  * <p>
- * Por ejemplo
+ * Por ejemplo:
  * <pre>{@code
  * Transaction 1, request 1, locks record 1 for update
  * Transaction 2, request 1, locks record 2 for update

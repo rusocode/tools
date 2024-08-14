@@ -3,8 +3,7 @@ package _lab;
 /**
  * <p>
  * Los operadores logicos de bits en Java son operadores que realizan operaciones a nivel de bits sobre valores enteros. Estos
- * operadores trabajan con la representacion binaria de los numeros.
- * Usos comunes:
+ * operadores trabajan con la representacion binaria de los numeros. Usos comunes:
  * <ul>
  * <li>Manipulacion de flags y mascaras de bits.
  * <li>Optimizacion de ciertas operaciones matematicas.
@@ -46,11 +45,23 @@ package _lab;
  * <p>
  * Links:
  * <a href="https://es.wikibooks.org/wiki/Programaci%C3%B3n_en_Java/Operadores_de_bits">Operadores de bits</a>
+ * <a href="https://es.wikibooks.org/wiki/Programaci%C3%B3n_en_Java/Operadores_booleanos">Operadores booleanos</a>
  *
  * @author Juan Debenedetti
  */
 
 public class BitOperators {
+
+    public static void main(String[] args) {
+        int a = 1, b = 3, c = -8; // Operandos
+        // System.out.println(and(a, b));
+        // System.out.println(or(a, b));
+        // System.out.println(xor(a, b));
+        // System.out.println(not(a));
+        // System.out.println(leftShift(a));
+        // System.out.println(signedRightShift(c));
+        System.out.println(unsignedRightShift(c));
+    }
 
     /**
      * Compara cada bit y devuelve 1 si ambos bits son 1, de lo contrario 0.
@@ -133,7 +144,8 @@ public class BitOperators {
 
     /**
      * Desplaza los bits a la izquierda, llenando con ceros por la derecha. Los bits a la izquierda se pierden, no es una
-     * operacion de rotacion. Hay casos en las que el signo del numero puede cambiar tras una operacion como la siguiente: {@code 1 << 31 = -2147483648}
+     * operacion de rotacion. Hay casos en las que el signo del numero puede cambiar tras una operacion como la siguiente:
+     * {@code 1 << 31 = -2147483648}
      * <pre>
      * 1 = 00000001
      * 1 << 2 = 00000100 = 4 </pre>
@@ -163,17 +175,6 @@ public class BitOperators {
      */
     private static int unsignedRightShift(int c) {
         return c >>> 1;
-    }
-
-    public static void main(String[] args) {
-        int a = 1, b = 3, c = -8; // Operandos
-        // System.out.println(and(a, b));
-        // System.out.println(or(a, b));
-        // System.out.println(xor(a, b));
-        // System.out.println(not(a));
-        // System.out.println(leftShift(a));
-        // System.out.println(signedRightShift(c));
-        System.out.println(unsignedRightShift(c));
     }
 
 }

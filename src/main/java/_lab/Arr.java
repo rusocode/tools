@@ -4,8 +4,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
- * Crea un array de enteros aleatorios entre 1 y 100, con un tamaño especificado entre 1 y 50 (ambos incluidos). Si el
- * tamaño es menor o igual a 0 o mayor a 50, entonces por defecto se inicializa en 4.
+ * <p>
+ * Crea un array de enteros aleatorios entre 1 y 100, con un tamaño especificado entre 1 y 50 (ambos incluidos). Si el tamaño es
+ * menor o igual a 0 o mayor a 50, entonces por defecto se inicializa en 4.
  * <p>
  * Esta clase cuenta con diferentes funciones para poder jugar con el array.
  *
@@ -55,20 +56,22 @@ public class Arr {
         return arr;
     }
 
+    /**
+     * Ordena el array de forma ascendente.
+     * <p>
+     * El primer for controla las pasadas y el segundo el intercambio. Si arr es el array a ordenar, se realizan arr.length-1
+     * pasadas. Si la variable i es la que cuenta el numero de pasadas, en cada pasada i se comprueban los elementos adyacentes
+     * desde el primero hasta arr.length-i-1 ya que el resto hasta el final del array estan ordenados. Si los elementos adyacentes
+     * estan desordenados se intercambian. El tiempo de ejecucion del algoritmo de la burbuja es del orden O(n2). Es uno de los
+     * peores algoritmos de ordenacion en cuanto a tiempo de ejecucion, solamente es recomendable su uso para ordenar listas con
+     * un numero pequeño de elementos.
+     *
+     * @param arr array.
+     */
     private static void sortAsc(int[] arr) {
         System.out.println("ordenando de manera ascendente...");
         int aux;
-        /*
-         * El primer for controla las pasadas y el segundo el intercambio. Si arr es el
-         * array a ordenar, se realizan arr.length-1 pasadas. Si la variable i es la que
-         * cuenta el numero de pasadas, en cada pasada i se comprueban los elementos
-         * adyacentes desde el primero hasta arr.length-i-1 ya que el resto hasta el
-         * final del array estan ordenados. Si los elementos adyacentes estan
-         * desordenados se intercambian. El tiempo de ejecucion del algoritmo de la
-         * burbuja es del orden O(n2). Es uno de los peores algoritmos de ordenacion en
-         * cuanto a tiempo de ejecucion, solamente es recomendable su uso para ordenar
-         * listas con un numero pequeño de elementos.
-         */
+
         for (int i = 0; i < arr.length - 1; i++) {
             for (int j = 0; j < arr.length - 1 - i; j++) {
                 if (arr[j] > arr[j + 1]) {

@@ -4,16 +4,16 @@ package concurrency;
  * <p>
  * Si a un subproceso no se le concede tiempo de CPU porque otros subprocesos lo acaparan todo, se denomina "starvation"
  * (inanicion). El subproceso "starved to death" (muere de hambre) porque a otros subprocesos se les permite el tiempo de CPU en
- * lugar de el. La solucion al hambre se llama "fairness" (imparcialidad): que todos los subprocesos tengan una oportunidad justa
- * de ejecutarse.
+ * lugar de el. La solucion al starvation se llama "fairness" (justicia): que todos los subprocesos tengan una oportunidad justa de
+ * ejecutarse.
  * <h3>Causas del Starvation en Java</h3>
  * <p>
- * Las siguientes tres causas comunes pueden provocar la inanicion de subprocesos en Java:
+ * Las siguientes tres causas comunes pueden provocar la starvation de subprocesos en Java:
  * <ol>
  * <li>Los subprocesos con alta prioridad absorben todo el tiempo de CPU de los subprocesos con menor prioridad.
  * <li>Los subprocesos se bloquean indefinidamente esperando ingresar a un bloque sincronizado, porque a otros subprocesos se les
  * permite constantemente el acceso antes que el.
- * <li>Los subprocesos que esperan en un objeto (llamado esperar() en el) permanecen esperando indefinidamente porque otros
+ * <li>Los subprocesos que esperan en un objeto (llamado wait() en el) permanecen esperando indefinidamente porque otros
  * subprocesos se despiertan constantemente en lugar de el.
  * </ol>
  * <h4>Los subprocesos con alta prioridad absorben todo el tiempo de CPU de los subprocesos con menor prioridad</h4>
@@ -24,20 +24,20 @@ package concurrency;
  * prioridad sin cambios.
  * <h4>Los hilos estan bloqueados indefinidamente esperando ingresar a un bloque sincronizado</h4>
  * <p>
- * Los bloques de codigo sincronizados de Java pueden ser otra causa de hambruna. El bloque de codigo sincronizado de Java no
+ * Los bloques de codigo sincronizados de Java pueden ser otra causa de starvation. El bloque de codigo sincronizado de Java no
  * garantiza la secuencia en la que se permite la entrada a los subprocesos que esperan ingresar al bloque sincronizado. Esto
  * significa que existe un riesgo teorico de que un hilo permanezca bloqueado para siempre al intentar ingresar al bloque, porque
- * a otros hilos se les concede acceso constantemente antes que el. Este problema se llama "inanicion", y un subproceso "muere de
+ * a otros hilos se les concede acceso constantemente antes que el. Este problema se llama "starvation", y un subproceso "muere de
  * hambre" porque a otros subprocesos se les permite tiempo de CPU en lugar de el.
- * <h4>Los hilos que esperan en un objeto (llamado esperar() en el) permanecen esperando indefinidamente</h4>
+ * <h4>Los hilos que esperan en un objeto (llamado wait() en el) permanecen esperando indefinidamente</h4>
  * <p>
  * El metodo notify() no garantiza que subproceso se activa si varios subprocesos han llamado a wait() en el objeto en el que se
  * llama a notify(). Podria ser cualquiera de los hilos en espera. Por lo tanto, existe el riesgo de que un subproceso que espera
  * en un determinado objeto nunca se despierte porque siempre se despiertan otros subprocesos en espera en lugar de el.
  * <h3>Implementacion de Fairness en Java</h3>
  * <p>
- * Si bien no es posible implementar un 100% de equidad en Java, aún podemos implementar nuestras construcciones de sincronizacion
- * para aumentar la equidad entre subprocesos.
+ * Si bien no es posible implementar un 100% de fairness en Java, aun podemos implementar nuestras construcciones de
+ * sincronizacion para aumentar la equidad entre subprocesos.
  * <p>
  * Primero, estudiemos un bloque de codigo sincronizado simple:
  * <pre>{@code
@@ -125,7 +125,7 @@ package concurrency;
  *
  *     private boolean isLocked;
  *     private Thread lockingThread;
- *     private List<QueueObject> waitingThreads = new ArrayList<QueueObject>();
+ *     private List<QueueObject> waitingThreads = new ArrayList<>();
  *
  *     public void lock() throws InterruptedException {
  *         QueueObject queueObject = new QueueObject();
@@ -193,25 +193,13 @@ package concurrency;
  * }
  * }</pre>
  * <p>
- * En primer lugar, es posible que notes que el metodo {@code lock()} ya no se declara {@code synchronized}. En cambio, solo los
- * bloques necesarios para sincronizar se anidan dentro de bloques sincronizados.
- * <p>
- * FairLock crea una nueva instancia de {@code QueueObject} y la pone en cola para cada hilo que llama a lock(). El hilo que llama
- * a {@code unlock()} tomara el QueueObject superior en la cola y llamara a doNotify() en el, para despertar el hilo que espera en
- * ese objeto. De esta manera, solo se activa un subproceso en espera a la vez, en lugar de todos los subprocesos en espera. Esta
- * parte es la que rige la equidad del {@code FairLock}.
- * <p>
- * Observe como el estado de lock todavia se prueba y se establece dentro del mismo bloque sincronizado para evitar condiciones de
- * slipped.
- * <p>
- * Observe tambien que QueueObject es en realidad un semaforo. Los metodos doWait() y doNotify() almacenan la señal internamente
- * en QueueObject. Esto se hace para evitar señales perdidas causadas por un subproceso que se adelanta justo antes de llamar a
- * queueObject.doWait(), por otro subproceso que llama a unlock() y, por lo tanto, a queueObject.doNotify(). La llamada
- * queueObject.doWait() se coloca fuera del bloque sincronizado(this) para evitar el bloqueo del monitor anidado, por lo que otro
- * hilo puede llamar a unlock() cuando no se ejecuta ningún hilo dentro del bloque sincronizado(this) en el metodo lock().
- * <p>
- * Finalmente, observe como se llama a queueObject.doWait() dentro de un bloque try-catch. En caso de que se produzca una
- * InterruptedException, el hilo abandona el metodo lock() y debemos retirarlo de la cola.
+ * En resumen, el metodo lock() ya no se declara synchronized, sino que se utilizan bloques sincronizados especificos. FairLock
+ * crea y encola una instancia de QueueObject para cada hilo que llama a lock(). El hilo que llama a unlock() despierta solo al
+ * hilo superior en la cola, garantizando la equidad. El estado de lock se prueba y establece dentro del mismo bloque sincronizado
+ * para evitar condiciones de slipped. QueueObject funciona como un semaforo, almacenando señales internamente para evitar señales
+ * perdidas. La llamada a queueObject.doWait() se coloca fuera del bloque sincronizado para evitar bloqueos anidados. Finalmente,
+ * queueObject.doWait() se llama dentro de un bloque try-catch para manejar posibles InterruptedExceptions y retirar el hilo de la
+ * cola si es necesario.
  * <h4>Una nota sobre el rendimiento</h4>
  * <p>
  * Si compara las clases Lock y FairLock, notara que suceden algo mas dentro de lock() y unlock() en la clase FairLock. Este
@@ -219,6 +207,9 @@ package concurrency;
  * tendra en su aplicacion depende de cuanto tiempo tarde en ejecutarse el codigo en la seccion critica protegida por FairLock.
  * Cuanto mas tarde en ejecutarse, menos significativa sera la sobrecarga adicional del sincronizador. Por supuesto, tambien
  * depende de la frecuencia con la que se llama a este codigo.
+ * <p>
+ * Links:
+ * <a href="https://jenkov.com/tutorials/java-concurrency/starvation-and-fairness.html">Starvation and Fairness</a>
  */
 
 public class StarvationFairness {

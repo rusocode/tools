@@ -4,12 +4,12 @@ package concurrency.java_memory_model;
  * <h3>Java Memory Model</h3>
  * <p>
  * El modelo de memoria Java (JMM) especifica como funciona la maquina virtual Java con la memoria de la computadora (RAM). La
- * maquina virtual Java es un modelo de una computadora completa, por lo que este modelo incluye naturalmente un modelo de memoria,
- * tambien conocido como modelo de memoria Java.
+ * maquina virtual Java es un modelo de una computadora completa, por lo que este modelo incluye naturalmente un modelo de
+ * memoria, tambien conocido como modelo de memoria Java.
  * <p>
- * Es muy importante comprender el modelo de memoria de Java si desea diseñar programas concurrentes que se comporten correctamente.
- * El modelo de memoria Java especifica como y cuando diferentes subprocesos pueden ver los valores escritos en variables
- * compartidas por otros subprocesos y como sincronizar el acceso a variables compartidas cuando sea necesario.
+ * Es muy importante comprender el modelo de memoria de Java si desea diseñar programas concurrentes que se comporten
+ * correctamente. El modelo de memoria Java especifica como y cuando diferentes subprocesos pueden ver los valores escritos en
+ * variables compartidas por otros subprocesos y como sincronizar el acceso a variables compartidas cuando sea necesario.
  * <p>
  * El modelo de memoria Java original era insuficiente, por lo que se reviso en Java 1.5. Esta version del modelo de memoria Java
  * todavia se utiliza en Java hoy (Java 14+).
@@ -31,8 +31,8 @@ package concurrency.java_memory_model;
  * Asi, cada hilo tiene su propia version de cada variable local.
  * <p>
  * Todas las variables locales de tipos primitivos ({@code boolean, byte, short, char, int, long, float, double}) estan
- * completamente almacenadas en la pila de subprocesos y, por lo tanto, no son visibles para otros subprocesos. Un hilo puede pasar
- * una copia de una variable primitiva a otro hilo, pero no puede compartir la variable local primitiva en si.
+ * completamente almacenadas en la pila de subprocesos y, por lo tanto, no son visibles para otros subprocesos. Un hilo puede
+ * pasar una copia de una variable primitiva a otro hilo, pero no puede compartir la variable local primitiva en si.
  * <p>
  * El heap contiene todos los objetos creados en su aplicacion Java, independientemente del hilo que creo el objeto. Esto incluye
  * las versiones de objetos de los tipos primitivos (por ejemplo, {@code Byte, Integer, Long}, etc.). No importa si un objeto se
@@ -49,16 +49,16 @@ package concurrency.java_memory_model;
  * Una variable local tambien puede ser una referencia a un objeto. En ese caso, la referencia (la variable local) se almacena en
  * la pila de subprocesos, pero el objeto en si se almacena en el heap.
  * <p>
- * Un objeto puede contener metodos y estos metodos pueden contener variables locales. Estas variables locales tambien se almacenan
- * en la pila de subprocesos, incluso si el objeto al que pertenece el metodo esta almacenado en el heap.
+ * Un objeto puede contener metodos y estos metodos pueden contener variables locales. Estas variables locales tambien se
+ * almacenan en la pila de subprocesos, incluso si el objeto al que pertenece el metodo esta almacenado en el heap.
  * <p>
  * Las variables miembro de un objeto se almacenan en el heap junto con el objeto mismo. Esto es cierto tanto cuando la variable
  * miembro es de tipo primitivo como si es una referencia a un objeto.
  * <p>
  * Las variables de clase estaticas tambien se almacenan en el heap junto con la definicion de clase.
  * <p>
- * Todos los subprocesos que tienen una referencia al objeto pueden acceder a los objetos del heap. Cuando un hilo tiene acceso
- * a un objeto, tambien puede obtener acceso a las variables miembro de ese objeto. Si dos subprocesos llaman a un metodo en el
+ * Todos los subprocesos que tienen una referencia al objeto pueden acceder a los objetos del heap. Cuando un hilo tiene acceso a
+ * un objeto, tambien puede obtener acceso a las variables miembro de ese objeto. Si dos subprocesos llaman a un metodo en el
  * mismo objeto al mismo tiempo, ambos tendran acceso a las variables miembro del objeto, pero cada subproceso tendra su propia
  * copia de las variables locales.
  * <p>
@@ -134,10 +134,10 @@ package concurrency.java_memory_model;
  * cada subproceso. Un hilo no puede ver que cambios realiza otro hilo en su copia de localVariable1.
  * <p>
  * Cada hilo que ejecute methodOne() tambien creara su propia copia de localVariable2. Sin embargo, las dos copias diferentes de
- * localVariable2 terminan apuntando al mismo objeto en el heap. El codigo configura localVariable2 para que apunte a un objeto
- * al que hace referencia una variable estatica. Solo hay una copia de una variable estatica y esta copia se almacena en el heap.
- * Por lo tanto, las dos copias de localVariable2 terminan apuntando a la misma instancia de {@code MySharedObject} a la que apunta
- * la variable estatica. La instancia de MySharedObject tambien se almacena en el heap. Corresponde al Objeto 3 en el diagrama de
+ * localVariable2 terminan apuntando al mismo objeto en el heap. El codigo configura localVariable2 para que apunte a un objeto al
+ * que hace referencia una variable estatica. Solo hay una copia de una variable estatica y esta copia se almacena en el heap. Por
+ * lo tanto, las dos copias de localVariable2 terminan apuntando a la misma instancia de {@code MySharedObject} a la que apunta la
+ * variable estatica. La instancia de MySharedObject tambien se almacena en el heap. Corresponde al Objeto 3 en el diagrama de
  * arriba.
  * <p>
  * Observe como la clase MySharedObject tambien contiene dos variables miembro. Las propias variables miembro se almacenan en el
@@ -147,8 +147,8 @@ package concurrency.java_memory_model;
  * Observe tambien como metodoTwo() crea una variable local llamada localVariable1. Esta variable local es una referencia de
  * objeto a un objeto Integer. El metodo establece la referencia localVariable1 para que apunte a una nueva instancia de Integer.
  * La referencia localVariable1 se almacenara en una copia por hilo que ejecute el methodTwo(). Los dos objetos Integer
- * instanciados se almacenaran en el heap, pero dado que el metodo crea un nuevo objeto Integer cada vez que se ejecuta el
- * metodo, dos subprocesos que ejecuten este metodo crearan instancias de Integer separadas. Los objetos Integer creados dentro de
+ * instanciados se almacenaran en el heap, pero dado que el metodo crea un nuevo objeto Integer cada vez que se ejecuta el metodo,
+ * dos subprocesos que ejecuten este metodo crearan instancias de Integer separadas. Los objetos Integer creados dentro de
  * metodoTwo() corresponden al Objeto 1 y al Objeto 5 en el diagrama anterior.
  * <p>
  * Observe tambien las dos variables miembro en la clase MySharedObject de tipo long, que es un tipo primitivo. Dado que estas
@@ -227,6 +227,9 @@ package concurrency.java_memory_model;
  * <p>
  * Links:
  * <a href="https://jenkov.com/tutorials/java-concurrency/java-memory-model.html">Java Memory Model</a>
+ * <a href="https://en.wikipedia.org/wiki/Java_memory_model">Wikipedia</a>
+ * <a href="https://www.youtube.com/watch?v=Z4hMFBvCDV4&t=2s">Java Memory Model in 10 minutes</a>
+ * <a href="https://www.cs.umd.edu/~pugh/java/memoryModel/jsr-133-faq.html">JSR 133 (Java Memory Model) FAQ</a>
  */
 
 public class MyRunnable implements Runnable {

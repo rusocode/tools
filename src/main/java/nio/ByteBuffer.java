@@ -21,32 +21,35 @@ package nio;
  * <ul>
  * <li>put(): Escribe bytes en el buffer.
  * <li>get(): Lee bytes del buffer.
- * <li>flip(): Prepara el buffer para una operacion de lectura después de escribir.
+ * <li>flip(): Prepara el buffer para una operacion de lectura despues de escribir.
  * <li>clear(): Prepara el buffer para una nueva secuencia de operaciones de escritura.
  * </ul>
  * <li>Ventajas:
  * <ul>
- * <li>Eficiente para operaciones de E/S, especialmente con grandes volúmenes de datos.
+ * <li>Eficiente para operaciones de I/O, especialmente con grandes volumenes de datos.
  * <li>Permite trabajar con datos binarios de manera mas eficiente que los arrays de bytes tradicionales.
  * </ul>
  * <li>Usos comunes:
  * <ul>
- * <li>Operaciones de E/S de archivos y redes.
+ * <li>Operaciones de I/O de archivos y redes.
  * <li>Procesamiento de datos binarios.
  * <li>Implementacion de protocolos de red personalizados.
  * </ul>
- * <li>Consideraciones de rendimiento: Los buffers directos pueden ofrecer mejor rendimiento en algunas operaciones de E/S, pero
+ * <li>Consideraciones de rendimiento: Los buffers directos pueden ofrecer mejor rendimiento en algunas operaciones de I/O, pero
  * tienen un costo de creacion mas alto.
- * <li>Seguridad de tipos: Proporciona métodos para leer y escribir tipos primitivos especificos (getInt(), putLong(), etc.),
+ * <li>Seguridad de tipos: Proporciona metodos para leer y escribir tipos primitivos especificos (getInt(), putLong(), etc.),
  * manteniendo la seguridad de tipos.
  * </ol>
  * <p>
- * ByteBuffer es especialmente útil en aplicaciones que requieren un manejo eficiente de datos binarios o en situaciones donde se
- * necesita un control preciso sobre la memoria y las operaciones de E/S.
+ * ByteBuffer es especialmente util en aplicaciones que requieren un manejo eficiente de datos binarios o en situaciones donde se
+ * necesita un control preciso sobre la memoria y las operaciones de I/O.
  * <p>
  * Un ByteBuffer puede manejar enteros completos (int) de 32 bits, no solo bytes. Cuando agregas un int a un ByteBuffer, se
  * mantienen los 32 bits completos, no se castea automaticamente a byte. El metodo {@code buffer.putInt(int value);} escribe un
  * entero completo de 32 bits y {@code buffer.getInt()} lee un entero completo de 32 bits.
+ * <p>
+ * Links:
+ * <a href="https://www.youtube.com/watch?v=iwSCtxMbBLI">Beyond ByteBuffers by Brian Goetz</a>
  *
  * @author Juan Debenedetti
  */
