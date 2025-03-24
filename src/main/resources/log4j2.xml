@@ -27,8 +27,8 @@
 
 		<!-- Salida en archivo con renovacion. "Vimos una mejora del rendimiento del 20-200% en comparación 
 			con RollingFileAppender con "bufferedIO=true" en nuestras mediciones." -->
-		<RollingRandomAccessFile name="File" fileName="${LOG_DIR}/latest.log"
-			filePattern="${LOG_DIR}/%d-%i.log.gz">
+		<RollingRandomAccessFile name="File" fileName="${LOG_DIR}/latest.com.punkipunk.log"
+			filePattern="${LOG_DIR}/%d-%i.com.punkipunk.log.gz">
 			<!-- Patron de conversion. En el especificador de conversion "%-5p", -5 es el modificador de formato 
 				y p es el caracter de conversion. %d, %p, etc. son especificadores de conversion y las letras son caracteres 
 				de conversion. -->
@@ -54,7 +54,7 @@
 			<AppenderRef ref="File" />
 		</Root>
 
-		<!-- Configura un appender en especifico <Logger name="log" level="debug"> <AppenderRef ref="File" 
+		<!-- Configura un appender en especifico <Logger name="com.punkipunk.log" level="debug"> <AppenderRef ref="File"
 			/> </Logger> -->
 
 	</Loggers>

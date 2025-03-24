@@ -32,7 +32,7 @@ Se encargara del mapeo de la direccion de sesion que introduce el usuario para p
 6.Presentacion: Como su propio nombre intuye, esta capa se encarga de la representacion de la informacion transmitida. Asegurara que los datos que nos 
 llegan a los usuarios sean entendibles a pesar de los distintos protocolos utilizados tanto en un receptor como en un transmisor. Traducen una cadena 
 de caracteres en algo entendible, por asi decirlo.
-En esta capa no se trabaja con direccionamiento de mensajes ni enlaces, sino que es la encargada de trabajar con el contenido utils que nosotros queremos ver.
+En esta capa no se trabaja con direccionamiento de mensajes ni enlaces, sino que es la encargada de trabajar con el contenido com.punkipunk.utils que nosotros queremos ver.
 7.Aplicacion: Este es el ultimo nivel, y encargado de permitir a los usuarios ejecutar acciones y comandos en sus propias aplicaciones como por ejemplo un boton 
 para enviar un email o un programa para enviar archivos mediante FTP. Permite tambien la comunicacion entre el resto de capas inferiores.
 
